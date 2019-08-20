@@ -1,7 +1,13 @@
 import React from "react"
 import App from "next/app"
+import { ThemeProvider } from "styled-components"
+
+import resolveConfig from "tailwindcss/resolveConfig"
+import tailwindConfig from "../tailwind.config.js"
 
 import "../styles/index.css"
+
+const { theme } = resolveConfig(tailwindConfig)
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -18,7 +24,11 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props
-    return <Component {...pageProps} />
+    return (
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    )
   }
 }
 
