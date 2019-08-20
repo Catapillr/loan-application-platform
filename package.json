@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "formik": "^1.5.8",
     "next": "9.0.4",
     "ramda": "^0.26.1",
     "react": "16.9.0",
