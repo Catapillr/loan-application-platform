@@ -1,0 +1,28 @@
+{
+  "extends": ["esnext", "plugin:react/recommended", "prettier"],
+  "plugins": ["react-hooks", "babel"],
+  "settings": {
+    "react": {
+      "version": "16.9.0"
+    }
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "react/prop-types": 0,
+    "no-use-before-define": ["error", { "variables": false }],
+    "no-console": "error",
+    "import/no-commonjs": 0,
+    "react/react-in-jsx-scope": 0
+  }
+}
