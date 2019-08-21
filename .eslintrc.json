@@ -24,5 +24,8 @@
     "no-console": "error",
     "import/no-commonjs": 0,
     "react/react-in-jsx-scope": 0
+  },
+  "globals": {
+    "cssTheme": "readonly"
   }
 }

@@ -3,11 +3,9 @@ import styled from "styled-components"
 
 import Nav from "../components/nav"
 
-import theme from "../utils/getThemeValue"
-
 const Container = styled.div`
   .hero {
-    background-color: ${theme("colors.indigo.100")};
+    background-color: ${cssTheme("colors.indigo.100")};
   }
   .title {
     margin: 0;
