@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write \"{**/*.css,**/*.js,**/*.html,**/*.json,**/*.md,**/*.yaml,**/*.yml}\"",
+    "lint": "eslint ./"
   },
   "dependencies": {
     "next": "9.0.4",
