@@ -3,24 +3,16 @@ type Employer {
   name: String!
   slug: String! @unique
   user: [User]
+  eligibilityCriteria: EligibilityCriteria @relation(onDelete: CASCADE)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
 
 type EligibilityCriteria {
   id: ID! @id
-  employer: Employer! @unique
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
-}
-
-type VerificationToken {
-  id: ID! @id
-  token: String! @unique
-  user: User! @unique
-  updatedAt: DateTime! @updatedAt
-  createdAt: DateTime! @createdAt
 }
 
 type User {
@@ -35,13 +27,21 @@ type User {
   employmentStartDate: DateTime!
   annualSalary: Float!
   employeeID: String
+  verificationToken: VerificationToken
+  loan: Loan
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type VerificationToken {
+  id: ID! @id
+  token: String! @unique
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
 
 type Loan {
   id: ID! @id
-  user: User!
   amount: Float!
   terms: Int!
   approved: Boolean!

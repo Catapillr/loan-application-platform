@@ -31,7 +31,6 @@ scalar DateTime
 
 type EligibilityCriteria {
   id: ID!
-  employer: Employer!
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
@@ -45,10 +44,14 @@ type EligibilityCriteriaConnection {
 
 input EligibilityCriteriaCreateInput {
   id: ID
-  employer: EmployerCreateOneInput!
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
+}
+
+input EligibilityCriteriaCreateOneInput {
+  create: EligibilityCriteriaCreateInput
+  connect: EligibilityCriteriaWhereUniqueInput
 }
 
 type EligibilityCriteriaEdge {
@@ -92,8 +95,13 @@ input EligibilityCriteriaSubscriptionWhereInput {
   NOT: [EligibilityCriteriaSubscriptionWhereInput!]
 }
 
+input EligibilityCriteriaUpdateDataInput {
+  maximumAmount: Float
+  minimumServiceLength: Int
+  maxSalaryPercentage: Float
+}
+
 input EligibilityCriteriaUpdateInput {
-  employer: EmployerUpdateOneRequiredInput
   maximumAmount: Float
   minimumServiceLength: Int
   maxSalaryPercentage: Float
@@ -103,6 +111,20 @@ input EligibilityCriteriaUpdateManyMutationInput {
   maximumAmount: Float
   minimumServiceLength: Int
   maxSalaryPercentage: Float
+}
+
+input EligibilityCriteriaUpdateOneInput {
+  create: EligibilityCriteriaCreateInput
+  update: EligibilityCriteriaUpdateDataInput
+  upsert: EligibilityCriteriaUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: EligibilityCriteriaWhereUniqueInput
+}
+
+input EligibilityCriteriaUpsertNestedInput {
+  update: EligibilityCriteriaUpdateDataInput!
+  create: EligibilityCriteriaCreateInput!
 }
 
 input EligibilityCriteriaWhereInput {
@@ -120,7 +142,6 @@ input EligibilityCriteriaWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  employer: EmployerWhereInput
   maximumAmount: Float
   maximumAmount_not: Float
   maximumAmount_in: [Float!]
@@ -159,6 +180,7 @@ type Employer {
   name: String!
   slug: String!
   user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  eligibilityCriteria: EligibilityCriteria
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -174,11 +196,7 @@ input EmployerCreateInput {
   name: String!
   slug: String!
   user: UserCreateManyWithoutEmployerInput
-}
-
-input EmployerCreateOneInput {
-  create: EmployerCreateInput
-  connect: EmployerWhereUniqueInput
+  eligibilityCriteria: EligibilityCriteriaCreateOneInput
 }
 
 input EmployerCreateOneWithoutUserInput {
@@ -190,6 +208,7 @@ input EmployerCreateWithoutUserInput {
   id: ID
   name: String!
   slug: String!
+  eligibilityCriteria: EligibilityCriteriaCreateOneInput
 }
 
 type EmployerEdge {
@@ -236,28 +255,16 @@ input EmployerSubscriptionWhereInput {
   NOT: [EmployerSubscriptionWhereInput!]
 }
 
-input EmployerUpdateDataInput {
-  name: String
-  slug: String
-  user: UserUpdateManyWithoutEmployerInput
-}
-
 input EmployerUpdateInput {
   name: String
   slug: String
   user: UserUpdateManyWithoutEmployerInput
+  eligibilityCriteria: EligibilityCriteriaUpdateOneInput
 }
 
 input EmployerUpdateManyMutationInput {
   name: String
   slug: String
-}
-
-input EmployerUpdateOneRequiredInput {
-  create: EmployerCreateInput
-  update: EmployerUpdateDataInput
-  upsert: EmployerUpsertNestedInput
-  connect: EmployerWhereUniqueInput
 }
 
 input EmployerUpdateOneRequiredWithoutUserInput {
@@ -270,11 +277,7 @@ input EmployerUpdateOneRequiredWithoutUserInput {
 input EmployerUpdateWithoutUserDataInput {
   name: String
   slug: String
-}
-
-input EmployerUpsertNestedInput {
-  update: EmployerUpdateDataInput!
-  create: EmployerCreateInput!
+  eligibilityCriteria: EligibilityCriteriaUpdateOneInput
 }
 
 input EmployerUpsertWithoutUserInput {
@@ -328,6 +331,7 @@ input EmployerWhereInput {
   user_every: UserWhereInput
   user_some: UserWhereInput
   user_none: UserWhereInput
+  eligibilityCriteria: EligibilityCriteriaWhereInput
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]
@@ -356,7 +360,6 @@ input EmployerWhereUniqueInput {
 
 type Loan {
   id: ID!
-  user: User!
   amount: Float!
   terms: Int!
   approved: Boolean!
@@ -373,11 +376,15 @@ type LoanConnection {
 
 input LoanCreateInput {
   id: ID
-  user: UserCreateOneInput!
   amount: Float!
   terms: Int!
   approved: Boolean!
   agreementURL: String
+}
+
+input LoanCreateOneInput {
+  create: LoanCreateInput
+  connect: LoanWhereUniqueInput
 }
 
 type LoanEdge {
@@ -430,8 +437,14 @@ input LoanSubscriptionWhereInput {
   NOT: [LoanSubscriptionWhereInput!]
 }
 
+input LoanUpdateDataInput {
+  amount: Float
+  terms: Int
+  approved: Boolean
+  agreementURL: String
+}
+
 input LoanUpdateInput {
-  user: UserUpdateOneRequiredInput
   amount: Float
   terms: Int
   approved: Boolean
@@ -443,6 +456,20 @@ input LoanUpdateManyMutationInput {
   terms: Int
   approved: Boolean
   agreementURL: String
+}
+
+input LoanUpdateOneInput {
+  create: LoanCreateInput
+  update: LoanUpdateDataInput
+  upsert: LoanUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: LoanWhereUniqueInput
+}
+
+input LoanUpsertNestedInput {
+  update: LoanUpdateDataInput!
+  create: LoanCreateInput!
 }
 
 input LoanWhereInput {
@@ -460,7 +487,6 @@ input LoanWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  user: UserWhereInput
   amount: Float
   amount_not: Float
   amount_in: [Float!]
@@ -609,6 +635,8 @@ type User {
   employmentStartDate: DateTime!
   annualSalary: Float!
   employeeID: String
+  verificationToken: VerificationToken
+  loan: Loan
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -631,16 +659,13 @@ input UserCreateInput {
   employmentStartDate: DateTime!
   annualSalary: Float!
   employeeID: String
+  verificationToken: VerificationTokenCreateOneInput
+  loan: LoanCreateOneInput
 }
 
 input UserCreateManyWithoutEmployerInput {
   create: [UserCreateWithoutEmployerInput!]
   connect: [UserWhereUniqueInput!]
-}
-
-input UserCreateOneInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
 }
 
 input UserCreateWithoutEmployerInput {
@@ -654,6 +679,8 @@ input UserCreateWithoutEmployerInput {
   employmentStartDate: DateTime!
   annualSalary: Float!
   employeeID: String
+  verificationToken: VerificationTokenCreateOneInput
+  loan: LoanCreateOneInput
 }
 
 type UserEdge {
@@ -865,19 +892,6 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  employer: EmployerUpdateOneRequiredWithoutUserInput
-  firstName: String
-  lastName: String
-  email: String
-  phoneNumber: String
-  dob: DateTime
-  nationality: String
-  employmentStartDate: DateTime
-  annualSalary: Float
-  employeeID: String
-}
-
 input UserUpdateInput {
   employer: EmployerUpdateOneRequiredWithoutUserInput
   firstName: String
@@ -889,6 +903,8 @@ input UserUpdateInput {
   employmentStartDate: DateTime
   annualSalary: Float
   employeeID: String
+  verificationToken: VerificationTokenUpdateOneInput
+  loan: LoanUpdateOneInput
 }
 
 input UserUpdateManyDataInput {
@@ -932,13 +948,6 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
-  connect: UserWhereUniqueInput
-}
-
 input UserUpdateWithoutEmployerDataInput {
   firstName: String
   lastName: String
@@ -949,16 +958,13 @@ input UserUpdateWithoutEmployerDataInput {
   employmentStartDate: DateTime
   annualSalary: Float
   employeeID: String
+  verificationToken: VerificationTokenUpdateOneInput
+  loan: LoanUpdateOneInput
 }
 
 input UserUpdateWithWhereUniqueWithoutEmployerInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutEmployerDataInput!
-}
-
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutEmployerInput {
@@ -1091,6 +1097,8 @@ input UserWhereInput {
   employeeID_not_starts_with: String
   employeeID_ends_with: String
   employeeID_not_ends_with: String
+  verificationToken: VerificationTokenWhereInput
+  loan: LoanWhereInput
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]
@@ -1121,7 +1129,6 @@ input UserWhereUniqueInput {
 type VerificationToken {
   id: ID!
   token: String!
-  user: User!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -1135,7 +1142,11 @@ type VerificationTokenConnection {
 input VerificationTokenCreateInput {
   id: ID
   token: String!
-  user: UserCreateOneInput!
+}
+
+input VerificationTokenCreateOneInput {
+  create: VerificationTokenCreateInput
+  connect: VerificationTokenWhereUniqueInput
 }
 
 type VerificationTokenEdge {
@@ -1179,13 +1190,30 @@ input VerificationTokenSubscriptionWhereInput {
   NOT: [VerificationTokenSubscriptionWhereInput!]
 }
 
+input VerificationTokenUpdateDataInput {
+  token: String
+}
+
 input VerificationTokenUpdateInput {
   token: String
-  user: UserUpdateOneRequiredInput
 }
 
 input VerificationTokenUpdateManyMutationInput {
   token: String
+}
+
+input VerificationTokenUpdateOneInput {
+  create: VerificationTokenCreateInput
+  update: VerificationTokenUpdateDataInput
+  upsert: VerificationTokenUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: VerificationTokenWhereUniqueInput
+}
+
+input VerificationTokenUpsertNestedInput {
+  update: VerificationTokenUpdateDataInput!
+  create: VerificationTokenCreateInput!
 }
 
 input VerificationTokenWhereInput {
@@ -1217,7 +1245,6 @@ input VerificationTokenWhereInput {
   token_not_starts_with: String
   token_ends_with: String
   token_not_ends_with: String
-  user: UserWhereInput
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]

@@ -13,11 +13,11 @@ var models = [
     embedded: false
   },
   {
-    name: "VerificationToken",
+    name: "User",
     embedded: false
   },
   {
-    name: "User",
+    name: "VerificationToken",
     embedded: false
   },
   {
