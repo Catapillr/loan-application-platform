@@ -3,11 +3,9 @@ import styled from "styled-components"
 
 import Nav from "../components/nav"
 
-import theme from "../utils/getThemeValue"
-
 const Container = styled.div`
   .hero {
-    background-color: ${theme("colors.indigo.100")};
+    background-color: ${cssTheme("colors.indigo.100")};
   }
   .title {
     margin: 0;
@@ -52,39 +50,49 @@ const Container = styled.div`
   }
 `
 
-const Home = () => (
-  <Container>
-    <Head>
-      <title>Home</title>
-    </Head>
+const Home = ({ allUsers }) => {
+  return (
+    <Container>
+      <Head>
+        <title>Home</title>
+      </Head>
 
-    <Nav />
+      <Nav />
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+      <div className="hero">
+        <h1 className="title">Welcome to Next.js!</h1>
+        <p className="description">
+          To get started, edit <code>pages/index.js</code> and save to reload.
+        </p>
 
-      <div className="row">
-        <a href="https://github.com/zeit/next.js#setup" className="card">
-          <h3>Getting Started &rarr;</h3>
-          <p>Learn more about Next.js on GitHub and in their examples.</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-        <a href="https://github.com/zeit/next.js" className="card">
-          <h3>Create Next App &rarr;</h3>
-          <p>Was this tool helpful? Let us know how we can improve it!</p>
-        </a>
+        <div className="row">
+          <a href="https://github.com/zeit/next.js#setup" className="card">
+            <h3>Getting Started &rarr;</h3>
+            <p>Learn more about Next.js on GitHub and in their examples.</p>
+          </a>
+          <a
+            href="https://github.com/zeit/next.js/tree/master/examples"
+            className="card"
+          >
+            <h3>Examples &rarr;</h3>
+            <p>Find other example boilerplates on the Next.js GitHub.</p>
+          </a>
+          <a href="https://github.com/zeit/next.js" className="card">
+            <h3>Create Next App &rarr;</h3>
+            <p>Was this tool helpful? Let us know how we can improve it!</p>
+          </a>
+          <p>It's working! Or is it?</p>
+        </div>
+        <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
       </div>
-    </div>
-  </Container>
-)
+    </Container>
+  )
+}
+
+Home.getInitialProps = async () => {
+  const res = await fetch("http://localhost:3000/api/get-users")
+  const { allUsers } = await res.json()
+  return { allUsers }
+}
 
 export default Home
