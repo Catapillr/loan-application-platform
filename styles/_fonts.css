@@ -86,3 +86,48 @@
     /* Chrome 26+, Opera 23+, Firefox 39+ */
       url("../static/fonts/ubuntu-v14-latin-700italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
+/* Set base font family */
+* {
+  font-family: theme("fontFamily.sans");
+}
+
+/* Create font classes */
+@responsive {
+  .font-xs {
+    font-size: theme("fontSize.xs");
+    line-height: theme("lineHeight.xs");
+  }
+  .font-sm {
+    font-size: theme("fontSize.sm");
+    line-height: theme("lineHeight.sm");
+  }
+  .font-base {
+    font-size: theme("fontSize.base");
+    line-height: theme("lineHeight.base");
+  }
+  .font-lg {
+    font-size: theme("fontSize.lg");
+    line-height: theme("lineHeight.lg");
+  }
+  .font-xl {
+    font-size: theme("fontSize.xl");
+    line-height: theme("lineHeight.xl");
+  }
+  .font-2xl {
+    font-size: theme("fontSize.2xl");
+    line-height: theme("lineHeight.2xl");
+  }
+  .font-3xl {
+    font-size: theme("fontSize.3xl");
+    line-height: theme("lineHeight.3xl");
+  }
+  .font-4xl {
+    font-size: theme("fontSize.4xl");
+    line-height: theme("lineHeight.4xl");
+  }
+  .font-5xl {
+    font-size: theme("fontSize.5xl");
+    line-height: theme("lineHeight.5xl");
+  }
+}
