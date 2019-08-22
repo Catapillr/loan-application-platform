@@ -50,11 +50,28 @@ const Container = styled.div`
   }
 `
 
+
 const Home = ({ allUsers }) => {
   return (
     <Container>
       <Head>
-        <title>Home</title>
+      <title>Catapillr</title>
+
+      <link
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        href="/static/fonts/ubuntu-v14-latin-regular.woff2"
+        crossOrigin
+      />
+      <link
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        href="/static/fonts/ubuntu-v14-latin-italic.woff2"
+        crossOrigin
+      />
+    
       </Head>
 
       <Nav />
