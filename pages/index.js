@@ -1,5 +1,6 @@
 import Head from "next/head"
 import styled from "styled-components"
+import axios from "axios"
 
 import Nav from "../components/nav"
 
@@ -50,28 +51,26 @@ const Container = styled.div`
   }
 `
 
-
 const Home = ({ allUsers }) => {
   return (
     <Container>
       <Head>
-      <title>Catapillr</title>
+        <title>Catapillr</title>
 
-      <link
-        rel="preload"
-        as="font"
-        type="font/woff2"
-        href="/static/fonts/ubuntu-v14-latin-regular.woff2"
-        crossOrigin
-      />
-      <link
-        rel="preload"
-        as="font"
-        type="font/woff2"
-        href="/static/fonts/ubuntu-v14-latin-italic.woff2"
-        crossOrigin
-      />
-    
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/static/fonts/ubuntu/ubuntu-v14-latin-regular.woff2"
+          crossOrigin
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/static/fonts/ubuntu/ubuntu-v14-latin-italic.woff2"
+          crossOrigin
+        />
       </Head>
 
       <Nav />
@@ -95,10 +94,10 @@ const Home = ({ allUsers }) => {
             <p>Find other example boilerplates on the Next.js GitHub.</p>
           </a>
           <a href="https://github.com/zeit/next.js" className="card">
-            <h3>Create Next App &rarr;</h3>
+            <h3>Create Next App!</h3>
             <p>Was this tool helpful? Let us know how we can improve it!</p>
+            <p>It's working!</p>
           </a>
-          <p>It's working! Or is it?</p>
         </div>
         <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
       </div>
@@ -107,8 +106,10 @@ const Home = ({ allUsers }) => {
 }
 
 Home.getInitialProps = async () => {
-  const res = await fetch("http://localhost:3000/api/get-users")
-  const { allUsers } = await res.json()
+  const res = await axios.get("http://localhost:3000/api/get-users")
+  const {
+    data: { allUsers },
+  } = res
   return { allUsers }
 }
 
