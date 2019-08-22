@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "==next==": "------------------------------------------------------------------------------------------",
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "==lint&format==": "-----------------------------------------------------------------------------------",
     "format": "prettier --write \"{**/*.css,**/*.js,**/*.html,**/*.json,**/*.md,**/*.yaml,**/*.yml}\"",
     "lint": "eslint ./",
@@ -33,6 +33,8 @@
     "prod:down": "env-cmd -f ./.config/prod.env npm run down"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
     "next": "9.0.4",
     "ramda": "^0.26.1",
     "react": "16.9.0",
