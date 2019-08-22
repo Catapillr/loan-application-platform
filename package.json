@@ -6,7 +6,7 @@
     "==next==": "------------------------------------------------------------------------------------------",
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "node server.js",
     "==lint&format==": "-----------------------------------------------------------------------------------",
     "format": "prettier --write \"{**/*.css,**/*.js,**/*.html,**/*.json,**/*.md,**/*.yaml,**/*.yml}\"",
     "lint": "eslint ./",
