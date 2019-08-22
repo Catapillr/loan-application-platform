@@ -27,8 +27,8 @@ type User {
   employmentStartDate: DateTime!
   annualSalary: Float!
   employeeID: String
-  verificationToken: VerificationToken
-  loan: Loan
+  verificationToken: VerificationToken @relation(onDelete: CASCADE)
+  loan: Loan @relation(onDelete: CASCADE)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
