@@ -1,4 +1,51 @@
-type User {
+type Employer {
   id: ID! @id
   name: String!
+  slug: String! @unique
+  user: [User]
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type EligibilityCriteria {
+  id: ID! @id
+  employer: Employer! @unique
+  maximumAmount: Float!
+  minimumServiceLength: Int!
+  maxSalaryPercentage: Float!
+}
+
+type VerificationToken {
+  id: ID! @id
+  token: String! @unique
+  user: User! @unique
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type User {
+  id: ID! @id
+  employer: Employer!
+  firstName: String!
+  lastName: String!
+  email: String! @unique
+  phoneNumber: String! @unique
+  dob: DateTime!
+  nationality: String!
+  employmentStartDate: DateTime!
+  annualSalary: Float!
+  employeeID: String
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Loan {
+  id: ID! @id
+  user: User!
+  amount: Float!
+  terms: Int!
+  approved: Boolean!
+  agreementURL: String
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }

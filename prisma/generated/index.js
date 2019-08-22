@@ -5,7 +5,23 @@ var typeDefs = require("./prisma-schema").typeDefs;
 
 var models = [
   {
+    name: "Employer",
+    embedded: false
+  },
+  {
+    name: "EligibilityCriteria",
+    embedded: false
+  },
+  {
+    name: "VerificationToken",
+    embedded: false
+  },
+  {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Loan",
     embedded: false
   }
 ];

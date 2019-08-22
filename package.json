@@ -16,12 +16,6 @@
     "deploy": "prisma deploy",
     "schema": "prisma generate",
     "token": "prisma token",
-    "==prisma:prod==": "------------------------------------------------------------------------------------",
-    "prod:deploy": "env-cmd -f ./.config/prod.env npm run deploy && npm run prod:schema",
-    "prod:schema": "env-cmd -f ./.config/prod.env npm run schema",
-    "prod:token": "env-cmd -f ./.config/prod.env npm run token",
-    "prod:up": "env-cmd -f ./.config/prod.env npm run up",
-    "prod:down": "env-cmd -f ./.config/prod.env npm run down",
     "==prisma-dev==": "--------------------------------------------------------------------------------------",
     "dev:ready": "concurrently \"npm run dev:up\" \"npm run dev:browse\"",
     "dev:browse": "cross-env-shell \"sleep 3\" && node ./terminalString/mdev.js && cross-env-shell \"sleep 5\" && env-cmd -f ./.config/dev.env npm run playground",
@@ -30,7 +24,13 @@
     "dev:schema": "env-cmd -f ./.config/dev.env npm run schema",
     "dev:token": "env-cmd -f ./.config/dev.env npm run token",
     "dev:up": "env-cmd -f ./.config/dev.env npm run up",
-    "dev:down": "env-cmd -f ./.config/dev.env npm run down"
+    "dev:down": "env-cmd -f ./.config/dev.env npm run down",
+    "==prisma:prod==": "------------------------------------------------------------------------------------",
+    "prod:deploy": "env-cmd -f ./.config/prod.env npm run deploy && npm run prod:schema",
+    "prod:schema": "env-cmd -f ./.config/prod.env npm run schema",
+    "prod:token": "env-cmd -f ./.config/prod.env npm run token",
+    "prod:up": "env-cmd -f ./.config/prod.env npm run up",
+    "prod:down": "env-cmd -f ./.config/prod.env npm run down"
   },
   "dependencies": {
     "next": "9.0.4",
