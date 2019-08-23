@@ -1,13 +1,12 @@
 import Head from "next/head"
 import styled from "styled-components"
+import axios from "axios"
 
 import Nav from "../components/nav"
 
-import theme from "../utils/getThemeValue"
-
 const Container = styled.div`
   .hero {
-    background-color: ${theme("colors.indigo.100")};
+    background-color: ${cssTheme("colors.indigo.100")};
   }
   .title {
     margin: 0;
@@ -52,39 +51,66 @@ const Container = styled.div`
   }
 `
 
-const Home = () => (
-  <Container>
-    <Head>
-      <title>Home</title>
-    </Head>
+const Home = ({ allUsers }) => {
+  return (
+    <Container>
+      <Head>
+        <title>Catapillr</title>
 
-    <Nav />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/static/fonts/ubuntu/ubuntu-v14-latin-regular.woff2"
+          crossOrigin
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/static/fonts/ubuntu/ubuntu-v14-latin-italic.woff2"
+          crossOrigin
+        />
+      </Head>
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+      <Nav />
 
-      <div className="row">
-        <a href="https://github.com/zeit/next.js#setup" className="card">
-          <h3>Getting Started &rarr;</h3>
-          <p>Learn more about Next.js on GitHub and in their examples.</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-        <a href="https://github.com/zeit/next.js" className="card">
-          <h3>Create Next App &rarr;</h3>
-          <p>Was this tool helpful? Let us know how we can improve it!</p>
-        </a>
+      <div className="hero">
+        <h1 className="title">Welcome to Next.js!</h1>
+        <p className="description">
+          To get started, edit <code>pages/index.js</code> and save to reload.
+        </p>
+
+        <div className="row">
+          <a href="https://github.com/zeit/next.js#setup" className="card">
+            <h3>Getting Started &rarr;</h3>
+            <p>Learn more about Next.js on GitHub and in their examples.</p>
+          </a>
+          <a
+            href="https://github.com/zeit/next.js/tree/master/examples"
+            className="card"
+          >
+            <h3>Examples &rarr;</h3>
+            <p>Find other example boilerplates on the Next.js GitHub.</p>
+          </a>
+          <a href="https://github.com/zeit/next.js" className="card">
+            <h3>Create Next App!</h3>
+            <p>Was this tool helpful? Let us know how we can improve it!</p>
+            <p>It's working!</p>
+          </a>
+        </div>
+        <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
       </div>
-    </div>
-  </Container>
-)
+    </Container>
+  )
+}
+
+Home.getInitialProps = async () => {
+  const res = await axios.get("http://localhost:3000/api/get-users")
+  const {
+    data: { allUsers },
+  } = res
+  return { allUsers }
+}
 
 export default Home
