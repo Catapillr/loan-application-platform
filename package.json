@@ -5,7 +5,7 @@
   "scripts": {
     "==next==": "------------------------------------------------------------------------------------------",
     "dev": "node server.js",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
     "==lint&format==": "-----------------------------------------------------------------------------------",
     "format": "prettier --write \"{**/*.css,**/*.js,**/*.html,**/*.json,**/*.md,**/*.yaml,**/*.yml}\"",
@@ -33,16 +33,20 @@
     "prod:down": "env-cmd -f ./.config/prod.env npm run down"
   },
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "axios": "^0.19.0",
     "express": "^4.17.1",
     "next": "9.0.4",
+    "next-compose-plugins": "^2.2.0",
+    "next-fonts": "^0.17.0",
+    "prisma": "^1.34.6",
     "ramda": "^0.26.1",
     "react": "16.9.0",
     "react-dom": "16.9.0",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "tailwindcss": "^1.1.2"
   },
   "devDependencies": {
-    "@zeit/next-css": "^1.0.1",
     "autoprefixer": "^9.6.1",
     "babel-eslint": "^10.0.2",
     "concurrently": "^4.1.2",
@@ -55,12 +59,8 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "next-compose-plugins": "^2.2.0",
-    "next-fonts": "^0.17.0",
     "postcss-import": "^12.0.1",
     "prettier": "^1.18.2",
-    "prisma": "^1.34.6",
-    "tachyons": "^4.11.1",
-    "tailwindcss": "^1.1.2"
+    "tachyons": "^4.11.1"
   }
 }
