@@ -5,7 +5,7 @@ const validation = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
     .required("Required"),
-  dob: Yup.date()
+  dobDay: Yup.number()
     .min(1)
     .max(31)
     .required("Required"),
