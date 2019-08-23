@@ -104,7 +104,10 @@ const Home = ({ allUsers }) => (
 )
 
 Home.getInitialProps = async () => {
-  const res = await axios.get("http://localhost:3000/api/get-users")
+  // TODO: add variable for host in here
+  const res = await axios.get(
+    "https://catapillr-staging.herokuapp.com/api/get-users"
+  )
   const {
     data: { allUsers },
   } = res
