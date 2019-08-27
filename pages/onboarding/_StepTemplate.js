@@ -1,25 +1,30 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import Input from "../components/Input"
-import * as Yup from "yup"
+import { Input, DateInput } from "../../components/Input"
 
-const validation = Yup.object().shape({})
-
-const StepTemplate = () => (
-  <main className="flex flex-col">
-    <h1>Step Title</h1>
-    <Input
-      question="Your question"
-      Field={"Your field component"}
-      name="Your question's html name"
-    />
-    <Input
-      question="Your question"
-      Field={"Your field component"}
-      name="Your question's html name"
-    />
+const StepTemplate = ({ title, questions }) => (
+  <main className="flex flex-wrap" style={{ width: 50 + "%" }}>
+    <h1>{title}</h1>
+    {questions.map(
+      ({ text, dateInputNames, component, fieldType, name, width }, index) =>
+        dateInputNames ? (
+          <DateInput
+            key={index}
+            text={text}
+            dateInputNames={dateInputNames}
+            //   component={component}
+            name={name}
+          />
+        ) : (
+          <Input
+            key={index}
+            text={text}
+            // component={component}
+            fieldType={fieldType}
+            name={name}
+            width={width}
+          />
+        )
+    )}
   </main>
 )
-
-StepTemplate.validationSchema = validation
 
 export default StepTemplate

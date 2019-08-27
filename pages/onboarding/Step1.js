@@ -1,5 +1,5 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import * as Yup from "yup"
+import * as Yup from "yup" //eslint-disable-line
+import StepTemplate from "./_StepTemplate"
 
 const validation = Yup.object().shape({
   email: Yup.string()
@@ -24,26 +24,32 @@ const validation = Yup.object().shape({
 })
 
 const Step1 = () => (
-  <main className="flex flex-col">
-    <h1>We need a few details from you to verify that you are eligible</h1>
-    <label htmlFor="dobDay">
-      When did you start working for your employer?
-    </label>
-    <ErrorMessage name="dobDay"></ErrorMessage>
-    <Field name="dobDay"></Field>
-    <Field name="dobMonth"></Field>
-    <ErrorMessage name="dobMonth"></ErrorMessage>
-    <Field name="dobYear"></Field>
-    <ErrorMessage name="dobYear"></ErrorMessage>
-    <label htmlFor="email">Please enter your work email: </label>
-    <Field name="email"></Field>
-    <ErrorMessage name="email"></ErrorMessage>
-    <label htmlFor="permanentRole">
-      I confirm that my current role is permanent:
-    </label>
-    <Field name="permanentRole" type="checkbox"></Field>
-    <ErrorMessage name="permanentRole"></ErrorMessage>
-  </main>
+  <StepTemplate
+    title="We need a few details from you to verify that you are eligible"
+    questions={[
+      {
+        text: "When did you start working for your employer?",
+        dateInputNames: ["dobDay", "dobMonth", "dobYear"],
+        component: {},
+        name: "dob",
+      },
+      {
+        text: "Please enter your work email:",
+        name: "email",
+        component: {},
+        className: "",
+        width: "full",
+      },
+      {
+        text: "I confirm that my current role is permanent:",
+        name: "permanentRole",
+        component: {},
+        className: "",
+        fieldType: "checkbox",
+        width: "full",
+      },
+    ]}
+  />
 )
 
 Step1.validationSchema = validation
