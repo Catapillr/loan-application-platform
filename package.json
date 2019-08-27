@@ -33,6 +33,7 @@
     "prod:down": "env-cmd -f ./.config/prod.env npm run down"
   },
   "dependencies": {
+    "formik": "^1.5.8",
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.19.0",
     "express": "^4.17.1",
@@ -44,6 +45,7 @@
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "styled-components": "^4.3.2",
+    "yup": "^0.27.0",
     "tailwindcss": "^1.1.2"
   },
   "devDependencies": {
