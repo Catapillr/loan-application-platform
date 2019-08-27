@@ -1,5 +1,6 @@
 import { useState, Children } from "react"
 import { Formik, Form } from "formik"
+import styled from "styled-components"
 
 import Step1 from "./Step1"
 import Step2 from "./Step2"
@@ -60,6 +61,13 @@ const Controls = ({ page, pageAmount, setPage, isDisabled }) => {
   )
 }
 
+const StyledForm = styled(Form).attrs(() => ({
+  className: "bg-white",
+}))`
+  width: 90%;
+  height: 90%;
+`
+
 const Wizard = ({ children }) => {
   const [page, setPage] = useState(1)
   const [pageAmount, setPageAmount] = useState(children.length)
@@ -77,7 +85,7 @@ const Wizard = ({ children }) => {
         const isDisabled = !isValid || isSubmitting
 
         return (
-          <Form>
+          <StyledForm>
             {activePage}
             <Controls
               page={page}
@@ -85,7 +93,7 @@ const Wizard = ({ children }) => {
               setPage={setPage}
               isDisabled={isDisabled}
             />
-          </Form>
+          </StyledForm>
         )
       }}
     </Formik>
