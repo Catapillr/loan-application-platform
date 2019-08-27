@@ -1,51 +1,22 @@
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
+import { Heading, Copy, Button } from "./styles"
 
-const validation = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email")
-    .required("Required"),
-  dobDay: Yup.number()
-    .min(1)
-    .max(31)
-    .required("Required"),
-  dobMonth: Yup.number()
-    .min(1)
-    .max(12)
-    .required("Required"),
-  dobYear: Yup.number()
-    .min(1900)
-    .max(3000)
-    .required("Required"),
-  permanentRole: Yup.boolean().oneOf(
-    [true],
-    "Sorry, you must be in a permanent role to apply!"
-  ),
-})
-
-const Step1 = () => (
-  <main className="flex flex-col">
-    <h1>We need a few details from you to verify that you are eligible</h1>
-    <label htmlFor="dobDay">
-      When did you start working for your employer?
-    </label>
-    <ErrorMessage name="dobDay"></ErrorMessage>
-    <Field name="dobDay"></Field>
-    <Field name="dobMonth"></Field>
-    <ErrorMessage name="dobMonth"></ErrorMessage>
-    <Field name="dobYear"></Field>
-    <ErrorMessage name="dobYear"></ErrorMessage>
-    <label htmlFor="email">Please enter your work email: </label>
-    <Field name="email"></Field>
-    <ErrorMessage name="email"></ErrorMessage>
-    <label htmlFor="permanentRole">
-      I confirm that my current role is permanent:
-    </label>
-    <Field name="permanentRole" type="checkbox"></Field>
-    <ErrorMessage name="permanentRole"></ErrorMessage>
+const Step1 = ({ setPage }) => (
+  <main className="flex justify-center items-center flex-col">
+    {/* <main> */}
+    <Heading className="mb-6 text-center">Welcome to Catapillr!</Heading>
+    <Copy className="mb-12">
+      We've partnered up with{" "}
+      <span className="font-bold">London Metropolitan University</span> to offer
+      you interest-free childcare loans to help tide you over and hopefully make
+      both your work life and your home life more rewarding. Press the button
+      below to see how much you could borrow from your employer!
+    </Copy>
+    <Button className="text-center" onClick={() => setPage(2)}>
+      Let's get started
+    </Button>
   </main>
 )
-
-Step1.validationSchema = validation
 
 export default Step1
