@@ -61,12 +61,26 @@ const Controls = ({ page, pageAmount, setPage, isDisabled }) => {
   )
 }
 
-const StyledForm = styled(Form).attrs(() => ({
-  className: "bg-white",
+const Footer = styled.div.attrs(() => ({}))``
+
+const Container = styled.div.attrs(() => ({
+  className: "bg-white flex flex-col items-center justify-between",
 }))`
   width: 90%;
   height: 90%;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
+
+const Header = styled.div.attrs(() => ({
+  className: "pl-10 pt-8 w-full",
+}))``
+const StyledForm = styled(Form).attrs(() => ({
+  className: "",
+}))``
+
+const Logo = styled.img.attrs(() => ({
+  src: "/static/logo_orange.svg",
+}))``
 
 const Wizard = ({ children }) => {
   const [page, setPage] = useState(1)
@@ -85,15 +99,21 @@ const Wizard = ({ children }) => {
         const isDisabled = !isValid || isSubmitting
 
         return (
-          <StyledForm>
-            {activePage}
-            <Controls
-              page={page}
-              pageAmount={pageAmount}
-              setPage={setPage}
-              isDisabled={isDisabled}
-            />
-          </StyledForm>
+          <Container>
+            <Header>
+              <Logo />
+            </Header>
+            <StyledForm>
+              {activePage}
+              <Controls
+                page={page}
+                pageAmount={pageAmount}
+                setPage={setPage}
+                isDisabled={isDisabled}
+              />
+            </StyledForm>
+            <Footer></Footer>
+          </Container>
         )
       }}
     </Formik>
