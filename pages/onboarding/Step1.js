@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import { Heading, Copy, Button } from "./styles"
 
-const Step1 = () => (
+const Step1 = ({ setPage }) => (
   <main className="flex justify-center items-center flex-col">
     {/* <main> */}
     <Heading className="mb-6 text-center">Welcome to Catapillr!</Heading>
@@ -13,7 +13,9 @@ const Step1 = () => (
       both your work life and your home life more rewarding. Press the button
       below to see how much you could borrow from your employer!
     </Copy>
-    <Button className="text-center">Let's get started</Button>
+    <Button className="text-center" onClick={() => setPage(2)}>
+      Let's get started
+    </Button>
   </main>
 )
 

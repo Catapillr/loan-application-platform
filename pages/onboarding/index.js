@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 import Step1 from "./Step1"
 import Step2 from "./Step2"
+import Step3 from "./Step3"
 
 const initialValues = {
   employmentStartDate: "",
@@ -23,7 +24,7 @@ const initialValues = {
   agreementStatus: "",
 }
 
-const Controls = ({ page, pageAmount, setPage, isDisabled }) => {
+const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
   const lastPage = page === pageAmount
 
   const incrementPage = () => {
@@ -52,12 +53,16 @@ const Controls = ({ page, pageAmount, setPage, isDisabled }) => {
     </button>
   )
 
+  const ControlsContainer = styled.section.attrs(() => ({
+    className: `${className}`,
+  }))``
+
   return (
-    <section>
+    <ControlsContainer>
       <Previous />
       {!lastPage && <Next />}
       {lastPage && <Submit />}
-    </section>
+    </ControlsContainer>
   )
 }
 
@@ -75,7 +80,7 @@ const Header = styled.div.attrs(() => ({
   className: "pl-10 pt-8 w-full",
 }))``
 const StyledForm = styled(Form).attrs(() => ({
-  className: "",
+  className: "w-2/6",
 }))``
 
 const Logo = styled.img.attrs(() => ({
@@ -104,15 +109,16 @@ const Wizard = ({ children }) => {
               <Logo />
             </Header>
             <StyledForm>
-              {activePage}
+              {React.cloneElement(activePage, { setPage })}
+            </StyledForm>
+            <Footer>
               <Controls
                 page={page}
                 pageAmount={pageAmount}
                 setPage={setPage}
                 isDisabled={isDisabled}
               />
-            </StyledForm>
-            <Footer></Footer>
+            </Footer>
           </Container>
         )
       }}
@@ -124,6 +130,7 @@ const Onboarding = () => (
   <Wizard>
     <Step1 />
     <Step2 />
+    <Step3 />
   </Wizard>
 )
 export default Onboarding
