@@ -2,3 +2,9 @@ body {
   height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

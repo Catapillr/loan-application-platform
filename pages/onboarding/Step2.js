@@ -2,7 +2,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import { Heading } from "./styles"
 import * as Yup from "yup"
 
-import StepTemplate from "./_StepTemplate"
+import Questions from "./Questions"
+import { TextInput } from "../../components/Input"
 
 const validation = Yup.object().shape({
   email: Yup.string()
@@ -27,26 +28,25 @@ const validation = Yup.object().shape({
 })
 
 const Step2 = () => (
-  <StepTemplate
+  <Questions
     title="We need a few details from you to verify that you are eligible"
     questions={[
       {
         text: "When did you start working for your employer?",
         dateInputNames: ["dobDay", "dobMonth", "dobYear"],
-        component: {},
+        component: TextInput,
         name: "dob",
       },
       {
         text: "Please enter your work email:",
         name: "email",
-        component: {},
+        component: TextInput,
         className: "",
         width: "full",
       },
       {
         text: "I confirm that my current role is permanent:",
         name: "permanentRole",
-        component: {},
         className: "",
         fieldType: "checkbox",
         width: "full",

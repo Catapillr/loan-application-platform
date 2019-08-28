@@ -22,6 +22,7 @@ module.exports = {
         "5": "1.25rem", // 20px
         "5d5": "1.375rem", // 22px
         "6": "1.5rem", // 24px
+        "9": "2.25rem", // 36px
         "10": "2.5rem", // 40px
         "20": "5rem", // 80px
         "30": "7.5rem", // 120px
@@ -56,6 +57,7 @@ module.exports = {
       teal: "#14becb",
       white: "#fefefe",
       black: "#32334f",
+      midgray: "rgba(50,51,79,0.25)",
       green: "#14da9e",
       red: "#ff0000",
     },

@@ -3,7 +3,7 @@ import * as Yup from "yup"
 import { Heading, Copy, Button } from "./styles"
 
 const Step1 = ({ setPage }) => (
-  <main className="flex justify-center items-center flex-col">
+  <main className="flex justify-center items-center flex-col w-2/6 m-auto">
     {/* <main> */}
     <Heading className="mb-6 text-center">Welcome to Catapillr!</Heading>
     <Copy className="mb-12">

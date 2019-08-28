@@ -80,7 +80,7 @@ const Header = styled.div.attrs(() => ({
   className: "pl-10 pt-8 w-full",
 }))``
 const StyledForm = styled(Form).attrs(() => ({
-  className: "w-2/6",
+  className: "",
 }))``
 
 const Logo = styled.img.attrs(() => ({

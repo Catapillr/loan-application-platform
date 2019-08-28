@@ -26,35 +26,6 @@ const Home = ({ allUsers }) => (
         crossOrigin={true}
       />
     </Head>
-
-    <Nav />
-
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
-
-      <div className="row">
-        <a href="https://github.com/zeit/next.js#setup" className="card">
-          <h3>Getting Started &rarr;</h3>
-          <p>Learn more about Next.js on GitHub and in their examples.</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-        <a href="https://github.com/zeit/next.js" className="card">
-          <h3>Create Next App!</h3>
-          <p>Was this tool helpful? Let us know how we can improve it!</p>
-          <p>It's working!</p>
-        </a>
-      </div>
-      <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
-    </div>
   </Container>
 )
 
