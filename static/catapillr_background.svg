@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="811px" viewBox="0 0 1440 811" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>catapillr</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="94.8571836%" y1="77.7165787%" x2="27.981953%" y2="31.0769263%" id="linearGradient-1">
+            <stop stop-color="#2DE0E7" stop-opacity="0.433866914" offset="0%"></stop>
+            <stop stop-color="#14BECB" stop-opacity="0.425152972" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="70.035741%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#2DE0E7" offset="0%"></stop>
+            <stop stop-color="#14BECB" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#BCF4F6" stop-opacity="0.71170236" offset="0%"></stop>
+            <stop stop-color="#14BECB" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Catapillr-app" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6">
+        <g id="catapillr_background">
+            <g id="catapillr" transform="translate(-293.000000, -62.000000)">
+                <path d="M1358,152.776105 C1402.82084,62.2398939 1496.05636,0 1603.80907,0 C1755.24054,0 1878,122.926294 1878,274.563562 C1878,423.378742 1759.76732,544.541671 1612.23344,549 C1612.97079,539.191112 1613.34614,529.281078 1613.34614,519.283258 C1613.34614,351.022399 1507.03241,207.626189 1358,152.776105 L1358,152.776105 Z" id="Path" fill="url(#linearGradient-1)"></path>
+                <circle id="Oval" fill="#14BECB" cx="256.5" cy="755.5" r="256.5"></circle>
+                <path d="M591.063924,790.360423 C593.23946,775.856893 594.367003,761.010459 594.367003,745.900673 C594.367003,591.832668 477.136246,465.145372 327.009874,450.173929 C327,449.283397 327,448.392083 327,447.5 C327,251.715056 485.715056,93 681.5,93 C877.284944,93 1036,251.715056 1036,447.5 C1036,643.284944 877.284944,802 681.5,802 C650.244942,802 619.934604,797.955171 591.063887,790.360413 L591.063924,790.360423 Z" id="Path" fill="url(#linearGradient-2)"></path>
+                <path d="M999.413887,198.455173 C1145.35486,126.165806 1327.14201,150.756866 1448.695,272.228355 C1601.10167,424.532829 1601.10167,671.467171 1448.695,823.771645 C1296.28834,976.076118 1049.18832,976.076118 896.781659,823.771645 C892.040267,819.033432 887.446381,814.203633 883,809.287946 C920.044048,790.938809 954.778556,766.347749 985.632228,735.514764 C1133.2975,587.948503 1137.89138,351.548682 999.413887,198.455173 Z" id="Path" fill="url(#linearGradient-3)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

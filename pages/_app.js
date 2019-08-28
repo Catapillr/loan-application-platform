@@ -1,11 +1,19 @@
 import React from "react"
 import App from "next/app"
-import { ThemeProvider } from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
 
 import resolveConfig from "tailwindcss/resolveConfig"
 import tailwindConfig from "../tailwind.config.js"
 
 import "../styles/index.css"
+const Container = styled.div.attrs(() => ({
+  className: "flex justify-center items-center",
+}))`
+  background: url("./static/catapillr_background.svg") no-repeat,
+    linear-gradient(to left top, rgba(20, 190, 203, 0.24), white);
+  background-size: cover;
+  height: 100vh;
+`
 
 const { theme } = resolveConfig(tailwindConfig)
 
@@ -26,7 +34,9 @@ class MyApp extends App {
     const { Component, pageProps } = this.props
     return (
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Container>
+          <Component {...pageProps} />
+        </Container>
       </ThemeProvider>
     )
   }

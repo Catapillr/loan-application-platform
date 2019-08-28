@@ -1,57 +1,22 @@
-import * as Yup from "yup" //eslint-disable-line
-import StepTemplate from "./_StepTemplate"
+import { Formik, Form, Field, ErrorMessage } from "formik"
+import * as Yup from "yup"
+import { Heading, Copy, Button } from "./styles"
 
-const validation = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email")
-    .required("Required"),
-  dobDay: Yup.number()
-    .min(1)
-    .max(31)
-    .required("Required"),
-  dobMonth: Yup.number()
-    .min(1)
-    .max(12)
-    .required("Required"),
-  dobYear: Yup.number()
-    .min(1900)
-    .max(3000)
-    .required("Required"),
-  permanentRole: Yup.boolean().oneOf(
-    [true],
-    "Sorry, you must be in a permanent role to apply!"
-  ),
-})
-
-const Step1 = () => (
-  <StepTemplate
-    title="We need a few details from you to verify that you are eligible"
-    questions={[
-      {
-        text: "When did you start working for your employer?",
-        dateInputNames: ["dobDay", "dobMonth", "dobYear"],
-        component: {},
-        name: "dob",
-      },
-      {
-        text: "Please enter your work email:",
-        name: "email",
-        component: {},
-        className: "",
-        width: "full",
-      },
-      {
-        text: "I confirm that my current role is permanent:",
-        name: "permanentRole",
-        component: {},
-        className: "",
-        fieldType: "checkbox",
-        width: "full",
-      },
-    ]}
-  />
+const Step1 = ({ setPage }) => (
+  <main className="flex justify-center items-center flex-col">
+    {/* <main> */}
+    <Heading className="mb-6 text-center">Welcome to Catapillr!</Heading>
+    <Copy className="mb-12">
+      We've partnered up with{" "}
+      <span className="font-bold">London Metropolitan University</span> to offer
+      you interest-free childcare loans to help tide you over and hopefully make
+      both your work life and your home life more rewarding. Press the button
+      below to see how much you could borrow from your employer!
+    </Copy>
+    <Button className="text-center" onClick={() => setPage(2)}>
+      Let's get started
+    </Button>
+  </main>
 )
-
-Step1.validationSchema = validation
 
 export default Step1
