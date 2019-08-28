@@ -46,7 +46,7 @@ const DateInput = ({ text, component, dateInputNames, name }) => (
       <ErrorMessage
         key={`error-${index}`}
         name={name}
-        render={msg => <Error>Hello??{msg}</Error>}
+        render={msg => <Error>{msg}</Error>}
       />
     ))}
   </Container>
