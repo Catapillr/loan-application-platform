@@ -19,7 +19,6 @@ const Questions = ({ title, questions }) => (
             text={text}
             dateInputNames={dateInputNames}
             component={component}
-            name={name}
           />
         ) : (
           <Input

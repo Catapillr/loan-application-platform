@@ -1,10 +1,13 @@
 import { ErrorMessage, Field } from "formik"
 import styled from "styled-components"
 
-const TextInput = styled.input.attrs(() => ({
-  className:
-    "py-3 border-solid border-2 border-midgray rounded-full text-center",
-}))``
+const TextInput = styled.input.attrs(({ field }) => {
+  return {
+    className:
+      "py-3 border-solid border-2 border-midgray rounded-full text-center",
+    ...field,
+  }
+})``
 
 const Container = styled.div.attrs(({ text, width }) => ({
   className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
@@ -19,15 +22,17 @@ const Label = styled.label.attrs(({ name }) => ({
   htmlFor: name,
 }))``
 
-const Input = ({ text, component, name, fieldType, width }) => (
-  <Container>
-    {text && <Label>{text}</Label>}
-    <Field component={component} name={name} type={fieldType} />
-    <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
-  </Container>
-)
+const Input = ({ text, component, fieldType = "text", width, name }) => {
+  return (
+    <Container>
+      {text && <Label>{text}</Label>}
+      <Field type={fieldType} component={component} name={name} />
+      <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
+    </Container>
+  )
+}
 
-const DateInput = ({ text, component, dateInputNames, name }) => (
+const DateInput = ({ text, component, dateInputNames, name, ...props }) => (
   <Container>
     {text && <Label>{text}</Label>}
 
@@ -35,8 +40,9 @@ const DateInput = ({ text, component, dateInputNames, name }) => (
       {dateInputNames.map((name, index) => (
         <Field
           key={`date-${index}`}
-          component={component}
           name={name}
+          component={component}
+          placeholder={index === 0 ? "Day" : index === 1 ? "Month" : "Year"}
           type="number"
         />
       ))}

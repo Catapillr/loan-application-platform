@@ -2,13 +2,20 @@ import { useState, Children } from "react"
 import { Formik, Form } from "formik"
 import styled from "styled-components"
 
-import Step1 from "./Step1"
-import Step2 from "./Step2"
-import Step3 from "./Step3"
+import Step1 from "./Step1Welcome"
+import Step2 from "./Step2Eligibility"
+import Step3 from "./Step3Verification"
+import Step4 from "./Step4Loan"
+import Step5 from "./Step5Accuracy"
+import Step6 from "./Step6Personal"
+import Step7 from "./Step7Personal"
 
 const initialValues = {
-  employmentStartDate: "",
-  email: "",
+  employmentStartDay: 0,
+  employmentStartMonth: 0,
+  employmentStartYear: 0,
+  email: undefined,
+  emailCode: undefined,
   permanentRole: false,
   loanAmount: 0,
   loanTerms: 0,
@@ -18,24 +25,32 @@ const initialValues = {
   dobMonth: 0,
   dobYear: 0,
   nationality: "",
-  employeeID: undefined,
+  employeeID: "",
   phoneNumber: "",
   confirmation: false,
   agreementStatus: "",
 }
 
-const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
+const Controls = ({
+  page,
+  pageAmount,
+  setPage,
+  isDisabled,
+  className,
+  validateForm,
+}) => {
   const lastPage = page === pageAmount
 
   const incrementPage = () => {
     if (page < pageAmount) {
-      return setPage(page + 1)
+      setPage(page + 1)
+      return validateForm()
     }
   }
-
   const decrementPage = () => {
-    if (page >= pageAmount && page > 0) {
-      return setPage(page - 1)
+    if (page <= pageAmount && page > 1) {
+      setPage(page - 1)
+      return validateForm()
     }
   }
 
@@ -91,7 +106,7 @@ const Wizard = ({ children }) => {
   const [page, setPage] = useState(1)
   const [pageAmount, setPageAmount] = useState(children.length)
 
-  const activePage = children[page - 1]
+  const activePage = Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
 
   return (
@@ -100,7 +115,7 @@ const Wizard = ({ children }) => {
       enableReinitialize={false}
       validationSchema={validationSchema}
     >
-      {({ isValid, isSubmitting }) => {
+      {({ isValid, isSubmitting, validateForm }) => {
         const isDisabled = !isValid || isSubmitting
 
         return (
@@ -117,6 +132,7 @@ const Wizard = ({ children }) => {
                 pageAmount={pageAmount}
                 setPage={setPage}
                 isDisabled={isDisabled}
+                validateForm={validateForm}
               />
             </Footer>
           </Container>
@@ -131,6 +147,10 @@ const Onboarding = () => (
     <Step1 />
     <Step2 />
     <Step3 />
+    <Step4 />
+    <Step5 />
+    <Step6 />
+    <Step7 />
   </Wizard>
 )
 export default Onboarding

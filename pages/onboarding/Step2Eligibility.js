@@ -9,15 +9,15 @@ const validation = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
     .required("Required"),
-  dobDay: Yup.number()
+  employmentStartDay: Yup.number()
     .min(1)
     .max(31)
     .required("Required"),
-  dobMonth: Yup.number()
+  employmentStartMonth: Yup.number()
     .min(1)
     .max(12)
     .required("Required"),
-  dobYear: Yup.number()
+  employmentStartYear: Yup.number()
     .min(1900)
     .max(3000)
     .required("Required"),
@@ -33,9 +33,13 @@ const Step2 = () => (
     questions={[
       {
         text: "When did you start working for your employer?",
-        dateInputNames: ["dobDay", "dobMonth", "dobYear"],
+        dateInputNames: [
+          "employmentStartDay",
+          "employmentStartMonth",
+          "employmentStartYear",
+        ],
         component: TextInput,
-        name: "dob",
+        name: "employmentStart",
       },
       {
         text: "Please enter your work email:",
