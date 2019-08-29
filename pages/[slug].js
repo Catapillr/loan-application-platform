@@ -1,10 +1,14 @@
-import { useState, Children } from "react"
+import Head from "next/head"
+import { useRouter } from "next/router"
+
+import { useState, useEffect, Children } from "react"
 import { Formik, Form } from "formik"
 import styled from "styled-components"
+import axios from "axios"
 
-import Step1 from "./Step1"
-import Step2 from "./Step2"
-import Step3 from "./Step3"
+import Step1 from "./onboarding/Step1"
+import Step2 from "./onboarding/Step2"
+import Step3 from "./onboarding/Step3"
 
 const initialValues = {
   employmentStartDate: "",
@@ -87,7 +91,7 @@ const Logo = styled.img.attrs(() => ({
   src: "/static/logo_orange.svg",
 }))``
 
-const Wizard = ({ children }) => {
+const Wizard = ({ children, employer }) => {
   const [page, setPage] = useState(1)
   const [pageAmount, setPageAmount] = useState(children.length)
 
@@ -126,11 +130,26 @@ const Wizard = ({ children }) => {
   )
 }
 
-const Onboarding = () => (
-  <Wizard>
-    <Step1 />
-    <Step2 />
-    <Step3 />
-  </Wizard>
-)
+const Onboarding = ({ employer }) => {
+  return (
+    <Wizard employer={employer}>
+      <Step1 />
+      <Step2 />
+      <Step3 />
+    </Wizard>
+  )
+}
+
+Onboarding.getInitialProps = async ({ req }) => {
+  const slug = req.originalUrl.slice(1)
+  const res = await axios(
+    `http://localhost:3000/api/get-employer-from-slug?${slug}`
+  )
+
+  const {
+    data: { employer },
+  } = res
+  return { employer }
+}
+
 export default Onboarding
