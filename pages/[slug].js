@@ -6,13 +6,13 @@ import { Formik, Form } from "formik"
 import styled from "styled-components"
 import axios from "axios"
 
-import Step1 from "./Step1Welcome"
-import Step2 from "./Step2Eligibility"
-import Step3 from "./Step3Verification"
-import Step4 from "./Step4Loan"
-import Step5 from "./Step5Accuracy"
-import Step6 from "./Step6Personal"
-import Step7 from "./Step7Personal"
+import Step1 from "./onboarding/Step1Welcome"
+import Step2 from "./onboarding/Step2Eligibility"
+import Step3 from "./onboarding/Step3Verification"
+import Step4 from "./onboarding/Step4Loan"
+import Step5 from "./onboarding/Step5Accuracy"
+import Step6 from "./onboarding/Step6Personal"
+import Step7 from "./onboarding/Step7Personal"
 
 const initialValues = {
   employmentStartDay: 0,
