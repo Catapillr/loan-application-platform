@@ -1,18 +1,29 @@
 import styled from "styled-components"
 import { Input, DateInput } from "../../components/Input"
-import { Heading, Copy } from "./styles"
+import { Heading } from "./styles"
 
 const Container = styled.main.attrs(() => ({
-  className: "w-2/4 flex flex-wrap m-auto",
+  className: "flex flex-wrap m-auto",
 }))`
-  width: ${({ width }) => (width ? `${width}%` : "")};
+  width: ${({ width }) => (width ? `${width}%` : "50%")};
 `
 
-const Questions = ({ title, questions }) => (
-  <Container>
+const Questions = ({ title, questions, formWidth }) => (
+  <Container width={formWidth}>
     <Heading className="mb-10">{title}</Heading>
     {questions.map(
-      ({ text, dateInputNames, component, fieldType, name, width }, index) =>
+      (
+        {
+          text,
+          dateInputNames,
+          component,
+          fieldType,
+          name,
+          width,
+          placeholder,
+        },
+        index
+      ) =>
         dateInputNames ? (
           <DateInput
             key={`date-input-${index}`}
@@ -28,6 +39,7 @@ const Questions = ({ title, questions }) => (
             fieldType={fieldType}
             name={name}
             width={width}
+            placeholder={placeholder}
           />
         )
     )}
