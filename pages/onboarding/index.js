@@ -1,4 +1,4 @@
-import { useState, Children } from "react"
+import React, { useState, Children } from "react"
 import { Formik, Form } from "formik"
 import styled from "styled-components"
 
@@ -11,19 +11,19 @@ import Step6 from "./Step6Personal"
 import Step7 from "./Step7Personal"
 
 const initialValues = {
-  employmentStartDay: 0,
-  employmentStartMonth: 0,
-  employmentStartYear: 0,
-  email: undefined,
-  emailCode: undefined,
+  employmentStartDay: "",
+  employmentStartMonth: "",
+  employmentStartYear: "",
+  email: "",
+  emailCode: "",
   permanentRole: false,
-  loanAmount: 0,
-  loanTerms: 0,
+  loanAmount: "",
+  loanTerms: "",
   firstName: "",
   lastName: "",
-  dobDay: 0,
-  dobMonth: 0,
-  dobYear: 0,
+  dobDay: "",
+  dobMonth: "",
+  dobYear: "",
   nationality: "",
   employeeID: "",
   phoneNumber: "",
@@ -104,7 +104,7 @@ const Logo = styled.img.attrs(() => ({
 
 const Wizard = ({ children }) => {
   const [page, setPage] = useState(1)
-  const [pageAmount, setPageAmount] = useState(children.length)
+  const [pageAmount, setPageAmount] = useState(children.length) //eslint-disable-line
 
   const activePage = Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
