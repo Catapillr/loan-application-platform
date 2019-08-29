@@ -6,13 +6,20 @@ import { Formik, Form } from "formik"
 import styled from "styled-components"
 import axios from "axios"
 
-import Step1 from "./onboarding/Step1"
-import Step2 from "./onboarding/Step2"
-import Step3 from "./onboarding/Step3"
+import Step1 from "./Step1Welcome"
+import Step2 from "./Step2Eligibility"
+import Step3 from "./Step3Verification"
+import Step4 from "./Step4Loan"
+import Step5 from "./Step5Accuracy"
+import Step6 from "./Step6Personal"
+import Step7 from "./Step7Personal"
 
 const initialValues = {
-  employmentStartDate: "",
-  email: "",
+  employmentStartDay: 0,
+  employmentStartMonth: 0,
+  employmentStartYear: 0,
+  email: undefined,
+  emailCode: undefined,
   permanentRole: false,
   loanAmount: 0,
   loanTerms: 0,
@@ -22,24 +29,32 @@ const initialValues = {
   dobMonth: 0,
   dobYear: 0,
   nationality: "",
-  employeeID: undefined,
+  employeeID: "",
   phoneNumber: "",
   confirmation: false,
   agreementStatus: "",
 }
 
-const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
+const Controls = ({
+  page,
+  pageAmount,
+  setPage,
+  isDisabled,
+  className,
+  validateForm,
+}) => {
   const lastPage = page === pageAmount
 
   const incrementPage = () => {
     if (page < pageAmount) {
-      return setPage(page + 1)
+      setPage(page + 1)
+      return validateForm()
     }
   }
-
   const decrementPage = () => {
-    if (page >= pageAmount && page > 0) {
-      return setPage(page - 1)
+    if (page <= pageAmount && page > 1) {
+      setPage(page - 1)
+      return validateForm()
     }
   }
 
@@ -84,7 +99,7 @@ const Header = styled.div.attrs(() => ({
   className: "pl-10 pt-8 w-full",
 }))``
 const StyledForm = styled(Form).attrs(() => ({
-  className: "w-2/6",
+  className: "",
 }))``
 
 const Logo = styled.img.attrs(() => ({
@@ -95,7 +110,7 @@ const Wizard = ({ children, employer }) => {
   const [page, setPage] = useState(1)
   const [pageAmount, setPageAmount] = useState(children.length)
 
-  const activePage = children[page - 1]
+  const activePage = Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
 
   return (
@@ -104,7 +119,7 @@ const Wizard = ({ children, employer }) => {
       enableReinitialize={false}
       validationSchema={validationSchema}
     >
-      {({ isValid, isSubmitting }) => {
+      {({ isValid, isSubmitting, validateForm }) => {
         const isDisabled = !isValid || isSubmitting
 
         return (
@@ -121,6 +136,7 @@ const Wizard = ({ children, employer }) => {
                 pageAmount={pageAmount}
                 setPage={setPage}
                 isDisabled={isDisabled}
+                validateForm={validateForm}
               />
             </Footer>
           </Container>
@@ -136,6 +152,10 @@ const Onboarding = ({ employer }) => {
       <Step1 />
       <Step2 />
       <Step3 />
+      <Step4 />
+      <Step5 />
+      <Step6 />
+      <Step7 />
     </Wizard>
   )
 }
