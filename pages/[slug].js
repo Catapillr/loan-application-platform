@@ -128,7 +128,7 @@ const Wizard = ({ children, employer }) => {
               <Logo />
             </Header>
             <StyledForm>
-              {React.cloneElement(activePage, { setPage })}
+              {React.cloneElement(activePage, { setPage, employer })}
             </StyledForm>
             <Footer>
               <Controls
