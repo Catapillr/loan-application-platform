@@ -13,16 +13,34 @@ const seedDatabase = async () => {
       id_not: 0,
     })
 
+    const deleteEligibility = await prisma.deleteManyEligibilityCriterias({
+      id_not: 0,
+    })
+
+    const eligibilityCriteriaYalla = await prisma.createEligibilityCriteria({
+      maximumAmount: 2000,
+      minimumServiceLength: 8,
+      maxSalaryPercentage: 25,
+    })
+
+    const eligibilityCriteriaInfact = await prisma.createEligibilityCriteria({
+      maximumAmount: 3000,
+      minimumServiceLength: 6,
+      maxSalaryPercentage: 20,
+    })
+
     const yalla = await prisma.createEmployer({
       name: "yalla",
       slug: "yalla",
       emailSuffix: "@yallacooperative.com",
+      eligibilityCriteria: { connect: { id: eligibilityCriteriaYalla.id } },
     })
 
     const infact = await prisma.createEmployer({
       name: "infact",
       slug: "infact",
       emailSuffix: "@infactcoop.com",
+      eligibilityCriteria: { connect: { id: eligibilityCriteriaInfact.id } },
     })
 
     const ivan = await prisma.createUser({
@@ -39,6 +57,9 @@ const seedDatabase = async () => {
 
     console.log(JSON.stringify(deleteEmployers, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(deleteUsers, undefined, 2)) //eslint-disable-line no-console
+    console.log(JSON.stringify(deleteEligibility, undefined, 2)) //eslint-disable-line no-console
+    console.log(JSON.stringify(eligibilityCriteriaInfact, undefined, 2)) //eslint-disable-line no-console
+    console.log(JSON.stringify(eligibilityCriteriaYalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(infact, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(ivan, undefined, 2)) //eslint-disable-line no-console

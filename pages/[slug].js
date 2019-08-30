@@ -118,7 +118,7 @@ const Wizard = ({ children, employer }) => {
       enableReinitialize={false}
       validationSchema={validationSchema}
     >
-      {({ isValid, isSubmitting, validateForm }) => {
+      {({ isValid, isSubmitting, validateForm, values }) => {
         const isDisabled = !isValid || isSubmitting
 
         const debugging = false
@@ -129,7 +129,7 @@ const Wizard = ({ children, employer }) => {
               <Logo />
             </Header>
             <StyledForm>
-              {React.cloneElement(activePage, { setPage, employer })}
+              {React.cloneElement(activePage, { setPage, employer, values })}
             </StyledForm>
             <Footer>
               <Controls

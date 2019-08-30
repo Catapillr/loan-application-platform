@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import slider from "../static/icons/slider.svg"
 import tick from "../static/icons/tick.svg"
+import dropdown from "../static/icons/dropdown.svg"
 
 const Container = styled.div.attrs(({ text, width }) => ({
   className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
@@ -17,17 +18,45 @@ const Label = styled.label.attrs(({ name }) => ({
   htmlFor: name,
 }))``
 
-const Input = ({ text, component, type = "text", name, validate, max }) => {
+const Input = ({
+  text,
+  component,
+  type = "text",
+  name,
+  validate,
+  placeholder,
+  max,
+  values,
+  options,
+}) => {
   return (
     <Container text={text}>
       {text && <Label>{text}</Label>}
-      <Field
-        type={type}
-        component={component}
-        name={name}
-        validate={validate}
-        max={max}
-      />
+      {type === "select" ? (
+        <StyledDropdown component="select" name={name}>
+          {options.map((option, index) => (
+            <option
+              key={`dropdown-${name}-${index}`}
+              value={option}
+              label={`${option} months`}
+            />
+          ))}
+        </StyledDropdown>
+      ) : (
+        <Field
+          type={type}
+          component={component}
+          name={name}
+          max={max}
+          min="0"
+          placeholder={placeholder}
+        />
+      )}
+      {type === "range" && (
+        <div className="border-2 border-midgray rounded-full py-2 px-4 mt-6 w-40 ">
+          {values[name] ? `£${values[name]}` : "£"}
+        </div>
+      )}
       <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
     </Container>
   )
@@ -127,13 +156,6 @@ const RangeInput = styled.input.attrs(({ field }) => {
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
   -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
   transition: opacity 0.2s;
-  ${"" /* overflow: hidden; */}
-
-  ::-webkit-slider-runnable-track {
-    height: 20px;
-    -webkit-appearance: none;
-    color: #fc8f14;
-  }
 
   ::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -149,22 +171,6 @@ const RangeInput = styled.input.attrs(({ field }) => {
     background: url(${slider});
     cursor: pointer;
   }
-
-  ::-moz-range-progress {
-    background-color: #fc8f14;
-  }
-
-  ::-moz-range-track {
-    background-color: #d3d3d3;
-  }
-
-  ::-ms-fill-lower {
-    background-color: #fc8f14;
-  }
-
-  ::-ms-fill-upper {
-    background-color: #d3d3d3;
-  }
 `
 
 const NumberInput = styled.input.attrs(({ field }) => {
@@ -174,6 +180,22 @@ const NumberInput = styled.input.attrs(({ field }) => {
     ...field,
   }
 })``
+
+const StyledDropdown = styled(Field).attrs({
+  className:
+    "border-2 border-midgray rounded-full py-3 px-4 mt-6 w-40 text-center",
+})`
+  display: block;
+  line-height: 1.3;
+  margin: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url(${dropdown});
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.8em top 50%, 0 0;
+`
 
 const DateInput = ({ text, dateInputNames, validate }) => (
   <Container>
@@ -185,7 +207,7 @@ const DateInput = ({ text, dateInputNames, validate }) => (
           key={`date-${index}`}
           name={name}
           component={NumberInput}
-          placeholder={index === 0 ? "Day" : index === 1 ? "Month" : "Year"}
+          placeholder={index === 0 ? "DD" : index === 1 ? "MM" : "YYYY"}
           validate={validate}
           type="number"
         />
