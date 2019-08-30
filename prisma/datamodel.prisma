@@ -4,6 +4,7 @@ type Employer {
   slug: String! @unique
   user: [User!]
   eligibilityCriteria: EligibilityCriteria @relation(onDelete: CASCADE)
+  emailSuffix: String! @unique
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }

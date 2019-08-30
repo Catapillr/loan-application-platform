@@ -318,6 +318,8 @@ export type EmployerOrderByInput =
   | "name_DESC"
   | "slug_ASC"
   | "slug_DESC"
+  | "emailSuffix_ASC"
+  | "emailSuffix_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "createdAt_ASC"
@@ -413,6 +415,7 @@ export interface EligibilityCriteriaUpdateOneInput {
 export type EmployerWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   slug?: Maybe<String>;
+  emailSuffix?: Maybe<String>;
 }>;
 
 export interface UserUpdateManyDataInput {
@@ -693,6 +696,7 @@ export interface EmployerUpdateWithoutUserDataInput {
   name?: Maybe<String>;
   slug?: Maybe<String>;
   eligibilityCriteria?: Maybe<EligibilityCriteriaUpdateOneInput>;
+  emailSuffix?: Maybe<String>;
 }
 
 export interface EligibilityCriteriaUpdateManyMutationInput {
@@ -865,6 +869,7 @@ export interface EmployerCreateWithoutUserInput {
   name: String;
   slug: String;
   eligibilityCriteria?: Maybe<EligibilityCriteriaCreateOneInput>;
+  emailSuffix: String;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutEmployerInput {
@@ -895,6 +900,7 @@ export interface EmployerCreateInput {
   slug: String;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
   eligibilityCriteria?: Maybe<EligibilityCriteriaCreateOneInput>;
+  emailSuffix: String;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
@@ -913,6 +919,7 @@ export interface UserCreateManyWithoutEmployerInput {
 export interface EmployerUpdateManyMutationInput {
   name?: Maybe<String>;
   slug?: Maybe<String>;
+  emailSuffix?: Maybe<String>;
 }
 
 export interface UserCreateWithoutEmployerInput {
@@ -993,6 +1000,20 @@ export interface EmployerWhereInput {
   user_some?: Maybe<UserWhereInput>;
   user_none?: Maybe<UserWhereInput>;
   eligibilityCriteria?: Maybe<EligibilityCriteriaWhereInput>;
+  emailSuffix?: Maybe<String>;
+  emailSuffix_not?: Maybe<String>;
+  emailSuffix_in?: Maybe<String[] | String>;
+  emailSuffix_not_in?: Maybe<String[] | String>;
+  emailSuffix_lt?: Maybe<String>;
+  emailSuffix_lte?: Maybe<String>;
+  emailSuffix_gt?: Maybe<String>;
+  emailSuffix_gte?: Maybe<String>;
+  emailSuffix_contains?: Maybe<String>;
+  emailSuffix_not_contains?: Maybe<String>;
+  emailSuffix_starts_with?: Maybe<String>;
+  emailSuffix_not_starts_with?: Maybe<String>;
+  emailSuffix_ends_with?: Maybe<String>;
+  emailSuffix_not_ends_with?: Maybe<String>;
   updatedAt?: Maybe<DateTimeInput>;
   updatedAt_not?: Maybe<DateTimeInput>;
   updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1103,6 +1124,7 @@ export interface EmployerUpdateInput {
   slug?: Maybe<String>;
   user?: Maybe<UserUpdateManyWithoutEmployerInput>;
   eligibilityCriteria?: Maybe<EligibilityCriteriaUpdateOneInput>;
+  emailSuffix?: Maybe<String>;
 }
 
 export interface VerificationTokenSubscriptionWhereInput {
@@ -1839,6 +1861,7 @@ export interface Employer {
   id: ID_Output;
   name: String;
   slug: String;
+  emailSuffix: String;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -1857,6 +1880,7 @@ export interface EmployerPromise extends Promise<Employer>, Fragmentable {
     last?: Int;
   }) => T;
   eligibilityCriteria: <T = EligibilityCriteriaPromise>() => T;
+  emailSuffix: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -1877,6 +1901,7 @@ export interface EmployerSubscription
     last?: Int;
   }) => T;
   eligibilityCriteria: <T = EligibilityCriteriaSubscription>() => T;
+  emailSuffix: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1897,6 +1922,7 @@ export interface EmployerNullablePromise
     last?: Int;
   }) => T;
   eligibilityCriteria: <T = EligibilityCriteriaPromise>() => T;
+  emailSuffix: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -1979,6 +2005,7 @@ export interface EmployerPreviousValues {
   id: ID_Output;
   name: String;
   slug: String;
+  emailSuffix: String;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -1989,6 +2016,7 @@ export interface EmployerPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   slug: () => Promise<String>;
+  emailSuffix: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -1999,6 +2027,7 @@ export interface EmployerPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   slug: () => Promise<AsyncIterator<String>>;
+  emailSuffix: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }

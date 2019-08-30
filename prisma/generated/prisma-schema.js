@@ -181,6 +181,7 @@ type Employer {
   slug: String!
   user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   eligibilityCriteria: EligibilityCriteria
+  emailSuffix: String!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -197,6 +198,7 @@ input EmployerCreateInput {
   slug: String!
   user: UserCreateManyWithoutEmployerInput
   eligibilityCriteria: EligibilityCriteriaCreateOneInput
+  emailSuffix: String!
 }
 
 input EmployerCreateOneWithoutUserInput {
@@ -209,6 +211,7 @@ input EmployerCreateWithoutUserInput {
   name: String!
   slug: String!
   eligibilityCriteria: EligibilityCriteriaCreateOneInput
+  emailSuffix: String!
 }
 
 type EmployerEdge {
@@ -223,6 +226,8 @@ enum EmployerOrderByInput {
   name_DESC
   slug_ASC
   slug_DESC
+  emailSuffix_ASC
+  emailSuffix_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -233,6 +238,7 @@ type EmployerPreviousValues {
   id: ID!
   name: String!
   slug: String!
+  emailSuffix: String!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -260,11 +266,13 @@ input EmployerUpdateInput {
   slug: String
   user: UserUpdateManyWithoutEmployerInput
   eligibilityCriteria: EligibilityCriteriaUpdateOneInput
+  emailSuffix: String
 }
 
 input EmployerUpdateManyMutationInput {
   name: String
   slug: String
+  emailSuffix: String
 }
 
 input EmployerUpdateOneRequiredWithoutUserInput {
@@ -278,6 +286,7 @@ input EmployerUpdateWithoutUserDataInput {
   name: String
   slug: String
   eligibilityCriteria: EligibilityCriteriaUpdateOneInput
+  emailSuffix: String
 }
 
 input EmployerUpsertWithoutUserInput {
@@ -332,6 +341,20 @@ input EmployerWhereInput {
   user_some: UserWhereInput
   user_none: UserWhereInput
   eligibilityCriteria: EligibilityCriteriaWhereInput
+  emailSuffix: String
+  emailSuffix_not: String
+  emailSuffix_in: [String!]
+  emailSuffix_not_in: [String!]
+  emailSuffix_lt: String
+  emailSuffix_lte: String
+  emailSuffix_gt: String
+  emailSuffix_gte: String
+  emailSuffix_contains: String
+  emailSuffix_not_contains: String
+  emailSuffix_starts_with: String
+  emailSuffix_not_starts_with: String
+  emailSuffix_ends_with: String
+  emailSuffix_not_ends_with: String
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]
@@ -356,6 +379,7 @@ input EmployerWhereInput {
 input EmployerWhereUniqueInput {
   id: ID
   slug: String
+  emailSuffix: String
 }
 
 type Loan {

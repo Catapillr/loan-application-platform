@@ -2,11 +2,9 @@ import Head from "next/head"
 import styled from "styled-components"
 import axios from "axios"
 
-import Nav from "../components/nav"
-
 const Container = styled.div``
 
-const Home = ({ allUsers }) => (
+const Home = () => (
   <Container>
     <Head>
       <title>Catapillr</title>

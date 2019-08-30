@@ -11,42 +11,12 @@ const Container = styled.main.attrs(() => ({
 const Questions = ({ title, questions, formWidth, values }) => (
   <Container width={formWidth}>
     <Heading className="mb-10">{title}</Heading>
-    {questions.map(
-      (
-        {
-          text,
-          dateInputNames,
-          component,
-          fieldType,
-          name,
-          width,
-          placeholder,
-          max,
-          options,
-        },
-        index
-      ) =>
-        dateInputNames ? (
-          <DateInput
-            key={`date-input-${index}`}
-            text={text}
-            dateInputNames={dateInputNames}
-            component={component}
-          />
-        ) : (
-          <Input
-            key={`input-${index}`}
-            text={text}
-            component={component}
-            fieldType={fieldType}
-            name={name}
-            width={width}
-            placeholder={placeholder}
-            max={max}
-            values={values}
-            options={options}
-          />
-        )
+    {questions.map((attrs, index) =>
+      attrs.dateInputNames ? (
+        <DateInput key={`date-input-${index}`} {...attrs} values={values} />
+      ) : (
+        <Input key={`input-${index}`} {...attrs} values={values} />
+      )
     )}
   </Container>
 )

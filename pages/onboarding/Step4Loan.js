@@ -1,4 +1,3 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 
 import Questions from "./Questions"
@@ -18,7 +17,7 @@ const Step4 = ({ employer, values }) => {
           text: "How much would you like to borrow?",
           name: "loanAmount",
           component: RangeInput,
-          fieldType: "range",
+          type: "range",
           width: "full",
           max: employer.maximumAmount,
         },
