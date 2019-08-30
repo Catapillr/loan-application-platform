@@ -27,38 +27,50 @@ const validation = Yup.object().shape({
   ),
 })
 
-const Step2 = () => (
-  <Questions
-    title="We need a few details from you to verify that you are eligible"
-    questions={[
-      {
-        text: "When did you start working for your employer?",
-        dateInputNames: [
-          "employmentStartDay",
-          "employmentStartMonth",
-          "employmentStartYear",
-        ],
-        component: TextInput,
-        name: "employmentStart",
-      },
-      {
-        text: "Please enter your work email:",
-        name: "email",
-        component: TextInput,
-        className: "",
-        width: "full",
-      },
-      {
-        text: "I confirm that my current role is permanent:",
-        name: "permanentRole",
-        className: "",
-        fieldType: "checkbox",
-        width: "full",
-      },
-    ]}
-  />
-)
+const validateEmail = (emailSuffix, value) => {
+  let error
+  if (!value.endsWith(emailSuffix)) {
+    error = "Sorry! You need a work email address to sign up."
+  }
+  return error
+}
+
+const Step2 = ({ employer: { emailSuffix } }) => {
+  return (
+    <Questions
+      title="We need a few details from you to verify that you are eligible"
+      questions={[
+        {
+          text: "When did you start working for your employer?",
+          dateInputNames: [
+            "employmentStartDay",
+            "employmentStartMonth",
+            "employmentStartYear",
+          ],
+          component: TextInput,
+          name: "employmentStart",
+        },
+        {
+          text: "Please enter your work email:",
+          name: "email",
+          component: TextInput,
+          className: "",
+          width: "full",
+          validate: value => validateEmail(emailSuffix, value),
+        },
+        {
+          text: "I confirm that my current role is permanent:",
+          name: "permanentRole",
+          className: "",
+          fieldType: "checkbox",
+          width: "full",
+        },
+      ]}
+    />
+  )
+}
 
 Step2.validationSchema = validation
 
+console.log("Step2", Step2)
 export default Step2
