@@ -1,5 +1,5 @@
 import React, { useState, Children } from "react"
-import { Formik, Form } from "formik"
+import { Formik, Form, Field } from "formik"
 import styled from "styled-components"
 import axios from "axios"
 
@@ -10,6 +10,8 @@ import Step4 from "./onboarding/Step4Loan"
 import Step5 from "./onboarding/Step5Accuracy"
 import Step6 from "./onboarding/Step6Personal"
 import Step7 from "./onboarding/Step7Personal"
+
+import DebugFormik from "../components/DebugFormik"
 
 const initialValues = {
   employmentStartDay: "",
@@ -119,6 +121,8 @@ const Wizard = ({ children, employer }) => {
       {({ isValid, isSubmitting, validateForm }) => {
         const isDisabled = !isValid || isSubmitting
 
+        const debugging = false
+
         return (
           <Container>
             <Header>
@@ -136,6 +140,15 @@ const Wizard = ({ children, employer }) => {
                 validateForm={validateForm}
               />
             </Footer>
+            {debugging && (
+              <Field>
+                {({ field }) => (
+                  <DebugFormik title="Stored Formik values">
+                    {JSON.stringify(field.value, null, 2)}
+                  </DebugFormik>
+                )}
+              </Field>
+            )}
           </Container>
         )
       }}
