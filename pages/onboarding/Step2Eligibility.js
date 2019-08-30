@@ -1,7 +1,7 @@
 import * as Yup from "yup" //eslint-disable-line
 
 import Questions from "./Questions"
-import { TextInput } from "../../components/Input"
+import { TextInput, CheckboxInput } from "../../components/Input"
 
 const validation = Yup.object().shape({
   email: Yup.string()
@@ -49,7 +49,8 @@ const Step2 = () => (
         text: "I confirm that my current role is permanent:",
         name: "permanentRole",
         className: "",
-        fieldType: "checkbox",
+        type: "checkbox",
+        component: CheckboxInput,
       },
     ]}
   />

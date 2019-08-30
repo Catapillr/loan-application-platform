@@ -17,7 +17,7 @@ const Step4 = ({ employer }) => {
           text: "How much would you like to borrow?",
           name: "loanAmount",
           component: RangeInput,
-          fieldType: "range",
+          type: "range",
           width: "full",
           max: employer.maximumAmount,
         },

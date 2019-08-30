@@ -17,7 +17,7 @@ const Questions = ({ title, questions, formWidth }) => (
           text,
           dateInputNames,
           component,
-          fieldType,
+          type,
           name,
           width,
           placeholder,
@@ -30,14 +30,13 @@ const Questions = ({ title, questions, formWidth }) => (
             key={`date-input-${index}`}
             text={text}
             dateInputNames={dateInputNames}
-            component={component}
           />
         ) : (
           <Input
             key={`input-${index}`}
             text={text}
             component={component}
-            fieldType={fieldType}
+            type={type}
             name={name}
             width={width}
             placeholder={placeholder}
