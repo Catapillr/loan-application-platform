@@ -1,4 +1,4 @@
-import * as Yup from "yup" //eslint-disable-line
+import * as Yup from "yup"
 
 import Questions from "./Questions"
 import { TextInput, CheckboxInput } from "../../components/Input"
