@@ -21,6 +21,7 @@ const Questions = ({ title, questions, formWidth }) => (
           name,
           width,
           placeholder,
+          max,
         },
         index
       ) =>
@@ -40,6 +41,7 @@ const Questions = ({ title, questions, formWidth }) => (
             name={name}
             width={width}
             placeholder={placeholder}
+            max={max}
           />
         )
     )}
