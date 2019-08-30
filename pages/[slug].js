@@ -15,9 +15,9 @@ import Step6 from "./onboarding/Step6Personal"
 import Step7 from "./onboarding/Step7Personal"
 
 const initialValues = {
-  employmentStartDay: 0,
-  employmentStartMonth: 0,
-  employmentStartYear: 0,
+  employmentStartDay: undefined,
+  employmentStartMonth: undefined,
+  employmentStartYear: undefined,
   email: undefined,
   emailCode: undefined,
   permanentRole: false,
@@ -25,9 +25,9 @@ const initialValues = {
   loanTerms: 0,
   firstName: "",
   lastName: "",
-  dobDay: 0,
-  dobMonth: 0,
-  dobYear: 0,
+  dobDay: undefined,
+  dobMonth: undefined,
+  dobYear: undefined,
   nationality: "",
   employeeID: "",
   phoneNumber: "",
