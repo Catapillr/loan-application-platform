@@ -14,9 +14,7 @@ import Step7 from "../components/onboarding/Step7Personal"
 import DebugFormik from "../components/DebugFormik"
 
 const initialValues = {
-  employmentStartDay: "",
-  employmentStartMonth: "",
-  employmentStartYear: "",
+  employmentStartDate: { day: "", month: "", year: "" },
   email: "",
   emailCode: "",
   permanentRole: false,
@@ -24,9 +22,7 @@ const initialValues = {
   loanTerms: "",
   firstName: "",
   lastName: "",
-  dobDay: "",
-  dobMonth: "",
-  dobYear: "",
+  dob: { day: "", month: "", year: "" },
   nationality: "",
   employeeID: "",
   phoneNumber: "",

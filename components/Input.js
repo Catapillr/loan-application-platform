@@ -197,30 +197,36 @@ const StyledDropdown = styled(Field).attrs({
   background-position: right 0.8em top 50%, 0 0;
 `
 
-const DateInput = ({ text, dateInputNames, validate }) => (
+const DateInput = ({ text, validate, name }) => (
   <Container>
     {text && <Label>{text}</Label>}
 
     <div className="flex justify-between pr-10">
-      {dateInputNames.map((name, index) => (
-        <Field
-          key={`date-${index}`}
-          name={name}
-          component={NumberInput}
-          placeholder={index === 0 ? "DD" : index === 1 ? "MM" : "YYYY"}
-          validate={validate}
-          type="number"
-        />
-      ))}
+      <Field
+        name={`${name}.day`}
+        component={NumberInput}
+        placeholder={"Day"}
+        validate={validate}
+        type="number"
+      />
+      <Field
+        name={`${name}.month`}
+        component={NumberInput}
+        placeholder={"Month"}
+        type="number"
+      />
+      <Field
+        name={`${name}.year`}
+        component={NumberInput}
+        placeholder={"Year"}
+        type="number"
+      />
     </div>
 
-    {dateInputNames.map((name, index) => (
-      <ErrorMessage
-        key={`error-${index}`}
-        name={name}
-        render={msg => <Error>{msg}</Error>}
-      />
-    ))}
+    <ErrorMessage
+      name={`${name}.day`}
+      render={msg => <Error>{msg}</Error>}
+    ></ErrorMessage>
   </Container>
 )
 

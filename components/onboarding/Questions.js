@@ -12,8 +12,8 @@ const Questions = ({ title, questions, formWidth, values }) => (
   <Container width={formWidth}>
     <Heading className="mb-10">{title}</Heading>
     {questions.map((attrs, index) =>
-      attrs.dateInputNames ? (
-        <DateInput key={`date-input-${index}`} {...attrs} values={values} />
+      attrs.date ? (
+        <DateInput key={`input-${index}`} {...attrs} />
       ) : (
         <Input key={`input-${index}`} {...attrs} values={values} />
       )
