@@ -12,15 +12,12 @@ const Questions = ({ title, questions }) => (
   <Container>
     <Heading className="mb-10">{title}</Heading>
     {questions.map(
-      (
-        { text, dateInputNames, component, fieldType, name, width, validate },
-        index
-      ) =>
-        dateInputNames ? (
+      ({ text, date, component, fieldType, name, width, validate }, index) =>
+        date ? (
           <DateInput
-            key={`date-input-${index}`}
+            key={`input-${index}`}
             text={text}
-            dateInputNames={dateInputNames}
+            name={name}
             component={component}
             validate={validate}
           />

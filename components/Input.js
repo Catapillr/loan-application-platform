@@ -1,5 +1,6 @@
-import { ErrorMessage, Field } from "formik"
+import { ErrorMessage, Field, FieldArray } from "formik"
 import styled from "styled-components"
+import * as R from "ramda"
 
 const TextInput = styled.input.attrs(({ field }) => {
   return {
@@ -44,31 +45,36 @@ const Input = ({
   )
 }
 
-const DateInput = ({ text, component, dateInputNames, validate }) => (
+const DateInput = ({ text, component, validate, name }) => (
   <Container>
     {text && <Label>{text}</Label>}
 
     <div className="flex justify-between">
-      {dateInputNames.map((name, index) => (
-        <Field
-          key={`date-${index}`}
-          name={name}
-          component={component}
-          placeholder={index === 0 ? "Day" : index === 1 ? "Month" : "Year"}
-          validate={validate}
-          type="number"
-          validate={validate}
-        />
-      ))}
+      <Field
+        name={`${name}.day`}
+        component={component}
+        placeholder={"Day"}
+        validate={validate}
+        type="number"
+      />
+      <Field
+        name={`${name}.month`}
+        component={component}
+        placeholder={"Month"}
+        type="number"
+      />
+      <Field
+        name={`${name}.year`}
+        component={component}
+        placeholder={"Year"}
+        type="number"
+      />
     </div>
 
-    {dateInputNames.map((name, index) => (
-      <ErrorMessage
-        key={`error-${index}`}
-        name={name}
-        render={msg => <Error>{msg}</Error>}
-      />
-    ))}
+    <ErrorMessage
+      name={`${name}.day`}
+      render={msg => <Error>{msg}</Error>}
+    ></ErrorMessage>
   </Container>
 )
 

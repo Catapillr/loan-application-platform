@@ -15,19 +15,15 @@ import Step6 from "./onboarding/Step6Personal"
 import Step7 from "./onboarding/Step7Personal"
 
 const initialValues = {
-  employmentStartDay: undefined,
-  employmentStartMonth: undefined,
-  employmentStartYear: undefined,
-  email: undefined,
-  emailCode: undefined,
+  employmentStartDate: { day: "", month: "", year: "" },
+  email: "",
+  emailCode: "",
   permanentRole: false,
   loanAmount: 0,
   loanTerms: 0,
   firstName: "",
   lastName: "",
-  dobDay: undefined,
-  dobMonth: undefined,
-  dobYear: undefined,
+  dob: { day: "", month: "", year: "" },
   nationality: "",
   employeeID: "",
   phoneNumber: "",
@@ -119,7 +115,7 @@ const Wizard = ({ children, employer }) => {
       enableReinitialize={false}
       validationSchema={validationSchema}
     >
-      {({ isValid, isSubmitting, validateForm }) => {
+      {({ isValid, isSubmitting, validateForm, values }) => {
         const isDisabled = !isValid || isSubmitting
 
         return (
@@ -128,7 +124,7 @@ const Wizard = ({ children, employer }) => {
               <Logo />
             </Header>
             <StyledForm>
-              {React.cloneElement(activePage, { setPage, employer })}
+              {React.cloneElement(activePage, { setPage, employer, values })}
             </StyledForm>
             <Footer>
               <Controls
