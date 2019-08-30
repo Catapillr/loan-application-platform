@@ -1,5 +1,3 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import { Heading } from "./styles"
 import * as Yup from "yup"
 
 import Questions from "./Questions"
@@ -72,5 +70,4 @@ const Step2 = ({ employer: { emailSuffix } }) => {
 
 Step2.validationSchema = validation
 
-console.log("Step2", Step2)
 export default Step2

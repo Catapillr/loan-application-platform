@@ -22,14 +22,7 @@ const Label = styled.label.attrs(({ name }) => ({
   htmlFor: name,
 }))``
 
-const Input = ({
-  text,
-  component,
-  fieldType = "text",
-  width,
-  name,
-  validate,
-}) => {
+const Input = ({ text, component, fieldType = "text", name, validate }) => {
   return (
     <Container>
       {text && <Label>{text}</Label>}
@@ -57,7 +50,6 @@ const DateInput = ({ text, component, dateInputNames, validate }) => (
           placeholder={index === 0 ? "Day" : index === 1 ? "Month" : "Year"}
           validate={validate}
           type="number"
-          validate={validate}
         />
       ))}
     </div>
