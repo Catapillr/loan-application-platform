@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "==next==": "------------------------------------------------------------------------------------------",
-    "dev": "node server.js",
+    "dev": "env-cmd -f ./.config/dev.env node server.js",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
     "==lint&format==": "-----------------------------------------------------------------------------------",
