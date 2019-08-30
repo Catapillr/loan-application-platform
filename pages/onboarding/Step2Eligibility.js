@@ -1,4 +1,3 @@
-import { Heading } from "./styles"
 import * as Yup from "yup"
 import * as moment from "moment"
 

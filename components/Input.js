@@ -1,6 +1,5 @@
-import { ErrorMessage, Field, FieldArray } from "formik"
+import { ErrorMessage, Field } from "formik"
 import styled from "styled-components"
-import * as R from "ramda"
 
 const TextInput = styled.input.attrs(({ field }) => {
   return {
@@ -23,14 +22,7 @@ const Label = styled.label.attrs(({ name }) => ({
   htmlFor: name,
 }))``
 
-const Input = ({
-  text,
-  component,
-  fieldType = "text",
-  width,
-  name,
-  validate,
-}) => {
+const Input = ({ text, component, fieldType = "text", name, validate }) => {
   return (
     <Container>
       {text && <Label>{text}</Label>}

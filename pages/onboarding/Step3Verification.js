@@ -1,5 +1,3 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import { Heading } from "./styles"
 import * as Yup from "yup"
 
 import Questions from "./Questions"
