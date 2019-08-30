@@ -8,7 +8,7 @@ const Container = styled.main.attrs(() => ({
   width: ${({ width }) => (width ? `${width}%` : "50%")};
 `
 
-const Questions = ({ title, questions, formWidth }) => (
+const Questions = ({ title, questions, formWidth, values }) => (
   <Container width={formWidth}>
     <Heading className="mb-10">{title}</Heading>
     {questions.map(
@@ -22,6 +22,7 @@ const Questions = ({ title, questions, formWidth }) => (
           width,
           placeholder,
           max,
+          options,
         },
         index
       ) =>
@@ -42,6 +43,8 @@ const Questions = ({ title, questions, formWidth }) => (
             width={width}
             placeholder={placeholder}
             max={max}
+            values={values}
+            options={options}
           />
         )
     )}
