@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Input, DateInput } from "../../components/Input"
-import { Heading, Copy } from "./styles"
+import { Heading } from "./styles"
 
 const Container = styled.main.attrs(() => ({
   className: "w-2/4 flex flex-wrap m-auto",

@@ -1,5 +1,3 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import * as Yup from "yup"
 import { Heading, Copy, Button } from "./styles"
 
 const Step5 = ({ setPage }) => (

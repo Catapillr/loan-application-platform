@@ -1,7 +1,4 @@
-import Head from "next/head"
-import { useRouter } from "next/router"
-
-import { useState, useEffect, Children } from "react"
+import React, { useState } from "react"
 import { Formik, Form } from "formik"
 import styled from "styled-components"
 import axios from "axios"
@@ -108,9 +105,9 @@ const Logo = styled.img.attrs(() => ({
 
 const Wizard = ({ children, employer }) => {
   const [page, setPage] = useState(1)
-  const [pageAmount, setPageAmount] = useState(children.length)
+  const [pageAmount] = useState(children.length)
 
-  const activePage = Children.toArray(children)[page - 1]
+  const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
 
   return (
