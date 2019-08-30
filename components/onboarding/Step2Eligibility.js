@@ -1,7 +1,7 @@
 import * as Yup from "yup"
 
 import Questions from "./Questions"
-import { TextInput } from "../../components/Input"
+import { TextInput, CheckboxInput } from "../../components/Input"
 
 const validation = Yup.object().shape({
   email: Yup.string()
@@ -51,17 +51,18 @@ const Step2 = ({ employer: { emailSuffix } }) => {
         {
           text: "Please enter your work email:",
           name: "email",
+          type: "email",
           component: TextInput,
           className: "",
-          width: "full",
           validate: value => validateEmail(emailSuffix, value),
+          placeholder: "E.g. dan@example.com",
         },
         {
           text: "I confirm that my current role is permanent:",
           name: "permanentRole",
           className: "",
-          fieldType: "checkbox",
-          width: "full",
+          type: "checkbox",
+          component: CheckboxInput,
         },
       ]}
     />
