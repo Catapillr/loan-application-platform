@@ -24,6 +24,7 @@ const Input = ({
   type = "text",
   name,
   validate,
+  placeholder,
   max,
   values,
   options,
@@ -48,7 +49,7 @@ const Input = ({
           name={name}
           max={max}
           min="0"
-          value={values[name]}
+          placeholder={placeholder}
         />
       )}
       {type === "range" && (
@@ -206,7 +207,7 @@ const DateInput = ({ text, dateInputNames, validate }) => (
           key={`date-${index}`}
           name={name}
           component={NumberInput}
-          placeholder={index === 0 ? "Day" : index === 1 ? "Month" : "Year"}
+          placeholder={index === 0 ? "DD" : index === 1 ? "MM" : "YYYY"}
           validate={validate}
           type="number"
         />
