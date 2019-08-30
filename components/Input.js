@@ -4,11 +4,18 @@ import styled from "styled-components"
 const TextInput = styled.input.attrs(({ field }) => {
   return {
     className:
-      "py-3 border-solid border-2 border-midgray rounded-full text-center",
+      "mr-10 border-solid border-2 border-midgray rounded-full py-2d5 px-9",
     ...field,
   }
 })``
 
+const NumberInput = styled.input.attrs(({ field }) => {
+  return {
+    className:
+      "border-solid border-2 border-midgray rounded-full py-2d5 text-center",
+    ...field,
+  }
+})``
 const Container = styled.div.attrs(({ text, width }) => ({
   className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
 }))``
@@ -32,16 +39,16 @@ const Input = ({ text, component, fieldType = "text", width, name }) => {
   )
 }
 
-const DateInput = ({ text, component, dateInputNames, name, ...props }) => (
+const DateInput = ({ text, dateInputNames }) => (
   <Container>
     {text && <Label>{text}</Label>}
 
-    <div className="flex justify-between">
+    <div className="flex justify-between pr-10">
       {dateInputNames.map((name, index) => (
         <Field
           key={`date-${index}`}
           name={name}
-          component={component}
+          component={NumberInput}
           placeholder={index === 0 ? "Day" : index === 1 ? "Month" : "Year"}
           type="number"
         />

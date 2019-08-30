@@ -1,6 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import { Heading } from "./styles"
-import * as Yup from "yup"
+import * as Yup from "yup" //eslint-disable-line
 
 import Questions from "./Questions"
 import { TextInput } from "../../components/Input"
@@ -38,7 +36,6 @@ const Step2 = () => (
           "employmentStartMonth",
           "employmentStartYear",
         ],
-        component: TextInput,
         name: "employmentStart",
       },
       {
@@ -46,14 +43,13 @@ const Step2 = () => (
         name: "email",
         component: TextInput,
         className: "",
-        width: "full",
+        placeholder: "E.g. dan@example.com",
       },
       {
         text: "I confirm that my current role is permanent:",
         name: "permanentRole",
         className: "",
         fieldType: "checkbox",
-        width: "full",
       },
     ]}
   />
