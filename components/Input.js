@@ -17,11 +17,17 @@ const Label = styled.label.attrs(({ name }) => ({
   htmlFor: name,
 }))``
 
-const Input = ({ text, component, type = "text", name, max }) => {
+const Input = ({ text, component, type = "text", name, validate, max }) => {
   return (
     <Container text={text}>
       {text && <Label>{text}</Label>}
-      <Field type={type} component={component} name={name} max={max} />
+      <Field
+        type={type}
+        component={component}
+        name={name}
+        validate={validate}
+        max={max}
+      />
       <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
     </Container>
   )
@@ -169,7 +175,7 @@ const NumberInput = styled.input.attrs(({ field }) => {
   }
 })``
 
-const DateInput = ({ text, dateInputNames }) => (
+const DateInput = ({ text, dateInputNames, validate }) => (
   <Container>
     {text && <Label>{text}</Label>}
 
@@ -180,6 +186,7 @@ const DateInput = ({ text, dateInputNames }) => (
           name={name}
           component={NumberInput}
           placeholder={index === 0 ? "Day" : index === 1 ? "Month" : "Year"}
+          validate={validate}
           type="number"
         />
       ))}
