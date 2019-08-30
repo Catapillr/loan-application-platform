@@ -1,10 +1,11 @@
 const webpack = require("webpack") //eslint-disable-line
 const path = require("path") //eslint-disable-line
 const withPlugins = require("next-compose-plugins")
+const withImages = require("next-images")
 const withCSS = require("@zeit/next-css")
 const withFonts = require("next-fonts")
 
-module.exports = withPlugins([withCSS, withFonts], {
+module.exports = withPlugins([withImages, withCSS, withFonts], {
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
