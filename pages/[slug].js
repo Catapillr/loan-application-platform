@@ -1,23 +1,25 @@
 import React, { useState } from "react"
-import { Formik, Form } from "formik"
+import { Formik, Form, Field } from "formik"
 import styled from "styled-components"
 import axios from "axios"
 
-import Step1 from "./onboarding/Step1Welcome"
-import Step2 from "./onboarding/Step2Eligibility"
-import Step3 from "./onboarding/Step3Verification"
-import Step4 from "./onboarding/Step4Loan"
-import Step5 from "./onboarding/Step5Accuracy"
-import Step6 from "./onboarding/Step6Personal"
-import Step7 from "./onboarding/Step7Personal"
+import Step1 from "../components/onboarding/Step1Welcome"
+import Step2 from "../components/onboarding/Step2Eligibility"
+import Step3 from "../components/onboarding/Step3Verification"
+import Step4 from "../components/onboarding/Step4Loan"
+import Step5 from "../components/onboarding/Step5Accuracy"
+import Step6 from "../components/onboarding/Step6Personal"
+import Step7 from "../components/onboarding/Step7Personal"
+
+import DebugFormik from "../components/DebugFormik"
 
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
   email: "",
   emailCode: "",
   permanentRole: false,
-  loanAmount: 0,
-  loanTerms: 0,
+  loanAmount: "",
+  loanTerms: "",
   firstName: "",
   lastName: "",
   dob: { day: "", month: "", year: "" },
@@ -115,6 +117,8 @@ const Wizard = ({ children, employer }) => {
       {({ isValid, isSubmitting, validateForm, values }) => {
         const isDisabled = !isValid || isSubmitting
 
+        const debugging = false
+
         return (
           <Container>
             <Header>
@@ -132,6 +136,15 @@ const Wizard = ({ children, employer }) => {
                 validateForm={validateForm}
               />
             </Footer>
+            {debugging && (
+              <Field>
+                {({ field }) => (
+                  <DebugFormik title="Stored Formik values">
+                    {JSON.stringify(field.value, null, 2)}
+                  </DebugFormik>
+                )}
+              </Field>
+            )}
           </Container>
         )
       }}
@@ -156,7 +169,7 @@ const Onboarding = ({ employer }) => {
 Onboarding.getInitialProps = async ({ req }) => {
   const slug = req.originalUrl.slice(1)
   const res = await axios(
-    `http://localhost:3000/api/get-employer-from-slug?${slug}`
+    `${process.env.HOST}/api/get-employer-from-slug?${slug}`
   )
 
   const {

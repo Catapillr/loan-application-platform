@@ -4,7 +4,7 @@ import axios from "axios"
 
 const Container = styled.div``
 
-const Home = () => (
+const Home = ({ allUsers }) => (
   <Container>
     <Head>
       <title>Catapillr</title>
@@ -24,14 +24,13 @@ const Home = () => (
         crossOrigin={true}
       />
     </Head>
+    <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
   </Container>
 )
 
 Home.getInitialProps = async () => {
   // TODO: add variable for host in here
-  const res = await axios.get(
-    "https://catapillr-staging.herokuapp.com/api/get-users"
-  )
+  const res = await axios.get(`${process.env.HOST}/api/get-users`)
   const {
     data: { allUsers },
   } = res

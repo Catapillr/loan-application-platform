@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import * as moment from "moment"
 
 import Questions from "./Questions"
-import { TextInput } from "../../components/Input"
+import { TextInput, CheckboxInput } from "../../components/Input"
 
 const validation = Yup.object().shape({
   email: Yup.string()
@@ -55,24 +55,24 @@ const Step2 = ({
       {
         text: "When did you start working for your employer?",
         date: true,
-        component: TextInput,
         name: "employmentStartDate",
         validate: () => validateDate(minimumServiceLength, employmentStartDate),
       },
       {
         text: "Please enter your work email:",
         name: "email",
+        type: "email",
         component: TextInput,
         className: "",
-        width: "full",
         validate: value => validateEmail(emailSuffix, value),
+        placeholder: "e.g. dan@example.com",
       },
       {
         text: "I confirm that my current role is permanent:",
         name: "permanentRole",
         className: "",
-        fieldType: "checkbox",
-        width: "full",
+        type: "checkbox",
+        component: CheckboxInput,
       },
     ]}
   />
