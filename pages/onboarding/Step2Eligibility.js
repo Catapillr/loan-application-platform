@@ -28,6 +28,7 @@ const validateDate = (minimumServiceLength, { day, month, year }) => {
   const minimumServiceDate = moment().subtract(minimumServiceLength, "months")
 
   const dateIsValid = employmentStartDate.isValid()
+  const futureDate = employmentStartDate.isAfter(moment())
   const invalidStart = employmentStartDate.isAfter(minimumServiceDate)
 
   if (!day || !month || !year) {
@@ -35,6 +36,9 @@ const validateDate = (minimumServiceLength, { day, month, year }) => {
   }
   if (!dateIsValid) {
     return "That's not a valid date. Please check it again."
+  }
+  if (futureDate) {
+    return "That date is in the future!"
   }
   if (invalidStart) {
     return "Sorry, but you haven't been working long enough to qualify for a loan :( Come back soon!"
