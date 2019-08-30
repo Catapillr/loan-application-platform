@@ -8,14 +8,14 @@ const Container = styled.main.attrs(() => ({
   width: ${({ width }) => (width ? `${width}%` : "50%")};
 `
 
-const Questions = ({ title, questions, formWidth }) => (
+const Questions = ({ title, questions, formWidth, values }) => (
   <Container width={formWidth}>
     <Heading className="mb-10">{title}</Heading>
     {questions.map((attrs, index) =>
       attrs.date ? (
         <DateInput key={`input-${index}`} {...attrs} />
       ) : (
-        <Input key={`input-${index}`} {...attrs} />
+        <Input key={`input-${index}`} {...attrs} values={values} />
       )
     )}
   </Container>
