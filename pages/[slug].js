@@ -80,7 +80,7 @@ const Controls = ({
   )
 }
 
-const Footer = styled.div.attrs(() => ({}))``
+const Footer = styled.div.attrs({})``
 
 const Container = styled.div.attrs(() => ({
   className: "bg-white flex flex-col items-center justify-between",
@@ -90,16 +90,18 @@ const Container = styled.div.attrs(() => ({
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
 
-const Header = styled.div.attrs(() => ({
+const Header = styled.div.attrs({
   className: "pl-10 pt-8 w-full",
-}))``
-const StyledForm = styled(Form).attrs(() => ({
+})``
+const StyledForm = styled(Form).attrs({
   className: "",
-}))``
+})`
+  width: 70%;
+`
 
-const Logo = styled.img.attrs(() => ({
+const Logo = styled.img.attrs({
   src: "/static/logo_orange.svg",
-}))``
+})``
 
 const Wizard = ({ children, employer }) => {
   const [page, setPage] = useState(1)
@@ -114,10 +116,11 @@ const Wizard = ({ children, employer }) => {
       enableReinitialize={false}
       validationSchema={validationSchema}
     >
-      {({ isValid, isSubmitting, validateForm, values }) => {
+      {form => {
+        const { isValid, isSubmitting, validateForm } = form
         const isDisabled = !isValid || isSubmitting
 
-        const debugging = false
+        const debugging = true
 
         return (
           <Container>
@@ -125,7 +128,11 @@ const Wizard = ({ children, employer }) => {
               <Logo />
             </Header>
             <StyledForm>
-              {React.cloneElement(activePage, { setPage, employer, values })}
+              {React.cloneElement(activePage, {
+                setPage,
+                employer,
+                ...form,
+              })}
             </StyledForm>
             <Footer>
               <Controls
