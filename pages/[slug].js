@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Formik, Form, Field } from "formik"
 import styled from "styled-components"
 import axios from "axios"
@@ -30,53 +30,44 @@ const initialValues = {
   agreementStatus: "",
 }
 
-const Controls = ({
-  page,
-  pageAmount,
-  setPage,
-  isDisabled,
-  className,
-  validateForm,
-}) => {
+const Previous = ({ decrementPage }) => (
+  <button type="button" onClick={decrementPage}>
+    Previous
+  </button>
+)
+
+const Submit = ({ isDisabled }) => (
+  <button type="submit" disabled={isDisabled}>
+    Submit
+  </button>
+)
+
+const Next = ({ incrementPage, isDisabled }) => (
+  <button type="button" onClick={incrementPage} disabled={isDisabled}>
+    Next
+  </button>
+)
+
+const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
   const lastPage = page === pageAmount
 
   const incrementPage = () => {
     if (page < pageAmount) {
       setPage(page + 1)
-      return validateForm()
     }
   }
   const decrementPage = () => {
     if (page <= pageAmount && page > 1) {
       setPage(page - 1)
-      return validateForm()
     }
   }
 
-  const Previous = () => (
-    <button type="button" onClick={decrementPage}>
-      Previous
-    </button>
-  )
-
-  const Submit = () => <button disabled={isDisabled}>Submit</button>
-
-  const Next = () => (
-    <button type="button" onMouseDown={incrementPage} disabled={isDisabled}>
-      Next
-    </button>
-  )
-
-  const ControlsContainer = styled.section.attrs(() => ({
-    className: `${className}`,
-  }))``
-
   return (
-    <ControlsContainer>
-      <Previous />
-      {!lastPage && <Next />}
-      {lastPage && <Submit />}
-    </ControlsContainer>
+    <section className={className}>
+      <Previous {...{ decrementPage }} />
+      {!lastPage && <Next {...{ incrementPage, isDisabled }} />}
+      {lastPage && <Submit {...{ isDisabled }} />}
+    </section>
   )
 }
 
@@ -128,11 +119,15 @@ const Wizard = ({ children, employer }) => {
               <Logo />
             </Header>
             <StyledForm>
-              {React.cloneElement(activePage, {
-                setPage,
-                employer,
-                ...form,
-              })}
+              <RenderStep
+                component={React.cloneElement(activePage, {
+                  setPage,
+                  employer,
+                  ...form,
+                })}
+                validateForm={validateForm}
+                page={page}
+              ></RenderStep>
             </StyledForm>
             <Footer>
               <Controls
@@ -140,7 +135,6 @@ const Wizard = ({ children, employer }) => {
                 pageAmount={pageAmount}
                 setPage={setPage}
                 isDisabled={isDisabled}
-                validateForm={validateForm}
               />
             </Footer>
             {debugging && (
@@ -157,6 +151,14 @@ const Wizard = ({ children, employer }) => {
       }}
     </Formik>
   )
+}
+
+const RenderStep = ({ component, validateForm, page }) => {
+  useEffect(() => {
+    validateForm()
+  }, [page])
+
+  return <>{component}</>
 }
 
 const Onboarding = ({ employer }) => {
