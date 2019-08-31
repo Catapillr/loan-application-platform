@@ -9,9 +9,9 @@ const Container = styled.div.attrs(({ text, width }) => ({
   className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
 }))``
 
-const Error = styled.div.attrs(() => ({
-  className: "text-red",
-}))``
+const Error = styled.span.attrs({
+  className: "text-red absolute mt-1",
+})``
 
 const Label = styled.label.attrs(({ name }) => ({
   className: "block mb-5",
@@ -50,6 +50,7 @@ const Input = ({
           max={max}
           min="0"
           placeholder={placeholder}
+          validate={validate}
         />
       )}
       {type === "range" && (
@@ -57,15 +58,19 @@ const Input = ({
           {values[name] ? `£${values[name]}` : "£"}
         </div>
       )}
-      <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
+      <div className="relative">
+        <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
+      </div>
     </Container>
   )
 }
 
-const TextInput = styled.input.attrs(({ field }) => {
+const TextInput = styled.input.attrs(({ field, form: { errors, touched } }) => {
+  const { name } = field
   return {
-    className:
-      "mr-10 border-solid border-2 border-midgray rounded-full py-2d5 px-9",
+    className: `mr-10 border-solid border-2 rounded-full py-2d5 px-9 ${
+      errors[name] && touched[name] ? "border-red" : "border-midgray"
+    }`,
     ...field,
   }
 })``
@@ -96,7 +101,11 @@ const CheckboxContainer = styled.label`
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    border: 2px solid ${cssTheme("colors.midgray")};
+    border: 2px solid
+      ${({ errors, touched, name }) =>
+        errors[name] && touched[name]
+          ? cssTheme("colors.red")
+          : cssTheme("colors.midgray")};
   }
 
   /* When the checkbox is checked, add a blue background */
@@ -131,11 +140,11 @@ const AddHeight = styled.div`
   height: 30px;
 `
 
-const CheckboxInput = ({ type, field }) => {
+const CheckboxInput = ({ type, field, form }) => {
   return (
-    <CheckboxContainer>
+    <CheckboxContainer {...field} {...form}>
       <AddHeight></AddHeight>
-      <Checkbox type={type} {...field}></Checkbox>
+      <Checkbox type={type} {...field} {...form}></Checkbox>
       <span className="checkmark"></span>
     </CheckboxContainer>
   )
