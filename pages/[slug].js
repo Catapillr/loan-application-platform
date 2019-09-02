@@ -195,17 +195,19 @@ const Wizard = ({ children, employer }) => {
               ></RenderStep>
             </StyledForm>
             <Footer>
-              <Controls
-                {...{
-                  page,
-                  pageAmount,
-                  setPage,
-                  isDisabled,
-                  values,
-                  validateForm,
-                  submitForm,
-                }}
-              />
+              {page !== 1 && (
+                <Controls
+                  {...{
+                    page,
+                    pageAmount,
+                    setPage,
+                    isDisabled,
+                    values,
+                    validateForm,
+                    submitForm,
+                  }}
+                />
+              )}
             </Footer>
             {debugging && (
               <Field>
