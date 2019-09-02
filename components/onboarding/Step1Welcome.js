@@ -11,7 +11,7 @@ const Step1 = ({ setPage, employer }) => (
       employer!
     </Copy>
     <Button
-      className="text-white bg-teal text-center"
+      className="shadow-button text-white bg-teal text-center"
       onClick={() => setPage(2)}
     >
       Let's get started

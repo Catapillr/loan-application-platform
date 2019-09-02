@@ -18,7 +18,7 @@ const Step5 = ({ setPage }) => (
       this notice.
     </Copy>
     <Button
-      className="text-center text-white bg-teal"
+      className="text-center shadow-button text-white bg-teal"
       onClick={() => setPage(6)}
     >
       Accept and continue

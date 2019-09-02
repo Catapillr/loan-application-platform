@@ -81,5 +81,9 @@ module.exports = {
         '"Noto Color Emoji"',
       ],
     },
+    boxShadow: {
+      button:
+        "0 0 2px 1px rgba(0, 0, 0, 0.03), 0 6px 10px 2px rgba(20, 190, 203, 0.3)",
+    },
   },
 }
