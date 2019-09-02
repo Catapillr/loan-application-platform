@@ -155,30 +155,14 @@ const Logo = styled.img.attrs({
 const Wizard = ({ children, employer }) => {
   const [page, setPage] = useState(1)
   const [pageAmount] = useState(children.length)
-  const [shouldSubmit, setShouldSubmit] = useState(false)
-
-  useEffect(() => {
-    if (page === pageAmount) {
-      setShouldSubmit(true)
-    }
-  }, [page])
-
   const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
-  // console.log(validationSchema)
 
   return (
     <Formik
       initialValues={initialValues}
       enableReinitialize={false}
       validationSchema={validationSchema}
-      onSubmit={values => {
-        console.log("insubmit")
-        if (shouldSubmit) {
-          console.log("in propersubmit", values)
-        }
-      }}
-      // isInitialValid={true}
     >
       {form => {
         const {
@@ -189,12 +173,7 @@ const Wizard = ({ children, employer }) => {
           submitForm,
           setTouched,
         } = form
-        // console.log("values", values)
         const isDisabled = !isValid || isSubmitting
-        // console.log("isValid", isValid)
-        console.log("errors", form.errors)
-        console.log("touched", form.touched)
-        // console.log("page", page, "pageAmount", pageAmount)
 
         const debugging = false
 
@@ -214,9 +193,6 @@ const Wizard = ({ children, employer }) => {
                 page={page}
                 setTouched={setTouched}
               ></RenderStep>
-              {/* <button type="button" onClick={validateForm}>
-                Validate
-              </button> */}
             </StyledForm>
             <Footer>
               <Controls

@@ -77,7 +77,6 @@ const SummarySection = ({ heading, fields, values, setPage }) => {
 
 const Step8 = props => {
   const { values } = props
-  // console.log("props", props)
   return (
     <main className="flex justify-center items-start flex-col m-auto font-base">
       <Heading className="mb-2">Thanks {values.firstName}</Heading>
@@ -86,7 +85,6 @@ const Step8 = props => {
       </Heading>
       <SummaryContainer className="border border-midgray p-8 mt-10 w-full">
         {sections.map(section => {
-          // console.log("section", section)
           return (
             <SummarySection
               key={section.heading}
