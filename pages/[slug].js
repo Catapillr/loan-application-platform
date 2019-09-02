@@ -14,39 +14,39 @@ import Step8 from "../components/onboarding/Step8Summary"
 
 import DebugFormik from "../components/DebugFormik"
 
-// const initialValues = {
-//   employmentStartDate: { day: "", month: "", year: "" },
-//   email: "",
-//   emailCode: "",
-//   permanentRole: false,
-//   loanAmount: "",
-//   loanTerms: "",
-//   firstName: "",
-//   lastName: "",
-//   dob: { day: "", month: "", year: "" },
-//   nationality: "",
-//   employeeID: "",
-//   phoneNumber: "",
-//   confirmation: false,
-//   agreementStatus: "",
-// }
-
 const initialValues = {
-  employmentStartDate: { day: "22", month: "02", year: "2018" },
-  email: "ivan@infactcoop.com",
-  emailCode: "23234",
-  permanentRole: true,
-  loanAmount: "234",
-  loanTerms: "10",
-  firstName: "Ivan",
-  lastName: "Gonzalez",
-  dob: { day: "23", month: "03", year: "1989" },
-  nationality: "Colombian",
-  employeeID: "24",
-  phoneNumber: "834729743972",
+  employmentStartDate: { day: "", month: "", year: "" },
+  email: "",
+  emailCode: "",
+  permanentRole: false,
+  loanAmount: "",
+  loanTerms: "",
+  firstName: "",
+  lastName: "",
+  dob: { day: "", month: "", year: "" },
+  nationality: "",
+  employeeID: "",
+  phoneNumber: "",
   confirmation: false,
   agreementStatus: "",
 }
+
+// const initialValues = {
+//   employmentStartDate: { day: "22", month: "02", year: "2018" },
+//   email: "ivan@infactcoop.com",
+//   emailCode: "23234",
+//   permanentRole: true,
+//   loanAmount: "234",
+//   loanTerms: "10",
+//   firstName: "Ivan",
+//   lastName: "Gonzalez",
+//   dob: { day: "23", month: "03", year: "1989" },
+//   nationality: "Colombian",
+//   employeeID: "24",
+//   phoneNumber: "834729743972",
+//   confirmation: false,
+//   agreementStatus: "",
+// }
 
 const Previous = ({ decrementPage }) => (
   <button type="button" onClick={decrementPage}>
@@ -60,17 +60,26 @@ const Submit = ({ isDisabled }) => (
   </button>
 )
 
-const Next = ({ incrementPage, isDisabled, values, setPage, pageAmount }) =>
+const Next = ({
+  incrementPage,
+  isDisabled,
+  values,
+  setPage,
+  pageAmount,
+  submitForm,
+}) =>
   values.nationality ? (
     <button
       type="button"
-      onClick={() => setPage(pageAmount)}
-      disabled={isDisabled}
+      onClick={() => (isDisabled ? submitForm() : setPage(pageAmount))}
     >
       Summary
     </button>
   ) : (
-    <button type="button" onClick={incrementPage} disabled={isDisabled}>
+    <button
+      type="button"
+      onClick={() => (isDisabled ? submitForm() : incrementPage())}
+    >
       Next
     </button>
   )
@@ -82,6 +91,8 @@ const Controls = ({
   isDisabled,
   className,
   values,
+  validateForm,
+  submitForm,
 }) => {
   const lastPage = page === pageAmount
 
@@ -100,7 +111,17 @@ const Controls = ({
     <section className={className}>
       <Previous {...{ decrementPage }} />
       {!lastPage && (
-        <Next {...{ incrementPage, isDisabled, values, setPage, pageAmount }} />
+        <Next
+          {...{
+            incrementPage,
+            isDisabled,
+            values,
+            setPage,
+            pageAmount,
+            validateForm,
+            submitForm,
+          }}
+        />
       )}
       {lastPage && <Submit {...{ isDisabled }} />}
     </section>
@@ -134,27 +155,48 @@ const Logo = styled.img.attrs({
 const Wizard = ({ children, employer }) => {
   const [page, setPage] = useState(1)
   const [pageAmount] = useState(children.length)
+  const [shouldSubmit, setShouldSubmit] = useState(false)
+
+  useEffect(() => {
+    if (page === pageAmount) {
+      setShouldSubmit(true)
+    }
+  }, [page])
 
   const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
-  console.log(validationSchema)
+  // console.log(validationSchema)
 
   return (
     <Formik
       initialValues={initialValues}
       enableReinitialize={false}
       validationSchema={validationSchema}
-      isInitialValid={true}
+      onSubmit={values => {
+        console.log("insubmit")
+        if (shouldSubmit) {
+          console.log("in propersubmit", values)
+        }
+      }}
+      // isInitialValid={true}
     >
       {form => {
-        const { isValid, isSubmitting, validateForm, values } = form
+        const {
+          isValid,
+          isSubmitting,
+          validateForm,
+          values,
+          submitForm,
+          setTouched,
+        } = form
         // console.log("values", values)
         const isDisabled = !isValid || isSubmitting
-        console.log("isValid", isValid)
+        // console.log("isValid", isValid)
         console.log("errors", form.errors)
+        console.log("touched", form.touched)
         // console.log("page", page, "pageAmount", pageAmount)
 
-        const debugging = true
+        const debugging = false
 
         return (
           <Container>
@@ -170,18 +212,23 @@ const Wizard = ({ children, employer }) => {
                 })}
                 validateForm={validateForm}
                 page={page}
+                setTouched={setTouched}
               ></RenderStep>
-              <button type="button" onClick={validateForm}>
+              {/* <button type="button" onClick={validateForm}>
                 Validate
-              </button>
+              </button> */}
             </StyledForm>
             <Footer>
               <Controls
-                page={page}
-                pageAmount={pageAmount}
-                setPage={setPage}
-                isDisabled={isDisabled}
-                values={values}
+                {...{
+                  page,
+                  pageAmount,
+                  setPage,
+                  isDisabled,
+                  values,
+                  validateForm,
+                  submitForm,
+                }}
               />
             </Footer>
             {debugging && (
@@ -200,9 +247,9 @@ const Wizard = ({ children, employer }) => {
   )
 }
 
-const RenderStep = ({ component, validateForm, page }) => {
+const RenderStep = ({ component, validateForm, page, setTouched }) => {
   useEffect(() => {
-    console.log("validating form")
+    setTouched({})
     validateForm()
   }, [page])
 
