@@ -29,6 +29,7 @@ const ChooseInput = props => {
     errors,
     touched,
     name,
+    width,
   } = props
   switch (type) {
     case "select":
@@ -58,6 +59,7 @@ const ChooseInput = props => {
           min="0"
           placeholder={placeholder}
           validate={validate}
+          width={width}
         />
       )
   }
@@ -75,9 +77,10 @@ const Input = ({
   options,
   errors,
   touched,
+  width,
 }) => {
   return (
-    <Container text={text}>
+    <Container text={text} width={width}>
       {text && <Label>{text}</Label>}
       {
         <ChooseInput
@@ -93,6 +96,7 @@ const Input = ({
             options,
             errors,
             touched,
+            width,
           }}
         />
       }
@@ -108,15 +112,18 @@ const Input = ({
   )
 }
 
-const TextInput = styled.input.attrs(({ field, form: { errors, touched } }) => {
-  const { name } = field
-  return {
-    className: `mr-10 border-solid border-2 rounded-full py-2d5 px-9 ${
-      errors[name] && touched[name] ? "border-red" : "border-midgray"
-    }`,
-    ...field,
+const TextInput = styled.input.attrs(
+  ({ field, width, form: { errors, touched } }) => {
+    const { name } = field
+    return {
+      className: `${width === "full" &&
+        `mr-10`} border-solid border-2 rounded-full py-2d5 px-9 ${
+        errors[name] && touched[name] ? "border-red" : "border-midgray"
+      }`,
+      ...field,
+    }
   }
-})``
+)``
 
 const CheckboxContainer = styled.label`
   /* Customize the label (the container) */
