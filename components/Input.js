@@ -108,7 +108,7 @@ const Input = ({
       }
       {type === "range" && (
         <div className="border-2 border-midgray rounded-full py-2 px-4 mt-6 w-40 ">
-          {values[name] ? `£${values[name]}` : "£"}
+          {`£${values[name]}`}
         </div>
       )}
       <div className="relative">

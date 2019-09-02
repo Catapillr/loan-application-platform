@@ -1,6 +1,8 @@
 body {
   height: 100vh;
   -webkit-font-smoothing: antialiased;
+  font-size: theme("fontSize.base");
+  line-height: theme("lineHeight.base");
 }
 
 input[type="number"]::-webkit-inner-spin-button,
