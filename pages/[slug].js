@@ -104,7 +104,7 @@ const Controls = ({
           return incrementPage()
         }
       default:
-        return formCompleted ? () => incrementLastPage : submitForm
+        return formCompleted ? incrementLastPage : submitForm
     }
   }
 
