@@ -9,14 +9,59 @@ const Container = styled.div.attrs(({ text, width }) => ({
   className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
 }))``
 
-const Error = styled.div.attrs(() => ({
-  className: "text-red",
-}))``
+const Error = styled.span.attrs({
+  className: "text-red absolute mt-1",
+})``
 
 const Label = styled.label.attrs(({ name }) => ({
   className: "block mb-5",
   htmlFor: name,
 }))``
+
+const ChooseInput = props => {
+  const {
+    type,
+    options,
+    component,
+    max,
+    placeholder,
+    validate,
+    errors,
+    touched,
+    name,
+  } = props
+  switch (type) {
+    case "select":
+      return (
+        <StyledDropdown component="select" name={name}>
+          {options.map((option, index) => (
+            <option
+              key={`dropdown-${name}-${index}`}
+              value={option}
+              label={`${option} months`}
+            />
+          ))}
+        </StyledDropdown>
+      )
+    case "checkbox":
+      return (
+        <CheckboxInput {...{ errors, touched, name, type }}></CheckboxInput>
+      )
+
+    default:
+      return (
+        <Field
+          type={type}
+          component={component}
+          name={name}
+          max={max}
+          min="0"
+          placeholder={placeholder}
+          validate={validate}
+        />
+      )
+  }
+}
 
 const Input = ({
   text,
@@ -28,49 +73,50 @@ const Input = ({
   max,
   values,
   options,
+  errors,
+  touched,
 }) => {
   return (
     <Container text={text}>
       {text && <Label>{text}</Label>}
-      {type === "select" ? (
-        <StyledDropdown component="select" name={name}>
-          {options.map((option, index) => (
-            <option
-              key={`dropdown-${name}-${index}`}
-              value={option}
-              label={`${option} months`}
-            />
-          ))}
-        </StyledDropdown>
-      ) : (
-        <Field
-          type={type}
-          component={component}
-          name={name}
-          max={max}
-          min="0"
-          placeholder={placeholder}
+      {
+        <ChooseInput
+          {...{
+            text,
+            component,
+            type,
+            name,
+            validate,
+            placeholder,
+            max,
+            values,
+            options,
+            errors,
+            touched,
+          }}
         />
-      )}
+      }
       {type === "range" && (
         <div className="border-2 border-midgray rounded-full py-2 px-4 mt-6 w-40 ">
           {values[name] ? `£${values[name]}` : "£"}
         </div>
       )}
-      <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
+      <div className="relative">
+        <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
+      </div>
     </Container>
   )
 }
 
-const TextInput = styled.input.attrs(({ field }) => {
+const TextInput = styled.input.attrs(({ field, form: { errors, touched } }) => {
+  const { name } = field
   return {
-    className:
-      "mr-10 border-solid border-2 border-midgray rounded-full py-2d5 px-9",
+    className: `mr-10 border-solid border-2 rounded-full py-2d5 px-9 ${
+      errors[name] && touched[name] ? "border-red" : "border-midgray"
+    }`,
     ...field,
   }
 })``
-
-const Checkbox = styled.input.attrs()``
 
 const CheckboxContainer = styled.label`
   /* Customize the label (the container) */
@@ -96,7 +142,11 @@ const CheckboxContainer = styled.label`
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    border: 2px solid ${cssTheme("colors.midgray")};
+    border: 2px solid
+      ${({ errors, touched, name }) =>
+        errors[name] && touched[name]
+          ? cssTheme("colors.red")
+          : cssTheme("colors.midgray")};
   }
 
   /* When the checkbox is checked, add a blue background */
@@ -131,15 +181,15 @@ const AddHeight = styled.div`
   height: 30px;
 `
 
-const CheckboxInput = ({ type, field }) => {
-  return (
-    <CheckboxContainer>
-      <AddHeight></AddHeight>
-      <Checkbox type={type} {...field}></Checkbox>
-      <span className="checkmark"></span>
-    </CheckboxContainer>
-  )
-}
+const CheckboxInput = ({ errors, touched, name, type }) => (
+  <CheckboxContainer {...{ errors, touched, name }}>
+    <AddHeight></AddHeight>
+    <Field name={name}>
+      {({ field }) => <input type={type} {...field} checked={field.value} />}
+    </Field>
+    <span className="checkmark"></span>
+  </CheckboxContainer>
+)
 
 const RangeInput = styled.input.attrs(({ field }) => {
   return {
