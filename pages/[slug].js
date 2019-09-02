@@ -10,22 +10,40 @@ import Step4 from "../components/onboarding/Step4Loan"
 import Step5 from "../components/onboarding/Step5Accuracy"
 import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
+import Step8 from "../components/onboarding/Step8Summary"
 
 import DebugFormik from "../components/DebugFormik"
 
+// const initialValues = {
+//   employmentStartDate: { day: "", month: "", year: "" },
+//   email: "",
+//   emailCode: "",
+//   permanentRole: false,
+//   loanAmount: "",
+//   loanTerms: "",
+//   firstName: "",
+//   lastName: "",
+//   dob: { day: "", month: "", year: "" },
+//   nationality: "",
+//   employeeID: "",
+//   phoneNumber: "",
+//   confirmation: false,
+//   agreementStatus: "",
+// }
+
 const initialValues = {
-  employmentStartDate: { day: "", month: "", year: "" },
-  email: "",
-  emailCode: "",
-  permanentRole: false,
-  loanAmount: "",
-  loanTerms: "",
-  firstName: "",
-  lastName: "",
-  dob: { day: "", month: "", year: "" },
-  nationality: "",
-  employeeID: "",
-  phoneNumber: "",
+  employmentStartDate: { day: "22", month: "02", year: "2018" },
+  email: "ivan@infactcoop.com",
+  emailCode: "23234",
+  permanentRole: true,
+  loanAmount: "234",
+  loanTerms: "10",
+  firstName: "Ivan",
+  lastName: "Gonzalez",
+  dob: { day: "23", month: "03", year: "1989" },
+  nationality: "Colombian",
+  employeeID: "24",
+  phoneNumber: "834729743972",
   confirmation: false,
   agreementStatus: "",
 }
@@ -42,13 +60,29 @@ const Submit = ({ isDisabled }) => (
   </button>
 )
 
-const Next = ({ incrementPage, isDisabled }) => (
-  <button type="button" onClick={incrementPage} disabled={isDisabled}>
-    Next
-  </button>
-)
+const Next = ({ incrementPage, isDisabled, values, setPage, pageAmount }) =>
+  values.nationality ? (
+    <button
+      type="button"
+      onClick={() => setPage(pageAmount)}
+      disabled={isDisabled}
+    >
+      Summary
+    </button>
+  ) : (
+    <button type="button" onClick={incrementPage} disabled={isDisabled}>
+      Next
+    </button>
+  )
 
-const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
+const Controls = ({
+  page,
+  pageAmount,
+  setPage,
+  isDisabled,
+  className,
+  values,
+}) => {
   const lastPage = page === pageAmount
 
   const incrementPage = () => {
@@ -65,7 +99,9 @@ const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
   return (
     <section className={className}>
       <Previous {...{ decrementPage }} />
-      {!lastPage && <Next {...{ incrementPage, isDisabled }} />}
+      {!lastPage && (
+        <Next {...{ incrementPage, isDisabled, values, setPage, pageAmount }} />
+      )}
       {lastPage && <Submit {...{ isDisabled }} />}
     </section>
   )
@@ -73,9 +109,9 @@ const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
 
 const Footer = styled.div.attrs({})``
 
-const Container = styled.div.attrs(() => ({
+const Container = styled.div.attrs({
   className: "bg-white flex flex-col items-center justify-between",
-}))`
+})`
   width: 90%;
   height: 90%;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
@@ -88,6 +124,7 @@ const StyledForm = styled(Form).attrs({
   className: "",
 })`
   width: 70%;
+  max-width: 800px;
 `
 
 const Logo = styled.img.attrs({
@@ -100,18 +137,24 @@ const Wizard = ({ children, employer }) => {
 
   const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
+  console.log(validationSchema)
 
   return (
     <Formik
       initialValues={initialValues}
       enableReinitialize={false}
       validationSchema={validationSchema}
+      isInitialValid={true}
     >
       {form => {
-        const { isValid, isSubmitting, validateForm } = form
+        const { isValid, isSubmitting, validateForm, values } = form
+        // console.log("values", values)
         const isDisabled = !isValid || isSubmitting
+        console.log("isValid", isValid)
+        console.log("errors", form.errors)
+        // console.log("page", page, "pageAmount", pageAmount)
 
-        const debugging = false
+        const debugging = true
 
         return (
           <Container>
@@ -128,6 +171,9 @@ const Wizard = ({ children, employer }) => {
                 validateForm={validateForm}
                 page={page}
               ></RenderStep>
+              <button type="button" onClick={validateForm}>
+                Validate
+              </button>
             </StyledForm>
             <Footer>
               <Controls
@@ -135,6 +181,7 @@ const Wizard = ({ children, employer }) => {
                 pageAmount={pageAmount}
                 setPage={setPage}
                 isDisabled={isDisabled}
+                values={values}
               />
             </Footer>
             {debugging && (
@@ -155,6 +202,7 @@ const Wizard = ({ children, employer }) => {
 
 const RenderStep = ({ component, validateForm, page }) => {
   useEffect(() => {
+    console.log("validating form")
     validateForm()
   }, [page])
 
@@ -171,6 +219,7 @@ const Onboarding = ({ employer }) => {
       <Step5 />
       <Step6 />
       <Step7 />
+      <Step8 />
     </Wizard>
   )
 }
