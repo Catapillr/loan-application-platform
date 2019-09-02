@@ -37,20 +37,20 @@ const validateDate = ({ day, month, year }) => {
 
 const Step6 = ({ values: { dob } }) => (
   <Questions
-    formWidth="60"
+    formWidth="65"
     title="3.1 Your personal details"
     questions={[
       {
         text: "First name",
         name: "firstName",
         component: TextInput,
-        width: "50",
+        width: "1/2",
       },
       {
         text: "Last name",
         name: "lastName",
         component: TextInput,
-        width: "50",
+        width: "1/2",
       },
       {
         text: "What is your date of birth?",
