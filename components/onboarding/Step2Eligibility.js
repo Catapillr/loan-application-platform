@@ -51,6 +51,7 @@ const Step2 = ({
   ...rest
 }) => (
   <Questions
+    formWidth="70"
     title="We need a few details from you to verify that you are eligible"
     questions={[
       {

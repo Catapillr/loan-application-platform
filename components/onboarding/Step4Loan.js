@@ -24,8 +24,9 @@ const Step4 = ({ employer, values }) => {
         {
           text: "How long would you like to pay it back over?",
           name: "loanTerms",
-          options: [10, 11, 12],
+          options: ["Select months", 10, 11, 12],
           type: "select",
+          width: "5/6",
         },
       ]}
     />

@@ -29,18 +29,25 @@ const ChooseInput = props => {
     errors,
     touched,
     name,
+    width,
   } = props
   switch (type) {
     case "select":
       return (
-        <StyledDropdown component="select" name={name}>
-          {options.map((option, index) => (
-            <option
-              key={`dropdown-${name}-${index}`}
-              value={option}
-              label={`${option} months`}
-            />
-          ))}
+        <StyledDropdown width={width} component="select" name={name}>
+          {options.map((option, index) =>
+            index === 0 ? (
+              <option key={`dropdown-${name}-placeholder`} value="">
+                {option}
+              </option>
+            ) : (
+              <option
+                key={`dropdown-${name}-${index}`}
+                value={option}
+                label={`${option}`}
+              />
+            )
+          )}
         </StyledDropdown>
       )
     case "checkbox":
@@ -58,6 +65,7 @@ const ChooseInput = props => {
           min="0"
           placeholder={placeholder}
           validate={validate}
+          width={width}
         />
       )
   }
@@ -75,9 +83,10 @@ const Input = ({
   options,
   errors,
   touched,
+  width,
 }) => {
   return (
-    <Container text={text}>
+    <Container text={text} width={width}>
       {text && <Label>{text}</Label>}
       {
         <ChooseInput
@@ -93,6 +102,7 @@ const Input = ({
             options,
             errors,
             touched,
+            width,
           }}
         />
       }
@@ -108,15 +118,18 @@ const Input = ({
   )
 }
 
-const TextInput = styled.input.attrs(({ field, form: { errors, touched } }) => {
-  const { name } = field
-  return {
-    className: `mr-10 border-solid border-2 rounded-full py-2d5 px-9 ${
-      errors[name] && touched[name] ? "border-red" : "border-midgray"
-    }`,
-    ...field,
+const TextInput = styled.input.attrs(
+  ({ field, width, form: { errors, touched } }) => {
+    const { name } = field
+    return {
+      className: `${(!width || width === "full") &&
+        `mr-10`} border-solid border-2 rounded-full py-2d5 px-9 ${
+        errors[name] && touched[name] ? "border-red" : "border-midgray"
+      }`,
+      ...field,
+    }
   }
-})``
+)``
 
 const CheckboxContainer = styled.label`
   /* Customize the label (the container) */
@@ -226,15 +239,14 @@ const RangeInput = styled.input.attrs(({ field }) => {
 const NumberInput = styled.input.attrs(({ field }) => {
   return {
     className:
-      "border-solid border-2 border-midgray rounded-full py-2d5 text-center",
+      "border-solid border-2 border-midgray rounded-full py-2d5 text-center ",
     ...field,
   }
 })``
 
-const StyledDropdown = styled(Field).attrs({
-  className:
-    "border-2 border-midgray rounded-full py-3 px-4 mt-6 w-40 text-center",
-})`
+const StyledDropdown = styled(Field).attrs(({ width }) => ({
+  className: `border-2 border-midgray rounded-full py-3 px-9 mt-6 w-${width} text-center`,
+}))`
   display: block;
   line-height: 1.3;
   margin: 0;
