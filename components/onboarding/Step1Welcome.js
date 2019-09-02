@@ -1,7 +1,7 @@
 import { Heading, Copy, Button } from "./styles"
 
 const Step1 = ({ setPage, employer }) => (
-  <main className="flex justify-center items-center flex-col w-1/3 m-auto">
+  <main className="flex justify-center items-center flex-col w-5/12 m-auto">
     <Heading className="mb-6 self-start">Welcome to Catapillr!</Heading>
     <Copy className="mb-12">
       We've partnered up with <span className="font-bold">{employer.name}</span>{" "}

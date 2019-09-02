@@ -1,8 +1,10 @@
 import { Heading, Copy, Button } from "./styles"
 
 const Step5 = ({ setPage }) => (
-  <main className="flex justify-center items-start flex-col w-2/6 m-auto">
-    <Heading className="mb-6 text-center">Just a quick note…</Heading>
+  <main className="flex justify-center items-center flex-col w-7/12 m-auto">
+    <Heading className="mb-6 text-center self-start">
+      Just a quick note…
+    </Heading>
     <Copy className="mb-5">
       Before we move on, we have to let you know that the information you
       provide must be <span className="font-bold">100% accurate.</span>
