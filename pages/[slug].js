@@ -11,15 +11,16 @@ import Step5 from "../components/onboarding/Step5Accuracy"
 import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
 import Step8 from "../components/onboarding/Step8Summary"
-
 import DebugFormik from "../components/DebugFormik"
+
+import orangeLogo from "../static/logo_orange.svg"
 
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
   email: "",
   emailCode: "",
   permanentRole: false,
-  loanAmount: "",
+  loanAmount: 0,
   loanTerms: "",
   firstName: "",
   lastName: "",
@@ -31,37 +32,30 @@ const initialValues = {
   agreementStatus: "",
 }
 
-// const initialValues = {
-//   employmentStartDate: { day: "22", month: "02", year: "2018" },
-//   email: "ivan@infactcoop.com",
-//   emailCode: "23234",
-//   permanentRole: true,
-//   loanAmount: "234",
-//   loanTerms: "10",
-//   firstName: "Ivan",
-//   lastName: "Gonzalez",
-//   dob: { day: "23", month: "03", year: "1989" },
-//   nationality: "Colombian",
-//   employeeID: "24",
-//   phoneNumber: "834729743972",
-//   confirmation: false,
-//   agreementStatus: "",
-// }
-
 const Previous = ({ decrementPage }) => (
   <button type="button" onClick={decrementPage}>
     Previous
   </button>
 )
 
-const Submit = ({ isDisabled }) => (
-  <button type="submit" disabled={isDisabled}>
+const Submit = ({ isSubmitting }) => (
+  <button type="submit" disabled={isSubmitting}>
     Submit
   </button>
 )
 
-const Next = ({ onClick, isDisabled, formCompleted, submitForm }) => (
-  <button type="button" onClick={isDisabled ? submitForm : onClick}>
+const Next = ({
+  onClick,
+  isValid,
+  isSubmitting,
+  formCompleted,
+  submitForm: displayErrors,
+}) => (
+  <button
+    type="button"
+    onClick={isValid ? displayErrors : onClick}
+    disabled={isSubmitting}
+  >
     {formCompleted ? "Summary" : "Next"}
   </button>
 )
@@ -82,7 +76,8 @@ const Controls = ({
   page,
   pageAmount,
   setPage,
-  isDisabled,
+  isValid,
+  isSubmitting,
   className,
   values,
   formCompleted,
@@ -91,30 +86,11 @@ const Controls = ({
 }) => {
   const lastPage = page === pageAmount
 
-  const nextClick = page => {
-    switch (page) {
-      case 2:
-        return () => {
-          createNewToken({ email: values.email })
-          return incrementPage()
-        }
-      case 7:
-        return () => {
-          setFormCompleted(true)
-          return incrementPage()
-        }
-      default:
-        return formCompleted ? incrementLastPage : submitForm
-    }
-  }
-
   const incrementPage = () => {
     if (page < pageAmount) {
       setPage(page + 1)
     }
   }
-
-  const incrementLastPage = () => setPage(pageAmount)
 
   const decrementPage = () => {
     if (page <= pageAmount && page > 1) {
@@ -122,52 +98,51 @@ const Controls = ({
     }
   }
 
+  const goToSummary = () => {
+    setPage(pageAmount)
+  }
+
+  const nextClick = page => {
+    switch (page) {
+      case 2:
+        return () => {
+          createNewToken({ email: values.email })
+          formCompleted ? goToSummary() : incrementPage()
+        }
+      case pageAmount - 1:
+        return () => {
+          setFormCompleted(true)
+          incrementPage()
+        }
+      default:
+        return formCompleted ? () => goToSummary : incrementPage
+    }
+  }
+
   return (
     <section className={className}>
       <Previous {...{ decrementPage }} />
-      {!lastPage && (
+      {!lastPage ? (
         <Next
           {...{
             onClick: nextClick(page),
-            isDisabled,
+            isValid,
+            isSubmitting,
             formCompleted,
             submitForm,
           }}
         />
+      ) : (
+        <Submit {...{ isSubmitting }} />
       )}
-      {lastPage && <Submit {...{ isDisabled }} />}
     </section>
   )
 }
 
-const Footer = styled.div.attrs({})``
-
-const Container = styled.div.attrs({
-  className: "bg-white flex flex-col items-center justify-between",
-})`
-  width: 90%;
-  height: 90%;
-  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
-`
-
-const Header = styled.div.attrs({
-  className: "pl-10 pt-8 w-full",
-})``
-const StyledForm = styled(Form).attrs({
-  className: "",
-})`
-  width: 70%;
-  max-width: 800px;
-`
-
-const Logo = styled.img.attrs({
-  src: "/static/logo_orange.svg",
-})``
-
 const Wizard = ({ children, employer }) => {
+  const [pageAmount] = useState(children.length)
   const [page, setPage] = useState(1)
   const [formCompleted, setFormCompleted] = useState(false)
-  const [pageAmount] = useState(children.length)
   const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
 
@@ -176,18 +151,18 @@ const Wizard = ({ children, employer }) => {
       initialValues={initialValues}
       enableReinitialize={false}
       validationSchema={validationSchema}
+      onSubmit={() => {
+        console.log("submitted") //eslint-disable-line no-console
+      }}
     >
-      {form => {
-        const {
-          isValid,
-          isSubmitting,
-          validateForm,
-          values,
-          submitForm,
-          setTouched,
-        } = form
-        const isDisabled = !isValid || isSubmitting
-
+      {({
+        isValid,
+        isSubmitting,
+        validateForm,
+        values,
+        submitForm,
+        setTouched,
+      }) => {
         const debugging = false
 
         return (
@@ -200,7 +175,8 @@ const Wizard = ({ children, employer }) => {
                 component={React.cloneElement(activePage, {
                   setPage,
                   employer,
-                  ...form,
+                  setTouched,
+                  validateForm,
                 })}
                 validateForm={validateForm}
                 page={page}
@@ -214,7 +190,8 @@ const Wizard = ({ children, employer }) => {
                     page,
                     pageAmount,
                     setPage,
-                    isDisabled,
+                    isValid,
+                    isSubmitting,
                     values,
                     validateForm,
                     submitForm,
@@ -275,5 +252,31 @@ Onboarding.getInitialProps = async ({ req }) => {
   } = res
   return { employer }
 }
+
+const Container = styled.div.attrs({
+  className: "bg-white flex flex-col items-center justify-between",
+})`
+  width: 90%;
+  height: 90%;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
+`
+
+const Header = styled.div.attrs({
+  className: "pl-10 pt-8 w-full",
+})``
+
+const Footer = styled.div``
+
+const StyledForm = styled(Form).attrs({
+  className: "",
+})`
+  width: 70%;
+  min-height: 55vh;
+  max-width: 860px;
+`
+
+const Logo = styled.img.attrs({
+  src: orangeLogo,
+})``
 
 export default Onboarding
