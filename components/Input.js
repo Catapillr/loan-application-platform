@@ -123,7 +123,7 @@ const TextInput = styled.input.attrs(
     const { name } = field
     return {
       className: `${(!width || width === "full") &&
-        `mr-10`} border-solid border-2 rounded-full py-2d5 px-9 ${
+        "mr-10"} border-solid border-2 rounded-full py-2d5 px-9 ${
         errors[name] && touched[name] ? "border-red" : "border-midgray"
       }`,
       ...field,
@@ -239,7 +239,7 @@ const RangeInput = styled.input.attrs(({ field }) => {
 const NumberInput = styled.input.attrs(({ field }) => {
   return {
     className:
-      "border-solid border-2 border-midgray rounded-full py-2d5 text-center ",
+      "border-solid border-2 border-midgray rounded-full py-2d5 text-center mr-2",
     ...field,
   }
 })``

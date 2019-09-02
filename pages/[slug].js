@@ -53,7 +53,7 @@ const Next = ({
 }) => (
   <button
     type="button"
-    onClick={isValid ? displayErrors : onClick}
+    onClick={isValid ? onClick : displayErrors}
     disabled={isSubmitting}
   >
     {formCompleted ? "Summary" : "Next"}
@@ -115,7 +115,7 @@ const Controls = ({
           incrementPage()
         }
       default:
-        return formCompleted ? () => goToSummary : incrementPage
+        return formCompleted ? goToSummary : incrementPage
     }
   }
 
@@ -162,6 +162,8 @@ const Wizard = ({ children, employer }) => {
         values,
         submitForm,
         setTouched,
+        errors,
+        touched,
       }) => {
         const debugging = false
 
@@ -177,6 +179,9 @@ const Wizard = ({ children, employer }) => {
                   employer,
                   setTouched,
                   validateForm,
+                  values,
+                  errors,
+                  touched,
                 })}
                 validateForm={validateForm}
                 page={page}
