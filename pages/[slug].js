@@ -60,29 +60,23 @@ const Submit = ({ isDisabled }) => (
   </button>
 )
 
-const Next = ({
-  incrementPage,
-  isDisabled,
-  values,
-  setPage,
-  pageAmount,
-  submitForm,
-}) =>
-  values.nationality ? (
-    <button
-      type="button"
-      onClick={() => (isDisabled ? submitForm() : setPage(pageAmount))}
-    >
-      Summary
-    </button>
-  ) : (
-    <button
-      type="button"
-      onClick={() => (isDisabled ? submitForm() : incrementPage())}
-    >
-      Next
-    </button>
-  )
+const Next = ({ onClick, isDisabled, formCompleted, submitForm }) => (
+  <button type="button" onClick={isDisabled ? submitForm : onClick}>
+    {formCompleted ? "Summary" : "Next"}
+  </button>
+)
+
+const createNewToken = async ({ email }) => {
+  const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
+    email,
+  })
+
+  const {
+    data: { token },
+  } = res
+
+  return { token }
+}
 
 const Controls = ({
   page,
@@ -91,16 +85,37 @@ const Controls = ({
   isDisabled,
   className,
   values,
-  validateForm,
+  formCompleted,
+  setFormCompleted,
   submitForm,
 }) => {
   const lastPage = page === pageAmount
+
+  const nextClick = page => {
+    switch (page) {
+      case 2:
+        return () => {
+          createNewToken({ email: values.email })
+          return incrementPage()
+        }
+      case 7:
+        return () => {
+          setFormCompleted(true)
+          return incrementPage()
+        }
+      default:
+        return formCompleted ? incrementLastPage : submitForm
+    }
+  }
 
   const incrementPage = () => {
     if (page < pageAmount) {
       setPage(page + 1)
     }
   }
+
+  const incrementLastPage = () => setPage(pageAmount)
+
   const decrementPage = () => {
     if (page <= pageAmount && page > 1) {
       setPage(page - 1)
@@ -113,12 +128,9 @@ const Controls = ({
       {!lastPage && (
         <Next
           {...{
-            incrementPage,
+            onClick: nextClick(page),
             isDisabled,
-            values,
-            setPage,
-            pageAmount,
-            validateForm,
+            formCompleted,
             submitForm,
           }}
         />
@@ -154,6 +166,7 @@ const Logo = styled.img.attrs({
 
 const Wizard = ({ children, employer }) => {
   const [page, setPage] = useState(1)
+  const [formCompleted, setFormCompleted] = useState(false)
   const [pageAmount] = useState(children.length)
   const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
@@ -205,6 +218,8 @@ const Wizard = ({ children, employer }) => {
                     values,
                     validateForm,
                     submitForm,
+                    formCompleted,
+                    setFormCompleted,
                   }}
                 />
               )}

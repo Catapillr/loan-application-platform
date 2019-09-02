@@ -284,6 +284,8 @@ export type UserOrderByInput =
   | "lastName_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "isVerified_ASC"
+  | "isVerified_DESC"
   | "phoneNumber_ASC"
   | "phoneNumber_DESC"
   | "dob_ASC"
@@ -344,8 +346,12 @@ export type LoanOrderByInput =
 export type VerificationTokenOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "email_ASC"
+  | "email_DESC"
   | "token_ASC"
   | "token_DESC"
+  | "expiresAt_ASC"
+  | "expiresAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "createdAt_ASC"
@@ -378,6 +384,7 @@ export interface LoanUpdateOneInput {
 
 export type VerificationTokenWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  email?: Maybe<String>;
   token?: Maybe<String>;
 }>;
 
@@ -422,6 +429,7 @@ export interface UserUpdateManyDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
   phoneNumber?: Maybe<String>;
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
@@ -488,6 +496,8 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  isVerified_not?: Maybe<Boolean>;
   phoneNumber?: Maybe<String>;
   phoneNumber_not?: Maybe<String>;
   phoneNumber_in?: Maybe<String[] | String>;
@@ -671,7 +681,9 @@ export interface LoanWhereInput {
 }
 
 export interface VerificationTokenUpdateInput {
+  email?: Maybe<String>;
   token?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
 }
 
 export interface EligibilityCriteriaCreateInput {
@@ -710,6 +722,7 @@ export interface UserUpdateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
   phoneNumber?: Maybe<String>;
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
@@ -777,6 +790,8 @@ export interface UserScalarWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  isVerified_not?: Maybe<Boolean>;
   phoneNumber?: Maybe<String>;
   phoneNumber_not?: Maybe<String>;
   phoneNumber_in?: Maybe<String[] | String>;
@@ -884,6 +899,7 @@ export interface UserCreateInput {
   firstName: String;
   lastName: String;
   email: String;
+  isVerified?: Maybe<Boolean>;
   phoneNumber: String;
   dob: DateTimeInput;
   nationality: String;
@@ -927,6 +943,7 @@ export interface UserCreateWithoutEmployerInput {
   firstName: String;
   lastName: String;
   email: String;
+  isVerified?: Maybe<Boolean>;
   phoneNumber: String;
   dob: DateTimeInput;
   nationality: String;
@@ -1037,11 +1054,15 @@ export interface EmployerWhereInput {
 
 export interface VerificationTokenCreateInput {
   id?: Maybe<ID_Input>;
+  email: String;
   token: String;
+  expiresAt: DateTimeInput;
 }
 
 export interface VerificationTokenUpdateManyMutationInput {
+  email?: Maybe<String>;
   token?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
 }
 
 export interface LoanCreateOneInput {
@@ -1184,6 +1205,20 @@ export interface VerificationTokenWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
   token?: Maybe<String>;
   token_not?: Maybe<String>;
   token_in?: Maybe<String[] | String>;
@@ -1198,6 +1233,14 @@ export interface VerificationTokenWhereInput {
   token_not_starts_with?: Maybe<String>;
   token_ends_with?: Maybe<String>;
   token_not_ends_with?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+  expiresAt_not?: Maybe<DateTimeInput>;
+  expiresAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expiresAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expiresAt_lt?: Maybe<DateTimeInput>;
+  expiresAt_lte?: Maybe<DateTimeInput>;
+  expiresAt_gt?: Maybe<DateTimeInput>;
+  expiresAt_gte?: Maybe<DateTimeInput>;
   updatedAt?: Maybe<DateTimeInput>;
   updatedAt_not?: Maybe<DateTimeInput>;
   updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1237,7 +1280,9 @@ export interface VerificationTokenUpsertNestedInput {
 }
 
 export interface VerificationTokenUpdateDataInput {
+  email?: Maybe<String>;
   token?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
 }
 
 export interface VerificationTokenUpdateOneInput {
@@ -1253,6 +1298,7 @@ export interface UserUpdateWithoutEmployerDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
   phoneNumber?: Maybe<String>;
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
@@ -1272,6 +1318,7 @@ export interface UserUpdateManyMutationInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
   phoneNumber?: Maybe<String>;
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
@@ -1308,7 +1355,9 @@ export interface NodeNode {
 
 export interface VerificationTokenPreviousValues {
   id: ID_Output;
+  email: String;
   token: String;
+  expiresAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -1317,7 +1366,9 @@ export interface VerificationTokenPreviousValuesPromise
   extends Promise<VerificationTokenPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   token: () => Promise<String>;
+  expiresAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -1326,14 +1377,18 @@ export interface VerificationTokenPreviousValuesSubscription
   extends Promise<AsyncIterator<VerificationTokenPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
   token: () => Promise<AsyncIterator<String>>;
+  expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface VerificationToken {
   id: ID_Output;
+  email: String;
   token: String;
+  expiresAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -1342,7 +1397,9 @@ export interface VerificationTokenPromise
   extends Promise<VerificationToken>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   token: () => Promise<String>;
+  expiresAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -1351,7 +1408,9 @@ export interface VerificationTokenSubscription
   extends Promise<AsyncIterator<VerificationToken>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
   token: () => Promise<AsyncIterator<String>>;
+  expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1360,7 +1419,9 @@ export interface VerificationTokenNullablePromise
   extends Promise<VerificationToken | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   token: () => Promise<String>;
+  expiresAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -1393,6 +1454,7 @@ export interface User {
   firstName: String;
   lastName: String;
   email: String;
+  isVerified: Boolean;
   phoneNumber: String;
   dob: DateTimeOutput;
   nationality: String;
@@ -1409,6 +1471,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  isVerified: () => Promise<Boolean>;
   phoneNumber: () => Promise<String>;
   dob: () => Promise<DateTimeOutput>;
   nationality: () => Promise<String>;
@@ -1429,6 +1492,7 @@ export interface UserSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  isVerified: () => Promise<AsyncIterator<Boolean>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
   dob: () => Promise<AsyncIterator<DateTimeOutput>>;
   nationality: () => Promise<AsyncIterator<String>>;
@@ -1449,6 +1513,7 @@ export interface UserNullablePromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  isVerified: () => Promise<Boolean>;
   phoneNumber: () => Promise<String>;
   dob: () => Promise<DateTimeOutput>;
   nationality: () => Promise<String>;
@@ -2062,6 +2127,7 @@ export interface UserPreviousValues {
   firstName: String;
   lastName: String;
   email: String;
+  isVerified: Boolean;
   phoneNumber: String;
   dob: DateTimeOutput;
   nationality: String;
@@ -2079,6 +2145,7 @@ export interface UserPreviousValuesPromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  isVerified: () => Promise<Boolean>;
   phoneNumber: () => Promise<String>;
   dob: () => Promise<DateTimeOutput>;
   nationality: () => Promise<String>;
@@ -2096,6 +2163,7 @@ export interface UserPreviousValuesSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  isVerified: () => Promise<AsyncIterator<Boolean>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
   dob: () => Promise<AsyncIterator<DateTimeOutput>>;
   nationality: () => Promise<AsyncIterator<String>>;
