@@ -1,4 +1,5 @@
 import * as Yup from "yup"
+import * as moment from "moment"
 
 import Questions from "./Questions"
 import { TextInput } from "../../components/Input"
@@ -10,41 +11,52 @@ const validation = Yup.object().shape({
   lastName: Yup.string()
     .trim()
     .required("Required"),
-  dobDay: Yup.number()
-    .min(1)
-    .max(31)
-    .required("Required"),
-  dobMonth: Yup.number()
-    .min(1)
-    .max(12)
-    .required("Required"),
-  dobYear: Yup.number()
-    .min(1900)
-    .max(3000)
-    .required("Required"),
+  dob: Yup.object(),
 })
 
-const Step6 = () => (
+const validateDate = ({ day, month, year }) => {
+  const dob = moment(`${year}-${month}-${day}`)
+
+  const dateIsValid = dob.isValid()
+  const futureDate = dob.isAfter(moment())
+  const invalidDOB = dob.isAfter(moment().subtract(18, "years"))
+
+  if (!day || !month || !year) {
+    return "Please enter a whole date"
+  }
+  if (!dateIsValid) {
+    return "That's not a valid date. Please check it again."
+  }
+  if (futureDate) {
+    return "That date is in the future!"
+  }
+  if (invalidDOB) {
+    return "Sorry, but you're not old enough to qualify for a loan :("
+  }
+}
+
+const Step6 = ({ values: { dob } }) => (
   <Questions
+    formWidth="65"
     title="3.1 Your personal details"
     questions={[
       {
         text: "First name",
         name: "firstName",
         component: TextInput,
-        width: "50",
+        width: "1/2",
       },
       {
         text: "Last name",
         name: "lastName",
         component: TextInput,
-        width: "50",
+        width: "1/2",
       },
       {
         text: "What is your date of birth?",
-        dateInputNames: ["dobDay", "dobMonth", "dobYear"],
-        component: TextInput,
+        date: true,
         name: "dob",
+        validate: () => validateDate(dob),
       },
     ]}
   />
