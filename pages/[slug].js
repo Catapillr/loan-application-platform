@@ -60,9 +60,9 @@ const Submit = ({ isDisabled }) => (
   </button>
 )
 
-const Next = ({ onClick, isDisabled }) => (
-  <button type="button" onClick={onClick} disabled={isDisabled}>
-    Next
+const Next = ({ onClick, isDisabled, formCompleted, submitForm }) => (
+  <button type="button" onClick={isDisabled ? submitForm : onClick}>
+    {formCompleted ? "Summary" : "Next"}
   </button>
 )
 
@@ -125,7 +125,16 @@ const Controls = ({
   return (
     <section className={className}>
       <Previous {...{ decrementPage }} />
-      {!lastPage && <Next {...{ onClick: nextClick(page), isDisabled }} />}
+      {!lastPage && (
+        <Next
+          {...{
+            onClick: nextClick(page),
+            isDisabled,
+            formCompleted,
+            submitForm,
+          }}
+        />
+      )}
       {lastPage && <Submit {...{ isDisabled }} />}
     </section>
   )
