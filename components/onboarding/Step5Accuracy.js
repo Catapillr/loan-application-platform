@@ -17,7 +17,10 @@ const Step5 = ({ setPage }) => (
       will fill your personal details and confirm that you understand and accept
       this notice.
     </Copy>
-    <Button className="text-center" onClick={() => setPage(6)}>
+    <Button
+      className="text-center text-white bg-teal"
+      onClick={() => setPage(6)}
+    >
       Accept and continue
     </Button>
   </main>

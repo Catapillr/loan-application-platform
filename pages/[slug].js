@@ -11,6 +11,15 @@ import Step5 from "../components/onboarding/Step5Accuracy"
 import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
 
+import progress1 from "../static/images/progress1.svg"
+import progress2 from "../static/images/progress2.svg"
+import progress3 from "../static/images/progress3.svg"
+import progress4 from "../static/images/progress4.svg"
+import progress5 from "../static/images/progress5.svg"
+import progressComplete from "../static/images/progressComplete.svg"
+
+import { Button } from "../components/onboarding/styles"
+
 import DebugFormik from "../components/DebugFormik"
 
 const initialValues = {
@@ -31,24 +40,37 @@ const initialValues = {
 }
 
 const Previous = ({ decrementPage }) => (
-  <button type="button" onClick={decrementPage}>
+  <Button
+    className="w-40 bg-white text-teal"
+    type="button"
+    onClick={decrementPage}
+  >
     Previous
-  </button>
+  </Button>
 )
 
 const Submit = ({ isDisabled }) => (
-  <button type="submit" disabled={isDisabled}>
+  <Button
+    className="w-40 bg-teal text-white"
+    type="submit"
+    disabled={isDisabled}
+  >
     Submit
-  </button>
+  </Button>
 )
 
 const Next = ({ incrementPage, isDisabled }) => (
-  <button type="button" onClick={incrementPage} disabled={isDisabled}>
+  <Button
+    className="w-40 bg-teal text-white"
+    type="button"
+    onClick={incrementPage}
+    disabled={isDisabled}
+  >
     Next
-  </button>
+  </Button>
 )
 
-const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
+const Controls = ({ page, pageAmount, setPage, isDisabled }) => {
   const lastPage = page === pageAmount
 
   const incrementPage = () => {
@@ -62,16 +84,32 @@ const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
     }
   }
 
-  return (
-    <section className={className}>
+  const progressImage = [
+    progress1,
+    progress2,
+    progress3,
+    progress4,
+    progress5,
+    progressComplete,
+  ]
+
+  return page === 1 ? (
+    <section />
+  ) : (
+    <section className="border-t border-gray flex w-full justify-between items-center px-10 py-6">
       <Previous {...{ decrementPage }} />
+      <img src={progressImage[page - 2]} />
       {!lastPage && <Next {...{ incrementPage, isDisabled }} />}
       {lastPage && <Submit {...{ isDisabled }} />}
     </section>
   )
 }
 
-const Footer = styled.div.attrs({})``
+const Footer = styled.div.attrs({ className: "w-full bg-white" })`
+  transform: rotate(-180deg);
+  background: #ffffff;
+  box-shadow: 0 28px 34px 0 #f7f8fb;
+`
 
 const Container = styled.div.attrs(() => ({
   className: "bg-white flex flex-col items-center justify-between",
