@@ -42,20 +42,51 @@ const Submit = ({ isDisabled }) => (
   </button>
 )
 
-const Next = ({ incrementPage, isDisabled }) => (
-  <button type="button" onClick={incrementPage} disabled={isDisabled}>
+const Next = ({ onClick, isDisabled }) => (
+  <button type="button" onClick={onClick} disabled={isDisabled}>
     Next
   </button>
 )
 
-const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
+const createNewToken = async ({ email }) => {
+  const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
+    email,
+  })
+
+  const {
+    data: { token },
+  } = res
+
+  return { token }
+}
+const Controls = ({
+  page,
+  pageAmount,
+  setPage,
+  isDisabled,
+  className,
+  values,
+}) => {
   const lastPage = page === pageAmount
+
+  const nextClick = page => {
+    switch (page) {
+      case 2:
+        return () => {
+          createNewToken({ email: values.email })
+          return incrementPage()
+        }
+      default:
+        return incrementPage
+    }
+  }
 
   const incrementPage = () => {
     if (page < pageAmount) {
       setPage(page + 1)
     }
   }
+
   const decrementPage = () => {
     if (page <= pageAmount && page > 1) {
       setPage(page - 1)
@@ -65,7 +96,7 @@ const Controls = ({ page, pageAmount, setPage, isDisabled, className }) => {
   return (
     <section className={className}>
       <Previous {...{ decrementPage }} />
-      {!lastPage && <Next {...{ incrementPage, isDisabled }} />}
+      {!lastPage && <Next {...{ onClick: nextClick(page), isDisabled }} />}
       {lastPage && <Submit {...{ isDisabled }} />}
     </section>
   )
@@ -108,7 +139,7 @@ const Wizard = ({ children, employer }) => {
       validationSchema={validationSchema}
     >
       {form => {
-        const { isValid, isSubmitting, validateForm } = form
+        const { isValid, isSubmitting, validateForm, values } = form
         const isDisabled = !isValid || isSubmitting
 
         const debugging = false
@@ -135,6 +166,7 @@ const Wizard = ({ children, employer }) => {
                 pageAmount={pageAmount}
                 setPage={setPage}
                 isDisabled={isDisabled}
+                values={values}
               />
             </Footer>
             {debugging && (

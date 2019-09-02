@@ -653,6 +653,7 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
+  isVerified: Boolean!
   phoneNumber: String!
   dob: DateTime!
   nationality: String!
@@ -677,6 +678,7 @@ input UserCreateInput {
   firstName: String!
   lastName: String!
   email: String!
+  isVerified: Boolean
   phoneNumber: String!
   dob: DateTime!
   nationality: String!
@@ -697,6 +699,7 @@ input UserCreateWithoutEmployerInput {
   firstName: String!
   lastName: String!
   email: String!
+  isVerified: Boolean
   phoneNumber: String!
   dob: DateTime!
   nationality: String!
@@ -721,6 +724,8 @@ enum UserOrderByInput {
   lastName_DESC
   email_ASC
   email_DESC
+  isVerified_ASC
+  isVerified_DESC
   phoneNumber_ASC
   phoneNumber_DESC
   dob_ASC
@@ -744,6 +749,7 @@ type UserPreviousValues {
   firstName: String!
   lastName: String!
   email: String!
+  isVerified: Boolean!
   phoneNumber: String!
   dob: DateTime!
   nationality: String!
@@ -811,6 +817,8 @@ input UserScalarWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  isVerified: Boolean
+  isVerified_not: Boolean
   phoneNumber: String
   phoneNumber_not: String
   phoneNumber_in: [String!]
@@ -921,6 +929,7 @@ input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
+  isVerified: Boolean
   phoneNumber: String
   dob: DateTime
   nationality: String
@@ -935,6 +944,7 @@ input UserUpdateManyDataInput {
   firstName: String
   lastName: String
   email: String
+  isVerified: Boolean
   phoneNumber: String
   dob: DateTime
   nationality: String
@@ -947,6 +957,7 @@ input UserUpdateManyMutationInput {
   firstName: String
   lastName: String
   email: String
+  isVerified: Boolean
   phoneNumber: String
   dob: DateTime
   nationality: String
@@ -976,6 +987,7 @@ input UserUpdateWithoutEmployerDataInput {
   firstName: String
   lastName: String
   email: String
+  isVerified: Boolean
   phoneNumber: String
   dob: DateTime
   nationality: String
@@ -1055,6 +1067,8 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  isVerified: Boolean
+  isVerified_not: Boolean
   phoneNumber: String
   phoneNumber_not: String
   phoneNumber_in: [String!]
@@ -1152,7 +1166,9 @@ input UserWhereUniqueInput {
 
 type VerificationToken {
   id: ID!
+  email: String!
   token: String!
+  expiresAt: DateTime!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -1165,7 +1181,9 @@ type VerificationTokenConnection {
 
 input VerificationTokenCreateInput {
   id: ID
+  email: String!
   token: String!
+  expiresAt: DateTime!
 }
 
 input VerificationTokenCreateOneInput {
@@ -1181,8 +1199,12 @@ type VerificationTokenEdge {
 enum VerificationTokenOrderByInput {
   id_ASC
   id_DESC
+  email_ASC
+  email_DESC
   token_ASC
   token_DESC
+  expiresAt_ASC
+  expiresAt_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1191,7 +1213,9 @@ enum VerificationTokenOrderByInput {
 
 type VerificationTokenPreviousValues {
   id: ID!
+  email: String!
   token: String!
+  expiresAt: DateTime!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -1215,15 +1239,21 @@ input VerificationTokenSubscriptionWhereInput {
 }
 
 input VerificationTokenUpdateDataInput {
+  email: String
   token: String
+  expiresAt: DateTime
 }
 
 input VerificationTokenUpdateInput {
+  email: String
   token: String
+  expiresAt: DateTime
 }
 
 input VerificationTokenUpdateManyMutationInput {
+  email: String
   token: String
+  expiresAt: DateTime
 }
 
 input VerificationTokenUpdateOneInput {
@@ -1255,6 +1285,20 @@ input VerificationTokenWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
   token: String
   token_not: String
   token_in: [String!]
@@ -1269,6 +1313,14 @@ input VerificationTokenWhereInput {
   token_not_starts_with: String
   token_ends_with: String
   token_not_ends_with: String
+  expiresAt: DateTime
+  expiresAt_not: DateTime
+  expiresAt_in: [DateTime!]
+  expiresAt_not_in: [DateTime!]
+  expiresAt_lt: DateTime
+  expiresAt_lte: DateTime
+  expiresAt_gt: DateTime
+  expiresAt_gte: DateTime
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]
@@ -1292,6 +1344,7 @@ input VerificationTokenWhereInput {
 
 input VerificationTokenWhereUniqueInput {
   id: ID
+  email: String
   token: String
 }
 `

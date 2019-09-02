@@ -22,6 +22,7 @@ type User {
   firstName: String!
   lastName: String!
   email: String! @unique
+  isVerified: Boolean! @default(value: false) 
   phoneNumber: String! @unique
   dob: DateTime!
   nationality: String!
@@ -36,7 +37,9 @@ type User {
 
 type VerificationToken {
   id: ID! @id
+  email: String! @unique
   token: String! @unique
+  expiresAt: DateTime!
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
