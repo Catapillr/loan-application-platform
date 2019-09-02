@@ -2,7 +2,7 @@ import { prisma } from "../../prisma/generated"
 import * as R from "ramda"
 
 export default async (req, res) => {
-  const slug = req._parsedUrl.query
+  const { slug } = req.query
   const eligibilityCriteria = await prisma
     .employer({ slug })
     .eligibilityCriteria()
