@@ -210,10 +210,8 @@ const Wizard = ({ children, employer }) => {
         values,
         submitForm,
         setTouched,
-        errors,
-        touched,
       }) => {
-        const debugging = false
+        const debugging = true
 
         return (
           <Container>
@@ -225,11 +223,7 @@ const Wizard = ({ children, employer }) => {
                 component={React.cloneElement(activePage, {
                   setPage,
                   employer,
-                  setTouched,
-                  validateForm,
                   values,
-                  errors,
-                  touched,
                 })}
                 validateForm={validateForm}
                 page={page}

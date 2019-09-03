@@ -5,19 +5,6 @@ import slider from "../static/icons/slider.svg"
 import tick from "../static/icons/tick.svg"
 import dropdown from "../static/icons/dropdown.svg"
 
-const Container = styled.div.attrs(({ text, width }) => ({
-  className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
-}))``
-
-const Error = styled.span.attrs({
-  className: "text-red absolute mt-1",
-})``
-
-const Label = styled.label.attrs(({ name }) => ({
-  className: "block mb-5",
-  htmlFor: name,
-}))``
-
 const ChooseInput = props => {
   const {
     type,
@@ -26,8 +13,6 @@ const ChooseInput = props => {
     max,
     placeholder,
     validate,
-    errors,
-    touched,
     name,
     width,
   } = props
@@ -49,10 +34,6 @@ const ChooseInput = props => {
             )
           )}
         </StyledDropdown>
-      )
-    case "checkbox":
-      return (
-        <CheckboxInput {...{ errors, touched, name, type }}></CheckboxInput>
       )
 
     default:
@@ -79,7 +60,6 @@ const Input = ({
   validate,
   placeholder,
   max,
-  values,
   options,
   errors,
   touched,
@@ -88,29 +68,21 @@ const Input = ({
   return (
     <Container text={text} width={width}>
       {text && <Label>{text}</Label>}
-      {
-        <ChooseInput
-          {...{
-            text,
-            component,
-            type,
-            name,
-            validate,
-            placeholder,
-            max,
-            values,
-            options,
-            errors,
-            touched,
-            width,
-          }}
-        />
-      }
-      {type === "range" && (
-        <div className="border-2 border-midgray rounded-full py-2 px-4 mt-6 w-40 ">
-          {`£${values[name]}`}
-        </div>
-      )}
+      <ChooseInput
+        {...{
+          text,
+          component,
+          type,
+          name,
+          validate,
+          placeholder,
+          max,
+          options,
+          errors,
+          touched,
+          width,
+        }}
+      />
       <div className="relative">
         <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
       </div>
@@ -130,6 +102,129 @@ const TextInput = styled.input.attrs(
     }
   }
 )``
+
+const CheckboxInput = ({ form: { errors, touched, values }, field, type }) => {
+  const { name } = field
+  return (
+    <CheckboxContainer {...{ errors, touched, name }}>
+      <AddHeight />
+      <input type={type} checked={values[name]} {...field} />
+      <span className="checkmark"></span>
+    </CheckboxContainer>
+  )
+}
+
+const DateInput = ({ text, validate, name }) => (
+  <Container>
+    {text && <Label>{text}</Label>}
+
+    <div className="flex justify-between pr-10">
+      <Field
+        name={`${name}.day`}
+        component={NumberInput}
+        placeholder={"Day"}
+        validate={validate}
+        type="number"
+      />
+      <Field
+        name={`${name}.month`}
+        component={NumberInput}
+        placeholder={"Month"}
+        type="number"
+      />
+      <Field
+        name={`${name}.year`}
+        component={NumberInput}
+        placeholder={"Year"}
+        type="number"
+      />
+    </div>
+
+    <ErrorMessage
+      name={`${name}.day`}
+      render={msg => <Error>{msg}</Error>}
+    ></ErrorMessage>
+  </Container>
+)
+
+const NumberInput = styled.input.attrs(({ field }) => {
+  return {
+    className:
+      "border-solid border-2 border-midgray rounded-full py-2d5 text-center mr-2",
+    ...field,
+  }
+})``
+
+const RangeInput = props => {
+  const { field } = props
+  return (
+    <>
+      <Range {...props} />
+      <div className="border-2 border-midgray rounded-full py-2 px-4 mt-6 w-40 ">
+        {`£${field.value}`}
+      </div>
+    </>
+  )
+}
+
+const Range = styled.input.attrs(({ field }) => ({ ...field }))`
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 5px; /* Specified height */
+  background-color: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+
+  ::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: url(${slider});
+    cursor: pointer;
+  }
+
+  ::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: url(${slider});
+    cursor: pointer;
+  }
+`
+
+const StyledDropdown = styled(Field).attrs(({ width }) => ({
+  className: `border-2 border-midgray rounded-full py-3 px-9 mt-6 w-${width} text-center`,
+}))`
+  display: block;
+  line-height: 1.3;
+  margin: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url(${dropdown});
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.8em top 50%, 0 0;
+`
+
+const Container = styled.div.attrs(({ text, width }) => ({
+  className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
+}))``
+
+const Error = styled.span.attrs({
+  className: "text-red absolute mt-1",
+})``
+
+const Label = styled.label.attrs(({ name }) => ({
+  className: "block mb-5",
+  htmlFor: name,
+}))``
+
+const AddHeight = styled.div`
+  height: 30px;
+`
 
 const CheckboxContainer = styled.label`
   /* Customize the label (the container) */
@@ -189,107 +284,5 @@ const CheckboxContainer = styled.label`
     background-position: center;
   }
 `
-
-const AddHeight = styled.div`
-  height: 30px;
-`
-
-const CheckboxInput = ({ errors, touched, name, type }) => (
-  <CheckboxContainer {...{ errors, touched, name }}>
-    <AddHeight></AddHeight>
-    <Field name={name}>
-      {({ field }) => <input type={type} {...field} checked={field.value} />}
-    </Field>
-    <span className="checkmark"></span>
-  </CheckboxContainer>
-)
-
-const RangeInput = styled.input.attrs(({ field }) => {
-  return {
-    className: "",
-    ...field,
-  }
-})`
-  -webkit-appearance: none; /* Override default CSS styles */
-  appearance: none;
-  width: 100%; /* Full-width */
-  height: 5px; /* Specified height */
-  background-color: #d3d3d3; /* Grey background */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
-  transition: opacity 0.2s;
-
-  ::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    background: url(${slider});
-    cursor: pointer;
-  }
-
-  ::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: url(${slider});
-    cursor: pointer;
-  }
-`
-
-const NumberInput = styled.input.attrs(({ field }) => {
-  return {
-    className:
-      "border-solid border-2 border-midgray rounded-full py-2d5 text-center mr-2",
-    ...field,
-  }
-})``
-
-const StyledDropdown = styled(Field).attrs(({ width }) => ({
-  className: `border-2 border-midgray rounded-full py-3 px-9 mt-6 w-${width} text-center`,
-}))`
-  display: block;
-  line-height: 1.3;
-  margin: 0;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: #fff;
-  background-image: url(${dropdown});
-  background-repeat: no-repeat, repeat;
-  background-position: right 0.8em top 50%, 0 0;
-`
-
-const DateInput = ({ text, validate, name }) => (
-  <Container>
-    {text && <Label>{text}</Label>}
-
-    <div className="flex justify-between pr-10">
-      <Field
-        name={`${name}.day`}
-        component={NumberInput}
-        placeholder={"Day"}
-        validate={validate}
-        type="number"
-      />
-      <Field
-        name={`${name}.month`}
-        component={NumberInput}
-        placeholder={"Month"}
-        type="number"
-      />
-      <Field
-        name={`${name}.year`}
-        component={NumberInput}
-        placeholder={"Year"}
-        type="number"
-      />
-    </div>
-
-    <ErrorMessage
-      name={`${name}.day`}
-      render={msg => <Error>{msg}</Error>}
-    ></ErrorMessage>
-  </Container>
-)
 
 export { Input, DateInput, TextInput, RangeInput, CheckboxInput }

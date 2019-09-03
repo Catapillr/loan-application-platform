@@ -48,7 +48,6 @@ const validateDate = (minimumServiceLength, { day, month, year }) => {
 const Step2 = ({
   employer: { emailSuffix, minimumServiceLength },
   values: { employmentStartDate },
-  ...rest
 }) => (
   <Questions
     formWidth="70"
@@ -75,7 +74,6 @@ const Step2 = ({
         className: "",
         type: "checkbox",
         component: CheckboxInput,
-        ...rest,
       },
     ]}
   />

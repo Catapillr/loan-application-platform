@@ -90,8 +90,7 @@ const Divider = styled.div.attrs({
   opacity: 0.5;
 `
 
-const Step8 = props => {
-  const { values } = props
+const Step8 = ({ values, setPage }) => {
   return (
     <main className="flex justify-center items-start flex-col m-auto font-base">
       <Heading className="mb-2">Thanks {values.firstName}</Heading>
@@ -104,7 +103,7 @@ const Step8 = props => {
             <SummarySection
               key={section.heading}
               values={values}
-              setPage={props.setPage}
+              setPage={setPage}
               {...section}
             ></SummarySection>
           )
