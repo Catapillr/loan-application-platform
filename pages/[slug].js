@@ -122,6 +122,7 @@ const Controls = ({
   formCompleted,
   setFormCompleted,
   submitForm,
+  setEmailVerificationError,
 }) => {
   const lastPage = page === pageAmount
 
@@ -149,9 +150,12 @@ const Controls = ({
           formCompleted ? goToSummary() : incrementPage()
         }
       case 3:
-        return () => {
-          isTokenValid({ token: values.token, email: values.email })
-          incrementPage()
+        return async () => {
+          const valid = await isTokenValid({
+            token: values.token,
+            email: values.email,
+          })
+          valid.isTokenValid ? incrementPage() : setEmailVerificationError(true)
         }
 
       case pageAmount - 1:
@@ -191,6 +195,7 @@ const Wizard = ({ children, employer }) => {
   const [pageAmount] = useState(children.length)
   const [page, setPage] = useState(1)
   const [formCompleted, setFormCompleted] = useState(false)
+  const [emailVerificationError, setEmailVerificationError] = useState(false)
   const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
 
@@ -211,7 +216,7 @@ const Wizard = ({ children, employer }) => {
         submitForm,
         setTouched,
       }) => {
-        const debugging = true
+        const debugging = false
 
         return (
           <Container>
@@ -224,6 +229,7 @@ const Wizard = ({ children, employer }) => {
                   setPage,
                   employer,
                   values,
+                  emailVerificationError,
                 })}
                 validateForm={validateForm}
                 page={page}
@@ -244,6 +250,7 @@ const Wizard = ({ children, employer }) => {
                     submitForm,
                     formCompleted,
                     setFormCompleted,
+                    setEmailVerificationError,
                   }}
                 />
               )}
@@ -318,7 +325,7 @@ const Footer = styled.div.attrs({ className: "w-full bg-white" })`
 `
 
 const StyledForm = styled(Form).attrs({
-  className: "",
+  className: "flex justify-center items-center",
 })`
   width: 70%;
   min-height: 55vh;
