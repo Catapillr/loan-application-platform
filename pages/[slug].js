@@ -12,6 +12,15 @@ import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
 import Step8 from "../components/onboarding/Step8Summary"
 
+import progress1 from "../static/images/progress1.svg"
+import progress2 from "../static/images/progress2.svg"
+import progress3 from "../static/images/progress3.svg"
+import progress4 from "../static/images/progress4.svg"
+import progress5 from "../static/images/progress5.svg"
+import progressComplete from "../static/images/progressComplete.svg"
+
+import { Button } from "../components/onboarding/styles"
+
 import DebugFormik from "../components/DebugFormik"
 
 const initialValues = {
@@ -49,22 +58,40 @@ const initialValues = {
 // }
 
 const Previous = ({ decrementPage }) => (
-  <button type="button" onClick={decrementPage}>
+  <Button
+    className="border border-teal w-40 bg-white text-teal"
+    type="button"
+    onClick={decrementPage}
+  >
     Previous
-  </button>
+  </Button>
 )
 
 const Submit = ({ isDisabled }) => (
-  <button type="submit" disabled={isDisabled}>
+  <Button
+    className="w-40 bg-teal text-white"
+    type="submit"
+    disabled={isDisabled}
+  >
     Submit
-  </button>
+  </Button>
 )
 
 const Next = ({ onClick, isDisabled, formCompleted, submitForm }) => (
-  <button type="button" onClick={isDisabled ? submitForm : onClick}>
+  <Button
+    className="w-40 bg-teal text-white"
+    type="button"
+    onClick={isDisabled ? submitForm : onClick}
+  >
     {formCompleted ? "Summary" : "Next"}
-  </button>
+  </Button>
 )
+
+const Section = styled.section.attrs({
+  className: "flex w-full justify-between items-center px-10 py-6",
+})`
+  transform: rotate(180deg);
+`
 
 const createNewToken = async ({ email }) => {
   const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
@@ -95,7 +122,6 @@ const Controls = ({
   pageAmount,
   setPage,
   isDisabled,
-  className,
   values,
   formCompleted,
   setFormCompleted,
@@ -139,9 +165,25 @@ const Controls = ({
     }
   }
 
-  return (
-    <section className={className}>
+  const progressImage = [
+    progress1,
+    progress1,
+    progress2,
+    progress2,
+    progress3,
+    progress3,
+    progress4,
+    progress5,
+    progressComplete,
+  ]
+
+  return page === 1 ? (
+    <section />
+  ) : (
+    <Section>
       <Previous {...{ decrementPage }} />
+      <img src={progressImage[page - 2]} />
+
       {!lastPage && (
         <Next
           {...{
@@ -153,11 +195,14 @@ const Controls = ({
         />
       )}
       {lastPage && <Submit {...{ isDisabled }} />}
-    </section>
+    </Section>
   )
 }
 
-const Footer = styled.div.attrs({})``
+const Footer = styled.div.attrs({ className: "w-full bg-white" })`
+  transform: rotate(-180deg);
+  box-shadow: 0 28px 34px 0 #f7f8fb;
+`
 
 const Container = styled.div.attrs({
   className: "bg-white flex flex-col items-center justify-between",

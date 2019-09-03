@@ -1,0 +1,87 @@
+
+<svg width="724px" height="45px" viewBox="0 0 724 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Catapillr-app" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="confirmation_2" transform="translate(-357.000000, -669.000000)">
+            <g id="layer" transform="translate(72.000000, 37.000000)">
+                <g id="Group-2" transform="translate(0.000000, 606.000000)">
+                    <g id="Group-6" transform="translate(284.000000, 26.000000)">
+                        <g id="Group-11">
+                            <g id="Group-10" transform="translate(18.000000, 0.000000)">
+                                <g id="Group-9" fill="#14BECB" fill-rule="nonzero">
+                                    <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" opacity="0.5"></path>
+                                    <circle id="Oval" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                                </g>
+                                <g id="f-check" transform="translate(2.933333, 4.400000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon id="Path" points="0.733333333 6.84444444 2.68888889 4.88888889 5.62222222 7.82222222 13.4444444 0 15.4 1.95555556 5.62222222 11.7333333"></polygon>
+                                </g>
+                            </g>
+                            <text id="Eligibility" opacity="0.6" font-family="Helvetica" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                                <tspan x="2.26904297" y="40">Eligibility</tspan>
+                            </text>
+                            <path d="M173,11.5 L48,11.5" id="Path-2" stroke="#14BECB" stroke-dasharray="3"></path>
+                        </g>
+                        <g id="Group-11" transform="translate(155.000000, 0.000000)">
+                            <g id="Group-10" transform="translate(27.000000, 0.000000)">
+                                <g id="Group-9" fill="#14BECB" fill-rule="nonzero">
+                                    <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" opacity="0.5"></path>
+                                    <circle id="Oval" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                                </g>
+                                <g id="f-check" transform="translate(2.933333, 4.400000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon id="Path" points="0.733333333 6.84444444 2.68888889 4.88888889 5.62222222 7.82222222 13.4444444 0 15.4 1.95555556 5.62222222 11.7333333"></polygon>
+                                </g>
+                            </g>
+                            <text id="Loan-details" opacity="0.6" font-family="Helvetica" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                                <tspan x="0.748535156" y="40.2">Loan details</tspan>
+                            </text>
+                            <path d="M182,11.5 L57,11.5" id="Path-2" stroke="#14BECB" stroke-dasharray="3"></path>
+                        </g>
+                        <g id="Group-11" transform="translate(318.000000, 0.000000)">
+                            <g id="Group-10" transform="translate(27.000000, 0.000000)">
+                                <g id="Group-9" fill="#14BECB" fill-rule="nonzero">
+                                    <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" opacity="0.5"></path>
+                                    <circle id="Oval" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                                </g>
+                                <g id="f-check" transform="translate(4.000000, 5.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon id="Path" points="0.733333333 6.84444444 2.68888889 4.88888889 5.62222222 7.82222222 13.4444444 0 15.4 1.95555556 5.62222222 11.7333333"></polygon>
+                                </g>
+                            </g>
+                            <text id="Your-details" opacity="0.6" font-family="Helvetica" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                                <tspan x="1.03466797" y="40.2">Your details</tspan>
+                            </text>
+                            <path d="M182,11.5 L57,11.5" id="Path-2" stroke="#14BECB" opacity="0.5" stroke-dasharray="3"></path>
+                        </g>
+                        <g id="Group-11" transform="translate(489.000000, 0.000000)">
+                            <g id="Group-10" transform="translate(19.000000, 0.000000)">
+                                <g id="Group-9" fill="#14BECB" fill-rule="nonzero">
+                                    <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" opacity="0.5"></path>
+                                    <circle id="Oval" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                                </g>
+                                <g id="f-check" transform="translate(3.000000, 4.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon id="Path" points="0.733333333 6.84444444 2.68888889 4.88888889 5.62222222 7.82222222 13.4444444 0 15.4 1.95555556 5.62222222 11.7333333"></polygon>
+                                </g>
+                            </g>
+                            <text id="Summary" opacity="0.6" font-family="Helvetica" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                                <tspan x="0.0517578125" y="40.2">Summary</tspan>
+                            </text>
+                            <path d="M174,11.5 L49,11.5" id="Path-2" stroke="#14BECB" opacity="0.5" stroke-dasharray="3"></path>
+                        </g>
+                        <g id="Group-11" transform="translate(671.000000, 1.200000)">
+                            <g id="Group-10">
+                                <g id="Group-9" fill="#14BECB" fill-rule="nonzero">
+                                    <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" opacity="0.5"></path>
+                                    <circle id="Oval" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                                </g>
+                                <g id="f-check" transform="translate(3.000000, 3.800000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon id="Path" points="0.733333333 6.84444444 2.68888889 4.88888889 5.62222222 7.82222222 13.4444444 0 15.4 1.95555556 5.62222222 11.7333333"></polygon>
+                                </g>
+                            </g>
+                        </g>
+                        <text id="Confirmation" opacity="0.6" font-family="Helvetica" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                            <tspan x="642.317383" y="41.2">Confirmation</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

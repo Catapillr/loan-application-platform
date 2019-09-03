@@ -10,7 +10,10 @@ const Step1 = ({ setPage, employer }) => (
       Press the button below to see how much you could borrow from your
       employer!
     </Copy>
-    <Button className="text-center" onClick={() => setPage(2)}>
+    <Button
+      className="shadow-button text-white bg-teal text-center"
+      onClick={() => setPage(2)}
+    >
       Let's get started
     </Button>
   </main>
