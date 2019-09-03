@@ -5,12 +5,13 @@ const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== "production"
 const app = next({ dev })
 const handle = app.getRequestHandler()
-const cors = require("cors")
 
 app.prepare().then(() => {
   const server = express()
 
-  if (dev) server.use(cors())
+  if (dev) {
+    server.use(require("cors")())
+  }
 
   server.get("*", (req, res) => {
     return handle(req, res)
