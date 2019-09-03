@@ -9,18 +9,27 @@ const validation = Yup.object().shape({
     .required("Required"),
 })
 
-const Step3 = () => (
-  <Questions
-    title="Thank you!"
-    questions={[
-      {
-        text:
-          "We've sent a verification code to your email address. Please check your email, and enter the code here:",
-        name: "token",
-        component: TextInput,
-      },
-    ]}
-  />
+const Step3 = ({ emailVerificationError }) => (
+  <div>
+    <Questions
+      title="Thank you!"
+      questions={[
+        {
+          text:
+            "We've sent a verification code to your email address. Please check your email, and enter the code here:",
+          name: "token",
+          component: TextInput,
+        },
+      ]}
+    />
+    {emailVerificationError && (
+      <p className="w-1/2 m-auto text-red">
+        That code isn't valid! Please double check it. Verification codes are
+        only valid for 24 hours, so you might have to start again if you've left
+        it too long.
+      </p>
+    )}
+  </div>
 )
 
 Step3.validationSchema = validation
