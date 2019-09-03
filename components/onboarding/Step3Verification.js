@@ -4,7 +4,7 @@ import Questions from "./Questions"
 import { TextInput } from "../../components/Input"
 
 const validation = Yup.object().shape({
-  emailCode: Yup.string()
+  token: Yup.string()
     .min(1)
     .required("Required"),
 })
@@ -16,7 +16,7 @@ const Step3 = () => (
       {
         text:
           "We've sent a verification code to your email address. Please check your email, and enter the code here:",
-        name: "emailCode",
+        name: "token",
         component: TextInput,
       },
     ]}

@@ -12,13 +12,32 @@ import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
 import Step8 from "../components/onboarding/Step8Summary"
 import DebugFormik from "../components/DebugFormik"
+import { Button } from "../components/onboarding/styles"
 
 import orangeLogo from "../static/logo_orange.svg"
+import progress1 from "../static/images/progress1.svg"
+import progress2 from "../static/images/progress2.svg"
+import progress3 from "../static/images/progress3.svg"
+import progress4 from "../static/images/progress4.svg"
+import progress5 from "../static/images/progress5.svg"
+import progressComplete from "../static/images/progressComplete.svg"
+
+const progressImages = [
+  progress1,
+  progress1,
+  progress2,
+  progress2,
+  progress3,
+  progress3,
+  progress4,
+  progress5,
+  progressComplete,
+]
 
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
   email: "",
-  emailCode: "",
+  token: "",
   permanentRole: false,
   loanAmount: 0,
   loanTerms: "",
@@ -33,15 +52,23 @@ const initialValues = {
 }
 
 const Previous = ({ decrementPage }) => (
-  <button type="button" onClick={decrementPage}>
+  <Button
+    className="border border-teal w-40 bg-white text-teal"
+    type="button"
+    onClick={decrementPage}
+  >
     Previous
-  </button>
+  </Button>
 )
 
 const Submit = ({ isSubmitting }) => (
-  <button type="submit" disabled={isSubmitting}>
+  <Button
+    className="w-40 bg-teal text-white"
+    type="submit"
+    disabled={isSubmitting}
+  >
     Submit
-  </button>
+  </Button>
 )
 
 const Next = ({
@@ -51,13 +78,14 @@ const Next = ({
   formCompleted,
   submitForm: displayErrors,
 }) => (
-  <button
+  <Button
+    className="w-40 bg-teal text-white"
     type="button"
     onClick={isValid ? onClick : displayErrors}
     disabled={isSubmitting}
   >
     {formCompleted ? "Summary" : "Next"}
-  </button>
+  </Button>
 )
 
 const createNewToken = async ({ email }) => {
@@ -72,13 +100,24 @@ const createNewToken = async ({ email }) => {
   return { token }
 }
 
+const isTokenValid = async ({ email, token }) => {
+  const res = await axios(
+    `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`
+  )
+
+  const {
+    data: { isTokenValid },
+  } = res
+
+  return { isTokenValid }
+}
+
 const Controls = ({
   page,
   pageAmount,
   setPage,
   isValid,
   isSubmitting,
-  className,
   values,
   formCompleted,
   setFormCompleted,
@@ -102,13 +141,19 @@ const Controls = ({
     setPage(pageAmount)
   }
 
-  const nextClick = page => {
+  const nextClick = () => {
     switch (page) {
       case 2:
         return () => {
           createNewToken({ email: values.email })
           formCompleted ? goToSummary() : incrementPage()
         }
+      case 3:
+        return () => {
+          isTokenValid({ token: values.token, email: values.email })
+          incrementPage()
+        }
+
       case pageAmount - 1:
         return () => {
           setFormCompleted(true)
@@ -119,13 +164,16 @@ const Controls = ({
     }
   }
 
-  return (
-    <section className={className}>
+  return page === 1 ? (
+    <section />
+  ) : (
+    <Section>
       <Previous {...{ decrementPage }} />
+      <img src={progressImages[page - 2]} />
       {!lastPage ? (
         <Next
           {...{
-            onClick: nextClick(page),
+            onClick: nextClick(),
             isValid,
             isSubmitting,
             formCompleted,
@@ -135,7 +183,7 @@ const Controls = ({
       ) : (
         <Submit {...{ isSubmitting }} />
       )}
-    </section>
+    </Section>
   )
 }
 
@@ -270,7 +318,10 @@ const Header = styled.div.attrs({
   className: "pl-10 pt-8 w-full",
 })``
 
-const Footer = styled.div``
+const Footer = styled.div.attrs({ className: "w-full bg-white" })`
+  transform: rotate(-180deg);
+  box-shadow: 0 28px 34px 0 #f7f8fb;
+`
 
 const StyledForm = styled(Form).attrs({
   className: "",
@@ -283,5 +334,11 @@ const StyledForm = styled(Form).attrs({
 const Logo = styled.img.attrs({
   src: orangeLogo,
 })``
+
+const Section = styled.section.attrs({
+  className: "flex w-full justify-between items-center px-10 py-6",
+})`
+  transform: rotate(180deg);
+`
 
 export default Onboarding

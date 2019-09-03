@@ -57,8 +57,10 @@ module.exports = {
       orange: "#fc8f14",
       teal: "#14becb",
       white: "#fefefe",
+      nearwhite: "#D8D8D8",
       black: "#32334f",
       midgray: "rgba(50,51,79,0.25)",
+      gray: "#979797",
       green: "#14da9e",
       red: "#ff0000",
     },
@@ -78,6 +80,10 @@ module.exports = {
         '"Segoe UI Symbol"',
         '"Noto Color Emoji"',
       ],
+    },
+    boxShadow: {
+      button:
+        "0 0 2px 1px rgba(0, 0, 0, 0.03), 0 6px 10px 2px rgba(20, 190, 203, 0.3)",
     },
   },
 }
