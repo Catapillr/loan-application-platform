@@ -5,84 +5,11 @@ import slider from "../static/icons/slider.svg"
 import tick from "../static/icons/tick.svg"
 import dropdown from "../static/icons/dropdown.svg"
 
-const ChooseInput = props => {
-  const {
-    type,
-    options,
-    component,
-    max,
-    placeholder,
-    validate,
-    name,
-    width,
-  } = props
-  switch (type) {
-    case "select":
-      return (
-        <StyledDropdown width={width} component="select" name={name}>
-          {options.map((option, index) =>
-            index === 0 ? (
-              <option key={`dropdown-${name}-placeholder`} value="">
-                {option}
-              </option>
-            ) : (
-              <option
-                key={`dropdown-${name}-${index}`}
-                value={option}
-                label={`${option}`}
-              />
-            )
-          )}
-        </StyledDropdown>
-      )
-
-    default:
-      return (
-        <Field
-          type={type}
-          component={component}
-          name={name}
-          max={max}
-          min="0"
-          placeholder={placeholder}
-          validate={validate}
-          width={width}
-        />
-      )
-  }
-}
-
-const Input = ({
-  text,
-  component,
-  type = "text",
-  name,
-  validate,
-  placeholder,
-  max,
-  options,
-  errors,
-  touched,
-  width,
-}) => {
+const Input = ({ text, width, name, ...attrs }) => {
   return (
     <Container text={text} width={width}>
       {text && <Label>{text}</Label>}
-      <ChooseInput
-        {...{
-          text,
-          component,
-          type,
-          name,
-          validate,
-          placeholder,
-          max,
-          options,
-          errors,
-          touched,
-          width,
-        }}
-      />
+      <Field name={name} {...attrs} />
       <div className="relative">
         <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
       </div>
@@ -123,7 +50,6 @@ const DateInput = ({ text, validate, name }) => (
         name={`${name}.day`}
         component={NumberInput}
         placeholder={"Day"}
-        validate={validate}
         type="number"
       />
       <Field
@@ -136,14 +62,17 @@ const DateInput = ({ text, validate, name }) => (
         name={`${name}.year`}
         component={NumberInput}
         placeholder={"Year"}
+        validate={validate}
         type="number"
       />
     </div>
 
-    <ErrorMessage
-      name={`${name}.day`}
-      render={msg => <Error>{msg}</Error>}
-    ></ErrorMessage>
+    <div className="relative">
+      <ErrorMessage
+        name={`${name}.year`}
+        render={msg => <Error>{msg}</Error>}
+      ></ErrorMessage>
+    </div>
   </Container>
 )
 
@@ -194,8 +123,29 @@ const Range = styled.input.attrs(({ field }) => ({ ...field }))`
   }
 `
 
-const StyledDropdown = styled(Field).attrs(({ width }) => ({
+const SelectInput = ({ width, field, options }) => {
+  return (
+    <Select width={width} field={field}>
+      {options.map((option, index) =>
+        index === 0 ? (
+          <option key={`dropdown-${name}-placeholder`} value="">
+            {option}
+          </option>
+        ) : (
+          <option
+            key={`dropdown-${name}-${index}`}
+            value={option}
+            label={`${option}`}
+          />
+        )
+      )}
+    </Select>
+  )
+}
+
+const Select = styled.select.attrs(({ width, field }) => ({
   className: `border-2 border-midgray rounded-full py-3 px-9 mt-6 w-${width} text-center`,
+  ...field,
 }))`
   display: block;
   line-height: 1.3;
@@ -285,4 +235,4 @@ const CheckboxContainer = styled.label`
   }
 `
 
-export { Input, DateInput, TextInput, RangeInput, CheckboxInput }
+export { Input, DateInput, TextInput, RangeInput, CheckboxInput, SelectInput }
