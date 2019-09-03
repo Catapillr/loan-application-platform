@@ -26,7 +26,7 @@ import DebugFormik from "../components/DebugFormik"
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
   email: "",
-  emailCode: "",
+  token: "",
   permanentRole: false,
   loanAmount: "",
   loanTerms: "",
@@ -105,6 +105,18 @@ const createNewToken = async ({ email }) => {
   return { token }
 }
 
+const isTokenValid = async ({ email, token }) => {
+  const res = await axios(
+    `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`
+  )
+
+  const {
+    data: { isTokenValid },
+  } = res
+
+  return { isTokenValid }
+}
+
 const Controls = ({
   page,
   pageAmount,
@@ -122,6 +134,11 @@ const Controls = ({
       case 2:
         return () => {
           createNewToken({ email: values.email })
+          return incrementPage()
+        }
+      case 3:
+        return () => {
+          isTokenValid({ token: values.token, email: values.email })
           return incrementPage()
         }
       case 7:

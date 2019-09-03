@@ -16,7 +16,7 @@ const Step3 = () => (
       {
         text:
           "We've sent a verification code to your email address. Please check your email, and enter the code here:",
-        name: "emailCode",
+        name: "token",
         component: TextInput,
       },
     ]}
