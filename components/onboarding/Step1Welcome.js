@@ -1,5 +1,7 @@
 import { Heading, Copy, Button } from "./styles"
 
+// TODO: tell people not to press back and forward buttons
+
 const Step1 = ({ setPage, employer }) => (
   <main className="flex justify-center items-center flex-col w-5/12 m-auto">
     <Heading className="mb-6 self-start">Welcome to Catapillr!</Heading>

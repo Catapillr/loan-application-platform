@@ -1,0 +1,22 @@
+<svg width="31px" height="30px" viewBox="0 0 31 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Catapillr-app" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Summary" transform="translate(-382.000000, -855.000000)">
+            <g id="Group-4" transform="translate(323.000000, 162.000000)">
+                <g id="Group-16" transform="translate(0.000000, 96.000000)">
+                    <g id="section" transform="translate(59.900000, 597.000000)">
+                        <g id="Group-4">
+                            <g id="Group-15">
+                                <g id="yes">
+                                    <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="15" cy="15" r="15"></circle>
+                                    <g id="f-check" transform="translate(6.000000, 8.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon id="Path" points="0.824242409 7.69292915 3.02222217 5.49494939 6.3191918 8.79191903 15.1111108 0 17.3090906 2.19797976 6.3191918 13.1878785"></polygon>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

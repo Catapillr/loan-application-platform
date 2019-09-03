@@ -3,6 +3,8 @@ import * as moment from "moment"
 
 import { Heading } from "./styles"
 
+import tealTick from "../../static/icons/teal-tick.svg"
+
 const sections = [
   {
     heading: "Personal Details",
@@ -28,13 +30,13 @@ const sections = [
       { title: "Employee ID", field: "employeeID", page: 7 },
     ],
   },
-  // {
-  //   heading: "Your loan application details",
-  //   fields: {
-  //     loanAmount: { title: "Loan amount" },
-  //     loanTerms: { title: "Repayment length" },
-  //   },
-  // },
+  {
+    heading: "Your loan application details",
+    fields: [
+      { title: "Loan amount", field: "loanAmount", page: 4 },
+      { title: "Repayment length", field: "loanTerms", page: 4 },
+    ],
+  },
 ]
 
 const getValues = (field, date) => values => {
@@ -46,6 +48,10 @@ const getValues = (field, date) => values => {
       ).format("DD MMMM YYYY")
     case field === "permanentRole":
       return "Permanent role"
+    case !values[field]:
+      return "N/A"
+    case field === "loanAmount":
+      return `£${values[field]}`
     default:
       return values[field]
   }
@@ -61,10 +67,10 @@ const SummarySection = ({ heading, fields, values, setPage }) => {
       <h2 className="uppercase mb-4">{heading}</h2>
       {fields.map(({ field, title, date, page }) => (
         <div key={title} className="flex justify-between mb-3">
-          <p className="w-2/6 font-bold">{title}</p>
-          <p className="w-2/6">{getValues(field, date)(values)}</p>
+          <p className="w-2/5 font-bold">{title}</p>
+          <p className="w-2/5">{getValues(field, date)(values)}</p>
           <a
-            className="w-2/6 text-right text-teal underline"
+            className="w-1/5 text-right text-teal underline"
             onClick={() => setPage(page)}
           >
             Change
@@ -75,8 +81,16 @@ const SummarySection = ({ heading, fields, values, setPage }) => {
   )
 }
 
-const Step8 = props => {
-  const { values } = props
+const Divider = styled.div.attrs({
+  className: "my-8",
+})`
+  height: 2px;
+  background-color: ${cssTheme("colors.midgray")};
+  width: 100%;
+  opacity: 0.5;
+`
+
+const Step8 = ({ values, setPage }) => {
   return (
     <main className="flex justify-center items-start flex-col m-auto font-base">
       <Heading className="mb-2">Thanks {values.firstName}</Heading>
@@ -88,12 +102,23 @@ const Step8 = props => {
           return (
             <SummarySection
               key={section.heading}
-              {...section}
               values={values}
-              setPage={props.setPage}
+              setPage={setPage}
+              {...section}
             ></SummarySection>
           )
         })}
+        <Divider />
+        <div className="flex">
+          <img className="mr-4" src={tealTick} alt="tick" />
+          <div>
+            <p>
+              By submitting you are confirming that, to the best of your
+              knowledge, the details you are providing are correct.
+            </p>
+            <p className="text-teal underline">I've got some questions</p>
+          </div>
+        </div>
       </SummaryContainer>
     </main>
   )

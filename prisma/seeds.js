@@ -2,20 +2,11 @@
 // env-cmd -f ./.config/dev.env node ./prisma/seeds.js
 
 const { prisma } = require("./generated")
+const flushDB = require("./flushDB")
 
 const seedDatabase = async () => {
   try {
-    const deleteUsers = await prisma.deleteManyUsers({
-      id_not: 0,
-    })
-
-    const deleteEmployers = await prisma.deleteManyEmployers({
-      id_not: 0,
-    })
-
-    const deleteEligibility = await prisma.deleteManyEligibilityCriterias({
-      id_not: 0,
-    })
+    await flushDB()
 
     const eligibilityCriteriaYalla = await prisma.createEligibilityCriteria({
       maximumAmount: 2000,
@@ -55,9 +46,6 @@ const seedDatabase = async () => {
       employer: { connect: { id: infact.id } },
     })
 
-    console.log(JSON.stringify(deleteEmployers, undefined, 2)) //eslint-disable-line no-console
-    console.log(JSON.stringify(deleteUsers, undefined, 2)) //eslint-disable-line no-console
-    console.log(JSON.stringify(deleteEligibility, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(eligibilityCriteriaInfact, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(eligibilityCriteriaYalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console

@@ -11,7 +11,10 @@ import Step5 from "../components/onboarding/Step5Accuracy"
 import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
 import Step8 from "../components/onboarding/Step8Summary"
+import DebugFormik from "../components/DebugFormik"
+import { Button } from "../components/onboarding/styles"
 
+import orangeLogo from "../static/logo_orange.svg"
 import progress1 from "../static/images/progress1.svg"
 import progress2 from "../static/images/progress2.svg"
 import progress3 from "../static/images/progress3.svg"
@@ -19,16 +22,24 @@ import progress4 from "../static/images/progress4.svg"
 import progress5 from "../static/images/progress5.svg"
 import progressComplete from "../static/images/progressComplete.svg"
 
-import { Button } from "../components/onboarding/styles"
-
-import DebugFormik from "../components/DebugFormik"
+const progressImages = [
+  progress1,
+  progress1,
+  progress2,
+  progress2,
+  progress3,
+  progress3,
+  progress4,
+  progress5,
+  progressComplete,
+]
 
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
   email: "",
   token: "",
   permanentRole: false,
-  loanAmount: "",
+  loanAmount: 0,
   loanTerms: "",
   firstName: "",
   lastName: "",
@@ -40,23 +51,6 @@ const initialValues = {
   agreementStatus: "",
 }
 
-// const initialValues = {
-//   employmentStartDate: { day: "22", month: "02", year: "2018" },
-//   email: "ivan@infactcoop.com",
-//   emailCode: "23234",
-//   permanentRole: true,
-//   loanAmount: "234",
-//   loanTerms: "10",
-//   firstName: "Ivan",
-//   lastName: "Gonzalez",
-//   dob: { day: "23", month: "03", year: "1989" },
-//   nationality: "Colombian",
-//   employeeID: "24",
-//   phoneNumber: "834729743972",
-//   confirmation: false,
-//   agreementStatus: "",
-// }
-
 const Previous = ({ decrementPage }) => (
   <Button
     className="border border-teal w-40 bg-white text-teal"
@@ -67,31 +61,32 @@ const Previous = ({ decrementPage }) => (
   </Button>
 )
 
-const Submit = ({ isDisabled }) => (
+const Submit = ({ isSubmitting }) => (
   <Button
     className="w-40 bg-teal text-white"
     type="submit"
-    disabled={isDisabled}
+    disabled={isSubmitting}
   >
     Submit
   </Button>
 )
 
-const Next = ({ onClick, isDisabled, formCompleted, submitForm }) => (
+const Next = ({
+  onClick,
+  isValid,
+  isSubmitting,
+  formCompleted,
+  submitForm: displayErrors,
+}) => (
   <Button
     className="w-40 bg-teal text-white"
     type="button"
-    onClick={isDisabled ? submitForm : onClick}
+    onClick={isValid ? onClick : displayErrors}
+    disabled={isSubmitting}
   >
     {formCompleted ? "Summary" : "Next"}
   </Button>
 )
-
-const Section = styled.section.attrs({
-  className: "flex w-full justify-between items-center px-10 py-6",
-})`
-  transform: rotate(180deg);
-`
 
 const createNewToken = async ({ email }) => {
   const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
@@ -121,7 +116,8 @@ const Controls = ({
   page,
   pageAmount,
   setPage,
-  isDisabled,
+  isValid,
+  isSubmitting,
   values,
   formCompleted,
   setFormCompleted,
@@ -129,35 +125,11 @@ const Controls = ({
 }) => {
   const lastPage = page === pageAmount
 
-  const nextClick = page => {
-    switch (page) {
-      case 2:
-        return () => {
-          createNewToken({ email: values.email })
-          return incrementPage()
-        }
-      case 3:
-        return () => {
-          isTokenValid({ token: values.token, email: values.email })
-          return incrementPage()
-        }
-      case 7:
-        return () => {
-          setFormCompleted(true)
-          return incrementPage()
-        }
-      default:
-        return formCompleted ? incrementLastPage : submitForm
-    }
-  }
-
   const incrementPage = () => {
     if (page < pageAmount) {
       setPage(page + 1)
     }
   }
-
-  const incrementLastPage = () => setPage(pageAmount)
 
   const decrementPage = () => {
     if (page <= pageAmount && page > 1) {
@@ -165,71 +137,60 @@ const Controls = ({
     }
   }
 
-  const progressImage = [
-    progress1,
-    progress1,
-    progress2,
-    progress2,
-    progress3,
-    progress3,
-    progress4,
-    progress5,
-    progressComplete,
-  ]
+  const goToSummary = () => {
+    setPage(pageAmount)
+  }
+
+  const nextClick = () => {
+    switch (page) {
+      case 2:
+        return () => {
+          createNewToken({ email: values.email })
+          formCompleted ? goToSummary() : incrementPage()
+        }
+      case 3:
+        return () => {
+          isTokenValid({ token: values.token, email: values.email })
+          incrementPage()
+        }
+
+      case pageAmount - 1:
+        return () => {
+          setFormCompleted(true)
+          incrementPage()
+        }
+      default:
+        return formCompleted ? goToSummary : incrementPage
+    }
+  }
 
   return page === 1 ? (
     <section />
   ) : (
     <Section>
       <Previous {...{ decrementPage }} />
-      <img src={progressImage[page - 2]} />
-
-      {!lastPage && (
+      <img src={progressImages[page - 2]} />
+      {!lastPage ? (
         <Next
           {...{
-            onClick: nextClick(page),
-            isDisabled,
+            onClick: nextClick(),
+            isValid,
+            isSubmitting,
             formCompleted,
             submitForm,
           }}
         />
+      ) : (
+        <Submit {...{ isSubmitting }} />
       )}
-      {lastPage && <Submit {...{ isDisabled }} />}
     </Section>
   )
 }
 
-const Footer = styled.div.attrs({ className: "w-full bg-white" })`
-  transform: rotate(-180deg);
-  box-shadow: 0 28px 34px 0 #f7f8fb;
-`
-
-const Container = styled.div.attrs({
-  className: "bg-white flex flex-col items-center justify-between",
-})`
-  width: 90%;
-  height: 90%;
-  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
-`
-
-const Header = styled.div.attrs({
-  className: "pl-10 pt-8 w-full",
-})``
-const StyledForm = styled(Form).attrs({
-  className: "",
-})`
-  width: 70%;
-  max-width: 800px;
-`
-
-const Logo = styled.img.attrs({
-  src: "/static/logo_orange.svg",
-})``
-
 const Wizard = ({ children, employer }) => {
+  const [pageAmount] = useState(children.length)
   const [page, setPage] = useState(1)
   const [formCompleted, setFormCompleted] = useState(false)
-  const [pageAmount] = useState(children.length)
   const activePage = React.Children.toArray(children)[page - 1]
   const { validationSchema } = activePage && activePage.type
 
@@ -238,19 +199,19 @@ const Wizard = ({ children, employer }) => {
       initialValues={initialValues}
       enableReinitialize={false}
       validationSchema={validationSchema}
+      onSubmit={() => {
+        console.log("submitted") //eslint-disable-line no-console
+      }}
     >
-      {form => {
-        const {
-          isValid,
-          isSubmitting,
-          validateForm,
-          values,
-          submitForm,
-          setTouched,
-        } = form
-        const isDisabled = !isValid || isSubmitting
-
-        const debugging = false
+      {({
+        isValid,
+        isSubmitting,
+        validateForm,
+        values,
+        submitForm,
+        setTouched,
+      }) => {
+        const debugging = true
 
         return (
           <Container>
@@ -262,7 +223,7 @@ const Wizard = ({ children, employer }) => {
                 component={React.cloneElement(activePage, {
                   setPage,
                   employer,
-                  ...form,
+                  values,
                 })}
                 validateForm={validateForm}
                 page={page}
@@ -276,7 +237,8 @@ const Wizard = ({ children, employer }) => {
                     page,
                     pageAmount,
                     setPage,
-                    isDisabled,
+                    isValid,
+                    isSubmitting,
                     values,
                     validateForm,
                     submitForm,
@@ -337,5 +299,40 @@ Onboarding.getInitialProps = async ({ req }) => {
   } = res
   return { employer }
 }
+
+const Container = styled.div.attrs({
+  className: "bg-white flex flex-col items-center justify-between",
+})`
+  width: 90%;
+  height: 90%;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
+`
+
+const Header = styled.div.attrs({
+  className: "pl-10 pt-8 w-full",
+})``
+
+const Footer = styled.div.attrs({ className: "w-full bg-white" })`
+  transform: rotate(-180deg);
+  box-shadow: 0 28px 34px 0 #f7f8fb;
+`
+
+const StyledForm = styled(Form).attrs({
+  className: "",
+})`
+  width: 70%;
+  min-height: 55vh;
+  max-width: 860px;
+`
+
+const Logo = styled.img.attrs({
+  src: orangeLogo,
+})``
+
+const Section = styled.section.attrs({
+  className: "flex w-full justify-between items-center px-10 py-6",
+})`
+  transform: rotate(180deg);
+`
 
 export default Onboarding

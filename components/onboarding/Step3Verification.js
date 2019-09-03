@@ -4,7 +4,7 @@ import Questions from "./Questions"
 import { TextInput } from "../../components/Input"
 
 const validation = Yup.object().shape({
-  emailCode: Yup.string()
+  token: Yup.string()
     .min(1)
     .required("Required"),
 })
