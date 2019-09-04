@@ -11,6 +11,7 @@ import Step5 from "../components/onboarding/Step5Accuracy"
 import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
 import Step8 from "../components/onboarding/Step8Summary"
+import Step9 from "../components/onboarding/Step9Confirmation"
 import DebugFormik from "../components/DebugFormik"
 import { Button } from "../components/onboarding/styles"
 
@@ -33,6 +34,23 @@ const progressImages = [
   progress5,
   progressComplete,
 ]
+
+// const initialValues = {
+//   employmentStartDate: { day: "22", month: "02", year: "2018" },
+//   email: "ivan@infactcoop.com",
+//   token: "2342",
+//   permanentRole: true,
+//   loanAmount: "234",
+//   loanTerms: "10",
+//   firstName: "Ivan",
+//   lastName: "Gonzalez",
+//   dob: { day: "23", month: "03", year: "1989" },
+//   nationality: "Colombian",
+//   employeeID: "24",
+//   phoneNumber: "834729743972",
+//   confirmation: false,
+//   agreementStatus: "",
+// }
 
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
@@ -124,9 +142,8 @@ const Controls = ({
   setFormCompleted,
   submitForm,
   setEmailVerificationError,
+  shouldFormSubmit,
 }) => {
-  const lastPage = page === pageAmount
-
   const incrementPage = () => {
     if (page < pageAmount) {
       setPage(page + 1)
@@ -159,7 +176,7 @@ const Controls = ({
           valid.isTokenValid ? incrementPage() : setEmailVerificationError(true)
         }
 
-      case pageAmount - 1:
+      case 7:
         return () => {
           setFormCompleted(true)
           incrementPage()
@@ -175,7 +192,9 @@ const Controls = ({
     <Section>
       <Previous {...{ decrementPage }} />
       <img src={progressImages[page - 2]} />
-      {!lastPage ? (
+      {shouldFormSubmit ? (
+        <Submit {...{ isSubmitting, submitForm }} />
+      ) : (
         <Next
           {...{
             onClick: nextClick(),
@@ -185,8 +204,6 @@ const Controls = ({
             submitForm,
           }}
         />
-      ) : (
-        <Submit {...{ isSubmitting, submitForm }} />
       )}
     </Section>
   )
@@ -198,31 +215,32 @@ const Wizard = ({ children, employer }) => {
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
   const activePage = React.Children.toArray(children)[page - 1]
-  const { validationSchema } = activePage && activePage.type
+  const { validationSchema, shouldFormSubmit } = activePage && activePage.type
 
   return (
     <Formik
       initialValues={initialValues}
       enableReinitialize={false}
       validationSchema={validationSchema}
-      onSubmit={async ({ firstName, lastName, loanTerms, loanAmount }) => {
-        console.log("submitted") //eslint-disable-line no-console
+      onSubmit={async ({
+        firstName,
+        lastName,
+        loanTerms,
+        loanAmount,
+        email,
+      }) => {
+        console.log("onboarding form submitted") //eslint-disable-line no-console
         try {
-          const res = await axios.post(
-            `${process.env.HOST}/api/send-loan-agreement`,
-            {
-              name: `${firstName} ${lastName}`,
-              loanTerms,
-              loanAmount,
-            }
-          )
+          await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
+            name: `${firstName} ${lastName}`,
+            loanTerms,
+            loanAmount,
+            email,
+          })
 
-          const {
-            data: { success },
-          } = res
-
-          console.log("success", success) //eslint-disable-line no-console
+          setPage(page + 1)
         } catch (e) {
+          // TODO: trigger submit error
           console.log("template error", JSON.stringify(e, undefined, 2)) //eslint-disable-line no-console
         }
       }}
@@ -270,6 +288,7 @@ const Wizard = ({ children, employer }) => {
                     formCompleted,
                     setFormCompleted,
                     setEmailVerificationError,
+                    shouldFormSubmit,
                   }}
                 />
               )}
@@ -310,6 +329,7 @@ const Onboarding = ({ employer }) => {
       <Step6 />
       <Step7 />
       <Step8 />
+      <Step9 />
     </Wizard>
   )
 }

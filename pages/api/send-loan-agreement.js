@@ -4,7 +4,7 @@ const hellosign = require("hellosign-sdk")({
 
 export default async (req, res) => {
   try {
-    const { loanTerms, loanAmount, name } = req.body
+    const { loanTerms, loanAmount, name, email } = req.body
 
     const opts = {
       test_mode: 1,
@@ -13,7 +13,7 @@ export default async (req, res) => {
       subject: "Employee loan agreement",
       signers: [
         {
-          email_address: "catapillr@protonmail.com",
+          email_address: email,
           name,
           role: "Employee",
         },
@@ -30,21 +30,11 @@ export default async (req, res) => {
       ],
     }
 
-    await hellosign.signatureRequest
-      .sendWithTemplate(opts)
-      .then(res => {
-        console.log(JSON.stringify(res, undefined, 2)) //eslint-disable-line no-console
-        // handle response
-      })
-      .catch(err => {
-        console.log(JSON.stringify(err, undefined, 2)) //eslint-disable-line no-console
-        // handle error
-      })
-
-    res.statusCode = 200
-    res.setHeader("Content-Type", "application/json")
-    return res.json({ success: true })
+    const helloSignRes = await hellosign.signatureRequest.sendWithTemplate(opts)
+    console.log("Template sent: ", JSON.stringify(helloSignRes, undefined, 2)) //eslint-disable-line no-console
+    res.status(200).end()
   } catch (e) {
     console.log("Loan agreement error: ", e) //eslint-disable-line no-console
+    res.status(400).end()
   }
 }

@@ -124,4 +124,6 @@ const Step8 = ({ values, setPage }) => {
   )
 }
 
+Step8.shouldFormSubmit = true
+
 export default Step8
