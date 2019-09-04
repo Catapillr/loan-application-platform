@@ -3640,7 +3640,7 @@ form-data@^0.2.0:
     combined-stream "~0.0.4"
     mime-types "~2.0.3"
 
-form-data@^2.0.0:
+form-data@^2.0.0, form-data@^2.3.2:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
   integrity sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
@@ -4074,6 +4074,15 @@ hash.js@^1.0.0, hash.js@^1.0.3:
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
+
+hellosign-sdk@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/hellosign-sdk/-/hellosign-sdk-1.3.1.tgz#b748a6cd0cbe2f258e92d791cde6d1bbe4aa66e6"
+  integrity sha512-pL7dOPoRtakx2cqZ0u14UDLW/HcX/tX3NW1T3McOtK8bR5sS+PLCQsvr5HYLY3BoWsA8o0bw/21N0br7SNG2Vw==
+  dependencies:
+    form-data "^2.3.2"
+    request "^2.55.0"
+    when "~3.1.0"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -7388,7 +7397,7 @@ replaceall@^0.1.6:
   resolved "https://registry.yarnpkg.com/replaceall/-/replaceall-0.1.6.tgz#81d81ac7aeb72d7f5c4942adf2697a3220688d8e"
   integrity sha1-gdgax663LX9cSUKt8ml6MiBojY4=
 
-request@^2.87.0:
+request@^2.55.0, request@^2.87.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==
@@ -8813,6 +8822,11 @@ whatwg-fetch@>=0.10.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
+
+when@~3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/when/-/when-3.1.0.tgz#a2479659ca15f725541ecf52ebae091b781ee134"
+  integrity sha1-okeWWcoV9yVUHs9S664JG3ge4TQ=
 
 which-module@^2.0.0:
   version "2.0.0"

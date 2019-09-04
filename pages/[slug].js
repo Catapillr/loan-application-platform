@@ -61,11 +61,12 @@ const Previous = ({ decrementPage }) => (
   </Button>
 )
 
-const Submit = ({ isSubmitting }) => (
+const Submit = ({ isSubmitting, submitForm }) => (
   <Button
     className="w-40 bg-teal text-white"
     type="submit"
     disabled={isSubmitting}
+    onClick={submitForm}
   >
     Submit
   </Button>
@@ -185,7 +186,7 @@ const Controls = ({
           }}
         />
       ) : (
-        <Submit {...{ isSubmitting }} />
+        <Submit {...{ isSubmitting, submitForm }} />
       )}
     </Section>
   )
@@ -204,8 +205,26 @@ const Wizard = ({ children, employer }) => {
       initialValues={initialValues}
       enableReinitialize={false}
       validationSchema={validationSchema}
-      onSubmit={() => {
+      onSubmit={async ({ firstName, lastName, loanTerms, loanAmount }) => {
         console.log("submitted") //eslint-disable-line no-console
+        try {
+          const res = await axios.post(
+            `${process.env.HOST}/api/send-loan-agreement`,
+            {
+              name: `${firstName} ${lastName}`,
+              loanTerms,
+              loanAmount,
+            }
+          )
+
+          const {
+            data: { success },
+          } = res
+
+          console.log("success", success) //eslint-disable-line no-console
+        } catch (e) {
+          console.log("template error", JSON.stringify(e, undefined, 2)) //eslint-disable-line no-console
+        }
       }}
     >
       {({

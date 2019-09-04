@@ -34,7 +34,7 @@ export default async (req, res) => {
           token: random,
         })
 
-    const sendToken = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+    await mg.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `${process.env.MAILGUN_SENDER_NAME} <${process.env.MAILGUN_SENDER_EMAIL}>`,
       to: [email],
       subject: `Your email token is ${random}`,
@@ -46,6 +46,6 @@ export default async (req, res) => {
     res.setHeader("Content-Type", "application/json")
     return res.json({ token })
   } catch (e) {
-    console.log("There was an error creating an email token: ", e)
+    console.log("There was an error creating an email token: ", e) //eslint-disable-line no-console
   }
 }
