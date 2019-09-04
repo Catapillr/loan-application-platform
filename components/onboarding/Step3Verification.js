@@ -3,6 +3,8 @@ import * as Yup from "yup"
 import Questions from "./Questions"
 import { TextInput } from "../../components/Input"
 
+import progress2 from "../../static/images/progress2.svg"
+
 const validation = Yup.object().shape({
   token: Yup.string()
     .min(1)
@@ -33,5 +35,6 @@ const Step3 = ({ emailVerificationError }) => (
 )
 
 Step3.validationSchema = validation
+Step3.progressImg = progress2
 
 export default Step3

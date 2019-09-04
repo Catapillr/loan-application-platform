@@ -4,6 +4,8 @@ import * as moment from "moment"
 import Questions from "./Questions"
 import { TextInput, CheckboxInput } from "../../components/Input"
 
+import progress1 from "../../static/images/progress1.svg"
+
 const validation = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
@@ -80,5 +82,6 @@ const Step2 = ({
 )
 
 Step2.validationSchema = validation
+Step2.progressImg = progress1
 
 export default Step2

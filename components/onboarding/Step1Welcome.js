@@ -1,5 +1,7 @@
 import { Heading, Copy, Button } from "./styles"
 
+import progress1 from "../../static/images/progress1.svg"
+
 // TODO: tell people not to press back and forward buttons
 
 const Step1 = ({ setPage, employer }) => (
@@ -20,5 +22,8 @@ const Step1 = ({ setPage, employer }) => (
     </Button>
   </main>
 )
+
+Step1.hideControls = true
+Step1.progressImg = progress1
 
 export default Step1

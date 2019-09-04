@@ -1,5 +1,7 @@
 import { Heading, Copy, Button } from "./styles"
 
+import progress3 from "../../static/images/progress3.svg"
+
 const Step5 = ({ setPage }) => (
   <main className="flex justify-center items-center flex-col w-7/12 m-auto">
     <Heading className="mb-6 text-center self-start">
@@ -25,5 +27,8 @@ const Step5 = ({ setPage }) => (
     </Button>
   </main>
 )
+
+Step5.hideNext = true
+Step5.progressImg = progress3
 
 export default Step5

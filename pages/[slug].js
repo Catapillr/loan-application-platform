@@ -16,24 +16,6 @@ import DebugFormik from "../components/DebugFormik"
 import { Button } from "../components/onboarding/styles"
 
 import orangeLogo from "../static/logo_orange.svg"
-import progress1 from "../static/images/progress1.svg"
-import progress2 from "../static/images/progress2.svg"
-import progress3 from "../static/images/progress3.svg"
-import progress4 from "../static/images/progress4.svg"
-import progress5 from "../static/images/progress5.svg"
-import progressComplete from "../static/images/progressComplete.svg"
-
-const progressImages = [
-  progress1,
-  progress1,
-  progress2,
-  progress2,
-  progress3,
-  progress3,
-  progress4,
-  progress5,
-  progressComplete,
-]
 
 // const initialValues = {
 //   employmentStartDate: { day: "22", month: "02", year: "2018" },
@@ -69,15 +51,18 @@ const initialValues = {
   agreementStatus: "",
 }
 
-const Previous = ({ decrementPage }) => (
-  <Button
-    className="border border-teal w-40 bg-white text-teal"
-    type="button"
-    onClick={decrementPage}
-  >
-    Previous
-  </Button>
-)
+const Previous = ({ decrementPage, hidePrevious }) =>
+  hidePrevious ? (
+    <div className="w-40" />
+  ) : (
+    <Button
+      className="border border-teal w-40 bg-white text-teal"
+      type="button"
+      onClick={decrementPage}
+    >
+      Previous
+    </Button>
+  )
 
 const Submit = ({ isSubmitting, submitForm }) => (
   <Button
@@ -96,16 +81,20 @@ const Next = ({
   isSubmitting,
   formCompleted,
   submitForm: displayErrors,
-}) => (
-  <Button
-    className="w-40 bg-teal text-white"
-    type="button"
-    onClick={isValid ? onClick : displayErrors}
-    disabled={isSubmitting}
-  >
-    {formCompleted ? "Summary" : "Next"}
-  </Button>
-)
+  hideNext,
+}) =>
+  hideNext ? (
+    <div className="w-40" />
+  ) : (
+    <Button
+      className="w-40 bg-teal text-white"
+      type="button"
+      onClick={isValid ? onClick : displayErrors}
+      disabled={isSubmitting}
+    >
+      {formCompleted ? "Summary" : "Next"}
+    </Button>
+  )
 
 const createNewToken = async ({ email }) => {
   const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
@@ -133,8 +122,6 @@ const isTokenValid = async ({ email, token }) => {
 
 const Controls = ({
   page,
-  pageAmount,
-  setPage,
   isValid,
   isSubmitting,
   values,
@@ -143,29 +130,19 @@ const Controls = ({
   submitForm,
   setEmailVerificationError,
   shouldFormSubmit,
+  hideNext,
+  hidePrevious,
+  progressImg,
+  incrementPage,
+  decrementPage,
+  goToSummaryPage,
 }) => {
-  const incrementPage = () => {
-    if (page < pageAmount) {
-      setPage(page + 1)
-    }
-  }
-
-  const decrementPage = () => {
-    if (page <= pageAmount && page > 1) {
-      setPage(page - 1)
-    }
-  }
-
-  const goToSummary = () => {
-    setPage(pageAmount)
-  }
-
   const nextClick = () => {
     switch (page) {
       case 2:
         return () => {
           createNewToken({ email: values.email })
-          formCompleted ? goToSummary() : incrementPage()
+          formCompleted ? goToSummaryPage() : incrementPage()
         }
       case 3:
         return async () => {
@@ -182,16 +159,14 @@ const Controls = ({
           incrementPage()
         }
       default:
-        return formCompleted ? goToSummary : incrementPage
+        return formCompleted ? goToSummaryPage : incrementPage
     }
   }
 
-  return page === 1 ? (
-    <section />
-  ) : (
-    <Section>
-      <Previous {...{ decrementPage }} />
-      <img src={progressImages[page - 2]} />
+  return (
+    <ControlsSection {...{ hideNext, hidePrevious }}>
+      <Previous {...{ decrementPage, hidePrevious }} />
+      <img src={progressImg} />
       {shouldFormSubmit ? (
         <Submit {...{ isSubmitting, submitForm }} />
       ) : (
@@ -202,47 +177,76 @@ const Controls = ({
             isSubmitting,
             formCompleted,
             submitForm,
+            hideNext,
           }}
         />
       )}
-    </Section>
+    </ControlsSection>
   )
 }
 
+const onSubmit = incrementPage => async ({
+  firstName,
+  lastName,
+  loanTerms,
+  loanAmount,
+  email,
+}) => {
+  //eslint-disable-next-line no-console
+  console.log("onboarding form submitted")
+  try {
+    await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
+      name: `${firstName} ${lastName}`,
+      loanTerms,
+      loanAmount,
+      email,
+    })
+
+    incrementPage()
+  } catch (e) {
+    // TODO: trigger submit error
+
+    //eslint-disable-next-line no-console
+    console.error(
+      "Loan agreement sending error",
+      JSON.stringify(e, undefined, 2)
+    )
+  }
+}
+
 const Wizard = ({ children, employer }) => {
-  const [pageAmount] = useState(children.length)
   const [page, setPage] = useState(1)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
+  const [summaryPage, setSummaryPage] = useState()
+
   const activePage = React.Children.toArray(children)[page - 1]
-  const { validationSchema, shouldFormSubmit } = activePage && activePage.type
+  const {
+    validationSchema,
+    shouldFormSubmit,
+    hideNext,
+    hidePrevious,
+    progressImg,
+    hideControls,
+  } = activePage && activePage.type
+
+  useEffect(() => {
+    if (shouldFormSubmit) {
+      setSummaryPage(page)
+    }
+  }, [page])
+
+  const incrementPage = () => setPage(page + 1)
+  const decrementPage = () => setPage(page - 1)
+  const goToSummaryPage = () => setPage(summaryPage)
 
   return (
     <Formik
-      initialValues={initialValues}
-      enableReinitialize={false}
-      validationSchema={validationSchema}
-      onSubmit={async ({
-        firstName,
-        lastName,
-        loanTerms,
-        loanAmount,
-        email,
-      }) => {
-        console.log("onboarding form submitted") //eslint-disable-line no-console
-        try {
-          await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
-            name: `${firstName} ${lastName}`,
-            loanTerms,
-            loanAmount,
-            email,
-          })
-
-          setPage(page + 1)
-        } catch (e) {
-          // TODO: trigger submit error
-          console.log("template error", JSON.stringify(e, undefined, 2)) //eslint-disable-line no-console
-        }
+      {...{
+        initialValues,
+        validationSchema,
+        onSubmit: onSubmit(incrementPage),
+        enableReinitialize: false,
       }}
     >
       {({
@@ -274,12 +278,10 @@ const Wizard = ({ children, employer }) => {
               ></RenderStep>
             </StyledForm>
             <Footer>
-              {page !== 1 && (
+              {!hideControls && (
                 <Controls
                   {...{
                     page,
-                    pageAmount,
-                    setPage,
                     isValid,
                     isSubmitting,
                     values,
@@ -289,10 +291,17 @@ const Wizard = ({ children, employer }) => {
                     setFormCompleted,
                     setEmailVerificationError,
                     shouldFormSubmit,
+                    hideNext,
+                    hidePrevious,
+                    progressImg,
+                    incrementPage,
+                    decrementPage,
+                    goToSummaryPage,
                   }}
                 />
               )}
             </Footer>
+
             {debugging && (
               <Field>
                 {({ field }) => (
@@ -375,8 +384,8 @@ const Logo = styled.img.attrs({
   src: orangeLogo,
 })``
 
-const Section = styled.section.attrs({
-  className: "flex w-full justify-between items-center px-10 py-6",
+const ControlsSection = styled.section.attrs({
+  className: `flex w-full justify-between items-center px-10 py-6`,
 })`
   transform: rotate(180deg);
 `
