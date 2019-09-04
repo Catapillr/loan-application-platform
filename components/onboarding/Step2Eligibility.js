@@ -56,6 +56,13 @@ const Step2 = ({
     title="We need a few details from you to verify that you are eligible"
     questions={[
       {
+        text: "I confirm that my current role is permanent:",
+        name: "permanentRole",
+        className: "",
+        type: "checkbox",
+        component: CheckboxInput,
+      },
+      {
         text: "When did you start working for your employer?",
         date: true,
         name: "employmentStartDate",
@@ -69,13 +76,6 @@ const Step2 = ({
         className: "",
         validate: value => validateEmail(emailSuffix, value),
         placeholder: "e.g. dan@example.com",
-      },
-      {
-        text: "I confirm that my current role is permanent:",
-        name: "permanentRole",
-        className: "",
-        type: "checkbox",
-        component: CheckboxInput,
       },
     ]}
   />
