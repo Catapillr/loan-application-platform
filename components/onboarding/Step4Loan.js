@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import styled from "styled-components"
 
 import Questions from "./Questions"
-import { RangeInput } from "../../components/Input"
+import { RangeInput, SelectInput } from "../../components/Input"
 
 const validation = Yup.object().shape({
   loanAmount: Yup.number()
@@ -38,12 +38,14 @@ const Step4 = ({ employer, values }) => {
             type: "range",
             width: "full",
             max: employer.maximumAmount,
+            min: 0,
           },
           {
             text: "How long would you like to pay it back over?",
             name: "loanTerms",
             options: ["Select months", 10, 12],
             type: "select",
+            component: SelectInput,
             width: "5/6",
           },
         ]}

@@ -1,7 +1,7 @@
 import * as Yup from "yup"
 
 import Questions from "./Questions"
-import { TextInput } from "../../components/Input"
+import { TextInput, SelectInput } from "../../components/Input"
 
 import nationality_options from "./nationalityOptions"
 const validation = Yup.object().shape({
@@ -21,6 +21,7 @@ const Step7 = () => (
         text: "Nationality",
         name: "nationality",
         type: "select",
+        component: SelectInput,
         width: "full",
         options: nationality_options,
       },
