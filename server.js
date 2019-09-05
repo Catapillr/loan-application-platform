@@ -17,7 +17,7 @@ app.prepare().then(() => {
     return handle(req, res)
   })
 
-  server.post("/api/create-new-token", (req, res) => {
+  server.post("*", (req, res) => {
     return handle(req, res)
   })
 

@@ -3,7 +3,10 @@ import * as Yup from "yup"
 import Questions from "./Questions"
 import { TextInput, SelectInput } from "../../components/Input"
 
-import nationality_options from "./nationalityOptions"
+import progress4 from "../../static/images/progress4.svg"
+
+import nationalityOptions from "./nationalityOptions"
+
 const validation = Yup.object().shape({
   nationality: Yup.string().required("Required"),
   phoneNumber: Yup.string()
@@ -23,7 +26,7 @@ const Step7 = () => (
         type: "select",
         component: SelectInput,
         width: "full",
-        options: nationality_options,
+        options: nationalityOptions,
       },
       {
         text: "Employee ID (if applicable)",
@@ -43,5 +46,6 @@ const Step7 = () => (
 )
 
 Step7.validationSchema = validation
+Step7.progressImg = progress4
 
 export default Step7

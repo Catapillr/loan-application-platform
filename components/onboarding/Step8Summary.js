@@ -4,6 +4,7 @@ import * as moment from "moment"
 import { Heading } from "./styles"
 
 import tealTick from "../../static/icons/teal-tick.svg"
+import progress4 from "../../static/images/progress4.svg"
 
 const sections = [
   {
@@ -123,5 +124,8 @@ const Step8 = ({ values, setPage }) => {
     </main>
   )
 }
+
+Step8.shouldFormSubmit = true
+Step8.progressImg = progress4
 
 export default Step8

@@ -1,5 +1,6 @@
 import { ErrorMessage, Field } from "formik"
 import styled from "styled-components"
+import * as R from "ramda"
 
 import slider from "../static/icons/slider.svg"
 import tick from "../static/icons/tick.svg"
@@ -49,19 +50,19 @@ const DateInput = ({ text, validate, name }) => (
       <Field
         name={`${name}.day`}
         component={NumberInput}
-        placeholder={"Day"}
+        placeholder={"DD"}
         type="number"
       />
       <Field
         name={`${name}.month`}
         component={NumberInput}
-        placeholder={"Month"}
+        placeholder={"MM"}
         type="number"
       />
       <Field
         name={`${name}.year`}
         component={NumberInput}
-        placeholder={"Year"}
+        placeholder={"YYYY"}
         validate={validate}
         type="number"
       />
@@ -76,20 +77,46 @@ const DateInput = ({ text, validate, name }) => (
   </Container>
 )
 
-const NumberInput = styled.input.attrs(({ field }) => {
-  return {
-    className:
-      "border-solid border-2 border-midgray rounded-full py-2d5 text-center mr-2",
-    ...field,
-  }
-})``
+const NumberInput = styled.input.attrs(
+  ({ field, form: { errors, touched } }) => {
+    const { name } = field
 
-const RangeInput = props => {
-  const { field } = props
+    const pathToField = R.split(".", name)
+    const rootField = pathToField[0]
+
+    const showErrors =
+      R.path(pathToField, errors) && R.path(pathToField, touched)
+
+    const showDateErrors = (() => {
+      if ([".day", ".month"].some(suffix => name.includes(suffix))) {
+        const pathToYearSubField = [rootField, "year"]
+        return (
+          R.path(pathToYearSubField, errors) &&
+          R.path(pathToYearSubField, touched)
+        )
+      }
+    })()
+
+    return {
+      className: `border-solid border-2 border-${
+        showErrors || showDateErrors ? "red" : "midgray"
+      } rounded-full py-2d5 text-center mr-2`,
+      ...field,
+    }
+  }
+)``
+
+const RangeInput = ({ field, form: { errors, touched }, ...attrs }) => {
+  const { name } = field
   return (
     <>
-      <Range {...props} />
-      <div className="border-2 border-midgray rounded-full py-2 px-4 mt-6 w-40 ">
+      <Range {...field} {...attrs} />
+      <div
+        className={`border-2 border-${
+          errors[name] && touched[name] ? "red" : "midgray"
+        }
+        midgray rounded-full py-2 px-4 mt-6 w-40`}
+      >
         {`£${field.value}`}
       </div>
     </>
@@ -123,9 +150,10 @@ const Range = styled.input.attrs(({ field }) => ({ ...field }))`
   }
 `
 
-const SelectInput = ({ width, field, options }) => {
+const SelectInput = ({ width, field, options, form }) => {
+  const { name } = field
   return (
-    <Select width={width} field={field}>
+    <Select {...{ width, field, form }}>
       {options.map((option, index) =>
         index === 0 ? (
           <option key={`dropdown-${name}-placeholder`} value="">
@@ -143,10 +171,17 @@ const SelectInput = ({ width, field, options }) => {
   )
 }
 
-const Select = styled.select.attrs(({ width, field }) => ({
-  className: `border-2 border-midgray rounded-full py-3 px-9 mt-6 w-${width} text-center`,
-  ...field,
-}))`
+const Select = styled.select.attrs(
+  ({ width, field, form: { errors, touched } }) => {
+    const { name } = field
+    return {
+      className: `border-2 border-${
+        errors[name] && touched[name] ? "red" : "midgray"
+      } rounded-full py-3 px-9 mt-6 w-${width} text-center`,
+      ...field,
+    }
+  }
+)`
   display: block;
   line-height: 1.3;
   margin: 0;

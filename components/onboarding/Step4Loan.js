@@ -4,6 +4,8 @@ import styled from "styled-components"
 import Questions from "./Questions"
 import { RangeInput, SelectInput } from "../../components/Input"
 
+import progress2 from "../../static/images/progress2.svg"
+
 const validation = Yup.object().shape({
   loanAmount: Yup.number()
     .moreThan(0, "Please choose a loan amount using the slider")
@@ -86,5 +88,6 @@ const Step4 = ({ employer, values }) => {
 }
 
 Step4.validationSchema = validation
+Step4.progressImg = progress2
 
 export default Step4

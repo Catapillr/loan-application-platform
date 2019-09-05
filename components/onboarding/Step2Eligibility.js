@@ -4,6 +4,8 @@ import * as moment from "moment"
 import Questions from "./Questions"
 import { TextInput, CheckboxInput } from "../../components/Input"
 
+import progress1 from "../../static/images/progress1.svg"
+
 const validation = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
@@ -54,6 +56,13 @@ const Step2 = ({
     title="We need a few details from you to verify that you are eligible"
     questions={[
       {
+        text: "I confirm that my current role is permanent:",
+        name: "permanentRole",
+        className: "",
+        type: "checkbox",
+        component: CheckboxInput,
+      },
+      {
         text: "When did you start working for your employer?",
         date: true,
         name: "employmentStartDate",
@@ -68,17 +77,11 @@ const Step2 = ({
         validate: value => validateEmail(emailSuffix, value),
         placeholder: "e.g. dan@example.com",
       },
-      {
-        text: "I confirm that my current role is permanent:",
-        name: "permanentRole",
-        className: "",
-        type: "checkbox",
-        component: CheckboxInput,
-      },
     ]}
   />
 )
 
 Step2.validationSchema = validation
+Step2.progressImg = progress1
 
 export default Step2

@@ -11,28 +11,28 @@ import Step5 from "../components/onboarding/Step5Accuracy"
 import Step6 from "../components/onboarding/Step6Personal"
 import Step7 from "../components/onboarding/Step7Personal"
 import Step8 from "../components/onboarding/Step8Summary"
+import Step9 from "../components/onboarding/Step9Confirmation"
 import DebugFormik from "../components/DebugFormik"
 import { Button } from "../components/onboarding/styles"
 
 import orangeLogo from "../static/logo_orange.svg"
-import progress1 from "../static/images/progress1.svg"
-import progress2 from "../static/images/progress2.svg"
-import progress3 from "../static/images/progress3.svg"
-import progress4 from "../static/images/progress4.svg"
-import progress5 from "../static/images/progress5.svg"
-import progressComplete from "../static/images/progressComplete.svg"
 
-const progressImages = [
-  progress1,
-  progress1,
-  progress2,
-  progress2,
-  progress3,
-  progress3,
-  progress4,
-  progress5,
-  progressComplete,
-]
+// const initialValues = {
+//   employmentStartDate: { day: "22", month: "02", year: "2018" },
+//   email: "ivan@infactcoop.com",
+//   token: "2342",
+//   permanentRole: true,
+//   loanAmount: "234",
+//   loanTerms: "10",
+//   firstName: "Ivan",
+//   lastName: "Gonzalez",
+//   dob: { day: "23", month: "03", year: "1989" },
+//   nationality: "Colombian",
+//   employeeID: "24",
+//   phoneNumber: "834729743972",
+//   confirmation: false,
+//   agreementStatus: "",
+// }
 
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
@@ -51,23 +51,28 @@ const initialValues = {
   agreementStatus: "",
 }
 
-const Previous = ({ decrementPage }) => (
-  <Button
-    className="border border-teal w-40 bg-white text-teal"
-    type="button"
-    onClick={decrementPage}
-  >
-    Previous
-  </Button>
+const Previous = ({ decrementPage, hidePrevious }) => (
+  <div className="w-40">
+    {!hidePrevious && (
+      <Button
+        className="border border-teal bg-white text-teal"
+        type="button"
+        onClick={decrementPage}
+      >
+        Previous
+      </Button>
+    )}
+  </div>
 )
 
-const Submit = ({ isSubmitting }) => (
+const Submit = ({ isSubmitting, submitForm }) => (
   <Button
     className="w-40 bg-teal text-white"
     type="submit"
     disabled={isSubmitting}
+    onClick={submitForm}
   >
-    Submit
+    {isSubmitting ? "Submitting..." : "Submit"}
   </Button>
 )
 
@@ -77,15 +82,20 @@ const Next = ({
   isSubmitting,
   formCompleted,
   submitForm: displayErrors,
+  hideNext,
 }) => (
-  <Button
-    className="w-40 bg-teal text-white"
-    type="button"
-    onClick={isValid ? onClick : displayErrors}
-    disabled={isSubmitting}
-  >
-    {formCompleted ? "Summary" : "Next"}
-  </Button>
+  <div className="w-40">
+    {!hideNext && (
+      <Button
+        className="bg-teal text-white"
+        type="button"
+        onClick={isValid ? onClick : displayErrors}
+        disabled={isSubmitting}
+      >
+        {formCompleted ? "Summary" : "Next"}
+      </Button>
+    )}
+  </div>
 )
 
 const createNewToken = async ({ email }) => {
@@ -114,8 +124,6 @@ const isTokenValid = async ({ email, token }) => {
 
 const Controls = ({
   page,
-  pageAmount,
-  setPage,
   isValid,
   isSubmitting,
   values,
@@ -123,31 +131,20 @@ const Controls = ({
   setFormCompleted,
   submitForm,
   setEmailVerificationError,
+  shouldFormSubmit,
+  hideNext,
+  hidePrevious,
+  progressImg,
+  incrementPage,
+  decrementPage,
+  goToSummaryPage,
 }) => {
-  const lastPage = page === pageAmount
-
-  const incrementPage = () => {
-    if (page < pageAmount) {
-      setPage(page + 1)
-    }
-  }
-
-  const decrementPage = () => {
-    if (page <= pageAmount && page > 1) {
-      setPage(page - 1)
-    }
-  }
-
-  const goToSummary = () => {
-    setPage(pageAmount)
-  }
-
   const nextClick = () => {
     switch (page) {
       case 2:
         return () => {
           createNewToken({ email: values.email })
-          formCompleted ? goToSummary() : incrementPage()
+          formCompleted ? goToSummaryPage() : incrementPage()
         }
       case 3:
         return async () => {
@@ -158,23 +155,23 @@ const Controls = ({
           valid.isTokenValid ? incrementPage() : setEmailVerificationError(true)
         }
 
-      case pageAmount - 1:
+      case 7:
         return () => {
           setFormCompleted(true)
           incrementPage()
         }
       default:
-        return formCompleted ? goToSummary : incrementPage
+        return formCompleted ? goToSummaryPage : incrementPage
     }
   }
 
-  return page === 1 ? (
-    <section />
-  ) : (
-    <Section>
-      <Previous {...{ decrementPage }} />
-      <img src={progressImages[page - 2]} />
-      {!lastPage ? (
+  return (
+    <ControlsSection {...{ hideNext, hidePrevious }}>
+      <Previous {...{ decrementPage, hidePrevious }} />
+      <img src={progressImg} />
+      {shouldFormSubmit ? (
+        <Submit {...{ isSubmitting, submitForm }} />
+      ) : (
         <Next
           {...{
             onClick: nextClick(),
@@ -182,30 +179,76 @@ const Controls = ({
             isSubmitting,
             formCompleted,
             submitForm,
+            hideNext,
           }}
         />
-      ) : (
-        <Submit {...{ isSubmitting }} />
       )}
-    </Section>
+    </ControlsSection>
   )
 }
 
+const onSubmit = incrementPage => async ({
+  firstName,
+  lastName,
+  loanTerms,
+  loanAmount,
+  email,
+}) => {
+  //eslint-disable-next-line no-console
+  console.log("onboarding form submitted")
+  try {
+    await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
+      name: `${firstName} ${lastName}`,
+      loanTerms,
+      loanAmount,
+      email,
+    })
+
+    incrementPage()
+  } catch (e) {
+    // TODO: trigger submit error (maybe with toast error)
+
+    //eslint-disable-next-line no-console
+    console.error(
+      "Loan agreement sending error",
+      JSON.stringify(e, undefined, 2)
+    )
+  }
+}
+
 const Wizard = ({ children, employer }) => {
-  const [pageAmount] = useState(children.length)
   const [page, setPage] = useState(1)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
+  const [summaryPage, setSummaryPage] = useState()
+
   const activePage = React.Children.toArray(children)[page - 1]
-  const { validationSchema } = activePage && activePage.type
+  const {
+    validationSchema,
+    shouldFormSubmit,
+    hideNext,
+    hidePrevious,
+    progressImg,
+    hideControls,
+  } = activePage && activePage.type
+
+  useEffect(() => {
+    if (shouldFormSubmit) {
+      setSummaryPage(page)
+    }
+  }, [page])
+
+  const incrementPage = () => setPage(page + 1)
+  const decrementPage = () => setPage(page - 1)
+  const goToSummaryPage = () => setPage(summaryPage)
 
   return (
     <Formik
-      initialValues={initialValues}
-      enableReinitialize={false}
-      validationSchema={validationSchema}
-      onSubmit={() => {
-        console.log("submitted") //eslint-disable-line no-console
+      {...{
+        initialValues,
+        validationSchema,
+        onSubmit: onSubmit(incrementPage),
+        enableReinitialize: false,
       }}
     >
       {({
@@ -237,12 +280,10 @@ const Wizard = ({ children, employer }) => {
               ></RenderStep>
             </StyledForm>
             <Footer>
-              {page !== 1 && (
+              {!hideControls && (
                 <Controls
                   {...{
                     page,
-                    pageAmount,
-                    setPage,
                     isValid,
                     isSubmitting,
                     values,
@@ -251,10 +292,18 @@ const Wizard = ({ children, employer }) => {
                     formCompleted,
                     setFormCompleted,
                     setEmailVerificationError,
+                    shouldFormSubmit,
+                    hideNext,
+                    hidePrevious,
+                    progressImg,
+                    incrementPage,
+                    decrementPage,
+                    goToSummaryPage,
                   }}
                 />
               )}
             </Footer>
+
             {debugging && (
               <Field>
                 {({ field }) => (
@@ -291,6 +340,7 @@ const Onboarding = ({ employer }) => {
       <Step6 />
       <Step7 />
       <Step8 />
+      <Step9 />
     </Wizard>
   )
 }
@@ -336,8 +386,8 @@ const Logo = styled.img.attrs({
   src: orangeLogo,
 })``
 
-const Section = styled.section.attrs({
-  className: "flex w-full justify-between items-center px-10 py-6",
+const ControlsSection = styled.section.attrs({
+  className: `flex w-full justify-between items-center px-10 py-6`,
 })`
   transform: rotate(180deg);
 `
