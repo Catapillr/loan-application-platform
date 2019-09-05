@@ -51,18 +51,19 @@ const initialValues = {
   agreementStatus: "",
 }
 
-const Previous = ({ decrementPage, hidePrevious }) =>
-  hidePrevious ? (
-    <div className="w-40" />
-  ) : (
-    <Button
-      className="border border-teal w-40 bg-white text-teal"
-      type="button"
-      onClick={decrementPage}
-    >
-      Previous
-    </Button>
-  )
+const Previous = ({ decrementPage, hidePrevious }) => (
+  <div className="w-40">
+    {!hidePrevious && (
+      <Button
+        className="border border-teal bg-white text-teal"
+        type="button"
+        onClick={decrementPage}
+      >
+        Previous
+      </Button>
+    )}
+  </div>
+)
 
 const Submit = ({ isSubmitting, submitForm }) => (
   <Button
@@ -71,7 +72,7 @@ const Submit = ({ isSubmitting, submitForm }) => (
     disabled={isSubmitting}
     onClick={submitForm}
   >
-    Submit
+    {isSubmitting ? "Submitting..." : "Submit"}
   </Button>
 )
 
@@ -82,19 +83,20 @@ const Next = ({
   formCompleted,
   submitForm: displayErrors,
   hideNext,
-}) =>
-  hideNext ? (
-    <div className="w-40" />
-  ) : (
-    <Button
-      className="w-40 bg-teal text-white"
-      type="button"
-      onClick={isValid ? onClick : displayErrors}
-      disabled={isSubmitting}
-    >
-      {formCompleted ? "Summary" : "Next"}
-    </Button>
-  )
+}) => (
+  <div className="w-40">
+    {!hideNext && (
+      <Button
+        className="bg-teal text-white"
+        type="button"
+        onClick={isValid ? onClick : displayErrors}
+        disabled={isSubmitting}
+      >
+        {formCompleted ? "Summary" : "Next"}
+      </Button>
+    )}
+  </div>
+)
 
 const createNewToken = async ({ email }) => {
   const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
@@ -204,7 +206,7 @@ const onSubmit = incrementPage => async ({
 
     incrementPage()
   } catch (e) {
-    // TODO: trigger submit error
+    // TODO: trigger submit error (maybe with toast error)
 
     //eslint-disable-next-line no-console
     console.error(
