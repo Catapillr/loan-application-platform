@@ -9,10 +9,6 @@ var models = [
     embedded: false
   },
   {
-    name: "EligibilityCriteria",
-    embedded: false
-  },
-  {
     name: "User",
     embedded: false
   },
