@@ -268,15 +268,17 @@ const Wizard = ({ children, employer }) => {
             </Header>
             <StyledForm>
               <RenderStep
-                component={React.cloneElement(activePage, {
-                  setPage,
-                  employer,
-                  values,
-                  emailVerificationError,
-                })}
-                validateForm={validateForm}
-                page={page}
-                setTouched={setTouched}
+                {...{
+                  validateForm,
+                  page,
+                  setTouched,
+                  component: React.cloneElement(activePage, {
+                    setPage,
+                    employer,
+                    values,
+                    emailVerificationError,
+                  }),
+                }}
               ></RenderStep>
             </StyledForm>
             <Footer>
