@@ -1,10 +1,19 @@
-const hellosign = require("hellosign-sdk")({
+import hellosign from "hellosign-sdk"
+
+const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
 })
 
 export default async (req, res) => {
   try {
-    const { loanTerms, loanAmount, name, email } = req.body
+    const {
+      loanTerms,
+      loanAmount,
+      name,
+      email,
+      employerName,
+      employerEmail,
+    } = req.body
 
     const opts = {
       test_mode: 1,
@@ -16,6 +25,11 @@ export default async (req, res) => {
           email_address: email,
           name,
           role: "Employee",
+        },
+        {
+          email_address: employerEmail,
+          name: employerName,
+          role: "Employer",
         },
       ],
       custom_fields: [
@@ -30,7 +44,9 @@ export default async (req, res) => {
       ],
     }
 
-    const helloSignRes = await hellosign.signatureRequest.sendWithTemplate(opts)
+    const helloSignRes = await helloSignClient.signatureRequest.sendWithTemplate(
+      opts
+    )
     console.log("Template sent: ", JSON.stringify(helloSignRes, undefined, 2)) //eslint-disable-line no-console
     res.status(200).end()
   } catch (e) {

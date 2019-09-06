@@ -187,7 +187,7 @@ const Controls = ({
   )
 }
 
-const onSubmit = incrementPage => async ({
+const onSubmit = ({ incrementPage, employer }) => async ({
   firstName,
   lastName,
   loanTerms,
@@ -202,6 +202,8 @@ const onSubmit = incrementPage => async ({
       loanTerms,
       loanAmount,
       email,
+      employerName: employer.name,
+      employerEmail: employer.signerEmail,
     })
 
     incrementPage()
@@ -247,7 +249,7 @@ const Wizard = ({ children, employer }) => {
       {...{
         initialValues,
         validationSchema,
-        onSubmit: onSubmit(incrementPage),
+        onSubmit: onSubmit({ incrementPage, employer }),
         enableReinitialize: false,
       }}
     >
