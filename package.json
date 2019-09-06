@@ -20,7 +20,7 @@
     "==prisma-dev==": "--------------------------------------------------------------------------------------",
     "dev:ready": "concurrently \"npm run dev:up\" \"npm run dev:browse\"",
     "dev:browse": "cross-env-shell \"sleep 3\" && node ./terminalString/mdev.js && cross-env-shell \"sleep 5\" && env-cmd -f ./.config/dev.env npm run playground",
-    "dev:nodemon": "env-cmd -f ./.config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node",
+    "dev-nodemon": "env-cmd -f ./.config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node",
     "dev:deploy": "env-cmd -f ./.config/dev.env npm run deploy && npm run dev:schema",
     "dev:schema": "env-cmd -f ./.config/dev.env npm run schema",
     "dev:token": "env-cmd -f ./.config/dev.env npm run token",

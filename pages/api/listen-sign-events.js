@@ -1,10 +1,6 @@
 import formidable from "formidable"
-import * as mailgun from "mailgun.js"
 
-const mg = mailgun.client({
-  username: "api",
-  key: process.env.MAILGUN_API_KEY || "",
-})
+import mailgunClient from "../../utils/mailgunClient"
 
 export default (req, res) => {
   const form = new formidable.IncomingForm()
@@ -16,7 +12,7 @@ export default (req, res) => {
 
     const signEvent = JSON.parse(fields.json)
     try {
-      await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+      await mailgunClient.messages.create(process.env.MAILGUN_DOMAIN, {
         from: `${process.env.MAILGUN_SENDER_NAME} <${process.env.MAILGUN_SENDER_EMAIL}>`,
         to: ["lucy@infactcoop.com"],
         subject: "Sign event fired",
