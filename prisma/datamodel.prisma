@@ -3,17 +3,14 @@ type Employer {
   name: String!
   slug: String! @unique
   user: [User!]
-  eligibilityCriteria: EligibilityCriteria @relation(onDelete: CASCADE)
   emailSuffix: String! @unique
-  updatedAt: DateTime! @updatedAt
-  createdAt: DateTime! @createdAt
-}
-
-type EligibilityCriteria {
-  id: ID! @id
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
+  payrollEmail: String!
+  signerEmail: String!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 type User {
@@ -22,7 +19,7 @@ type User {
   firstName: String!
   lastName: String!
   email: String! @unique
-  isVerified: Boolean! @default(value: false) 
+  isVerified: Boolean! @default(value: false)
   phoneNumber: String! @unique
   dob: DateTime!
   nationality: String!

@@ -1,14 +1,8 @@
 import { prisma } from "../../prisma/generated"
 import * as moment from "moment"
-import * as mailgun from "mailgun.js"
+import crypto from "crypto"
 
-const mg = mailgun.client({
-  username: "api",
-  key: process.env.MAILGUN_API_KEY || "",
-})
-
-// eslint-disable-next-line
-const crypto = require("crypto")
+import mailgunClient from "../../utils/mailgunClient"
 
 export default async (req, res) => {
   try {
@@ -34,7 +28,7 @@ export default async (req, res) => {
           token: random,
         })
 
-    await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+    await mailgunClient.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `${process.env.MAILGUN_SENDER_NAME} <${process.env.MAILGUN_SENDER_EMAIL}>`,
       to: [email],
       subject: `Your email token is ${random}`,

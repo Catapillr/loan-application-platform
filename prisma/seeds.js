@@ -8,30 +8,26 @@ const seedDatabase = async () => {
   try {
     await flushDB()
 
-    const eligibilityCriteriaYalla = await prisma.createEligibilityCriteria({
-      maximumAmount: 2000,
-      minimumServiceLength: 8,
-      maxSalaryPercentage: 25,
-    })
-
-    const eligibilityCriteriaInfact = await prisma.createEligibilityCriteria({
-      maximumAmount: 3000,
-      minimumServiceLength: 6,
-      maxSalaryPercentage: 20,
-    })
-
     const yalla = await prisma.createEmployer({
       name: "yalla",
       slug: "yalla",
       emailSuffix: "@yallacooperative.com",
-      eligibilityCriteria: { connect: { id: eligibilityCriteriaYalla.id } },
+      maximumAmount: 2000,
+      minimumServiceLength: 8,
+      maxSalaryPercentage: 25,
+      payrollEmail: "j@yallacooperative.com",
+      signerEmail: "j@yallacooperative.com",
     })
 
     const infact = await prisma.createEmployer({
       name: "infact",
       slug: "infact",
       emailSuffix: "@infactcoop.com",
-      eligibilityCriteria: { connect: { id: eligibilityCriteriaInfact.id } },
+      maximumAmount: 3000,
+      minimumServiceLength: 6,
+      maxSalaryPercentage: 20,
+      payrollEmail: "lucy@infactcoop.com",
+      signerEmail: "ivan@infactcoop.com",
     })
 
     const ivan = await prisma.createUser({
@@ -46,8 +42,6 @@ const seedDatabase = async () => {
       employer: { connect: { id: infact.id } },
     })
 
-    console.log(JSON.stringify(eligibilityCriteriaInfact, undefined, 2)) //eslint-disable-line no-console
-    console.log(JSON.stringify(eligibilityCriteriaYalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(infact, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(ivan, undefined, 2)) //eslint-disable-line no-console
