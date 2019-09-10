@@ -1,16 +1,20 @@
+import { NextApiRequest, NextApiResponse } from "next"
+import moment from "moment"
+import * as crypto from "crypto"
+
 import { prisma } from "../../prisma/generated"
-import * as moment from "moment"
-import crypto from "crypto"
 
 import mailgunClient from "../../utils/mailgunClient"
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { email, expiryHours = 24 } = req.body
     const random = crypto.randomBytes(6).toString("hex")
-    const expiresAt = moment().add(expiryHours, "hours")
+    const expiresAt = moment()
+      .add(expiryHours, "hours")
+      .toDate()
 
-    const tokenExists = !!(await prisma.verificationToken({ email }))
+    const tokenExists = await prisma.$exists.verificationToken({ email })
 
     const token = tokenExists
       ? await prisma.updateVerificationToken({
@@ -36,9 +40,7 @@ export default async (req, res) => {
       html: `<h2>Welcome to Catapillr</h2> <p>To continue signing up to Catapillr's interest-free childcare loan, please enter the following code:</p> <p><b>${random}</b></p> <p>Thank you!</p> <p>Phil</p>`,
     })
 
-    res.statusCode = 200
-    res.setHeader("Content-Type", "application/json")
-    return res.json({ token })
+    return res.status(200).json({ token })
   } catch (e) {
     console.log("There was an error creating an email token: ", e) //eslint-disable-line no-console
   }

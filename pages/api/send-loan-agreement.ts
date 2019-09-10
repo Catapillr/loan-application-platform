@@ -1,10 +1,12 @@
+import { NextApiRequest, NextApiResponse } from "next"
+
 import hellosign from "hellosign-sdk"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
 })
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const {
       loanTerms,
@@ -16,7 +18,7 @@ export default async (req, res) => {
     } = req.body
 
     const opts = {
-      test_mode: 1,
+      test_mode: 1 as hellosign.Flag,
       template_id: "29e550f5a23c298fa0fe85ffe93ed2c2b06f979d",
       title: "Employee loan agreement",
       subject: "Employee loan agreement",
@@ -47,6 +49,7 @@ export default async (req, res) => {
     const helloSignRes = await helloSignClient.signatureRequest.sendWithTemplate(
       opts
     )
+
     console.log("Template sent: ", JSON.stringify(helloSignRes, undefined, 2)) //eslint-disable-line no-console
     res.status(200).end()
   } catch (e) {
