@@ -352,7 +352,7 @@ const Onboarding = ({ employer }) => {
 Onboarding.getInitialProps = async ({ req }) => {
   const slug = req.originalUrl.slice(1)
   const res = await axios(
-    `${process.env.HOST}/api/get-employer-from-slug?${slug}`
+    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
   )
 
   const {
