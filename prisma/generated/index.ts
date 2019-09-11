@@ -314,7 +314,7 @@ export interface LoanCreateInput {
   id?: Maybe<ID_Input>;
   amount: Float;
   terms: Int;
-  approved: Boolean;
+  approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
 }
 
@@ -2101,4 +2101,10 @@ export const models: Model[] = [
  * Type Defs
  */
 
-export const prisma: Prisma;
+export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
+  typeDefs,
+  models,
+  endpoint: `${process.env["PRISMA_ENDPOINT"]}`,
+  secret: `${process.env["PRISMA_SECRET"]}`
+});
+export const prisma = new Prisma();

@@ -45,7 +45,7 @@ type Loan {
   id: ID! @id
   amount: Float!
   terms: Int!
-  approved: Boolean!
+  approved: Boolean! @default(value: false)
   agreementURL: String
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
