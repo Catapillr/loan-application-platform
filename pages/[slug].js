@@ -31,7 +31,6 @@ import orangeLogo from "../static/logo_orange.svg"
 //   employeeID: "24",
 //   phoneNumber: "834729743972",
 //   confirmation: false,
-//   agreementStatus: "",
 // }
 
 const initialValues = {
@@ -48,14 +47,13 @@ const initialValues = {
   employeeID: "",
   phoneNumber: "",
   confirmation: false,
-  agreementStatus: "",
 }
 
 const Previous = ({ decrementPage, hidePrevious }) => (
   <div className="w-40">
     {!hidePrevious && (
       <Button
-        className="border border-teal bg-white text-teal"
+        className="border border-teal bg-white text-teal w-full"
         type="button"
         onClick={decrementPage}
       >
@@ -87,7 +85,7 @@ const Next = ({
   <div className="w-40">
     {!hideNext && (
       <Button
-        className="bg-teal text-white"
+        className="bg-teal text-white w-full"
         type="button"
         onClick={isValid ? onClick : displayErrors}
         disabled={isSubmitting}
@@ -187,23 +185,13 @@ const Controls = ({
   )
 }
 
-const onSubmit = ({ incrementPage, employer }) => async ({
-  firstName,
-  lastName,
-  loanTerms,
-  loanAmount,
-  email,
-}) => {
+const onSubmit = ({ incrementPage, employer }) => async values => {
   //eslint-disable-next-line no-console
   console.log("onboarding form submitted")
   try {
     await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
-      name: `${firstName} ${lastName}`,
-      loanTerms,
-      loanAmount,
-      email,
-      employerName: employer.name,
-      employerEmail: employer.signerEmail,
+      employer,
+      ...values,
     })
 
     incrementPage()

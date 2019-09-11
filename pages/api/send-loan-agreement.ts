@@ -10,28 +10,43 @@ const helloSignClient = hellosign({
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
-    loanTerms,
-    loanAmount,
-    name,
+    employmentStartDate,
     email,
-    employerName,
-    employerEmail,
+    loanAmount,
+    loanTerms,
+    firstName,
+    lastName,
+    dob,
+    nationality,
+    employeeID,
+    phoneNumber,
+    employer,
   } = req.body
 
+  // TODO: Add actual annual salary
+
   prisma
-    .updateUser({
-      data: {
-        loan: {
-          create: {
-            amount: loanAmount,
-            terms: loanTerms,
-          },
+    .createUser({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      dob,
+      nationality,
+      employmentStartDate,
+      employeeID,
+      // annualSalary,
+      annualSalary: 30000,
+      employer: { connect: { id: employer.id } },
+      loan: {
+        create: {
+          amount: loanAmount,
+          terms: loanTerms,
         },
       },
-      where: { email },
     })
     .catch(e => {
-      console.error("Error adding loan to user in prisma: ", e) //eslint-disable-line no-console
+      console.error("Error creating prisma user: ", e) //eslint-disable-line no-console
     })
 
   const opts = {
@@ -42,12 +57,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     signers: [
       {
         email_address: email,
-        name,
+        name: `${firstName} ${lastName}`,
         role: "Employee",
       },
       {
-        email_address: employerEmail,
-        name: employerName,
+        email_address: employer.signerEmail,
+        name: employer.name,
         role: "Employer",
       },
     ],
