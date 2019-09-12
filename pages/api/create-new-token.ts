@@ -4,7 +4,7 @@ import * as crypto from "crypto"
 
 import { prisma } from "../../prisma/generated"
 
-import { employeeEmailVerification } from "../../utils/mailgunClient"
+import { sendEmployeeEmailVerification } from "../../utils/mailgunClient"
 
 
 
@@ -34,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         token: random,
       })
 
-    await employeeEmailVerification({ email, random })
+    await sendEmployeeEmailVerification({ email, random })
 
     return res.status(200).json({ token })
   } catch (e) {
