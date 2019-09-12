@@ -6,6 +6,9 @@ import { RangeInput, SelectInput } from "../../components/Input"
 
 import progress2 from "../../static/images/progress2.svg"
 
+// TODO: loan amount has to be sent in pennies to mangopay so needs to be stored in pennies
+// i.e. for £3000 loan we have to send amount of 300000 : Int
+
 const validation = Yup.object().shape({
   loanAmount: Yup.number()
     .moreThan(0, "Please choose a loan amount using the slider")

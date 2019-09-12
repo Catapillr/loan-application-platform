@@ -1,8 +1,10 @@
-// to seed the database go to your terminal and run
-// env-cmd -f ./.config/dev.env node ./prisma/seeds.js
+// To seed the database
+// 1. Install ts-node - `yarn global add typescript ts-node`
+// 2. Go to your terminal make sure you are in `loan-application-platform/prisma/` directory
+// 3. run `env-cmd -f ../.config/dev.env ts-node seeds.ts`
 
-const { prisma } = require("./generated")
-const flushDB = require("./flushDB")
+import { prisma } from "./generated"
+import flushDB from "./flushDB"
 
 const seedDatabase = async () => {
   try {
@@ -26,7 +28,7 @@ const seedDatabase = async () => {
       maximumAmount: 3000,
       minimumServiceLength: 6,
       maxSalaryPercentage: 20,
-      payrollEmail: "lucy@infactcoop.com",
+      payrollEmail: "ivan@infactcoop.com",
       signerEmail: "ivan@infactcoop.com",
     })
 

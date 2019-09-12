@@ -29,7 +29,6 @@ const Home = ({ allUsers }) => (
 )
 
 Home.getInitialProps = async () => {
-  // TODO: add variable for host in here
   const res = await axios.get(`${process.env.HOST}/api/get-users`)
   const {
     data: { allUsers },

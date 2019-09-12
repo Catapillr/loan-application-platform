@@ -1,5 +1,5 @@
 import * as Yup from "yup"
-import * as moment from "moment"
+import moment from "moment"
 
 import Questions from "./Questions"
 import { TextInput, CheckboxInput } from "../../components/Input"
@@ -25,8 +25,9 @@ const validateEmail = (emailSuffix, value) => {
   return error
 }
 
-const validateDate = (minimumServiceLength, { day, month, year }) => {
-  const employmentStartDate = moment(`${year}-${month}-${day}`)
+const validateDate = (minimumServiceLength, date) => {
+  const { day, month, year } = date
+  const employmentStartDate = moment(date)
   const minimumServiceDate = moment().subtract(minimumServiceLength, "months")
 
   const dateIsValid = employmentStartDate.isValid()
