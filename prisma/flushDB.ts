@@ -1,4 +1,5 @@
-const { prisma } = require("./generated")
+// const { prisma } = require("./generated")
+import { prisma } from "./generated"
 
 const flushDB = async () => {
   const deleteUsers = await prisma.deleteManyUsers({
@@ -14,4 +15,4 @@ const flushDB = async () => {
 }
 
 // flushDB()
-module.exports = flushDB
+export default flushDB
