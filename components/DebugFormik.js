@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 const Container = styled.div`
+  right: 300px;
   .pre-block {
     background: #dedede;
     font-size: 14px;
@@ -21,7 +22,7 @@ const Container = styled.div`
 `
 
 const PreBlock = props => (
-  <Container className="pre-block">
+  <Container className="pre-block absolute">
     {props.title && <div className="pre-block__title">{props.title}</div>}
     <pre>{props.children}</pre>
   </Container>

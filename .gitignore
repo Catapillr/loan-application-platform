@@ -27,4 +27,4 @@ yarn-error.log*
 #config
 .config/
 
-log.js
+ignore/

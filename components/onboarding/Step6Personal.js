@@ -1,5 +1,5 @@
 import * as Yup from "yup"
-import * as moment from "moment"
+import moment from "moment"
 
 import Questions from "./Questions"
 import { TextInput } from "../../components/Input"
