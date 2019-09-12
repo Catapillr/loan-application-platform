@@ -81,7 +81,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   helloSignClient.signatureRequest.sendWithTemplate(opts).catch(e => {
-    console.error("Loan agreement error: ", e) //eslint-disable-line no-console
+    console.error("Sending loan agreement Hellosign error: ", e) //eslint-disable-line no-console
   })
 
   res.status(200).end()

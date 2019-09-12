@@ -38,17 +38,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const signEvent = JSON.parse(fields.json as string)
 
-    console.log(
-      JSON.stringify(
-        {
-          event: signEvent.event,
-          signatures: signEvent.signature_request.signatures,
-        },
-        undefined,
-        2
-      )
-    )
-
     // TODO: check for event signature_request_all_signed
     if (signEvent.event.event_type !== SignatureRequestSigned) return
 
