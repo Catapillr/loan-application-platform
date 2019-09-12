@@ -39,7 +39,6 @@ const Step7 = () => (
         component: TextInput,
         name: "phoneNumber",
         width: "full",
-        type: "number",
       },
     ]}
   />

@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next"
-
 import hellosign from "hellosign-sdk"
+import { NextApiRequest, NextApiResponse } from "next"
+import moment from "moment"
 
 import { prisma } from "../../prisma/generated"
 
@@ -25,23 +25,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   // TODO: Add actual annual salary
 
+  // TODO: catch error of not valid user being entered
+
   prisma
     .createUser({
       firstName,
       lastName,
       email,
       phoneNumber,
-      dob,
+      dob: moment(dob).toDate(),
       nationality,
-      employmentStartDate,
+      employmentStartDate: moment(employmentStartDate).toDate(),
       employeeID,
       // annualSalary,
       annualSalary: 30000,
-      employer: { connect: { id: employer.id } },
+      employer: { connect: { slug: employer.slug } },
       loan: {
         create: {
           amount: loanAmount,
-          terms: loanTerms,
+          terms: parseInt(loanTerms),
         },
       },
     })

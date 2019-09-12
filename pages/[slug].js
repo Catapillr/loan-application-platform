@@ -18,18 +18,26 @@ import { Button } from "../components/onboarding/styles"
 import orangeLogo from "../static/logo_orange.svg"
 
 // const initialValues = {
-//   employmentStartDate: { day: "22", month: "02", year: "2018" },
-//   email: "ivan@infactcoop.com",
-//   token: "2342",
+//   employmentStartDate: {
+//     day: 1,
+//     month: 1,
+//     year: 2018,
+//   },
+//   email: "ivangonzalez@rocketmail.com",
+//   token: "e214fdc7b766",
 //   permanentRole: true,
-//   loanAmount: "234",
-//   loanTerms: "10",
+//   loanAmount: 965,
+//   loanTerms: "12",
 //   firstName: "Ivan",
 //   lastName: "Gonzalez",
-//   dob: { day: "23", month: "03", year: "1989" },
+//   dob: {
+//     day: 23,
+//     month: 3,
+//     year: 1989,
+//   },
 //   nationality: "Colombian",
-//   employeeID: "24",
-//   phoneNumber: "834729743972",
+//   employeeID: "8sdj98sd",
+//   phoneNumber: "09237432972",
 //   confirmation: false,
 // }
 
@@ -207,6 +215,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
 }
 
 const Wizard = ({ children, employer }) => {
+  // const [page, setPage] = useState(8)
   const [page, setPage] = useState(1)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
