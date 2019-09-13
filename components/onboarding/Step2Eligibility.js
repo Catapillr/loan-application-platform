@@ -1,5 +1,6 @@
 import * as Yup from "yup"
 import moment from "moment"
+import * as R from "ramda"
 
 import Questions from "./Questions"
 import { TextInput, CheckboxInput } from "../../components/Input"
@@ -27,7 +28,8 @@ const validateEmail = (emailSuffix, value) => {
 
 const validateDate = (minimumServiceLength, date) => {
   const { day, month, year } = date
-  const employmentStartDate = moment(date)
+  const dateMonthZeroIndexed = R.assoc("month", date.month - 1, date)
+  const employmentStartDate = moment(dateMonthZeroIndexed)
   const minimumServiceDate = moment().subtract(minimumServiceLength, "months")
 
   const dateIsValid = employmentStartDate.isValid()
