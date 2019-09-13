@@ -106,19 +106,29 @@ const NumberInput = styled.input.attrs(
   }
 )``
 
-const RangeInput = ({ field, form: { errors, touched }, ...attrs }) => {
-  const { name } = field
+const RangeInput = ({
+  field,
+  form: { errors, touched },
+  validate,
+  ...attrs
+}) => {
+  const { name, value, onChange } = field
   return (
     <>
-      <Range {...field} {...attrs} />
-      <div
+      <Range {...field} {...attrs} step="5" />
+      <Field
+        component={NumberInput}
+        validate={validate}
+        value={value}
+        name={name}
+        onChange={onChange}
+        max={attrs.max}
+        placeholder="e.g. 500"
         className={`border-2 border-${
           errors[name] && touched[name] ? "red" : "midgray"
         }
         midgray rounded-full py-2 px-4 mt-6 w-40`}
-      >
-        {`£${field.value}`}
-      </div>
+      />
     </>
   )
 }
