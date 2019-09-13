@@ -27,7 +27,7 @@ const doesEmailExist = async ({ email }) => {
     data: { doesEmailExist },
   } = res
 
-  return { doesEmailExist }
+  return doesEmailExist
 }
 
 const validateEmail = async (emailSuffix, value) => {
