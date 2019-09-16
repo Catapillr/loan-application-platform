@@ -23,47 +23,47 @@ import { Button } from "../components/onboarding/styles"
 
 import orangeLogo from "../static/logo_orange.svg"
 
-const initialValues = {
-  employmentStartDate: {
-    day: 1,
-    month: 1,
-    year: 2018,
-  },
-  email: "ivangonzalez@infactcoop.com",
-  token: "e214fdc7b766",
-  permanentRole: true,
-  salary: 10000,
-  loanAmount: 965,
-  loanTerms: "12",
-  firstName: "Ivan",
-  lastName: "Gonzalez",
-  dob: {
-    day: 23,
-    month: 3,
-    year: 1989,
-  },
-  nationality: "Colombian",
-  employeeID: "8sdj98sd",
-  phoneNumber: "07443998236",
-  confirmation: false,
-}
-
 // const initialValues = {
-//   employmentStartDate: { day: "", month: "", year: "" },
-//   email: "",
-//   token: "",
-//   permanentRole: false,
-//   salary: "",
-//   loanAmount: 0,
-//   loanTerms: "",
-//   firstName: "",
-//   lastName: "",
-//   dob: { day: "", month: "", year: "" },
-//   nationality: "",
-//   employeeID: "",
-//   phoneNumber: "",
+//   employmentStartDate: {
+//     day: 1,
+//     month: 1,
+//     year: 2018,
+//   },
+//   email: "ivangonzalez@infactcoop.com",
+//   token: "e214fdc7b766",
+//   permanentRole: true,
+//   salary: 10000,
+//   loanAmount: 965,
+//   loanTerms: "12",
+//   firstName: "Ivan",
+//   lastName: "Gonzalez",
+//   dob: {
+//     day: 23,
+//     month: 3,
+//     year: 1989,
+//   },
+//   nationality: "Colombian",
+//   employeeID: "8sdj98sd",
+//   phoneNumber: "07443998236",
 //   confirmation: false,
 // }
+
+const initialValues = {
+  employmentStartDate: { day: "", month: "", year: "" },
+  email: "",
+  token: "",
+  permanentRole: false,
+  salary: "",
+  loanAmount: 0,
+  loanTerms: "",
+  firstName: "",
+  lastName: "",
+  dob: { day: "", month: "", year: "" },
+  nationality: "",
+  employeeID: "",
+  phoneNumber: "",
+  confirmation: false,
+}
 
 const Previous = ({ decrementPage, hidePrevious }) => (
   <div className="w-40">
@@ -269,7 +269,7 @@ const Wizard = ({ children, employer }) => {
         submitForm,
         setTouched,
       }) => {
-        const debugging = true
+        const debugging = false
 
         return (
           <Container>
