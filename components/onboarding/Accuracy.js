@@ -1,8 +1,9 @@
 import { Heading, Copy, Button } from "./styles"
 
 import progress3 from "../../static/images/progress3.svg"
+import { Accuracy } from "./constants"
 
-const Step5 = ({ setPage }) => (
+const Step5 = ({ incrementPage }) => (
   <main className="flex justify-center items-center flex-col w-7/12 m-auto">
     <Heading className="mb-6 text-center self-start">
       Just a quick note…
@@ -21,7 +22,7 @@ const Step5 = ({ setPage }) => (
     </Copy>
     <Button
       className="text-center shadow-button text-white bg-teal"
-      onClick={() => setPage(6)}
+      onClick={incrementPage}
     >
       Accept and continue
     </Button>
@@ -30,5 +31,6 @@ const Step5 = ({ setPage }) => (
 
 Step5.hideNext = true
 Step5.progressImg = progress3
+Step5.title = Accuracy
 
 export default Step5

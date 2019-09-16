@@ -5,17 +5,18 @@ import { Heading } from "./styles"
 
 import tealTick from "../../static/icons/teal-tick.svg"
 import progress4 from "../../static/images/progress4.svg"
+import { Loan, Personal, Eligibility, Contact, Summary } from "./constants"
 
 const sections = [
   {
     heading: "Personal Details",
     fields: [
-      { title: "First name", field: "firstName", page: 6 },
-      { title: "Last name", field: "lastName", page: 6 },
-      { title: "Date of birth", field: "dob", date: true, page: 6 },
-      { title: "Nationality", field: "nationality", page: 7 },
-      { title: "Email", field: "email", page: 2 },
-      { title: "Contact number", field: "phoneNumber", page: 7 },
+      { title: "First name", field: "firstName", page: Personal },
+      { title: "Last name", field: "lastName", page: Personal },
+      { title: "Date of birth", field: "dob", date: true, page: Personal },
+      { title: "Nationality", field: "nationality", page: Contact },
+      { title: "Email", field: "email", page: Eligibility },
+      { title: "Contact number", field: "phoneNumber", page: Contact },
     ],
   },
   {
@@ -25,17 +26,17 @@ const sections = [
         title: "Start date",
         field: "employmentStartDate",
         date: true,
-        page: 2,
+        page: Eligibility,
       },
-      { title: "Contract type", field: "permanentRole", page: 2 },
-      { title: "Employee ID", field: "employeeID", page: 7 },
+      { title: "Contract type", field: "permanentRole", page: Eligibility },
+      { title: "Employee ID", field: "employeeID", page: Contact },
     ],
   },
   {
     heading: "Your loan application details",
     fields: [
-      { title: "Loan amount", field: "loanAmount", page: 4 },
-      { title: "Repayment length", field: "loanTerms", page: 4 },
+      { title: "Loan amount", field: "loanAmount", page: Loan },
+      { title: "Repayment length", field: "loanTerms", page: Loan },
     ],
   },
 ]
@@ -127,5 +128,6 @@ const Step8 = ({ values, setPage }) => {
 
 Step8.shouldFormSubmit = true
 Step8.progressImg = progress4
+Step8.title = Summary
 
 export default Step8

@@ -1,10 +1,11 @@
 import { Heading, Copy, Button } from "./styles"
 
 import progress1 from "../../static/images/progress1.svg"
+import { Welcome } from "./constants"
 
 // TODO: tell people not to press back and forward buttons
 
-const Step1 = ({ setPage, employer }) => (
+const Step1 = ({ incrementPage, employer }) => (
   <main className="flex justify-center items-center flex-col w-5/12 m-auto">
     <Heading className="mb-6 self-start">Welcome to Catapillr!</Heading>
     <Copy className="mb-12">
@@ -16,7 +17,7 @@ const Step1 = ({ setPage, employer }) => (
     </Copy>
     <Button
       className="shadow-button text-white bg-teal text-center"
-      onClick={() => setPage(2)}
+      onClick={incrementPage}
     >
       Let's get started
     </Button>
@@ -25,5 +26,6 @@ const Step1 = ({ setPage, employer }) => (
 
 Step1.hideControls = true
 Step1.progressImg = progress1
+Step1.title = Welcome
 
 export default Step1

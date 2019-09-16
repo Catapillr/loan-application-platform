@@ -2,9 +2,10 @@ import * as Yup from "yup"
 import moment from "moment"
 
 import Questions from "./Questions"
-import { TextInput } from "../../components/Input"
+import { TextInput } from "../Input"
 
 import progress3 from "../../static/images/progress3.svg"
+import { Personal } from "./constants"
 
 const validation = Yup.object().shape({
   firstName: Yup.string()
@@ -66,5 +67,6 @@ const Step6 = ({ values: { dob } }) => (
 
 Step6.validationSchema = validation
 Step6.progressImg = progress3
+Step6.title = Personal
 
 export default Step6

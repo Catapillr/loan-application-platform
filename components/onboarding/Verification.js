@@ -1,9 +1,10 @@
 import * as Yup from "yup"
 
 import Questions from "./Questions"
-import { TextInput } from "../../components/Input"
+import { TextInput } from "../Input"
 
 import progress2 from "../../static/images/progress2.svg"
+import { Verification } from "./constants"
 
 const validation = Yup.object().shape({
   token: Yup.string()
@@ -36,5 +37,6 @@ const Step3 = ({ emailVerificationError }) => (
 
 Step3.validationSchema = validation
 Step3.progressImg = progress2
+Step3.title = Verification
 
 export default Step3

@@ -2,9 +2,10 @@ import * as Yup from "yup"
 import styled from "styled-components"
 
 import Questions from "./Questions"
-import { RangeInput, SelectInput } from "../../components/Input"
+import { RangeInput, SelectInput } from "../Input"
 
 import progress2 from "../../static/images/progress2.svg"
+import { Loan } from "./constants"
 
 // TODO: loan amount has to be sent in pennies to mangopay so needs to be stored in pennies
 // i.e. for £3000 loan we have to send amount of 300000 : Int
@@ -92,5 +93,6 @@ const Step4 = ({ employer, values }) => {
 
 Step4.validationSchema = validation
 Step4.progressImg = progress2
+Step4.title = Loan
 
 export default Step4

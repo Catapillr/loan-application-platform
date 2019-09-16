@@ -1,9 +1,10 @@
 import * as Yup from "yup"
 
 import Questions from "./Questions"
-import { TextInput, SelectInput } from "../../components/Input"
+import { TextInput, SelectInput } from "../Input"
 
 import progress4 from "../../static/images/progress4.svg"
+import { Contact } from "./constants"
 
 import nationalityOptions from "./nationalityOptions"
 
@@ -46,5 +47,6 @@ const Step7 = () => (
 
 Step7.validationSchema = validation
 Step7.progressImg = progress4
+Step7.title = Contact
 
 export default Step7

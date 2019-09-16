@@ -2,9 +2,10 @@ import * as Yup from "yup"
 import moment from "moment"
 
 import Questions from "./Questions"
-import { TextInput, CheckboxInput } from "../../components/Input"
+import { TextInput, CheckboxInput } from "../Input"
 
 import progress1 from "../../static/images/progress1.svg"
+import { Eligibility } from "./constants"
 
 const validation = Yup.object().shape({
   email: Yup.string()
@@ -84,5 +85,6 @@ const Step2 = ({
 
 Step2.validationSchema = validation
 Step2.progressImg = progress1
+Step2.title = Eligibility
 
 export default Step2

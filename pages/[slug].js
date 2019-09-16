@@ -2,60 +2,85 @@ import React, { useState, useEffect } from "react"
 import { Formik, Form, Field } from "formik"
 import styled from "styled-components"
 import axios from "axios"
+import * as R from "ramda"
 
-import Step1 from "../components/onboarding/Step1Welcome"
-import Step2 from "../components/onboarding/Step2Eligibility"
-import Step3 from "../components/onboarding/Step3Verification"
-import Step4 from "../components/onboarding/Step4Loan"
-import Step5 from "../components/onboarding/Step5Accuracy"
-import Step6 from "../components/onboarding/Step6Personal"
-import Step7 from "../components/onboarding/Step7Personal"
-import Step8 from "../components/onboarding/Step8Summary"
-import Step9 from "../components/onboarding/Step9Confirmation"
+import Step1 from "../components/onboarding/Welcome"
+import Step2 from "../components/onboarding/Eligibility"
+import Step3 from "../components/onboarding/Verification"
+import Step4 from "../components/onboarding/Loan"
+import Step5 from "../components/onboarding/Accuracy"
+import Step6 from "../components/onboarding/Personal"
+import Step7 from "../components/onboarding/Contact"
+import Step8 from "../components/onboarding/Summary"
+import Step9 from "../components/onboarding/Confirmation"
 import DebugFormik from "../components/DebugFormik"
 import { Button } from "../components/onboarding/styles"
 
 import orangeLogo from "../static/logo_orange.svg"
+import {
+  Welcome,
+  Eligibility,
+  Verification,
+  Loan,
+  Accuracy,
+  Personal,
+  Contact,
+  Summary,
+  Confirmation,
+} from "../components/onboarding/constants"
+import next from "next"
 
-// const initialValues = {
-//   employmentStartDate: {
-//     day: 1,
-//     month: 1,
-//     year: 2018,
-//   },
-//   email: "ivangonzalez@rocketmail.com",
-//   token: "e214fdc7b766",
-//   permanentRole: true,
-//   loanAmount: 965,
-//   loanTerms: "12",
-//   firstName: "Ivan",
-//   lastName: "Gonzalez",
-//   dob: {
-//     day: 23,
-//     month: 3,
-//     year: 1989,
-//   },
-//   nationality: "Colombian",
-//   employeeID: "8sdj98sd",
-//   phoneNumber: "09237432972",
-//   confirmation: false,
-// }
+const Pages = [
+  Welcome,
+  Eligibility,
+  Verification,
+  Loan,
+  Accuracy,
+  Personal,
+  Contact,
+  Summary,
+  Confirmation,
+]
 
 const initialValues = {
-  employmentStartDate: { day: "", month: "", year: "" },
-  email: "",
-  token: "",
-  permanentRole: false,
-  loanAmount: 0,
-  loanTerms: "",
-  firstName: "",
-  lastName: "",
-  dob: { day: "", month: "", year: "" },
-  nationality: "",
-  employeeID: "",
-  phoneNumber: "",
+  employmentStartDate: {
+    day: 1,
+    month: 1,
+    year: 2018,
+  },
+  email: "ivangonzalez@infactcoop.com",
+  token: "e214fdc7b766",
+  permanentRole: true,
+  loanAmount: 965,
+  loanTerms: "12",
+  firstName: "Ivan",
+  lastName: "Gonzalez",
+  dob: {
+    day: 23,
+    month: 3,
+    year: 1989,
+  },
+  nationality: "Colombian",
+  employeeID: "8sdj98sd",
+  phoneNumber: "09237432972",
   confirmation: false,
 }
+
+// const initialValues = {
+//   employmentStartDate: { day: "", month: "", year: "" },
+//   email: "",
+//   token: "",
+//   permanentRole: false,
+//   loanAmount: 0,
+//   loanTerms: "",
+//   firstName: "",
+//   lastName: "",
+//   dob: { day: "", month: "", year: "" },
+//   nationality: "",
+//   employeeID: "",
+//   phoneNumber: "",
+//   confirmation: false,
+// }
 
 const Previous = ({ decrementPage, hidePrevious }) => (
   <div className="w-40">
@@ -96,6 +121,7 @@ const Next = ({
         className="bg-teal text-white w-full"
         type="button"
         onClick={isValid ? onClick : displayErrors}
+        // onClick={onClick}
         disabled={isSubmitting}
       >
         {formCompleted ? "Summary" : "Next"}
@@ -147,12 +173,13 @@ const Controls = ({
 }) => {
   const nextClick = () => {
     switch (page) {
-      case 2:
+      case Eligibility:
         return () => {
           createNewToken({ email: values.email })
           formCompleted ? goToSummaryPage() : incrementPage()
         }
-      case 3:
+
+      case Verification:
         return async () => {
           const valid = await isTokenValid({
             token: values.token,
@@ -161,7 +188,7 @@ const Controls = ({
           valid.isTokenValid ? incrementPage() : setEmailVerificationError(true)
         }
 
-      case 7:
+      case Contact:
         return () => {
           setFormCompleted(true)
           incrementPage()
@@ -171,9 +198,10 @@ const Controls = ({
     }
   }
 
+  console.log("here", nextClick())
   return (
     <ControlsSection {...{ hideNext, hidePrevious }}>
-      <Previous {...{ decrementPage, hidePrevious }} />
+      <Previous {...{ page, decrementPage, hidePrevious }} />
       <img src={progressImg} />
       {shouldFormSubmit ? (
         <Submit {...{ isSubmitting, submitForm }} />
@@ -215,13 +243,20 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
 }
 
 const Wizard = ({ children, employer }) => {
-  // const [page, setPage] = useState(8)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(Welcome)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
   const [summaryPage, setSummaryPage] = useState()
 
-  const activePage = React.Children.toArray(children)[page - 1]
+  // const activePage = React.Children.toArray(children)[page - 1]
+
+  const arrayOfSteps = React.Children.toArray(children)
+  const activePage = R.find(R.pathEq(["type", "title"], page))(arrayOfSteps)
+
+  console.log("array", arrayOfSteps)
+  // console.log("active", activePage)
+
+  // return <div />
   const {
     validationSchema,
     shouldFormSubmit,
@@ -229,6 +264,7 @@ const Wizard = ({ children, employer }) => {
     hidePrevious,
     progressImg,
     hideControls,
+    title,
   } = activePage && activePage.type
 
   useEffect(() => {
@@ -237,9 +273,19 @@ const Wizard = ({ children, employer }) => {
     }
   }, [page])
 
-  const incrementPage = () => setPage(page + 1)
-  const decrementPage = () => setPage(page - 1)
-  const goToSummaryPage = () => setPage(summaryPage)
+  const incrementPage = () => {
+    const pageIndex = R.findIndex(R.equals(page))(Pages)
+    console.log("page", page)
+    console.log("pageindex", pageIndex)
+    setPage(Pages[pageIndex + 1])
+  }
+
+  const decrementPage = () => {
+    const pageIndex = R.findIndex(R.equals(page))(Pages)
+    setPage(Pages[pageIndex - 1])
+  }
+
+  const goToSummaryPage = () => setPage(Summary)
 
   return (
     <Formik
@@ -276,6 +322,7 @@ const Wizard = ({ children, employer }) => {
                     employer,
                     values,
                     emailVerificationError,
+                    incrementPage,
                   }),
                 }}
               ></RenderStep>
