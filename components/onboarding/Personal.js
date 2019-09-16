@@ -5,7 +5,6 @@ import Questions from "./Questions"
 import { TextInput } from "../Input"
 
 import progress3 from "../../static/images/progress3.svg"
-import { Personal } from "./constants"
 
 const validation = Yup.object().shape({
   firstName: Yup.string()
@@ -38,7 +37,7 @@ const validateDate = ({ day, month, year }) => {
   }
 }
 
-const Step6 = ({ values: { dob } }) => (
+const Personal = ({ values: { dob } }) => (
   <Questions
     formWidth="65"
     title="3.1 Your personal details"
@@ -65,8 +64,7 @@ const Step6 = ({ values: { dob } }) => (
   />
 )
 
-Step6.validationSchema = validation
-Step6.progressImg = progress3
-Step6.title = Personal
+Personal.validationSchema = validation
+Personal.progressImg = progress3
 
-export default Step6
+export default Personal

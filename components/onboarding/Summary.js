@@ -5,7 +5,7 @@ import { Heading } from "./styles"
 
 import tealTick from "../../static/icons/teal-tick.svg"
 import progress4 from "../../static/images/progress4.svg"
-import { Loan, Personal, Eligibility, Contact, Summary } from "./constants"
+import { Loan, Personal, Eligibility, Contact } from "./constants"
 
 const sections = [
   {
@@ -92,7 +92,7 @@ const Divider = styled.div.attrs({
   opacity: 0.5;
 `
 
-const Step8 = ({ values, setPage }) => {
+const Summary = ({ values, setPage }) => {
   return (
     <main className="flex justify-center items-start flex-col m-auto font-base">
       <Heading className="mb-2">Thanks {values.firstName}</Heading>
@@ -126,8 +126,6 @@ const Step8 = ({ values, setPage }) => {
   )
 }
 
-Step8.shouldFormSubmit = true
-Step8.progressImg = progress4
-Step8.title = Summary
+Summary.progressImg = progress4
 
-export default Step8
+export default Summary

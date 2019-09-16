@@ -5,7 +5,6 @@ import Questions from "./Questions"
 import { RangeInput, SelectInput } from "../Input"
 
 import progress2 from "../../static/images/progress2.svg"
-import { Loan } from "./constants"
 
 // TODO: loan amount has to be sent in pennies to mangopay so needs to be stored in pennies
 // i.e. for £3000 loan we have to send amount of 300000 : Int
@@ -27,7 +26,7 @@ const Divider = styled.div.attrs({
   opacity: 0.5;
 `
 
-const Step4 = ({ employer, values }) => {
+const Loan = ({ employer, values }) => {
   const serviceCharge1 = 182.5
   const serviceCharge2 = 69.99
   return (
@@ -91,8 +90,7 @@ const Step4 = ({ employer, values }) => {
   )
 }
 
-Step4.validationSchema = validation
-Step4.progressImg = progress2
-Step4.title = Loan
+Loan.validationSchema = validation
+Loan.progressImg = progress2
 
-export default Step4
+export default Loan

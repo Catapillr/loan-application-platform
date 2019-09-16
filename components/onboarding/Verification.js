@@ -4,7 +4,6 @@ import Questions from "./Questions"
 import { TextInput } from "../Input"
 
 import progress2 from "../../static/images/progress2.svg"
-import { Verification } from "./constants"
 
 const validation = Yup.object().shape({
   token: Yup.string()
@@ -12,7 +11,7 @@ const validation = Yup.object().shape({
     .required("Required"),
 })
 
-const Step3 = ({ emailVerificationError }) => (
+const Verification = ({ emailVerificationError }) => (
   <div>
     <Questions
       title="Thank you!"
@@ -35,8 +34,7 @@ const Step3 = ({ emailVerificationError }) => (
   </div>
 )
 
-Step3.validationSchema = validation
-Step3.progressImg = progress2
-Step3.title = Verification
+Verification.validationSchema = validation
+Verification.progressImg = progress2
 
-export default Step3
+export default Verification

@@ -3,13 +3,12 @@ import styled from "styled-components"
 import { Heading } from "./styles"
 
 import progress5 from "../../static/images/progress5.svg"
-import { Confirmation } from "./constants"
 
 const Container = styled.div`
   min-height: 80%;
 `
 
-const Step9 = () => {
+const Confirmation = () => {
   return (
     <Container>
       <Heading className="mb-3">Great!</Heading>
@@ -24,9 +23,8 @@ const Step9 = () => {
   )
 }
 
-Step9.hideNext = true
-Step9.hidePrevious = true
-Step9.progressImg = progress5
-Step9.title = Confirmation
+Confirmation.hideNext = true
+Confirmation.hidePrevious = true
+Confirmation.progressImg = progress5
 
-export default Step9
+export default Confirmation

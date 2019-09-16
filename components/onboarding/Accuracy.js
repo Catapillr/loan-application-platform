@@ -1,9 +1,8 @@
 import { Heading, Copy, Button } from "./styles"
 
 import progress3 from "../../static/images/progress3.svg"
-import { Accuracy } from "./constants"
 
-const Step5 = ({ incrementPage }) => (
+const Accuracy = ({ incrementPage }) => (
   <main className="flex justify-center items-center flex-col w-7/12 m-auto">
     <Heading className="mb-6 text-center self-start">
       Just a quick note…
@@ -29,8 +28,7 @@ const Step5 = ({ incrementPage }) => (
   </main>
 )
 
-Step5.hideNext = true
-Step5.progressImg = progress3
-Step5.title = Accuracy
+Accuracy.hideNext = true
+Accuracy.progressImg = progress3
 
-export default Step5
+export default Accuracy

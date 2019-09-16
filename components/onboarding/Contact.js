@@ -4,7 +4,6 @@ import Questions from "./Questions"
 import { TextInput, SelectInput } from "../Input"
 
 import progress4 from "../../static/images/progress4.svg"
-import { Contact } from "./constants"
 
 import nationalityOptions from "./nationalityOptions"
 
@@ -16,7 +15,7 @@ const validation = Yup.object().shape({
     .max(15, "Please enter a valid phone number"),
 })
 
-const Step7 = () => (
+const Contact = () => (
   <Questions
     formWidth="60"
     title="3.2 Your personal details"
@@ -45,8 +44,7 @@ const Step7 = () => (
   />
 )
 
-Step7.validationSchema = validation
-Step7.progressImg = progress4
-Step7.title = Contact
+Contact.validationSchema = validation
+Contact.progressImg = progress4
 
-export default Step7
+export default Contact
