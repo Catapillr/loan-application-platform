@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Formik, Form, Field } from "formik"
+import { parsePhoneNumberFromString } from "libphonenumber-js"
 import styled from "styled-components"
 import axios from "axios"
 
@@ -200,6 +201,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
     await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
       employer,
       ...values,
+      phoneNumber: parsePhoneNumberFromString(values.phoneNumber).number,
     })
 
     incrementPage()

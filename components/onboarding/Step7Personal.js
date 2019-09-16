@@ -1,4 +1,5 @@
 import * as Yup from "yup"
+import axios from "axios"
 import { parsePhoneNumberFromString } from "libphonenumber-js"
 
 import Questions from "./Questions"
@@ -13,9 +14,21 @@ const validation = Yup.object().shape({
   phoneNumber: Yup.string().required("Required"),
 })
 
+const doesPhoneNumberExist = async ({ phoneNumber }) => {
+  const encodedPhoneNumber = encodeURIComponent(phoneNumber)
+  const res = await axios(
+    `${process.env.HOST}/api/does-phonenumber-exist?phonenumber=${encodedPhoneNumber}`
+  )
+
+  const {
+    data: { doesPhoneNumberExist },
+  } = res
+
+  return doesPhoneNumberExist
+}
+
 const validatePhoneNumber = async value => {
   const phoneNumber = parsePhoneNumberFromString(value, "GB")
-  console.log("phoneNumber", phoneNumber)
   if (!phoneNumber) {
     return "Please enter a complete phone number."
   }
@@ -26,6 +39,13 @@ const validatePhoneNumber = async value => {
     return "Sorry, this phone number is not valid."
   }
 
+  const phoneNumberExists = await doesPhoneNumberExist({
+    phoneNumber: phoneNumber.number,
+  })
+
+  if (phoneNumberExists) {
+    return "This phone number is already registered with Catapillr. Do you already have an account?"
+  }
 }
 
 const Step7 = () => (
