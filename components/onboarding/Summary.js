@@ -5,7 +5,7 @@ import { Heading } from "./styles"
 
 import tealTick from "../../static/icons/teal-tick.svg"
 import progress4 from "../../static/images/progress4.svg"
-import { Loan, Personal, Eligibility, Contact } from "./constants"
+import { Loan, Personal, Eligibility, Contact, Salary } from "./constants"
 
 const sections = [
   {
@@ -30,6 +30,7 @@ const sections = [
       },
       { title: "Contract type", field: "permanentRole", page: Eligibility },
       { title: "Employee ID", field: "employeeID", page: Contact },
+      { title: "Salary", field: "salary", page: Salary },
     ],
   },
   {
@@ -37,6 +38,7 @@ const sections = [
     fields: [
       { title: "Loan amount", field: "loanAmount", page: Loan },
       { title: "Repayment length", field: "loanTerms", page: Loan },
+      { title: "Monthly repayment", field: "monthlyRepayment" },
     ],
   },
 ]
@@ -54,6 +56,8 @@ const getValues = (field, date) => values => {
       return "N/A"
     case field === "loanAmount":
       return `£${values[field]}`
+    case field === "monthlyRepayment":
+      return `£${values.loanAmount / values.loanTerms}`
     default:
       return values[field]
   }
@@ -65,7 +69,7 @@ const SummaryContainer = styled.div`
 
 const SummarySection = ({ heading, fields, values, setPage }) => {
   return (
-    <div className="mb-5">
+    <div className="mb-10">
       <h2 className="uppercase mb-4">{heading}</h2>
       {fields.map(({ field, title, date, page }) => (
         <div key={title} className="flex justify-between mb-3">
@@ -73,9 +77,9 @@ const SummarySection = ({ heading, fields, values, setPage }) => {
           <p className="w-2/5">{getValues(field, date)(values)}</p>
           <a
             className="w-1/5 text-right text-teal underline"
-            onClick={() => setPage(page)}
+            onClick={page ? () => setPage(page) : null}
           >
-            Change
+            {page && "Change"}
           </a>
         </div>
       ))}

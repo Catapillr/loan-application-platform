@@ -12,7 +12,9 @@ const Container = styled.div.attrs(() => ({
   background: url("./static/catapillr_background.svg") no-repeat,
     linear-gradient(to left top, rgba(20, 190, 203, 0.24), white);
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
+  height: fit-content;
+  padding: 50px 0;
 `
 
 const { theme } = resolveConfig(tailwindConfig)

@@ -20,46 +20,47 @@ import { Button } from "../components/onboarding/styles"
 
 import orangeLogo from "../static/logo_orange.svg"
 
-// const initialValues = {
-//   employmentStartDate: {
-//     day: 1,
-//     month: 1,
-//     year: 2018,
-//   },
-//   email: "ivangonzalez@infactcoop.com",
-//   token: "e214fdc7b766",
-//   permanentRole: true,
-//   loanAmount: 965,
-//   loanTerms: "12",
-//   firstName: "Ivan",
-//   lastName: "Gonzalez",
-//   dob: {
-//     day: 23,
-//     month: 3,
-//     year: 1989,
-//   },
-//   nationality: "Colombian",
-//   employeeID: "8sdj98sd",
-//   phoneNumber: "09237432972",
-//   confirmation: false,
-// }
-
 const initialValues = {
-  employmentStartDate: { day: "", month: "", year: "" },
-  email: "",
-  token: "",
-  permanentRole: false,
-  salary: "",
-  loanAmount: 0,
-  loanTerms: "",
-  firstName: "",
-  lastName: "",
-  dob: { day: "", month: "", year: "" },
-  nationality: "",
-  employeeID: "",
-  phoneNumber: "",
+  employmentStartDate: {
+    day: 1,
+    month: 1,
+    year: 2018,
+  },
+  email: "ivangonzalez@infactcoop.com",
+  token: "e214fdc7b766",
+  permanentRole: true,
+  salary: 10000,
+  loanAmount: 965,
+  loanTerms: "12",
+  firstName: "Ivan",
+  lastName: "Gonzalez",
+  dob: {
+    day: 23,
+    month: 3,
+    year: 1989,
+  },
+  nationality: "Colombian",
+  employeeID: "8sdj98sd",
+  phoneNumber: "07443998236",
   confirmation: false,
 }
+
+// const initialValues = {
+//   employmentStartDate: { day: "", month: "", year: "" },
+//   email: "",
+//   token: "",
+//   permanentRole: false,
+//   salary: "",
+//   loanAmount: 0,
+//   loanTerms: "",
+//   firstName: "",
+//   lastName: "",
+//   dob: { day: "", month: "", year: "" },
+//   nationality: "",
+//   employeeID: "",
+//   phoneNumber: "",
+//   confirmation: false,
+// }
 
 const Previous = ({ decrementPage, hidePrevious }) => (
   <div className="w-40">
@@ -220,7 +221,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
 }
 
 const Wizard = ({ children, employer }) => {
-  const [page, setPage] = useState("Welcome")
+  const [page, setPage] = useState("Summary")
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
@@ -265,7 +266,7 @@ const Wizard = ({ children, employer }) => {
         submitForm,
         setTouched,
       }) => {
-        const debugging = false
+        const debugging = true
 
         return (
           <Container>
@@ -370,12 +371,12 @@ const Container = styled.div.attrs({
   className: "bg-white flex flex-col items-center justify-between",
 })`
   width: 90%;
-  height: 90%;
+  min-height: -webkit-fill-available;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
 
 const Header = styled.div.attrs({
-  className: "pl-10 pt-8 w-full",
+  className: "pl-10 pt-8  w-full",
 })``
 
 const Footer = styled.div.attrs({ className: "w-full bg-white" })`
@@ -384,7 +385,7 @@ const Footer = styled.div.attrs({ className: "w-full bg-white" })`
 `
 
 const StyledForm = styled(Form).attrs({
-  className: "flex justify-center items-center",
+  className: "pt-10 pb-20 flex justify-center items-center",
 })`
   width: 70%;
   min-height: 55vh;
