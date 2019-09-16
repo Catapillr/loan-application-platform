@@ -3,7 +3,7 @@ import axios from "axios"
 import { parsePhoneNumberFromString } from "libphonenumber-js"
 
 import Questions from "./Questions"
-import { TextInput, SelectInput } from "../../components/Input"
+import { TextInput, SelectInput } from "../Input"
 
 import progress4 from "../../static/images/progress4.svg"
 
@@ -48,7 +48,7 @@ const validatePhoneNumber = async value => {
   }
 }
 
-const Step7 = () => (
+const Contact = () => (
   <Questions
     formWidth="60"
     title="3.2 Your personal details"
@@ -72,13 +72,13 @@ const Step7 = () => (
         component: TextInput,
         name: "phoneNumber",
         width: "full",
-        validate: value => validatePhoneNumber(value),
+        validate: validatePhoneNumber,
       },
     ]}
   />
 )
 
-Step7.validationSchema = validation
-Step7.progressImg = progress4
+Contact.validationSchema = validation
+Contact.progressImg = progress4
 
-export default Step7
+export default Contact

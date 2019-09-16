@@ -8,7 +8,7 @@ const Container = styled.div`
   min-height: 80%;
 `
 
-const Step9 = () => {
+const Confirmation = () => {
   return (
     <Container>
       <Heading className="mb-3">Great!</Heading>
@@ -23,8 +23,8 @@ const Step9 = () => {
   )
 }
 
-Step9.hideNext = true
-Step9.hidePrevious = true
-Step9.progressImg = progress5
+Confirmation.hideNext = true
+Confirmation.hidePrevious = true
+Confirmation.progressImg = progress5
 
-export default Step9
+export default Confirmation

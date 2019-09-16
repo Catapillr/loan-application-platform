@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import moment from "moment"
 
 import Questions from "./Questions"
-import { TextInput } from "../../components/Input"
+import { TextInput } from "../Input"
 
 import progress3 from "../../static/images/progress3.svg"
 
@@ -37,7 +37,7 @@ const validateDate = ({ day, month, year }) => {
   }
 }
 
-const Step6 = ({ values: { dob } }) => (
+const Personal = ({ values: { dob } }) => (
   <Questions
     formWidth="65"
     title="3.1 Your personal details"
@@ -64,7 +64,7 @@ const Step6 = ({ values: { dob } }) => (
   />
 )
 
-Step6.validationSchema = validation
-Step6.progressImg = progress3
+Personal.validationSchema = validation
+Personal.progressImg = progress3
 
-export default Step6
+export default Personal

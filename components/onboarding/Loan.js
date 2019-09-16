@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import styled from "styled-components"
 
 import Questions from "./Questions"
-import { RangeInput, SelectInput } from "../../components/Input"
+import { RangeInput, SelectInput } from "../Input"
 
 import progress2 from "../../static/images/progress2.svg"
 
@@ -26,7 +26,7 @@ const Divider = styled.div.attrs({
   opacity: 0.5;
 `
 
-const Step4 = ({ employer, values }) => {
+const Loan = ({ employer, values }) => {
   const serviceCharge1 = 182.5
   const serviceCharge2 = 69.99
   return (
@@ -90,7 +90,7 @@ const Step4 = ({ employer, values }) => {
   )
 }
 
-Step4.validationSchema = validation
-Step4.progressImg = progress2
+Loan.validationSchema = validation
+Loan.progressImg = progress2
 
-export default Step4
+export default Loan

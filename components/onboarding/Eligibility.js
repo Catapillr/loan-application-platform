@@ -3,7 +3,7 @@ import moment from "moment"
 import axios from "axios"
 
 import Questions from "./Questions"
-import { TextInput, CheckboxInput } from "../../components/Input"
+import { TextInput, CheckboxInput } from "../Input"
 
 import progress1 from "../../static/images/progress1.svg"
 
@@ -67,7 +67,7 @@ const validateDate = (minimumServiceLength, date) => {
   }
 }
 
-const Step2 = ({
+const Eligibility = ({
   employer: { emailSuffix, minimumServiceLength },
   values: { employmentStartDate },
 }) => (
@@ -101,7 +101,7 @@ const Step2 = ({
   />
 )
 
-Step2.validationSchema = validation
-Step2.progressImg = progress1
+Eligibility.validationSchema = validation
+Eligibility.progressImg = progress1
 
-export default Step2
+export default Eligibility
