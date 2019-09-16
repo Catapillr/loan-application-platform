@@ -47,12 +47,14 @@ const Personal = ({ values: { dob } }) => (
         name: "firstName",
         component: TextInput,
         width: "1/2",
+        placeholder: "e.g. Maria",
       },
       {
         text: "Last name",
         name: "lastName",
         component: TextInput,
         width: "1/2",
+        placeholder: "e.g. Wilson",
       },
       {
         text: "What is your date of birth?",

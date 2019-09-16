@@ -106,19 +106,10 @@ const NumberInput = styled.input.attrs(
   }
 )``
 
-const RangeInput = ({ field, form: { errors, touched }, ...attrs }) => {
-  const { name } = field
+const RangeInput = ({ field, ...attrs }) => {
   return (
     <>
       <Range {...field} {...attrs} />
-      <div
-        className={`border-2 border-${
-          errors[name] && touched[name] ? "red" : "midgray"
-        }
-        midgray rounded-full py-2 px-4 mt-6 w-40`}
-      >
-        {`£${field.value}`}
-      </div>
     </>
   )
 }
@@ -270,4 +261,12 @@ const CheckboxContainer = styled.label`
   }
 `
 
-export { Input, DateInput, TextInput, RangeInput, CheckboxInput, SelectInput }
+export {
+  Input,
+  DateInput,
+  TextInput,
+  RangeInput,
+  CheckboxInput,
+  SelectInput,
+  NumberInput,
+}

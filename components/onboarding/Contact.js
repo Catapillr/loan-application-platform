@@ -28,7 +28,7 @@ const doesPhoneNumberExist = async ({ phoneNumber }) => {
 }
 
 const validatePhoneNumber = async value => {
-  const phoneNumber = parsePhoneNumberFromString(value, "GB")
+  const phoneNumber = parsePhoneNumberFromString(`Phone: ${value}`, "GB")
   if (!phoneNumber) {
     return "Please enter a complete phone number."
   }
@@ -72,6 +72,8 @@ const Contact = () => (
         component: TextInput,
         name: "phoneNumber",
         width: "full",
+        type: "number",
+        placeholder: "e.g. 07565111222",
         validate: validatePhoneNumber,
       },
     ]}

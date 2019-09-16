@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import styled from "styled-components"
 
 import Questions from "./Questions"
-import { RangeInput, SelectInput } from "../Input"
+import { RangeInput, SelectInput, NumberInput } from "../Input"
 
 import progress2 from "../../static/images/progress2.svg"
 
@@ -17,6 +17,15 @@ const validation = Yup.object().shape({
   loanTerms: Yup.number().required("Required"),
 })
 
+const validateLoanAmount = (value, maxLoan) => {
+  let error
+  if (value > maxLoan) {
+    error = "Sorry, you can't borrow that much"
+  }
+
+  return error
+}
+
 const Divider = styled.div.attrs({
   className: "my-1",
 })`
@@ -26,9 +35,11 @@ const Divider = styled.div.attrs({
   opacity: 0.5;
 `
 
-const Loan = ({ employer, values }) => {
-  const serviceCharge1 = 182.5
-  const serviceCharge2 = 69.99
+const Loan = ({ employer: { maxSalaryPercentage, maximumAmount }, values }) => {
+  const { salary, loanAmount, loanTerms } = values
+  const maxLoan = Math.min(salary * maxSalaryPercentage * 0.01, maximumAmount)
+  const monthlyRepayment = (loanAmount / (loanTerms || 12)).toFixed(2)
+
   return (
     <div className="flex">
       <Questions
@@ -42,8 +53,18 @@ const Loan = ({ employer, values }) => {
             component: RangeInput,
             type: "range",
             width: "full",
-            max: employer.maximumAmount,
+            max: maxLoan,
             min: 0,
+            step: 5,
+            validate: value => validateLoanAmount(value, maxLoan),
+          },
+          {
+            name: "loanAmount",
+            component: NumberInput,
+            width: "full",
+            max: maxLoan,
+            min: 0,
+            validate: value => validateLoanAmount(value, maxLoan),
           },
           {
             text: "How long would you like to pay it back over?",
@@ -57,33 +78,23 @@ const Loan = ({ employer, values }) => {
       />
       <div className="w-2/6">
         <div className="border border-midgray px-8 py-10">
-          <p className="mb-4">
-            For a loan of{" "}
-            <span className="font-bold">£{values.loanAmount}</span>, to be paid
-            back over{" "}
-            <span className="font-bold">{values.loanTerms || 12} months</span>,
-            your monthly repayment will be{" "}
-            <span className="font-bold">£252.49</span>, and you will repay a{" "}
-            <span className="font-bold">total of £2,852.49</span>
-          </p>
+          <p className="mb-4 bold underline">Summary</p>
           <div>
             <div className="flex justify-between mb-3">
-              <p>Loan</p>
-              <p>£{values.loanAmount}</p>
-            </div>
+              <p>Loan:</p>
+              <p>£{loanAmount}</p>
+            </div>{" "}
             <div className="flex justify-between mb-3">
-              <p>Service charge 1</p>
-              <p>£{serviceCharge1}</p>
-            </div>
-            <div className="flex justify-between">
-              <p>Service charge 2</p>
-              <p>£{serviceCharge2}</p>
+              <p>Repayment months:</p>
+              <p>{loanTerms || 12}</p>
+            </div>{" "}
+            <div className="flex justify-between mb-3">
+              <p>Repayment per month:</p>
+              <p>£{monthlyRepayment}</p>
             </div>
           </div>
           <Divider />
-          <p className="text-right">
-            Total £{serviceCharge1 + serviceCharge2 + values.loanAmount}
-          </p>
+          <p className="text-right">Total £{loanAmount}</p>
         </div>
       </div>
     </div>

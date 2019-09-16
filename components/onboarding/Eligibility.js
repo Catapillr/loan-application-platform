@@ -1,5 +1,6 @@
 import * as Yup from "yup"
 import moment from "moment"
+import * as R from "ramda"
 import axios from "axios"
 
 import Questions from "./Questions"
@@ -46,7 +47,8 @@ const validateEmail = async (emailSuffix, value) => {
 
 const validateDate = (minimumServiceLength, date) => {
   const { day, month, year } = date
-  const employmentStartDate = moment(date)
+  const dateMonthZeroIndexed = R.assoc("month", date.month - 1, date)
+  const employmentStartDate = moment(dateMonthZeroIndexed)
   const minimumServiceDate = moment().subtract(minimumServiceLength, "months")
 
   const dateIsValid = employmentStartDate.isValid()

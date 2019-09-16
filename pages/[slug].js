@@ -10,6 +10,7 @@ import * as Steps from "../components/onboarding/stepNames"
 import Welcome from "../components/onboarding/Welcome"
 import Eligibility from "../components/onboarding/Eligibility"
 import Verification from "../components/onboarding/Verification"
+import Salary from "../components/onboarding/Salary"
 import Loan from "../components/onboarding/Loan"
 import Accuracy from "../components/onboarding/Accuracy"
 import Personal from "../components/onboarding/Personal"
@@ -31,6 +32,7 @@ import orangeLogo from "../static/logo_orange.svg"
 //   email: "ivangonzalez@infactcoop.com",
 //   token: "e214fdc7b766",
 //   permanentRole: true,
+//   salary: 10000,
 //   loanAmount: 965,
 //   loanTerms: "12",
 //   firstName: "Ivan",
@@ -42,7 +44,7 @@ import orangeLogo from "../static/logo_orange.svg"
 //   },
 //   nationality: "Colombian",
 //   employeeID: "8sdj98sd",
-//   phoneNumber: "09237432972",
+//   phoneNumber: "07443998236",
 //   confirmation: false,
 // }
 
@@ -51,6 +53,7 @@ const initialValues = {
   email: "",
   token: "",
   permanentRole: false,
+  salary: "",
   loanAmount: 0,
   loanTerms: "",
   firstName: "",
@@ -344,6 +347,7 @@ const Onboarding = ({ employer }) => {
       <Welcome />
       <Eligibility />
       <Verification />
+      <Salary />
       <Loan />
       <Accuracy />
       <Personal />
@@ -370,12 +374,12 @@ const Container = styled.div.attrs({
   className: "bg-white flex flex-col items-center justify-between",
 })`
   width: 90%;
-  height: 90%;
+  min-height: -webkit-fill-available;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
 
 const Header = styled.div.attrs({
-  className: "pl-10 pt-8 w-full",
+  className: "pl-10 pt-8  w-full",
 })``
 
 const Footer = styled.div.attrs({ className: "w-full bg-white" })`
@@ -384,7 +388,7 @@ const Footer = styled.div.attrs({ className: "w-full bg-white" })`
 `
 
 const StyledForm = styled(Form).attrs({
-  className: "flex justify-center items-center",
+  className: "pt-10 pb-20 flex justify-center items-center",
 })`
   width: 70%;
   min-height: 55vh;
