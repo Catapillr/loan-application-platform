@@ -56,7 +56,7 @@ const Loan = ({ employer: { maxSalaryPercentage, maximumAmount }, values }) => {
             width: "full",
             max: maxLoan,
             min: 0,
-            validate: validateLoanAmount(maxLoan),
+            validate: value => validateLoanAmount(value, maxLoan),
           },
           {
             text: "How long would you like to pay it back over?",

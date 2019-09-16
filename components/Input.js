@@ -113,7 +113,6 @@ const RangeInput = ({
   ...attrs
 }) => {
   const { name, value, onChange } = field
-
   return (
     <>
       <Range {...field} {...attrs} step="5" />

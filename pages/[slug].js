@@ -48,6 +48,7 @@ const initialValues = {
   email: "",
   token: "",
   permanentRole: false,
+  salary: "",
   loanAmount: 0,
   loanTerms: "",
   firstName: "",
