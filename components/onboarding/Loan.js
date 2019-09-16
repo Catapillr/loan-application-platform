@@ -22,7 +22,6 @@ const validateLoanAmount = (value, maxLoan) => {
   if (value > maxLoan) {
     error = "Sorry, you can't borrow that much"
   }
-  console.log("in validate", error)
 
   return error
 }
