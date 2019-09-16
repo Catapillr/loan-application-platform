@@ -1,4 +1,6 @@
 import * as Yup from "yup"
+import axios from "axios"
+import { parsePhoneNumberFromString } from "libphonenumber-js"
 
 import Questions from "./Questions"
 import { TextInput, SelectInput } from "../Input"
@@ -9,11 +11,42 @@ import nationalityOptions from "./nationalityOptions"
 
 const validation = Yup.object().shape({
   nationality: Yup.string().required("Required"),
-  phoneNumber: Yup.string()
-    .required("Required")
-    .min(10, "Please enter a valid phone number")
-    .max(15, "Please enter a valid phone number"),
+  phoneNumber: Yup.string().required("Required"),
 })
+
+const doesPhoneNumberExist = async ({ phoneNumber }) => {
+  const encodedPhoneNumber = encodeURIComponent(phoneNumber)
+  const res = await axios(
+    `${process.env.HOST}/api/does-phonenumber-exist?phonenumber=${encodedPhoneNumber}`
+  )
+
+  const {
+    data: { doesPhoneNumberExist },
+  } = res
+
+  return doesPhoneNumberExist
+}
+
+const validatePhoneNumber = async value => {
+  const phoneNumber = parsePhoneNumberFromString(value, "GB")
+  if (!phoneNumber) {
+    return "Please enter a complete phone number."
+  }
+  if (phoneNumber.countryCallingCode !== "44") {
+    return "Please enter a valid UK number"
+  }
+  if (!phoneNumber.isValid()) {
+    return "Sorry, this phone number is not valid."
+  }
+
+  const phoneNumberExists = await doesPhoneNumberExist({
+    phoneNumber: phoneNumber.number,
+  })
+
+  if (phoneNumberExists) {
+    return "This phone number is already registered with Catapillr. Do you already have an account?"
+  }
+}
 
 const Contact = () => (
   <Questions
@@ -39,6 +72,7 @@ const Contact = () => (
         component: TextInput,
         name: "phoneNumber",
         width: "full",
+        validate: validatePhoneNumber,
       },
     ]}
   />
