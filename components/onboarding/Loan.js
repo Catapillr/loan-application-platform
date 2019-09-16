@@ -55,6 +55,7 @@ const Loan = ({ employer: { maxSalaryPercentage, maximumAmount }, values }) => {
             width: "full",
             max: maxLoan,
             min: 0,
+            step: 5,
             validate: value => validateLoanAmount(value, maxLoan),
           },
           {

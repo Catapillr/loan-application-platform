@@ -109,7 +109,7 @@ const NumberInput = styled.input.attrs(
 const RangeInput = ({ field, ...attrs }) => {
   return (
     <>
-      <Range {...field} {...attrs} step="5" />
+      <Range {...field} {...attrs} />
     </>
   )
 }
