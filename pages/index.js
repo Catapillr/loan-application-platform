@@ -14,14 +14,14 @@ const Home = ({ allUsers }) => (
         as="font"
         type="font/woff2"
         href="/static/fonts/ubuntu-v14-latin-regular.woff2"
-        crossOrigin={true}
+        crossOrigin="true"
       />
       <link
         rel="preload"
         as="font"
         type="font/woff2"
         href="/static/fonts/ubuntu-v14-latin-italic.woff2"
-        crossOrigin={true}
+        crossOrigin="true"
       />
     </Head>
     <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>

@@ -36,7 +36,7 @@ const seedDatabase = async () => {
       firstName: "Ivan",
       lastName: "Gonzalez",
       email: "ivan@infactcoop.com",
-      phoneNumber: new Date().toISOString(),
+      phoneNumber: "+447939656400",
       dob: new Date().toISOString(),
       nationality: "Colombian",
       employmentStartDate: new Date().toISOString(),
