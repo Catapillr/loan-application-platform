@@ -7,6 +7,7 @@ import * as R from "ramda"
 import Welcome from "../components/onboarding/Welcome"
 import Eligibility from "../components/onboarding/Eligibility"
 import Verification from "../components/onboarding/Verification"
+import Salary from "../components/onboarding/Salary"
 import Loan from "../components/onboarding/Loan"
 import Accuracy from "../components/onboarding/Accuracy"
 import Personal from "../components/onboarding/Personal"
@@ -339,6 +340,7 @@ const Onboarding = ({ employer }) => {
       <Welcome />
       <Eligibility />
       <Verification />
+      <Salary />
       <Loan />
       <Accuracy />
       <Personal />

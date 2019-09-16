@@ -39,6 +39,8 @@ const Contact = () => (
         component: TextInput,
         name: "phoneNumber",
         width: "full",
+        type: "number",
+        placeholder: "e.g. 07565111222",
       },
     ]}
   />
