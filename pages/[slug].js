@@ -4,6 +4,8 @@ import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
 
+import * as Steps from "../components/onboarding/stepNames"
+
 import Welcome from "../components/onboarding/Welcome"
 import Eligibility from "../components/onboarding/Eligibility"
 import Verification from "../components/onboarding/Verification"
@@ -13,6 +15,7 @@ import Personal from "../components/onboarding/Personal"
 import Contact from "../components/onboarding/Contact"
 import Summary from "../components/onboarding/Summary"
 import Confirmation from "../components/onboarding/Confirmation"
+
 import DebugFormik from "../components/DebugFormik"
 import { Button } from "../components/onboarding/styles"
 
@@ -147,13 +150,13 @@ const Controls = ({
 }) => {
   const nextClick = () => {
     switch (page) {
-      case "Eligibility":
+      case Steps.Eligibility:
         return () => {
           createNewToken({ email: values.email })
           formCompleted ? goToSummaryPage() : incrementPage()
         }
 
-      case "Verification":
+      case Steps.Verification:
         return async () => {
           const valid = await isTokenValid({
             token: values.token,
@@ -162,7 +165,7 @@ const Controls = ({
           valid.isTokenValid ? incrementPage() : setEmailVerificationError(true)
         }
 
-      case "Contact":
+      case Steps.Contact:
         return () => {
           setFormCompleted(true)
           incrementPage()
@@ -176,7 +179,7 @@ const Controls = ({
     <ControlsSection {...{ hideNext, hidePrevious }}>
       <Previous {...{ page, decrementPage, hidePrevious }} />
       <img src={progressImg} />
-      {page === "Summary" ? (
+      {page === Steps.Summary ? (
         <Submit {...{ isSubmitting, submitForm }} />
       ) : (
         <Next
@@ -216,7 +219,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
 }
 
 const Wizard = ({ children, employer }) => {
-  const [page, setPage] = useState("Welcome")
+  const [page, setPage] = useState(Steps.Welcome)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
@@ -242,7 +245,7 @@ const Wizard = ({ children, employer }) => {
     setPage(pages[pageIndex - 1])
   }
 
-  const goToSummaryPage = () => setPage("Summary")
+  const goToSummaryPage = () => setPage(Steps.Summary)
 
   return (
     <Formik
