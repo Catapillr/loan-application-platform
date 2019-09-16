@@ -1,5 +1,6 @@
 import * as Yup from "yup"
 import moment from "moment"
+import axios from "axios"
 
 import Questions from "./Questions"
 import { TextInput, CheckboxInput } from "../../components/Input"
@@ -17,12 +18,30 @@ const validation = Yup.object().shape({
   ),
 })
 
-const validateEmail = (emailSuffix, value) => {
+const doesEmailExist = async ({ email }) => {
+  const res = await axios(
+    `${process.env.HOST}/api/does-email-exist?email=${email}`
+  )
+
+  const {
+    data: { doesEmailExist },
+  } = res
+
+  return doesEmailExist
+}
+
+const validateEmail = async (emailSuffix, value) => {
   let error
   if (!value.endsWith(emailSuffix)) {
     error = "Sorry! You need a work email address to sign up."
+    return error
   }
-  return error
+
+  const emailExists = await doesEmailExist({ email: value })
+  if (emailExists) {
+    error = "Looks like you've already created an account! Try signing in?"
+    return error
+  }
 }
 
 const validateDate = (minimumServiceLength, date) => {
