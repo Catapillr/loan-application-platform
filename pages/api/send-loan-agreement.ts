@@ -24,8 +24,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     employer,
   } = req.body
 
-  // TODO: Add actual annual salary
-
   // TODO: catch error of not valid user being entered
 
   prisma
