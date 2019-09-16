@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import styled from "styled-components"
 
 import Questions from "./Questions"
-import { RangeInput, SelectInput } from "../Input"
+import { RangeInput, SelectInput, NumberInput } from "../Input"
 
 import progress2 from "../../static/images/progress2.svg"
 
@@ -52,6 +52,14 @@ const Loan = ({ employer: { maxSalaryPercentage, maximumAmount }, values }) => {
             name: "loanAmount",
             component: RangeInput,
             type: "range",
+            width: "full",
+            max: maxLoan,
+            min: 0,
+            validate: value => validateLoanAmount(value, maxLoan),
+          },
+          {
+            name: "loanAmount",
+            component: NumberInput,
             width: "full",
             max: maxLoan,
             min: 0,
