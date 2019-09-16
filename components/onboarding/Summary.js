@@ -5,7 +5,7 @@ import { Heading } from "./styles"
 
 import tealTick from "../../static/icons/teal-tick.svg"
 import progress4 from "../../static/images/progress4.svg"
-import { Loan, Personal, Eligibility, Contact, Salary } from "./constants"
+import { Loan, Personal, Eligibility, Contact, Salary } from "./stepNames"
 
 const sections = [
   {
