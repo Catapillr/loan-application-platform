@@ -81,7 +81,8 @@ const Loan = ({
           {
             text: "How long would you like to pay it back over?",
             name: "loanTerms",
-            options: ["Select months", 10, 12],
+            options: [{ label: 10, value: 10 }, { label: 12, value: 12 }],
+            placeholder: "Select months",
             type: "select",
             component: SelectInput,
             width: "5/6",

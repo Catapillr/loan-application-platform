@@ -16,8 +16,9 @@ const validation = Yup.object().shape({
   dob: Yup.object(),
 })
 
-const validateDate = ({ day, month, year }) => {
-  const dob = moment(`${year}-${month}-${day}`)
+const validateDate = date => {
+  const { day, month, year } = date
+  const dob = moment(date)
 
   const dateIsValid = dob.isValid()
   const futureDate = dob.isAfter(moment())

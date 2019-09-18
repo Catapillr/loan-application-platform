@@ -60,6 +60,7 @@ const Contact = () => (
         component: SelectInput,
         width: "full",
         options: nationalityOptions,
+        placeholder: "Select your nationality",
       },
       {
         text: "Employee ID (if applicable)",

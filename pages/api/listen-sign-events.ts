@@ -83,14 +83,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           })
           .$fragment(employeeWithLoanFragment)
 
-        // TODO: change nationality form input to save it as type CountryISO
-
         const { Id: newMangoUserId } = await mango.Users.create({
           FirstName: employee.firstName,
           LastName: employee.lastName,
           Birthday: moment(employee.dob).unix(),
-          Nationality: "GB",
-          // Nationality: employee.nationality as mangopay.CountryISO,
+          Nationality: employee.nationality as mangopay.CountryISO,
           CountryOfResidence: "GB",
           Email: employee.email,
           PersonType: Natural,
