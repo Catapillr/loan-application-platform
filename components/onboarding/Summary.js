@@ -30,7 +30,7 @@ const sections = [
       },
       { title: "Contract type", field: "permanentRole", page: Eligibility },
       { title: "Employee ID", field: "employeeID", page: Contact },
-      { title: "Salary", field: "salary", page: Salary },
+      { title: "Salary", field: "annualSalary", page: Salary },
     ],
   },
   {

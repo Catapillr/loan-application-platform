@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     employmentStartDate,
     email,
-    salary,
+    annualSalary,
     loanAmount,
     loanTerms,
     firstName,
@@ -24,8 +24,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     employer,
   } = req.body
 
-  // TODO: catch error of not valid user being entered
-
   prisma
     .createUser({
       firstName,
@@ -36,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       nationality,
       employmentStartDate: moment(employmentStartDate).toDate(),
       employeeID,
-      annualSalary: salary,
+      annualSalary,
       employer: { connect: { slug: employer.slug } },
       loan: {
         create: {

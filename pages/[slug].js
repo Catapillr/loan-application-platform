@@ -32,7 +32,7 @@ import orangeLogo from "../static/logo_orange.svg"
 //   email: "ivangonzalez@infactcoop.com",
 //   token: "e214fdc7b766",
 //   permanentRole: true,
-//   salary: 10000,
+//   annualSalary: 10000,
 //   loanAmount: 965,
 //   loanTerms: "12",
 //   firstName: "Ivan",
@@ -53,7 +53,7 @@ const initialValues = {
   email: "",
   token: "",
   permanentRole: false,
-  salary: "",
+  annualSalary: 0,
   loanAmount: 0,
   loanTerms: "",
   firstName: "",
@@ -268,6 +268,7 @@ const Wizard = ({ children, employer }) => {
         values,
         submitForm,
         setTouched,
+        setFieldValue,
       }) => {
         const debugging = false
 
@@ -288,6 +289,7 @@ const Wizard = ({ children, employer }) => {
                     values,
                     emailVerificationError,
                     incrementPage,
+                    setFieldValue,
                   }),
                 }}
               ></RenderStep>
