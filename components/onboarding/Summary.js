@@ -1,11 +1,14 @@
 import styled from "styled-components"
 import moment from "moment"
+import * as R from "ramda"
 
 import { Heading } from "./styles"
 
 import tealTick from "../../static/icons/teal-tick.svg"
 import progress4 from "../../static/images/progress4.svg"
 import { Loan, Personal, Eligibility, Contact, Salary } from "./stepNames"
+
+import nationalities from "./nationalityOptions"
 
 const sections = [
   {
@@ -44,22 +47,28 @@ const sections = [
 ]
 
 const getValues = (field, date) => values => {
+  const value = values[field]
   switch (true) {
     case date:
       return moment(
-        `${values[field].month} ${values[field].day} ${values[field].year}`,
+        `${value.month} ${value.day} ${value.year}`,
         "MM-DD-YYYY"
       ).format("DD MMMM YYYY")
     case field === "permanentRole":
       return "Permanent role"
-    case !values[field]:
+    case !value:
       return "N/A"
     case field === "loanAmount":
-      return `£${values[field]}`
+      return `£${value}`
     case field === "monthlyRepayment":
       return `£${values.loanAmount / values.loanTerms}`
+    case field === "nationality":
+      return R.pipe(
+        R.find(R.propEq("value", value)),
+        R.prop("label")
+      )(nationalities)
     default:
-      return values[field]
+      return value
   }
 }
 
