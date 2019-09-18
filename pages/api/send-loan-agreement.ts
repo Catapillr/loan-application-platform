@@ -34,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       nationality,
       employmentStartDate: moment(employmentStartDate).toDate(),
       employeeID,
-      annualSalary,
+      annualSalary: parseFloat(annualSalary),
       employer: { connect: { slug: employer.slug } },
       loan: {
         create: {
