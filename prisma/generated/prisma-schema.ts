@@ -594,6 +594,8 @@ type User {
   loan: Loan
   updatedAt: DateTime!
   createdAt: DateTime!
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 type UserConnection {
@@ -617,6 +619,8 @@ input UserCreateInput {
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   loan: LoanCreateOneInput
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 input UserCreateManyWithoutEmployerInput {
@@ -638,6 +642,8 @@ input UserCreateWithoutEmployerInput {
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   loan: LoanCreateOneInput
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 type UserEdge {
@@ -672,6 +678,10 @@ enum UserOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  mangoWalletId_ASC
+  mangoWalletId_DESC
+  mangoUserId_ASC
+  mangoUserId_DESC
 }
 
 type UserPreviousValues {
@@ -688,6 +698,8 @@ type UserPreviousValues {
   employeeID: String
   updatedAt: DateTime!
   createdAt: DateTime!
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 input UserScalarWhereInput {
@@ -831,6 +843,34 @@ input UserScalarWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  mangoWalletId: String
+  mangoWalletId_not: String
+  mangoWalletId_in: [String!]
+  mangoWalletId_not_in: [String!]
+  mangoWalletId_lt: String
+  mangoWalletId_lte: String
+  mangoWalletId_gt: String
+  mangoWalletId_gte: String
+  mangoWalletId_contains: String
+  mangoWalletId_not_contains: String
+  mangoWalletId_starts_with: String
+  mangoWalletId_not_starts_with: String
+  mangoWalletId_ends_with: String
+  mangoWalletId_not_ends_with: String
+  mangoUserId: String
+  mangoUserId_not: String
+  mangoUserId_in: [String!]
+  mangoUserId_not_in: [String!]
+  mangoUserId_lt: String
+  mangoUserId_lte: String
+  mangoUserId_gt: String
+  mangoUserId_gte: String
+  mangoUserId_contains: String
+  mangoUserId_not_contains: String
+  mangoUserId_starts_with: String
+  mangoUserId_not_starts_with: String
+  mangoUserId_ends_with: String
+  mangoUserId_not_ends_with: String
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -868,6 +908,8 @@ input UserUpdateInput {
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   loan: LoanUpdateOneInput
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 input UserUpdateManyDataInput {
@@ -881,6 +923,8 @@ input UserUpdateManyDataInput {
   employmentStartDate: DateTime
   annualSalary: Float
   employeeID: String
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 input UserUpdateManyMutationInput {
@@ -894,6 +938,8 @@ input UserUpdateManyMutationInput {
   employmentStartDate: DateTime
   annualSalary: Float
   employeeID: String
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 input UserUpdateManyWithoutEmployerInput {
@@ -926,6 +972,8 @@ input UserUpdateWithoutEmployerDataInput {
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   loan: LoanUpdateOneInput
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 input UserUpdateWithWhereUniqueWithoutEmployerInput {
@@ -1083,6 +1131,34 @@ input UserWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  mangoWalletId: String
+  mangoWalletId_not: String
+  mangoWalletId_in: [String!]
+  mangoWalletId_not_in: [String!]
+  mangoWalletId_lt: String
+  mangoWalletId_lte: String
+  mangoWalletId_gt: String
+  mangoWalletId_gte: String
+  mangoWalletId_contains: String
+  mangoWalletId_not_contains: String
+  mangoWalletId_starts_with: String
+  mangoWalletId_not_starts_with: String
+  mangoWalletId_ends_with: String
+  mangoWalletId_not_ends_with: String
+  mangoUserId: String
+  mangoUserId_not: String
+  mangoUserId_in: [String!]
+  mangoUserId_not_in: [String!]
+  mangoUserId_lt: String
+  mangoUserId_lte: String
+  mangoUserId_gt: String
+  mangoUserId_gte: String
+  mangoUserId_contains: String
+  mangoUserId_not_contains: String
+  mangoUserId_starts_with: String
+  mangoUserId_not_starts_with: String
+  mangoUserId_ends_with: String
+  mangoUserId_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -1092,6 +1168,8 @@ input UserWhereUniqueInput {
   id: ID
   email: String
   phoneNumber: String
+  mangoWalletId: String
+  mangoUserId: String
 }
 
 type VerificationToken {
