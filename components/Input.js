@@ -141,23 +141,17 @@ const Range = styled.input.attrs(({ field }) => ({ ...field }))`
   }
 `
 
-const SelectInput = ({ width, field, options, form }) => {
-  const { name } = field
+const SelectInput = ({ width, field, options, form, placeholder }) => {
   return (
     <Select {...{ width, field, form }}>
-      {options.map((option, index) =>
-        index === 0 ? (
-          <option key={`dropdown-${name}-placeholder`} value="">
-            {option}
-          </option>
-        ) : (
-          <option
-            key={`dropdown-${name}-${index}`}
-            value={option}
-            label={`${option}`}
-          />
-        )
-      )}
+      <option value="">{placeholder}</option>
+      {options.map(({ label, value }) => (
+        <option
+          key={`dropdown-${label}-${value}`}
+          value={value}
+          label={`${label}`}
+        />
+      ))}
     </Select>
   )
 }

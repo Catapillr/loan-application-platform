@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import * as Yup from "yup"
 import styled from "styled-components"
 
@@ -35,10 +36,21 @@ const Divider = styled.div.attrs({
   opacity: 0.5;
 `
 
-const Loan = ({ employer: { maxSalaryPercentage, maximumAmount }, values }) => {
-  const { salary, loanAmount, loanTerms } = values
-  const maxLoan = Math.min(salary * maxSalaryPercentage * 0.01, maximumAmount)
+const Loan = ({
+  employer: { maxSalaryPercentage, maximumAmount },
+  values,
+  setFieldValue,
+}) => {
+  const { annualSalary, loanAmount, loanTerms } = values
+  const maxLoan = Math.min(
+    annualSalary * maxSalaryPercentage * 0.01,
+    maximumAmount
+  )
   const monthlyRepayment = (loanAmount / (loanTerms || 12)).toFixed(2)
+
+  useEffect(() => {
+    setFieldValue("loanAmount", maxLoan)
+  }, [])
 
   return (
     <div className="flex">
@@ -69,7 +81,8 @@ const Loan = ({ employer: { maxSalaryPercentage, maximumAmount }, values }) => {
           {
             text: "How long would you like to pay it back over?",
             name: "loanTerms",
-            options: ["Select months", 10, 12],
+            options: [{ label: 10, value: 10 }, { label: 12, value: 12 }],
+            placeholder: "Select months",
             type: "select",
             component: SelectInput,
             width: "5/6",

@@ -6,7 +6,7 @@ import { NumberInput } from "../../components/Input"
 import progress2 from "../../static/images/progress2.svg"
 
 const validation = Yup.object().shape({
-  salary: Yup.number("Please enter a valid number").required("Required"),
+  annualSalary: Yup.number("Please enter a valid number").required("Required"),
 })
 
 const Salary = () => (
@@ -17,7 +17,7 @@ const Salary = () => (
       questions={[
         {
           text: "Please enter your annual salary",
-          name: "salary",
+          name: "annualSalary",
           component: NumberInput,
           placeholder: "e.g. 25000",
         },
