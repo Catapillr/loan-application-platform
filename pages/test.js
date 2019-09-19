@@ -47,9 +47,12 @@ Home.getInitialProps = async ctx => {
   )(cookies)
 
   try {
-    const res = await axios.get(`${process.env.HOST}/api/test`, {
-      headers: { Cookie: serializedCookies },
-    })
+    // if ctx.req is truthy it means we are on the server
+    const res = ctx.req
+      ? await axios.get(`${process.env.HOST}/api/test`, {
+          headers: { Cookie: serializedCookies },
+        })
+      : await axios.get("/api/test")
 
     const {
       data: { allUsers },

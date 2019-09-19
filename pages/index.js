@@ -25,12 +25,18 @@ const Home = ({ allUsers }) => (
         crossOrigin="true"
       />
     </Head>
-    <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
-    <a href="/login">Login</a>
 
+    <a className="mr-3" href="/login">
+      Login
+    </a>
+    <a className="mr-3" href="/logout">
+      logout
+    </a>
     <Link href="/test">
-      <a>test</a>
+      <a className="mr-3">test</a>
     </Link>
+
+    <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
   </Container>
 )
 

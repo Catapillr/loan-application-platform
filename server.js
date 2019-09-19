@@ -39,7 +39,7 @@ app.prepare().then(() => {
   const sess = {
     secret: SESSION_SECRET,
     cookie: {
-      maxAge: 86400 * 1000, // 24 hours in milliseconds
+      maxAge: 24 * 60 * 60 * 1000,
     },
     resave: false,
     saveUninitialized: true,
@@ -110,16 +110,17 @@ app.prepare().then(() => {
     if (port !== undefined && port !== 80 && port !== 443) {
       returnTo += ":" + port
     }
+
     const logoutURL = new url.URL(
       util.format("https://%s/v2/logout", AUTH0_DOMAIN)
     )
+
     const searchString = querystring.stringify({
       client_id: AUTH0_CLIENT_ID,
       returnTo,
     })
 
     logoutURL.search = searchString
-
     res.redirect(logoutURL)
   })
 
@@ -127,10 +128,16 @@ app.prepare().then(() => {
   server.get("/api/test", restrictAccessAPI)
 
   server.get("*", (req, res) => {
+    if (!req.isAuthenticated()) {
+      res.clearCookie("connect.sid")
+    }
     return handle(req, res)
   })
 
   server.post("*", (req, res) => {
+    if (!req.isAuthenticated()) {
+      res.clearCookie("connect.sid")
+    }
     return handle(req, res)
   })
 
