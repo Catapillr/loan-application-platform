@@ -102,7 +102,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Currency: GBP,
         })
 
-        // TODO: Add returned payin metadata to database?
+        const addToDB = await prisma.updateUser({
+          data: {
+            mangoWalletId: newWalletId as string,
+            mangoUserId: newMangoUserId as string,
+          },
+          where: {
+            email: employeeEmail as string,
+          },
+        })
 
         const { WireReference, BankAccount } = await mango.PayIns.create({
           PaymentType: "BANK_WIRE",
