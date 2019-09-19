@@ -43,6 +43,29 @@ const sendEmployeeLoanApproval = (email: string) =>
     data: {},
   })
 
+const convertToSterling = amount => `£${(amount / 100).toFixed(2)}`
+const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
+  mailgunEmailTemplate({
+    email: process.env.ADMIN_EMAIL,
+    subject: `An employee of ${employer.name} has been paid the wrong amount`,
+    template: "incorrect-payment-notification",
+    data: {
+      "v:adminName": process.env.ADMIN_NAME,
+      "v:userFirstName": user.firstName,
+      "v:userLastName": user.lastName,
+      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:payInAmount": convertToSterling(payment.payInAmount),
+      "v:dateOfPayment": payment.dateOfPayment,
+      "v:payInId": payment.payInId,
+      "v:discrepancy": convertToSterling(payment.discrepancy),
+      "v:userId": user.id,
+      "v:mangoWalletId": user.mangoWalletId,
+      "v:employerId": employer.id,
+      "v:employerName": employer.name,
+      "v:employerPayrollEmail": employer.payrollEmail,
+    },
+  })
+
 const sendLoanTransferDetails = ({ email, BankDetails, WireReference }) =>
   mailgunEmailTemplate({
     email,
@@ -59,4 +82,5 @@ export {
   sendEmployeeEmailVerification,
   sendEmployeeLoanApproval,
   sendLoanTransferDetails,
+  sendIncorrectPaymentNotification,
 }
