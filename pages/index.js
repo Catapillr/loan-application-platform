@@ -1,4 +1,5 @@
 import Head from "next/head"
+import Link from "next/link"
 import styled from "styled-components"
 import axios from "axios"
 
@@ -25,10 +26,16 @@ const Home = ({ allUsers }) => (
       />
     </Head>
     <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
+    <a href="/login">Login</a>
+
+    <Link href="/test">
+      <a>test</a>
+    </Link>
   </Container>
 )
 
 Home.getInitialProps = async () => {
+  // TODO: maybe add axios default baseURL
   const res = await axios.get(`${process.env.HOST}/api/get-users`)
   const {
     data: { allUsers },
