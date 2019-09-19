@@ -66,6 +66,30 @@ const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
     },
   })
 
+const sendEmployerPaymentNotification = ({ payment, user, employer }) =>
+  mailgunEmailTemplate({
+    email: employer.payrollEmail,
+    subject: `Your employee's loan has been successfully received`,
+    template: "employer-payment-notification",
+    data: {
+      "v:userFirstName": user.firstName,
+      "v:userLastName": user.lastName,
+      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:dateOfPayment": payment.dateOfPayment,
+    },
+  })
+
+const sendEmployeePaymentNotification = ({ payment, user }) =>
+  mailgunEmailTemplate({
+    email: user.email,
+    subject: `Your Catapillr loan has been paid into your account!`,
+    template: "employee-payment-notification",
+    data: {
+      "v:userFirstName": user.firstName,
+      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:magicLink": "https://www.catapillr.com/", // TODO: Change this to magic link
+    },
+  })
 const sendLoanTransferDetails = ({ email, BankDetails, WireReference }) =>
   mailgunEmailTemplate({
     email,
@@ -83,4 +107,6 @@ export {
   sendEmployeeLoanApproval,
   sendLoanTransferDetails,
   sendIncorrectPaymentNotification,
+  sendEmployerPaymentNotification,
+  sendEmployeePaymentNotification,
 }

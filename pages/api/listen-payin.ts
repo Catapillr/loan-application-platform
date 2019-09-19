@@ -3,7 +3,11 @@ import mangopay from "mangopay2-nodejs-sdk"
 import { prisma } from "../../prisma/generated"
 import moment from "moment"
 
-import { sendIncorrectPaymentNotification } from "../../utils/mailgunClient"
+import {
+  sendIncorrectPaymentNotification,
+  sendEmployerPaymentNotification,
+  sendEmployeePaymentNotification,
+} from "../../utils/mailgunClient"
 
 const mango = new mangopay({
   clientId: process.env.MANGO_CLIENT_ID,
@@ -50,9 +54,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         user,
         employer,
       })
+
+      return res.status(200).send(`PAYIN unequal to loan amount`)
     }
 
-    return res.status(200).send(`${EventType}: ${RessourceId}`)
+    if (isPayInEqualToLoan) {
+      await sendEmployerPaymentNotification({
+        payment,
+        user,
+        employer,
+      })
+
+      await sendEmployeePaymentNotification({
+        payment,
+        user,
+      })
+      return res.status(200).send(`Loan sucessfully paid by employer`)
+    }
   } catch (err) {
     console.error("Payin listen didn't work: ", err)
   }
