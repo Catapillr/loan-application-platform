@@ -4,3 +4,5 @@ secret: ${env:PRISMA_SECRET}
 generate:
   - generator: typescript-client
     output: ./generated/
+  - generator: javascript-client
+    output: ./generated/
