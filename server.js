@@ -71,6 +71,7 @@ app.prepare().then(() => {
 
   passport.use(strategy)
   passport.serializeUser((user, done) => done(null, user._json.email))
+  // this add the user to `req.user` on authenticated requests
   passport.deserializeUser(async (email, done) => {
     const user = await prisma.user({ email })
     done(null, user)

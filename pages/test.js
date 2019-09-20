@@ -39,6 +39,7 @@ const Test = ({ user, allEmployers }) => (
 )
 
 Test.getInitialProps = async ctx => {
+  const { req } = ctx
   // makes sure session is authenticated and that page is server side rendered
   // (auth does not work at the moment without SSR)
   restrictAccess(ctx)
@@ -60,7 +61,8 @@ Test.getInitialProps = async ctx => {
       headers: { Cookie: serializedCookies },
     })
 
-    const user = ctx.req.user
+    // this user gets added by passport on all authenticated requests
+    const user = req.user
 
     return { allEmployers, user }
   } catch (err) {
