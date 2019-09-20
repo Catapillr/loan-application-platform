@@ -228,6 +228,7 @@ const Wizard = ({ children, employer }) => {
   const activePage = R.find(R.pathEq(["type", "name"], page))(steps)
 
   console.log("activePage", activePage)
+  console.log("steps", steps)
 
   const {
     validationSchema = {},
