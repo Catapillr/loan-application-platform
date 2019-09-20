@@ -4,6 +4,7 @@ import styled from "styled-components"
 import axios from "axios"
 import nextCookies from "next-cookies"
 import * as R from "ramda"
+
 import restrictAccess from "../utils/restrictAccess"
 
 const Container = styled.div``
@@ -37,10 +38,13 @@ const Test = ({ allUsers }) => (
 )
 
 Test.getInitialProps = async ctx => {
-  // we need this when the axios request gets sent from the server rather than the browser
-  // as the session cookies are not passed along to axios from the req obect. This is not
-  // a problem on the browser as cookies are added to every request automatically
+  // makes sure session is authenticated and that page is server side rendered
+  // (auth does not work at the moment without SSR)
   restrictAccess(ctx)
+
+  // we need this when the axios request gets sent from the server rather than the browser
+  // as the session cookies are not passed along to axios from the req object. This is not
+  // a problem on the browser as cookies are added to every request automatically
   const cookies = nextCookies(ctx)
   const serializedCookies = R.pipe(
     R.mapObjIndexed((val, key) => `${key}=${val};`),
@@ -49,16 +53,11 @@ Test.getInitialProps = async ctx => {
   )(cookies)
 
   try {
-    // if ctx.req is truthy it means we are on the server
-    const res = ctx.req
-      ? await axios.get(`${process.env.HOST}/api/test`, {
-          headers: { Cookie: serializedCookies },
-        })
-      : await axios.get("/api/test")
-
     const {
       data: { allUsers },
-    } = res
+    } = await axios.get(`${process.env.HOST}/api/test`, {
+      headers: { Cookie: serializedCookies },
+    })
 
     return { allUsers }
   } catch (err) {
