@@ -43,6 +43,53 @@ const sendEmployeeLoanApproval = (email: string) =>
     data: {},
   })
 
+const convertToSterling = amount => `£${(amount / 100).toFixed(2)}`
+const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
+  mailgunEmailTemplate({
+    email: process.env.ADMIN_EMAIL,
+    subject: `An employee of ${employer.name} has been paid the wrong amount`,
+    template: "incorrect-payment-notification",
+    data: {
+      "v:adminName": process.env.ADMIN_NAME,
+      "v:userFirstName": user.firstName,
+      "v:userLastName": user.lastName,
+      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:payInAmount": convertToSterling(payment.payInAmount),
+      "v:dateOfPayment": payment.dateOfPayment,
+      "v:payInId": payment.payInId,
+      "v:discrepancy": convertToSterling(payment.discrepancy),
+      "v:userId": user.id,
+      "v:mangoWalletId": user.mangoWalletId,
+      "v:employerId": employer.id,
+      "v:employerName": employer.name,
+      "v:employerPayrollEmail": employer.payrollEmail,
+    },
+  })
+
+const sendEmployerPaymentNotification = ({ payment, user, employer }) =>
+  mailgunEmailTemplate({
+    email: employer.payrollEmail,
+    subject: `Your employee's loan has been successfully received`,
+    template: "employer-payment-notification",
+    data: {
+      "v:userFirstName": user.firstName,
+      "v:userLastName": user.lastName,
+      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:dateOfPayment": payment.dateOfPayment,
+    },
+  })
+
+const sendEmployeePaymentNotification = ({ payment, user }) =>
+  mailgunEmailTemplate({
+    email: user.email,
+    subject: `Your Catapillr loan has been paid into your account!`,
+    template: "employee-payment-notification",
+    data: {
+      "v:userFirstName": user.firstName,
+      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:magicLink": "https://www.catapillr.com/", // TODO: Change this to magic link
+    },
+  })
 const sendLoanTransferDetails = ({ email, BankDetails, WireReference }) =>
   mailgunEmailTemplate({
     email,
@@ -59,4 +106,7 @@ export {
   sendEmployeeEmailVerification,
   sendEmployeeLoanApproval,
   sendLoanTransferDetails,
+  sendIncorrectPaymentNotification,
+  sendEmployerPaymentNotification,
+  sendEmployeePaymentNotification,
 }

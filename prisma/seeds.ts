@@ -42,6 +42,15 @@ const seedDatabase = async () => {
       employmentStartDate: new Date().toISOString(),
       annualSalary: 28392382,
       employer: { connect: { id: infact.id } },
+      mangoUserId: "68516446",
+      mangoWalletId: "68516447",
+      loan: {
+        create: {
+          amount: 200000,
+          terms: 12,
+          approved: true,
+        },
+      },
     })
 
     console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console

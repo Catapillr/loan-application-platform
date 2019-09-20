@@ -30,6 +30,8 @@ type User {
   loan: Loan @relation(onDelete: CASCADE)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
+  mangoWalletId: String @unique
+  mangoUserId: String @unique
 }
 
 type VerificationToken {
