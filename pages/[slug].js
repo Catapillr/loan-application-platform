@@ -234,6 +234,7 @@ const Wizard = ({ children, employer }) => {
     progressImg,
     hideControls,
   } = activePage && activePage.type
+  console.log("validationSchema", validationSchema)
 
   const incrementPage = () => {
     const pageIndex = R.findIndex(R.equals(page))(pages)
