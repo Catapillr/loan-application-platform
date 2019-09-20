@@ -57,7 +57,6 @@ app.prepare().then(() => {
     // sess.cookie.secure = true // serve secure cookies, requires https
     sess.store = new RedisStore({ client })
   }
-  console.log(sess)
 
   server.use(session(sess))
 
