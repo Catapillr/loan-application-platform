@@ -35,14 +35,14 @@ const Home = ({ allUsers }) => {
         Login
       </a>
       <a className="mr-3" onClick={logout}>
-        logout
+        Logout
+      </a>
+      <a className="mr-3" href="/test">
+        Go to test
       </a>
       <Link href="/test">
-        <a>go to test (this should fail as protected route)</a>
+        <a className="mr-3">Broken go to test</a>
       </Link>
-      <a className="mr-3" href="/test">
-        test
-      </a>
 
       <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
     </Container>
