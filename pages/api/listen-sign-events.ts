@@ -99,7 +99,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Currency: GBP,
         })
 
-        const addToDB = await prisma.updateUser({
+        await prisma.updateUser({
           data: {
             mangoWalletId: newWalletId as string,
             mangoUserId: newMangoUserId as string,

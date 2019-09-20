@@ -3,6 +3,8 @@ const next = require("next")
 const session = require("express-session")
 const passport = require("passport")
 const Auth0Strategy = require("passport-auth0")
+const redis = require("redis")
+const connectRedis = require("connect-redis")
 
 const { prisma } = require("./prisma/generated/js")
 
@@ -23,10 +25,13 @@ const dev = NODE_ENV !== "production"
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-// // const restrictAccessPage = (req, res, next) => {
-// //   if (req.isAuthenticated()) return next()
-// //   req.session.returnTo = req.originalUrl
-// //   res.redirect("/login")
+const client = redis.createClient()
+const RedisStore = connectRedis(session)
+
+// const restrictAccessPage = (req, res, next) => {
+//   if (req.isAuthenticated()) return next()
+//   req.session.returnTo = req.originalUrl
+//   res.redirect("/login")
 // }
 
 const restrictAccessAPI = (req, res, next) => {
@@ -50,7 +55,10 @@ app.prepare().then(() => {
     server.use(require("cors")())
   } else {
     sess.cookie.secure = true // serve secure cookies, requires https
+    sess.store = new RedisStore({ client })
   }
+
+  server.use(session(sess))
 
   const strategy = new Auth0Strategy(
     {
@@ -66,8 +74,6 @@ app.prepare().then(() => {
       return done(null, profile)
     }
   )
-
-  server.use(session(sess))
 
   passport.use(strategy)
   passport.serializeUser((user, done) => done(null, user._json.email))
