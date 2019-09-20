@@ -224,20 +224,19 @@ const Wizard = ({ children, employer }) => {
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
   const steps = React.Children.toArray(children)
-  const pages = steps.map(step => step.type.name)
+  const pages = steps.map(step => step.type.componentName)
   const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
 
   console.log("activePage", activePage)
   console.log("steps", steps)
 
   const {
-    validationSchema = {},
+    validationSchema,
     hideNext,
     hidePrevious,
     progressImg,
     hideControls,
   } = activePage && activePage.type
-  console.log("validationSchema", validationSchema)
 
   const incrementPage = () => {
     const pageIndex = R.findIndex(R.equals(page))(pages)
@@ -255,7 +254,7 @@ const Wizard = ({ children, employer }) => {
     <Formik
       {...{
         initialValues,
-        validationSchema: validationSchema || {},
+        validationSchema,
         onSubmit: onSubmit({ incrementPage, employer }),
         enableReinitialize: false,
       }}
