@@ -227,6 +227,8 @@ const Wizard = ({ children, employer }) => {
   const pages = steps.map(step => step.type.name)
   const activePage = R.find(R.pathEq(["type", "name"], page))(steps)
 
+  console.log("activePage", activePage)
+
   const {
     validationSchema = {},
     hideNext,
