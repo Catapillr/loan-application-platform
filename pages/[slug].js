@@ -266,7 +266,7 @@ const Wizard = ({ children, employer }) => {
         setTouched,
         setFieldValue,
       }) => {
-        const debugging = false
+        const debugging = true
 
         return (
           <Container>
