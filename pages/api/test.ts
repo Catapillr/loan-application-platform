@@ -6,7 +6,7 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
   // console.log(`Created new user: ${newUser.name} (ID: ${newUser.id})`)
 
   // Read all users from the database and print them to the console
-  const allUsers = await prisma.users()
+  const allEmployers = await prisma.employers()
 
-  res.status(200).json({ allUsers })
+  res.status(200).json({ allEmployers })
 }

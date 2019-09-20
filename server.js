@@ -4,6 +4,8 @@ const session = require("express-session")
 const passport = require("passport")
 const Auth0Strategy = require("passport-auth0")
 
+const { prisma } = require("./prisma/generated")
+
 const authRoutes = require("./server/auth-routes")
 
 const {
@@ -68,8 +70,11 @@ app.prepare().then(() => {
   server.use(session(sess))
 
   passport.use(strategy)
-  passport.serializeUser((user, done) => done(null, user))
-  passport.deserializeUser((user, done) => done(null, user))
+  passport.serializeUser((user, done) => done(null, user._json.email))
+  passport.deserializeUser(async (email, done) => {
+    const user = await prisma.user({ email })
+    done(null, user)
+  })
 
   server.use(passport.initialize())
   server.use(passport.session())

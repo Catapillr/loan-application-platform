@@ -9,7 +9,7 @@ import restrictAccess from "../utils/restrictAccess"
 
 const Container = styled.div``
 
-const Test = ({ allUsers }) => (
+const Test = ({ user, allEmployers }) => (
   <Container>
     <Head>
       <title>Catapillr</title>
@@ -29,7 +29,8 @@ const Test = ({ allUsers }) => (
         crossOrigin="true"
       />
     </Head>
-    <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
+    <pre>{JSON.stringify(allEmployers, undefined, 2)}</pre>
+    <pre>{JSON.stringify(user, undefined, 2)}</pre>
 
     <Link href="/">
       <a>home</a>
@@ -54,12 +55,14 @@ Test.getInitialProps = async ctx => {
 
   try {
     const {
-      data: { allUsers },
+      data: { allEmployers },
     } = await axios.get(`${process.env.HOST}/api/test`, {
       headers: { Cookie: serializedCookies },
     })
 
-    return { allUsers }
+    const user = ctx.req.user
+
+    return { allEmployers, user }
   } catch (err) {
     console.error("Error in test getInitProps: ", err) //eslint-disable-line
     return {}
