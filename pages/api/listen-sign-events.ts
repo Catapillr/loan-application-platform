@@ -5,7 +5,7 @@ import moment from "moment"
 import { NextApiRequest, NextApiResponse } from "next"
 import R from "ramda"
 
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 import {
   sendEmployeeLoanApproval,
   sendLoanTransferDetails,
@@ -99,7 +99,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Currency: GBP,
         })
 
-        const addToDB = await prisma.updateUser({
+        await prisma.updateUser({
           data: {
             mangoWalletId: newWalletId as string,
             mangoUserId: newMangoUserId as string,

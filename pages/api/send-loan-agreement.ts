@@ -2,7 +2,7 @@ import hellosign from "hellosign-sdk"
 import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,

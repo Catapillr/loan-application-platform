@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 import * as R from "ramda"
 
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const response = await prisma.verificationToken({

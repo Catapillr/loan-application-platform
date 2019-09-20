@@ -1,5 +1,4 @@
-// const { prisma } = require("./generated")
-import { prisma } from "./generated"
+import { prisma } from "./generated/ts"
 
 const flushDB = async () => {
   const deleteUsers = await prisma.deleteManyUsers({

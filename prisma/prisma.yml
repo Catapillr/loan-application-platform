@@ -3,4 +3,6 @@ datamodel: datamodel.prisma
 secret: ${env:PRISMA_SECRET}
 generate:
   - generator: typescript-client
-    output: ./generated/
+    output: ./generated/ts
+  - generator: javascript-client
+    output: ./generated/js

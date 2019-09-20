@@ -2,11 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 import * as crypto from "crypto"
 
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 
 import { sendEmployeeEmailVerification } from "../../utils/mailgunClient"
-
-
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -20,19 +18,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const token = tokenExists
       ? await prisma.updateVerificationToken({
-        data: {
+          data: {
+            expiresAt,
+            token: random,
+          },
+          where: {
+            email,
+          },
+        })
+      : await prisma.createVerificationToken({
+          email,
           expiresAt,
           token: random,
-        },
-        where: {
-          email,
-        },
-      })
-      : await prisma.createVerificationToken({
-        email,
-        expiresAt,
-        token: random,
-      })
+        })
 
     await sendEmployeeEmailVerification({ email, random })
 
