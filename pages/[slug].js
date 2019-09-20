@@ -251,7 +251,7 @@ const Wizard = ({ children, employer }) => {
     <Formik
       {...{
         initialValues,
-        validationSchema,
+        validationSchema: validationSchema || {},
         onSubmit: onSubmit({ incrementPage, employer }),
         enableReinitialize: false,
       }}
