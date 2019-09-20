@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 import * as R from "ramda"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import mangopay from "mangopay2-nodejs-sdk"
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 import moment from "moment"
 
 import {

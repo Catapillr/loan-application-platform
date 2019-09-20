@@ -5,7 +5,7 @@ import moment from "moment"
 import { NextApiRequest, NextApiResponse } from "next"
 import R from "ramda"
 
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 import {
   sendEmployeeLoanApproval,
   sendLoanTransferDetails,

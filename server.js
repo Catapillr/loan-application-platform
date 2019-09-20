@@ -4,7 +4,7 @@ const session = require("express-session")
 const passport = require("passport")
 const Auth0Strategy = require("passport-auth0")
 
-const { prisma } = require("./prisma/generated")
+const { prisma } = require("./prisma/generated/js")
 
 const authRoutes = require("./server/auth-routes")
 

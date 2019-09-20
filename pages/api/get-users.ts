@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "../../prisma/generated"
+import { prisma } from "../../prisma/generated/ts"
 
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
   // const newUser = await prisma.createUser({ name: "Alice" })
