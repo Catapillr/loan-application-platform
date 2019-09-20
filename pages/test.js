@@ -4,10 +4,11 @@ import styled from "styled-components"
 import axios from "axios"
 import nextCookies from "next-cookies"
 import * as R from "ramda"
+import restrictAccess from "../utils/restrictAccess"
 
 const Container = styled.div``
 
-const Home = ({ allUsers }) => (
+const Test = ({ allUsers }) => (
   <Container>
     <Head>
       <title>Catapillr</title>
@@ -16,14 +17,14 @@ const Home = ({ allUsers }) => (
         rel="preload"
         as="font"
         type="font/woff2"
-        href="/static/fonts/ubuntu-v14-latin-regular.woff2"
+        href="/static/fonts/ubuntu/ubuntu-v14-latin-regular.woff2"
         crossOrigin="true"
       />
       <link
         rel="preload"
         as="font"
         type="font/woff2"
-        href="/static/fonts/ubuntu-v14-latin-italic.woff2"
+        href="/static/fonts/ubuntu/ubuntu-v14-latin-italic.woff2"
         crossOrigin="true"
       />
     </Head>
@@ -35,10 +36,11 @@ const Home = ({ allUsers }) => (
   </Container>
 )
 
-Home.getInitialProps = async ctx => {
+Test.getInitialProps = async ctx => {
   // we need this when the axios request gets sent from the server rather than the browser
   // as the session cookies are not passed along to axios from the req obect. This is not
   // a problem on the browser as cookies are added to every request automatically
+  restrictAccess(ctx)
   const cookies = nextCookies(ctx)
   const serializedCookies = R.pipe(
     R.mapObjIndexed((val, key) => `${key}=${val};`),
@@ -65,4 +67,4 @@ Home.getInitialProps = async ctx => {
   }
 }
 
-export default Home
+export default Test

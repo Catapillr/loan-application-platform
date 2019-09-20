@@ -22,11 +22,11 @@ const dev = NODE_ENV !== "production"
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-const restrictAccessPage = (req, res, next) => {
-  if (req.isAuthenticated()) return next()
-  req.session.returnTo = req.originalUrl
-  res.redirect("/login")
-}
+// // const restrictAccessPage = (req, res, next) => {
+// //   if (req.isAuthenticated()) return next()
+// //   req.session.returnTo = req.originalUrl
+// //   res.redirect("/login")
+// }
 
 const restrictAccessAPI = (req, res, next) => {
   if (req.isAuthenticated()) return next()
@@ -124,20 +124,14 @@ app.prepare().then(() => {
     res.redirect(logoutURL)
   })
 
-  server.get("/test", restrictAccessPage)
+  // server.get("/test", restrictAccessPage)
   server.get("/api/test", restrictAccessAPI)
 
   server.get("*", (req, res) => {
-    if (!req.isAuthenticated()) {
-      res.clearCookie("connect.sid")
-    }
     return handle(req, res)
   })
 
   server.post("*", (req, res) => {
-    if (!req.isAuthenticated()) {
-      res.clearCookie("connect.sid")
-    }
     return handle(req, res)
   })
 

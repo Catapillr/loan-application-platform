@@ -1,44 +1,53 @@
 import Head from "next/head"
-import Link from "next/link"
 import styled from "styled-components"
 import axios from "axios"
+import Link from "next/link"
+
+import { useAuth } from "../context/auth-context"
 
 const Container = styled.div``
 
-const Home = ({ allUsers }) => (
-  <Container>
-    <Head>
-      <title>Catapillr</title>
+const Home = ({ allUsers }) => {
+  const { login, logout } = useAuth()
 
-      <link
-        rel="preload"
-        as="font"
-        type="font/woff2"
-        href="/static/fonts/ubuntu-v14-latin-regular.woff2"
-        crossOrigin="true"
-      />
-      <link
-        rel="preload"
-        as="font"
-        type="font/woff2"
-        href="/static/fonts/ubuntu-v14-latin-italic.woff2"
-        crossOrigin="true"
-      />
-    </Head>
+  return (
+    <Container>
+      <Head>
+        <title>Catapillr</title>
 
-    <a className="mr-3" href="/login">
-      Login
-    </a>
-    <a className="mr-3" href="/logout">
-      logout
-    </a>
-    <Link href="/test">
-      <a className="mr-3">test</a>
-    </Link>
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/static/fonts/ubuntu/ubuntu-v14-latin-regular.woff2"
+          crossOrigin="true"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/static/fonts/ubuntu/ubuntu-v14-latin-italic.woff2"
+          crossOrigin="true"
+        />
+      </Head>
 
-    <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
-  </Container>
-)
+      <a className="mr-3" onClick={login}>
+        Login
+      </a>
+      <a className="mr-3" onClick={logout}>
+        logout
+      </a>
+      <Link href="/test">
+        <a>go to test (this should fail as protected route)</a>
+      </Link>
+      <a className="mr-3" href="/test">
+        test
+      </a>
+
+      <pre>{JSON.stringify(allUsers, undefined, 2)}</pre>
+    </Container>
+  )
+}
 
 Home.getInitialProps = async () => {
   // TODO: maybe add axios default baseURL
