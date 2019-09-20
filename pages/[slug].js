@@ -227,9 +227,6 @@ const Wizard = ({ children, employer }) => {
   const pages = steps.map(step => step.type.componentName)
   const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
 
-  console.log("activePage", activePage)
-  console.log("steps", steps)
-
   const {
     validationSchema,
     hideNext,
@@ -268,7 +265,7 @@ const Wizard = ({ children, employer }) => {
         setTouched,
         setFieldValue,
       }) => {
-        const debugging = true
+        const debugging = false
 
         return (
           <Container>
