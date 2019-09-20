@@ -25,9 +25,6 @@ const dev = NODE_ENV !== "production"
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-const client = redis.createClient()
-const RedisStore = connectRedis(session)
-
 // const restrictAccessPage = (req, res, next) => {
 //   if (req.isAuthenticated()) return next()
 //   req.session.returnTo = req.originalUrl
@@ -54,6 +51,9 @@ app.prepare().then(() => {
   if (dev) {
     server.use(require("cors")())
   } else {
+    const client = redis.createClient(process.env.REDIS_URL)
+    const RedisStore = connectRedis(session)
+
     sess.cookie.secure = true // serve secure cookies, requires https
     sess.store = new RedisStore({ client })
   }
