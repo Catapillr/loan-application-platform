@@ -28,6 +28,6 @@ const Welcome = ({ incrementPage, employer }) => (
 
 Welcome.hideControls = true
 Welcome.progressImg = progress1
-Welcome.trueName = "Welcome"
+Welcome.componentName = "Welcome"
 
 export default Welcome

@@ -30,5 +30,6 @@ const Accuracy = ({ incrementPage }) => (
 
 Accuracy.hideNext = true
 Accuracy.progressImg = progress3
+Accuracy.componentName = "Accuracy"
 
 export default Accuracy

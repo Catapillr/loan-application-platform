@@ -116,5 +116,6 @@ const Loan = ({
 
 Loan.validationSchema = validation
 Loan.progressImg = progress2
+Loan.componentName = "Loan"
 
 export default Loan

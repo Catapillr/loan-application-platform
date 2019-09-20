@@ -225,7 +225,7 @@ const Wizard = ({ children, employer }) => {
 
   const steps = React.Children.toArray(children)
   const pages = steps.map(step => step.type.name)
-  const activePage = R.find(R.pathEq(["type", "name"], page))(steps)
+  const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
 
   console.log("activePage", activePage)
   console.log("steps", steps)
