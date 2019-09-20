@@ -228,7 +228,7 @@ const Wizard = ({ children, employer }) => {
   const activePage = R.find(R.pathEq(["type", "name"], page))(steps)
 
   const {
-    validationSchema,
+    validationSchema = {},
     hideNext,
     hidePrevious,
     progressImg,
