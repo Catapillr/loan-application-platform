@@ -252,7 +252,11 @@ export type UserOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "createdAt_ASC"
-  | "createdAt_DESC";
+  | "createdAt_DESC"
+  | "mangoWalletId_ASC"
+  | "mangoWalletId_DESC"
+  | "mangoUserId_ASC"
+  | "mangoUserId_DESC";
 
 export type EmployerOrderByInput =
   | "id_ASC"
@@ -355,6 +359,8 @@ export interface UserUpdateWithoutEmployerDataInput {
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   loan?: Maybe<LoanUpdateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
 }
 
 export interface EmployerUpdateManyMutationInput {
@@ -451,6 +457,8 @@ export interface UserUpdateManyDataInput {
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Float>;
   employeeID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -628,6 +636,8 @@ export interface UserUpdateManyMutationInput {
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Float>;
   employeeID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
 }
 
 export interface EmployerCreateInput {
@@ -805,6 +815,34 @@ export interface UserWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoWalletId_not?: Maybe<String>;
+  mangoWalletId_in?: Maybe<String[] | String>;
+  mangoWalletId_not_in?: Maybe<String[] | String>;
+  mangoWalletId_lt?: Maybe<String>;
+  mangoWalletId_lte?: Maybe<String>;
+  mangoWalletId_gt?: Maybe<String>;
+  mangoWalletId_gte?: Maybe<String>;
+  mangoWalletId_contains?: Maybe<String>;
+  mangoWalletId_not_contains?: Maybe<String>;
+  mangoWalletId_starts_with?: Maybe<String>;
+  mangoWalletId_not_starts_with?: Maybe<String>;
+  mangoWalletId_ends_with?: Maybe<String>;
+  mangoWalletId_not_ends_with?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  mangoUserId_not?: Maybe<String>;
+  mangoUserId_in?: Maybe<String[] | String>;
+  mangoUserId_not_in?: Maybe<String[] | String>;
+  mangoUserId_lt?: Maybe<String>;
+  mangoUserId_lte?: Maybe<String>;
+  mangoUserId_gt?: Maybe<String>;
+  mangoUserId_gte?: Maybe<String>;
+  mangoUserId_contains?: Maybe<String>;
+  mangoUserId_not_contains?: Maybe<String>;
+  mangoUserId_starts_with?: Maybe<String>;
+  mangoUserId_not_starts_with?: Maybe<String>;
+  mangoUserId_ends_with?: Maybe<String>;
+  mangoUserId_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -824,6 +862,8 @@ export interface UserCreateWithoutEmployerInput {
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   loan?: Maybe<LoanCreateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
@@ -840,6 +880,8 @@ export interface UserUpdateInput {
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   loan?: Maybe<LoanUpdateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
 }
 
 export interface VerificationTokenCreateOneInput {
@@ -851,6 +893,8 @@ export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
   phoneNumber?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
 }>;
 
 export interface VerificationTokenCreateInput {
@@ -875,6 +919,8 @@ export interface UserCreateInput {
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   loan?: Maybe<LoanCreateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
 }
 
 export interface LoanCreateOneInput {
@@ -1043,6 +1089,34 @@ export interface UserScalarWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoWalletId_not?: Maybe<String>;
+  mangoWalletId_in?: Maybe<String[] | String>;
+  mangoWalletId_not_in?: Maybe<String[] | String>;
+  mangoWalletId_lt?: Maybe<String>;
+  mangoWalletId_lte?: Maybe<String>;
+  mangoWalletId_gt?: Maybe<String>;
+  mangoWalletId_gte?: Maybe<String>;
+  mangoWalletId_contains?: Maybe<String>;
+  mangoWalletId_not_contains?: Maybe<String>;
+  mangoWalletId_starts_with?: Maybe<String>;
+  mangoWalletId_not_starts_with?: Maybe<String>;
+  mangoWalletId_ends_with?: Maybe<String>;
+  mangoWalletId_not_ends_with?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  mangoUserId_not?: Maybe<String>;
+  mangoUserId_in?: Maybe<String[] | String>;
+  mangoUserId_not_in?: Maybe<String[] | String>;
+  mangoUserId_lt?: Maybe<String>;
+  mangoUserId_lte?: Maybe<String>;
+  mangoUserId_gt?: Maybe<String>;
+  mangoUserId_gte?: Maybe<String>;
+  mangoUserId_contains?: Maybe<String>;
+  mangoUserId_not_contains?: Maybe<String>;
+  mangoUserId_starts_with?: Maybe<String>;
+  mangoUserId_not_starts_with?: Maybe<String>;
+  mangoUserId_ends_with?: Maybe<String>;
+  mangoUserId_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
@@ -1441,6 +1515,8 @@ export interface UserPreviousValues {
   employeeID?: String;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
+  mangoWalletId?: String;
+  mangoUserId?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -1459,6 +1535,8 @@ export interface UserPreviousValuesPromise
   employeeID: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
+  mangoWalletId: () => Promise<String>;
+  mangoUserId: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1477,6 +1555,8 @@ export interface UserPreviousValuesSubscription
   employeeID: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  mangoWalletId: () => Promise<AsyncIterator<String>>;
+  mangoUserId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface BatchPayload {
@@ -1827,6 +1907,8 @@ export interface User {
   employeeID?: String;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
+  mangoWalletId?: String;
+  mangoUserId?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1846,6 +1928,8 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   loan: <T = LoanPromise>() => T;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
+  mangoWalletId: () => Promise<String>;
+  mangoUserId: () => Promise<String>;
 }
 
 export interface UserSubscription
@@ -1867,6 +1951,8 @@ export interface UserSubscription
   loan: <T = LoanSubscription>() => T;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  mangoWalletId: () => Promise<AsyncIterator<String>>;
+  mangoUserId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserNullablePromise
@@ -1888,6 +1974,8 @@ export interface UserNullablePromise
   loan: <T = LoanPromise>() => T;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
+  mangoWalletId: () => Promise<String>;
+  mangoUserId: () => Promise<String>;
 }
 
 export interface EmployerPreviousValues {
