@@ -54,9 +54,10 @@ app.prepare().then(() => {
     const client = redis.createClient(process.env.REDIS_URL)
     const RedisStore = connectRedis(session)
 
-    sess.cookie.secure = true // serve secure cookies, requires https
+    // sess.cookie.secure = true // serve secure cookies, requires https
     sess.store = new RedisStore({ client })
   }
+  console.log(sess)
 
   server.use(session(sess))
 
