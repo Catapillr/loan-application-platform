@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 
 import { prisma } from "../../prisma/generated/ts"
+import { userInfo } from "os"
+import convertToSterling from "../../utils/convertToSterling"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
@@ -47,11 +49,53 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.error("Error creating prisma user: ", e) //eslint-disable-line no-console
     })
 
+  const loanOptions = (loanAmount, loanTerms) => {
+    const pureRepayment = loanAmount / loanTerms
+    const monthlyRepayment = Math.floor(pureRepayment)
+    const remainder = loanAmount % loanTerms
+    const lastMonth = monthlyRepayment + remainder
+
+    const months = new Array(loanTerms).map((month, index) => {
+      return {
+        name: `month${month}`,
+        value: `${
+          index === loanTerms - 1
+            ? convertToSterling(lastMonth)
+            : convertToSterling(monthlyRepayment)
+        }`,
+      }
+    })
+
+    return [
+      {
+        name: "loanAmount",
+        value: loanAmount,
+      },
+      {
+        name: "loanTerms",
+        value: loanTerms,
+      },
+      {
+        name: "monthlyRepayment",
+        value: convertToSterling(monthlyRepayment),
+      },
+      {
+        name: "month11",
+        value: "n/a",
+      },
+      {
+        name: "month12",
+        value: "n/a",
+      },
+      ...months,
+    ]
+  }
+
   const opts = {
     test_mode: 1 as hellosign.Flag,
     template_id: "29e550f5a23c298fa0fe85ffe93ed2c2b06f979d",
     title: "Employee loan agreement",
-    subject: "Employee loan agreement",
+    subject: "Employee CCAS loan agreement",
     signers: [
       {
         email_address: email,
@@ -66,13 +110,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ],
     custom_fields: [
       {
-        name: "loanTerms",
-        value: loanTerms,
+        name: "employerName",
+        value: employer.name,
       },
       {
-        name: "loanAmount",
-        value: `£${loanAmount}`,
+        name: "employerCompanyNumber",
+        value: employer.name,
       },
+      {
+        name: "employerAddress",
+        value: employer.address,
+      },
+      {
+        name: "userName",
+        value: `${firstName} ${lastName}`,
+      },
+      {
+        name: "userEmployeeID",
+        value: `${employeeID && employeeID !== "" ? employeeID : "n/a"}`,
+      },
+      ...loanOptions(loanAmount, loanTerms),
     ],
   }
 
