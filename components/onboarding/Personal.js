@@ -69,5 +69,6 @@ const Personal = ({ values: { dob } }) => (
 
 Personal.validationSchema = validation
 Personal.progressImg = progress3
+Personal.componentName = "Personal"
 
 export default Personal

@@ -224,8 +224,8 @@ const Wizard = ({ children, employer }) => {
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
   const steps = React.Children.toArray(children)
-  const pages = steps.map(step => step.type.name)
-  const activePage = R.find(R.pathEq(["type", "name"], page))(steps)
+  const pages = steps.map(step => step.type.componentName)
+  const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
 
   const {
     validationSchema,

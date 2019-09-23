@@ -140,5 +140,6 @@ const Summary = ({ values, setPage }) => {
 }
 
 Summary.progressImg = progress4
+Summary.componentName = "Summary"
 
 export default Summary

@@ -82,5 +82,6 @@ const Contact = () => (
 
 Contact.validationSchema = validation
 Contact.progressImg = progress4
+Contact.componentName = "Contact"
 
 export default Contact

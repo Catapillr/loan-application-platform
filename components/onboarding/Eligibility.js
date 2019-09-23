@@ -105,5 +105,6 @@ const Eligibility = ({
 
 Eligibility.validationSchema = validation
 Eligibility.progressImg = progress1
+Eligibility.componentName = "Eligibility"
 
 export default Eligibility

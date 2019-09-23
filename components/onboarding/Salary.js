@@ -28,5 +28,6 @@ const Salary = () => (
 
 Salary.validationSchema = validation
 Salary.progressImg = progress2
+Salary.componentName = "Salary"
 
 export default Salary

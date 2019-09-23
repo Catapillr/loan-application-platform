@@ -37,5 +37,6 @@ const Verification = ({ emailVerificationError }) => (
 
 Verification.validationSchema = validation
 Verification.progressImg = progress1
+Verification.componentName = "Verification"
 
 export default Verification

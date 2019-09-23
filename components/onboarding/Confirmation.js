@@ -26,5 +26,6 @@ const Confirmation = () => {
 Confirmation.hideNext = true
 Confirmation.hidePrevious = true
 Confirmation.progressImg = progress5
+Confirmation.componentName = "Confirmation"
 
 export default Confirmation
