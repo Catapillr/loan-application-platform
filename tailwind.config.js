@@ -19,15 +19,20 @@ module.exports = {
         "2d5": "0.625rem", // 10px
         "3d5": "0.875rem", // 14px
         "4": "1rem", // 16px
+        "4d5": "1.125rem", // 18px
         "5": "1.25rem", // 20px
         "5d5": "1.375rem", // 22px
         "6": "1.5rem", // 24px
         "9": "2.25rem", // 36px
+        "9d5": "2.375rem", // 38px
         "10": "2.5rem", // 40px
+        "10d5": "2.625rem", // 40px
         "12": "3.75rem", // 60px
+        "18": "4.5rem", // 72px
         "20": "5rem", // 80px
         "30": "7.5rem", // 120px
         "40": "10rem", // 160px
+        "43": "10.75rem", // 172px
         "65": "16.25rem", // 260px
       },
     },
@@ -59,6 +64,7 @@ module.exports = {
       white: "#fefefe",
       nearwhite: "#D8D8D8",
       black: "#32334f",
+      lightgray: "#F0F6FB",
       midgray: "rgba(50,51,79,0.25)",
       gray: "#979797",
       green: "#14da9e",
