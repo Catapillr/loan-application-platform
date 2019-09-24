@@ -16,7 +16,7 @@ const Salary = () => (
       title="Success! Let's start your loan application process."
       questions={[
         {
-          text: "Please enter your annual salary",
+          text: "Please enter your annual salary (in £)",
           name: "annualSalary",
           component: NumberInput,
           placeholder: "e.g. 25000",
