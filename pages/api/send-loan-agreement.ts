@@ -129,7 +129,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         name: "userEmployeeID",
         value: `${employeeID && employeeID !== "" ? employeeID : "n/a"}`,
       },
-      ...loanOptions(loanAmount, loanTerms),
+      ...loanOptions(parseInt(loanAmount), parseInt(loanTerms)),
     ],
   }
 
