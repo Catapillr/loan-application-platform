@@ -265,6 +265,10 @@ export type EmployerOrderByInput =
   | "name_DESC"
   | "slug_ASC"
   | "slug_DESC"
+  | "address_ASC"
+  | "address_DESC"
+  | "companyNumber_ASC"
+  | "companyNumber_DESC"
   | "emailSuffix_ASC"
   | "emailSuffix_DESC"
   | "maximumAmount_ASC"
@@ -325,6 +329,8 @@ export interface LoanCreateInput {
 export type EmployerWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
   emailSuffix?: Maybe<String>;
 }>;
 
@@ -366,6 +372,8 @@ export interface UserUpdateWithoutEmployerDataInput {
 export interface EmployerUpdateManyMutationInput {
   name?: Maybe<String>;
   slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
   emailSuffix?: Maybe<String>;
   maximumAmount?: Maybe<Float>;
   minimumServiceLength?: Maybe<Int>;
@@ -535,6 +543,34 @@ export interface EmployerWhereInput {
   slug_not_starts_with?: Maybe<String>;
   slug_ends_with?: Maybe<String>;
   slug_not_ends_with?: Maybe<String>;
+  address?: Maybe<String>;
+  address_not?: Maybe<String>;
+  address_in?: Maybe<String[] | String>;
+  address_not_in?: Maybe<String[] | String>;
+  address_lt?: Maybe<String>;
+  address_lte?: Maybe<String>;
+  address_gt?: Maybe<String>;
+  address_gte?: Maybe<String>;
+  address_contains?: Maybe<String>;
+  address_not_contains?: Maybe<String>;
+  address_starts_with?: Maybe<String>;
+  address_not_starts_with?: Maybe<String>;
+  address_ends_with?: Maybe<String>;
+  address_not_ends_with?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  companyNumber_not?: Maybe<String>;
+  companyNumber_in?: Maybe<String[] | String>;
+  companyNumber_not_in?: Maybe<String[] | String>;
+  companyNumber_lt?: Maybe<String>;
+  companyNumber_lte?: Maybe<String>;
+  companyNumber_gt?: Maybe<String>;
+  companyNumber_gte?: Maybe<String>;
+  companyNumber_contains?: Maybe<String>;
+  companyNumber_not_contains?: Maybe<String>;
+  companyNumber_starts_with?: Maybe<String>;
+  companyNumber_not_starts_with?: Maybe<String>;
+  companyNumber_ends_with?: Maybe<String>;
+  companyNumber_not_ends_with?: Maybe<String>;
   user_every?: Maybe<UserWhereInput>;
   user_some?: Maybe<UserWhereInput>;
   user_none?: Maybe<UserWhereInput>;
@@ -644,6 +680,8 @@ export interface EmployerCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
   slug: String;
+  address: String;
+  companyNumber?: Maybe<String>;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
   emailSuffix: String;
   maximumAmount: Float;
@@ -656,6 +694,8 @@ export interface EmployerCreateInput {
 export interface EmployerUpdateWithoutUserDataInput {
   name?: Maybe<String>;
   slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
   emailSuffix?: Maybe<String>;
   maximumAmount?: Maybe<Float>;
   minimumServiceLength?: Maybe<Int>;
@@ -1136,6 +1176,8 @@ export interface LoanSubscriptionWhereInput {
 export interface EmployerUpdateInput {
   name?: Maybe<String>;
   slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
   user?: Maybe<UserUpdateManyWithoutEmployerInput>;
   emailSuffix?: Maybe<String>;
   maximumAmount?: Maybe<Float>;
@@ -1186,6 +1228,8 @@ export interface EmployerCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   name: String;
   slug: String;
+  address: String;
+  companyNumber?: Maybe<String>;
   emailSuffix: String;
   maximumAmount: Float;
   minimumServiceLength: Int;
@@ -1600,6 +1644,8 @@ export interface Employer {
   id: ID_Output;
   name: String;
   slug: String;
+  address: String;
+  companyNumber?: String;
   emailSuffix: String;
   maximumAmount: Float;
   minimumServiceLength: Int;
@@ -1614,6 +1660,8 @@ export interface EmployerPromise extends Promise<Employer>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   slug: () => Promise<String>;
+  address: () => Promise<String>;
+  companyNumber: () => Promise<String>;
   user: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -1639,6 +1687,8 @@ export interface EmployerSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   slug: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
+  companyNumber: () => Promise<AsyncIterator<String>>;
   user: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -1664,6 +1714,8 @@ export interface EmployerNullablePromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   slug: () => Promise<String>;
+  address: () => Promise<String>;
+  companyNumber: () => Promise<String>;
   user: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -1982,6 +2034,8 @@ export interface EmployerPreviousValues {
   id: ID_Output;
   name: String;
   slug: String;
+  address: String;
+  companyNumber?: String;
   emailSuffix: String;
   maximumAmount: Float;
   minimumServiceLength: Int;
@@ -1998,6 +2052,8 @@ export interface EmployerPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   slug: () => Promise<String>;
+  address: () => Promise<String>;
+  companyNumber: () => Promise<String>;
   emailSuffix: () => Promise<String>;
   maximumAmount: () => Promise<Float>;
   minimumServiceLength: () => Promise<Int>;
@@ -2014,6 +2070,8 @@ export interface EmployerPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   slug: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
+  companyNumber: () => Promise<AsyncIterator<String>>;
   emailSuffix: () => Promise<AsyncIterator<String>>;
   maximumAmount: () => Promise<AsyncIterator<Float>>;
   minimumServiceLength: () => Promise<AsyncIterator<Int>>;

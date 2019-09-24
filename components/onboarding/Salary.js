@@ -19,7 +19,7 @@ const Salary = () => (
           text: "Please enter your annual salary (in £)",
           name: "annualSalary",
           component: NumberInput,
-          placeholder: "e.g. 25000",
+          placeholder: "e.g. 20000",
         },
       ]}
     />
