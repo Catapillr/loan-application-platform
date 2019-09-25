@@ -28,6 +28,8 @@ type Employer {
   id: ID!
   name: String!
   slug: String!
+  address: String!
+  companyNumber: String
   user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   emailSuffix: String!
   maximumAmount: Float!
@@ -49,6 +51,8 @@ input EmployerCreateInput {
   id: ID
   name: String!
   slug: String!
+  address: String!
+  companyNumber: String
   user: UserCreateManyWithoutEmployerInput
   emailSuffix: String!
   maximumAmount: Float!
@@ -67,6 +71,8 @@ input EmployerCreateWithoutUserInput {
   id: ID
   name: String!
   slug: String!
+  address: String!
+  companyNumber: String
   emailSuffix: String!
   maximumAmount: Float!
   minimumServiceLength: Int!
@@ -87,6 +93,10 @@ enum EmployerOrderByInput {
   name_DESC
   slug_ASC
   slug_DESC
+  address_ASC
+  address_DESC
+  companyNumber_ASC
+  companyNumber_DESC
   emailSuffix_ASC
   emailSuffix_DESC
   maximumAmount_ASC
@@ -109,6 +119,8 @@ type EmployerPreviousValues {
   id: ID!
   name: String!
   slug: String!
+  address: String!
+  companyNumber: String
   emailSuffix: String!
   maximumAmount: Float!
   minimumServiceLength: Int!
@@ -140,6 +152,8 @@ input EmployerSubscriptionWhereInput {
 input EmployerUpdateInput {
   name: String
   slug: String
+  address: String
+  companyNumber: String
   user: UserUpdateManyWithoutEmployerInput
   emailSuffix: String
   maximumAmount: Float
@@ -152,6 +166,8 @@ input EmployerUpdateInput {
 input EmployerUpdateManyMutationInput {
   name: String
   slug: String
+  address: String
+  companyNumber: String
   emailSuffix: String
   maximumAmount: Float
   minimumServiceLength: Int
@@ -170,6 +186,8 @@ input EmployerUpdateOneRequiredWithoutUserInput {
 input EmployerUpdateWithoutUserDataInput {
   name: String
   slug: String
+  address: String
+  companyNumber: String
   emailSuffix: String
   maximumAmount: Float
   minimumServiceLength: Int
@@ -226,6 +244,34 @@ input EmployerWhereInput {
   slug_not_starts_with: String
   slug_ends_with: String
   slug_not_ends_with: String
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  companyNumber: String
+  companyNumber_not: String
+  companyNumber_in: [String!]
+  companyNumber_not_in: [String!]
+  companyNumber_lt: String
+  companyNumber_lte: String
+  companyNumber_gt: String
+  companyNumber_gte: String
+  companyNumber_contains: String
+  companyNumber_not_contains: String
+  companyNumber_starts_with: String
+  companyNumber_not_starts_with: String
+  companyNumber_ends_with: String
+  companyNumber_not_ends_with: String
   user_every: UserWhereInput
   user_some: UserWhereInput
   user_none: UserWhereInput
@@ -319,6 +365,8 @@ input EmployerWhereInput {
 input EmployerWhereUniqueInput {
   id: ID
   slug: String
+  address: String
+  companyNumber: String
   emailSuffix: String
 }
 

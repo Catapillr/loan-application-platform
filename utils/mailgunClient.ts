@@ -1,5 +1,6 @@
 import * as mailgun from "mailgun.js"
 import R from "ramda"
+import convertToSterling from "../utils/convertToSterling"
 
 const mailgunClient = mailgun.client({
   username: "api",
@@ -43,7 +44,6 @@ const sendEmployeeLoanApproval = (email: string) =>
     data: {},
   })
 
-const convertToSterling = amount => `£${(amount / 100).toFixed(2)}`
 const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
   mailgunEmailTemplate({
     email: process.env.ADMIN_EMAIL,
@@ -83,6 +83,7 @@ const sendEmployeePaymentNotification = ({ payment, user }) =>
   mailgunEmailTemplate({
     email: user.email,
     subject: `Your Catapillr loan has been paid into your account!`,
+    
     template: "employee-payment-notification",
     data: {
       "v:userFirstName": user.firstName,

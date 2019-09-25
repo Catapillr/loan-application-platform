@@ -19,6 +19,7 @@ const seedDatabase = async () => {
       maxSalaryPercentage: 25,
       payrollEmail: "j@yallacooperative.com",
       signerEmail: "j@yallacooperative.com",
+      address: "149 Fonthill Road, London, N4 3HF"
     })
 
     const infact = await prisma.createEmployer({
@@ -28,8 +29,10 @@ const seedDatabase = async () => {
       maximumAmount: 3000,
       minimumServiceLength: 6,
       maxSalaryPercentage: 20,
-      payrollEmail: "ivan@infactcoop.com",
-      signerEmail: "ivan@infactcoop.com",
+      payrollEmail: "hello@infactcoop.com",
+      signerEmail: "hello@infactcoop.com",
+      address: "149 Fonthill Road, London, N4 3HF",
+      companyNumber: "11912270"
     })
 
     const ivan = await prisma.createUser({

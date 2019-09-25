@@ -2,6 +2,8 @@ type Employer {
   id: ID! @id
   name: String!
   slug: String! @unique
+  address: String! @unique
+  companyNumber: String @unique
   user: [User!]
   emailSuffix: String! @unique
   maximumAmount: Float!
