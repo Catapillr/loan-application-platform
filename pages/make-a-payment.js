@@ -1,4 +1,3 @@
-// import Link from "next/link"
 import { useState, useEffect } from "react"
 import styled from "styled-components"
 import * as R from "ramda"
@@ -98,10 +97,9 @@ const Search = () => {
       const {
         data: { companies },
       } = await axios(`${process.env.HOST}/api/get-companies?q=${searchTerm}`)
-      return companies
+      setCompanies(companies)
     }
-
-    setCompanies(getCompanies())
+    getCompanies()
   }, [searchTerm])
 
   const onChange = ({ target: { value } }) => {
