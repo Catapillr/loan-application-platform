@@ -4,9 +4,9 @@ import * as R from "ramda"
 import axios from "axios"
 
 import Questions from "./Questions"
-import { TextInput, CheckboxInput } from "../Input"
+import { TextInput, CheckboxInput } from "../../Input"
 
-import progress1 from "../../static/images/progress1.svg"
+import progress1 from "../../../static/images/progress1.svg"
 
 const validation = Yup.object().shape({
   email: Yup.string()

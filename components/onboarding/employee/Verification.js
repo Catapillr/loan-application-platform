@@ -1,9 +1,9 @@
 import * as Yup from "yup"
 
 import Questions from "./Questions"
-import { TextInput } from "../Input"
+import { TextInput } from "../../Input"
 
-import progress1 from "../../static/images/progress1.svg"
+import progress1 from "../../../static/images/progress1.svg"
 
 const validation = Yup.object().shape({
   token: Yup.string()

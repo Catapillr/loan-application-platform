@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { Input, DateInput } from "../../components/Input"
-import { Heading } from "./styles"
+import { Input, DateInput } from "../../Input"
+import { Heading } from "../styles"
 
 const Container = styled.main.attrs(() => ({
   className: "flex flex-wrap m-auto justify-between",
