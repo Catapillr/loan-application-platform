@@ -2,7 +2,7 @@ type Employer {
   id: ID! @id
   name: String!
   slug: String! @unique
-  address: String! @unique
+  address: String!
   companyNumber: String @unique
   user: [User!]
   emailSuffix: String! @unique
