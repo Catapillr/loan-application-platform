@@ -4,18 +4,18 @@ import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
 
-import * as Steps from "../components/onboarding/stepNames"
+import * as Steps from "../components/onboarding/employee/stepNames"
 
-import Welcome from "../components/onboarding/Welcome"
-import Eligibility from "../components/onboarding/Eligibility"
-import Verification from "../components/onboarding/Verification"
-import Salary from "../components/onboarding/Salary"
-import Loan from "../components/onboarding/Loan"
-import Accuracy from "../components/onboarding/Accuracy"
-import Personal from "../components/onboarding/Personal"
-import Contact from "../components/onboarding/Contact"
-import Summary from "../components/onboarding/Summary"
-import Confirmation from "../components/onboarding/Confirmation"
+import Welcome from "../components/onboarding/employee/Welcome"
+import Eligibility from "../components/onboarding/employee/Eligibility"
+import Verification from "../components/onboarding/employee/Verification"
+import Salary from "../components/onboarding/employee/Salary"
+import Loan from "../components/onboarding/employee/Loan"
+import Accuracy from "../components/onboarding/employee/Accuracy"
+import Personal from "../components/onboarding/employee/Personal"
+import Contact from "../components/onboarding/employee/Contact"
+import Summary from "../components/onboarding/employee/Summary"
+import Confirmation from "../components/onboarding/employee/Confirmation"
 
 import DebugFormik from "../components/DebugFormik"
 import { Button } from "../components/onboarding/styles"
@@ -202,7 +202,7 @@ const Controls = ({
 
 const onSubmit = ({ incrementPage, employer }) => async values => {
   //eslint-disable-next-line no-console
-  console.log("onboarding form submitted")
+  console.log("onboarding employee/form submitted")
   try {
     await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
       employer,
@@ -338,7 +338,7 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
   return <>{component}</>
 }
 
-const Onboarding = ({ employer }) => {
+const EmployeeOnboarding = ({ employer }) => {
   return (
     <Wizard employer={employer}>
       <Welcome />
@@ -355,7 +355,7 @@ const Onboarding = ({ employer }) => {
   )
 }
 
-Onboarding.getInitialProps = async ({ req }) => {
+EmployeeOnboarding.getInitialProps = async ({ req }) => {
   const slug = req.originalUrl.slice(1)
   const res = await axios(
     `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
@@ -402,4 +402,4 @@ const ControlsSection = styled.section.attrs({
   transform: rotate(180deg);
 `
 
-export default Onboarding
+export default EmployeeOnboarding
