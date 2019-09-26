@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-import { Heading } from "./styles"
+import { Heading } from "../styles"
 
-import progress5 from "../../static/images/progress5.svg"
+import progress5 from "../../../static/images/progress5.svg"
 
 const Container = styled.div`
   min-height: 80%;

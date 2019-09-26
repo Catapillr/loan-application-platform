@@ -3,9 +3,9 @@ import * as Yup from "yup"
 import styled from "styled-components"
 
 import Questions from "./Questions"
-import { RangeInput, SelectInput, NumberInput } from "../Input"
+import { RangeInput, SelectInput, NumberInput } from "../../Input"
 
-import progress2 from "../../static/images/progress2.svg"
+import progress2 from "../../../static/images/progress2.svg"
 
 // TODO: loan amount has to be sent in pennies to mangopay so needs to be stored in pennies
 // i.e. for £3000 loan we have to send amount of 300000 : Int

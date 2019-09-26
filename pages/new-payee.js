@@ -4,48 +4,16 @@ import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
 
-import * as Steps from "../components/onboarding/employee/stepNames"
+import * as Steps from "../components/onboarding/payee/stepNames"
 
-import Welcome from "../components/onboarding/employee/Welcome"
-import Eligibility from "../components/onboarding/employee/Eligibility"
-import Verification from "../components/onboarding/employee/Verification"
-import Salary from "../components/onboarding/employee/Salary"
-import Loan from "../components/onboarding/employee/Loan"
-import Accuracy from "../components/onboarding/employee/Accuracy"
-import Personal from "../components/onboarding/employee/Personal"
-import Contact from "../components/onboarding/employee/Contact"
-import Summary from "../components/onboarding/employee/Summary"
-import Confirmation from "../components/onboarding/employee/Confirmation"
+import Welcome from "../components/onboarding/payee/Welcome"
+import Summary from "../components/onboarding/payee/Summary"
+import Confirmation from "../components/onboarding/payee/Confirmation"
 
 import DebugFormik from "../components/DebugFormik"
 import { Button } from "../components/onboarding/styles"
 
 import orangeLogo from "../static/logo_orange.svg"
-
-// const initialValues = {
-//   employmentStartDate: {
-//     day: 1,
-//     month: 1,
-//     year: 2018,
-//   },
-//   email: "ivangonzalez@infactcoop.com",
-//   token: "e214fdc7b766",
-//   permanentRole: true,
-//   annualSalary: 10000,
-//   loanAmount: 965,
-//   loanTerms: "12",
-//   firstName: "Ivan",
-//   lastName: "Gonzalez",
-//   dob: {
-//     day: 23,
-//     month: 3,
-//     year: 1989,
-//   },
-//   nationality: "Colombian",
-//   employeeID: "8sdj98sd",
-//   phoneNumber: "07443998236",
-//   confirmation: false,
-// }
 
 const initialValues = {
   employmentStartDate: { day: "", month: "", year: "" },
@@ -153,26 +121,6 @@ const Controls = ({
 }) => {
   const nextClick = () => {
     switch (page) {
-      case Steps.Eligibility:
-        return () => {
-          createNewToken({ email: values.email })
-          formCompleted ? goToSummaryPage() : incrementPage()
-        }
-
-      case Steps.Verification:
-        return async () => {
-          const valid = await isTokenValid({
-            token: values.token,
-            email: values.email,
-          })
-          valid.isTokenValid ? incrementPage() : setEmailVerificationError(true)
-        }
-
-      case Steps.Contact:
-        return () => {
-          setFormCompleted(true)
-          incrementPage()
-        }
       default:
         return formCompleted ? goToSummaryPage : incrementPage
     }
@@ -202,7 +150,7 @@ const Controls = ({
 
 const onSubmit = ({ incrementPage, employer }) => async values => {
   //eslint-disable-next-line no-console
-  console.log("onboarding employee/form submitted")
+  console.log("employeeOnboarding form submitted")
   try {
     await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
       employer,
@@ -338,24 +286,17 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
   return <>{component}</>
 }
 
-const EmployeeOnboarding = ({ employer }) => {
+const PayeeOnboarding = ({ employer }) => {
   return (
     <Wizard employer={employer}>
       <Welcome />
-      <Eligibility />
-      <Verification />
-      <Salary />
-      <Loan />
-      <Accuracy />
-      <Personal />
-      <Contact />
       <Summary />
       <Confirmation />
     </Wizard>
   )
 }
 
-EmployeeOnboarding.getInitialProps = async ({ req }) => {
+PayeeOnboarding.getInitialProps = async ({ req }) => {
   const slug = req.originalUrl.slice(1)
   const res = await axios(
     `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
@@ -402,4 +343,4 @@ const ControlsSection = styled.section.attrs({
   transform: rotate(180deg);
 `
 
-export default EmployeeOnboarding
+export default PayeeOnboarding

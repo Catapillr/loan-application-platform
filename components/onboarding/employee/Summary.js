@@ -2,13 +2,13 @@ import styled from "styled-components"
 import moment from "moment"
 import * as R from "ramda"
 
-import { Heading } from "./styles"
+import { Heading } from "../styles"
 
-import tealTick from "../../static/icons/teal-tick.svg"
-import progress4 from "../../static/images/progress4.svg"
+import tealTick from "../../../static/icons/teal-tick.svg"
+import progress4 from "../../../static/images/progress4.svg"
 import { Loan, Personal, Eligibility, Contact, Salary } from "./stepNames"
 
-import nationalities from "./nationalityOptions"
+import nationalities from "../nationalityOptions"
 
 const sections = [
   {

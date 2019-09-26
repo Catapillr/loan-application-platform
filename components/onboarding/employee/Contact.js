@@ -3,11 +3,11 @@ import axios from "axios"
 import { parsePhoneNumberFromString } from "libphonenumber-js"
 
 import Questions from "./Questions"
-import { TextInput, SelectInput } from "../Input"
+import { TextInput, SelectInput } from "../../Input"
 
-import progress4 from "../../static/images/progress4.svg"
+import progress4 from "../../../static/images/progress4.svg"
 
-import nationalityOptions from "./nationalityOptions"
+import nationalityOptions from "../nationalityOptions"
 
 const validation = Yup.object().shape({
   nationality: Yup.string().required("Required"),

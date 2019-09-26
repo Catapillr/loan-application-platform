@@ -1,6 +1,6 @@
-import { Heading, Copy, Button } from "./styles"
+import { Heading, Copy, Button } from "../styles"
 
-import progress3 from "../../static/images/progress3.svg"
+import progress3 from "../../../static/images/progress3.svg"
 
 const Accuracy = ({ incrementPage }) => (
   <main className="flex justify-center items-center flex-col w-7/12 m-auto">

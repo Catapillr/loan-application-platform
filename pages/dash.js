@@ -7,11 +7,6 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import Transaction from "../components/Transaction"
 import Payee from "../components/Payee"
-// import axios from "axios"
-// import nextCookies from "next-cookies"
-// import * as R from "ramda"
-
-// import restrictAccess from "../utils/restrictAccess"
 
 const Container = styled.div.attrs({
   className: "w-full bg-lightgray min-h-screen flex flex-col justify-between",
@@ -103,33 +98,15 @@ const Dash = () => (
 
 Dash.getInitialProps = async ctx => {
   const { req } = ctx
-  // makes sure session is authenticated and that page is server side rendered
-  // (auth does not work at the moment without SSR)
   // restrictAccess(ctx)
 
-  // we need this when the axios request gets sent from the server rather than the browser
-  // as the session cookies are not passed along to axios from the req object. This is not
-  // a problem on the browser as cookies are added to every request automatically
-  // const cookies = nextCookies(ctx)
-  // const serializedCookies = R.pipe(
-  //   R.mapObjIndexed((val, key) => `${key}=${val};`),
-  //   R.values,
-  //   R.join(" ")
-  // )(cookies)
-
   try {
-    // const {
-    //   data: { allEmployers },
-    // } = await axios.get(`${process.env.HOST}/api/test`, {
-    //   headers: { Cookie: serializedCookies },
-    // })
-
-    // this user gets added by passport on all authenticated requests
     const user = req.user
 
     return { user }
   } catch (err) {
-    console.error("Error in dash getInitProps: ", err) //eslint-disable-line
+    // eslint-disable-next-line
+    console.error("Error in make-a-payment getInitProps: ", err)
     return {}
   }
 }
