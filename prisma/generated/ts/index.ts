@@ -329,7 +329,6 @@ export interface LoanCreateInput {
 export type EmployerWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   slug?: Maybe<String>;
-  address?: Maybe<String>;
   companyNumber?: Maybe<String>;
   emailSuffix?: Maybe<String>;
 }>;

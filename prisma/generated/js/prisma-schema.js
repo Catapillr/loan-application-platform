@@ -366,7 +366,6 @@ input EmployerWhereInput {
 input EmployerWhereUniqueInput {
   id: ID
   slug: String
-  address: String
   companyNumber: String
   emailSuffix: String
 }
