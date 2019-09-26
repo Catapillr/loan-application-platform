@@ -16,6 +16,7 @@ module.exports = {
     },
     extend: {
       spacing: {
+        "1d5": "0.375rem", // 6px
         "2d5": "0.625rem", // 10px
         "3d5": "0.875rem", // 14px
         "4": "1rem", // 16px

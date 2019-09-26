@@ -50,7 +50,7 @@ const Header = () => (
       <Logo />
       <Links>
         <HeaderLink underline>My Payments</HeaderLink>
-        <HeaderLink>Make a payment</HeaderLink>
+        <HeaderLink href="/make-a-payment">Make a payment</HeaderLink>
         <HeaderLink>My contacts</HeaderLink>
       </Links>
       <Avatar />
