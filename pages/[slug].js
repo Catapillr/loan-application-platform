@@ -355,18 +355,6 @@ const EmployeeOnboarding = ({ employer }) => {
   )
 }
 
-EmployeeOnboarding.getInitialProps = async ({ req }) => {
-  const slug = req.originalUrl.slice(1)
-  const res = await axios(
-    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
-  )
-
-  const {
-    data: { employer },
-  } = res
-  return { employer }
-}
-
 const Container = styled.div.attrs({
   className: "bg-white flex flex-col items-center justify-between",
 })`
@@ -401,5 +389,17 @@ const ControlsSection = styled.section.attrs({
 })`
   transform: rotate(180deg);
 `
+
+EmployeeOnboarding.getInitialProps = async ({ req }) => {
+  const slug = req.originalUrl.slice(1)
+  const res = await axios(
+    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
+  )
+
+  const {
+    data: { employer },
+  } = res
+  return { employer }
+}
 
 export default EmployeeOnboarding
