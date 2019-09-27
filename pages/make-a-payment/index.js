@@ -3,11 +3,11 @@ import styled from "styled-components"
 import * as R from "ramda"
 import axios from "axios"
 
-import { NURSERY, CLUB } from "../components/constants"
+import { NURSERY, CLUB } from "../../components/constants"
 
-import Header from "../components/Header"
-import Footer from "../components/Footer"
-import Payee from "../components/Payee"
+import Header from "../../components/Header"
+import Footer from "../../components/Footer"
+import Payee from "../../components/Payee"
 
 const Container = styled.div.attrs({
   className: "w-full bg-lightgray min-h-screen flex flex-col justify-between",
@@ -81,11 +81,16 @@ const _Company = styled.li.attrs({
 `
 
 const Company = ({ title, company_number, address_snippet }) => (
-  <_Company key={company_number} onClick={() => ({})}>
-    <p className="text-bold font-bold">{title}</p>
-    <p>{company_number}</p>
-    <p>{address_snippet}</p>
-  </_Company>
+  <a
+    href={`${process.env.HOST}/make-a-payment/${company_number}`}
+    key={company_number}
+  >
+    <_Company>
+      <p className="text-bold font-bold">{title}</p>
+      <p>{company_number}</p>
+      <p>{address_snippet}</p>
+    </_Company>
+  </a>
 )
 
 const Search = () => {
