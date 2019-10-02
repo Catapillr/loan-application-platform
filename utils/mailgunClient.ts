@@ -5,6 +5,7 @@ import convertToSterling from "../utils/convertToSterling"
 const mailgunClient = mailgun.client({
   username: "api",
   key: process.env.MAILGUN_API_KEY || "",
+  url: "https://api.eu.mailgun.net",
 })
 
 const mailgunEmailTemplate = ({ email, subject, template, data }) => {
