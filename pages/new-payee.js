@@ -217,7 +217,7 @@ const Wizard = ({ children, employer }) => {
 
         return (
           <Container>
-            <Header>
+            <Header activeHref="new-payee">
               <Logo />
             </Header>
             <StyledForm>

@@ -14,7 +14,7 @@ const Nav = styled.nav.attrs({
   className: "flex justify-between items-center",
 })``
 
-const Logo = styled.div.attrs({
+const Logo = styled.a.attrs({
   className: "mr-10d5",
 })`
   background: url(${logo});
@@ -40,18 +40,24 @@ const Links = styled.div.attrs({
 const HeaderLink = styled.a.attrs({
   className: "mr-5 font-lg font-bold",
 })`
-  box-shadow: ${({ underline }) =>
-    underline ? `inset 0 -10px 0 0 #FFC67E` : "inherit"};
+  box-shadow: ${({ href, activeHref }) =>
+    href === activeHref ? `inset 0 -10px 0 0 #FFC67E` : "inherit"};
 `
 
-const Header = () => (
+const Header = ({ activeHref }) => (
   <Container>
     <Nav>
-      <Logo />
+      <Logo href="/" activeHref={activeHref} />
       <Links>
-        <HeaderLink underline>My Payments</HeaderLink>
-        <HeaderLink href="/make-a-payment">Make a payment</HeaderLink>
-        <HeaderLink>My contacts</HeaderLink>
+        <HeaderLink activeHref={activeHref} href="/dash">
+          My Payments
+        </HeaderLink>
+        <HeaderLink activeHref={activeHref} href="/make-a-payment">
+          Make a payment
+        </HeaderLink>
+        <HeaderLink activeHref={activeHref} href="/my-contacts">
+          My contacts
+        </HeaderLink>
       </Links>
       <Avatar />
     </Nav>
