@@ -10,6 +10,7 @@ const Heading = styled.h1.attrs(() => ({
 
 const Button = styled.button.attrs(({ className }) => ({
   className: `${className} font-base py-2 px-5d5 rounded-full`,
+  type: "button",
 }))``
 
 export { Heading, Copy, Button }

@@ -53,7 +53,7 @@ const PayeesContainer = styled.section.attrs({
 
 const Dash = () => (
   <Container>
-    <Header />
+    <Header activeHref="/dash" />
     <Contents>
       <Main>
         <Title className="mb-12">My payments</Title>

@@ -1,16 +1,17 @@
 import { ErrorMessage, Field } from "formik"
 import styled from "styled-components"
+import TextArea from "react-autosize-textarea"
 import * as R from "ramda"
 
 import slider from "../static/icons/slider.svg"
 import tick from "../static/icons/tick.svg"
 import dropdown from "../static/icons/dropdown.svg"
 
-const Input = ({ text, width, name, ...attrs }) => {
+const Input = ({ text, width, name, margin, direction, ...attrs }) => {
   return (
-    <Container text={text} width={width}>
-      {text && <Label>{text}</Label>}
-      <Field name={name} {...attrs} />
+    <Container {...{ text, width, margin, direction }}>
+      {text && <Label name={name}>{text}</Label>}
+      <Field {...{ name, direction, id: name, ...attrs }} />
       <div className="relative">
         <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
       </div>
@@ -30,13 +31,41 @@ const TextInput = styled.input.attrs(
     }
   }
 )``
+const TextAreaInput = styled(TextArea).attrs(({ field, disabled }) => {
+  return {
+    className: "border-0 w-full",
+    disabled,
+    ...field,
+  }
+})``
 
-const CheckboxInput = ({ form: { errors, touched, values }, field, type }) => {
+const PriceInput = styled.input.attrs(
+  ({ field, form: { errors, touched }, disabled }) => {
+    const { name } = field
+    return {
+      className: `font-subheader ${errors[name] &&
+        touched[name] &&
+        "border-red"}`,
+      disabled,
+      ...field,
+    }
+  }
+)``
+
+const CheckboxInput = ({
+  form: { errors, touched, values },
+  field,
+  type,
+  direction,
+  id,
+}) => {
   const { name } = field
+  const horizontal = direction === "flex-row-reverse"
+
   return (
     <CheckboxContainer {...{ errors, touched, name }}>
-      <AddHeight />
-      <input type={type} checked={values[name]} {...field} />
+      {horizontal ? <AddWidth /> : <AddHeight />}
+      <input type={type} checked={values[name]} {...field} id={id} />
       <span className="checkmark"></span>
     </CheckboxContainer>
   )
@@ -44,10 +73,11 @@ const CheckboxInput = ({ form: { errors, touched, values }, field, type }) => {
 
 const DateInput = ({ text, validate, name }) => (
   <Container>
-    {text && <Label>{text}</Label>}
+    {text && <Label htmlFor={name}>{text}</Label>}
 
     <div className="flex justify-between pr-10">
       <Field
+        id={name}
         name={`${name}.day`}
         component={NumberInput}
         placeholder={"DD"}
@@ -179,9 +209,11 @@ const Select = styled.select.attrs(
   background-position: right 0.8em top 50%, 0 0;
 `
 
-const Container = styled.div.attrs(({ text, width }) => ({
-  className: `${text && "flex flex-col"} w-${width || "full"} mb-10`,
-}))``
+const Container = styled.div.attrs(
+  ({ text, width, margin = "mb-10", direction = "flex-col" }) => ({
+    className: `${text && `flex ${direction}`} w-${width || "full"} ${margin}`,
+  })
+)``
 
 const Error = styled.span.attrs({
   className: "text-red absolute mt-1",
@@ -195,14 +227,15 @@ const Label = styled.label.attrs(({ name }) => ({
 const AddHeight = styled.div`
   height: 30px;
 `
+const AddWidth = styled.div.attrs({
+  className: "mr-4",
+})`
+  width: 30px;
+`
 
-const CheckboxContainer = styled.label`
-  /* Customize the label (the container) */
-  display: block;
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-
+const CheckboxContainer = styled.label.attrs({
+  className: "block relative cursor-pointer select-none",
+})`
   /* Hide the browser's default checkbox */
   input {
     position: absolute;
@@ -259,6 +292,8 @@ export {
   Input,
   DateInput,
   TextInput,
+  PriceInput,
+  TextAreaInput,
   RangeInput,
   CheckboxInput,
   SelectInput,

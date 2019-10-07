@@ -79,39 +79,39 @@ const Next = ({
   </div>
 )
 
-const createNewToken = async ({ email }) => {
-  const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
-    email,
-  })
+// const createNewToken = async ({ email }) => {
+//   const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
+//     email,
+//   })
 
-  const {
-    data: { token },
-  } = res
+//   const {
+//     data: { token },
+//   } = res
 
-  return { token }
-}
+//   return { token }
+// }
 
-const isTokenValid = async ({ email, token }) => {
-  const res = await axios(
-    `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`
-  )
+// const isTokenValid = async ({ email, token }) => {
+//   const res = await axios(
+//     `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`
+//   )
 
-  const {
-    data: { isTokenValid },
-  } = res
+//   const {
+//     data: { isTokenValid },
+//   } = res
 
-  return { isTokenValid }
-}
+//   return { isTokenValid }
+// }
 
 const Controls = ({
   page,
   isValid,
   isSubmitting,
-  values,
+  // values,
   formCompleted,
-  setFormCompleted,
+  // setFormCompleted,
   submitForm,
-  setEmailVerificationError,
+  // setEmailVerificationError,
   hideNext,
   hidePrevious,
   progressImg,
@@ -217,7 +217,7 @@ const Wizard = ({ children, employer }) => {
 
         return (
           <Container>
-            <Header>
+            <Header activeHref="new-payee">
               <Logo />
             </Header>
             <StyledForm>

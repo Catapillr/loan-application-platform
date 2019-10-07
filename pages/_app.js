@@ -7,13 +7,14 @@ import "react-toastify/dist/ReactToastify.min.css"
 
 import resolveConfig from "tailwindcss/resolveConfig"
 import tailwindConfig from "../tailwind.config.js"
+import catapillr_background from "../static/catapillr_background.svg"
 
 import "../styles/index.css"
 
 const Container = styled.div.attrs(() => ({
   className: "flex justify-center items-center",
 }))`
-  background: url("./static/catapillr_background.svg") no-repeat,
+  background: url(${catapillr_background}) no-repeat,
     linear-gradient(to left top, rgba(20, 190, 203, 0.24), white);
   background-size: cover;
   min-height: 100vh;

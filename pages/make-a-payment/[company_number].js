@@ -1,34 +1,48 @@
 import React, { useState, useEffect } from "react"
+import nextCookies from "next-cookies"
 
 import { Formik, Form } from "formik"
 
 import axios from "axios"
 import * as R from "ramda"
-
 import styled from "styled-components"
+
+import restrictAccess from "../../utils/restrictAccess"
 
 import * as Steps from "../../components/onboarding/make-a-payment/stepNames"
 import Email from "../../components/onboarding/make-a-payment/Email"
 import Pay from "../../components/onboarding/make-a-payment/Pay"
+import Summary from "../../components/onboarding/make-a-payment/Summary"
+
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 
 const initialValues = {
-  company: {
-    company_number: undefined,
-    title: "",
-  },
-  providerID: undefined,
-  amountToPay: 0,
-  reference: "",
   providerEmail: "",
+  amountToPay: "",
+  reference: "",
   consentToPay: false,
 }
 
-const onSubmit = ({ incrementPage }) => async values => {
-  //eslint-disable-next-line no-console
-  console.log("onboarding employee/form submitted", values)
+const onSubmit = ({ incrementPage, company, user }) => async values => {
+  const requestBody = {
+    childcareProvider: {
+      providerEmail: values.providerEmail,
+      companyNumber: company.company_number,
+    },
+    paymentRequest: {
+      amountToPay: values.amountToPay,
+      consentToPay: values.consentToPay,
+      reference: values.reference,
+    },
+    user,
+  }
+
   try {
+    await axios.post(
+      `${process.env.HOST}/api/send-payment-request`,
+      requestBody
+    )
     incrementPage()
   } catch (e) {
     //eslint-disable-next-line no-console
@@ -36,7 +50,7 @@ const onSubmit = ({ incrementPage }) => async values => {
   }
 }
 
-const Wizard = ({ children, company }) => {
+const Wizard = ({ children, company, user }) => {
   const [page, setPage] = useState(Steps.Email)
   // const [formCompleted, setFormCompleted] = useState(false)
   const steps = React.Children.toArray(children)
@@ -58,8 +72,8 @@ const Wizard = ({ children, company }) => {
   const Controls = () => (
     <_Controls>
       <Back
-        onClick={pageIndex !== 0 && decrementPage}
-        href={pageIndex === 0 && "/make-a-payment"}
+        onClick={pageIndex !== 0 ? decrementPage : undefined}
+        href={pageIndex === 0 ? "/make-a-payment" : undefined}
       >
         Back
       </Back>
@@ -71,21 +85,21 @@ const Wizard = ({ children, company }) => {
 
   return (
     <Container>
-      <Header />
+      <Header activeHref="/make-a-payment" />
       <Formik
         {...{
           initialValues,
           validationSchema,
-          onSubmit: onSubmit({ incrementPage }),
+          onSubmit: onSubmit({ incrementPage, company, user }),
           enableReinitialize: false,
         }}
       >
         {({
-          // isValid,
-          // isSubmitting,
+          isValid,
+          submitForm,
+          isSubmitting,
           validateForm,
           values,
-          // submitForm,
           setTouched,
           setFieldValue,
         }) => {
@@ -104,6 +118,9 @@ const Wizard = ({ children, company }) => {
                         setPage,
                         values,
                         incrementPage,
+                        submitForm,
+                        isValid,
+                        isSubmitting,
                         setFieldValue,
                         company,
                         Controls,
@@ -116,14 +133,17 @@ const Wizard = ({ children, company }) => {
                 <Tip>
                   <h2 className="font-bold mb-6">How does this work?</h2>
                   <p className="mb-6">
-                    Search for your childcare provider by entering their name or
-                    company number into the search bar (left).
+                    Unfortunately, the childcare provider you selected is not
+                    yet on our database.
                   </p>
-                  <p>
-                    Select the provider from the list. In case your provider
-                    doesnt show up, add them by sending them an email letting
-                    know that you would like to use their services through the
-                    catapillr scheme.
+                  <p className="mb-6">
+                    The good news is that we can send them an email invite with
+                    a magic link containing the amount you would like to pay.
+                  </p>
+
+                  <p className="mb-6">
+                    As soon as they sign up, they will be able to easily claim
+                    the amount, and you will be notified!
                   </p>
                 </Tip>
               </Aside>
@@ -145,10 +165,21 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
   return <>{component}</>
 }
 
-const Onboarding = ({ company }) => {
+const Onboarding = ({ company, user }) => {
+  if (company.catapillrID) {
+    return (
+      <Wizard {...{ company, user }}>
+        <Pay />
+        <Summary />
+      </Wizard>
+    )
+  }
+
   return (
-    <Wizard company={company}>
-      {company.catapillrID ? <Pay /> : <Email />}
+    <Wizard {...{ company, user }}>
+      <Email />
+      <Pay />
+      <Summary />
     </Wizard>
   )
 }
@@ -166,7 +197,7 @@ const Aside = styled.aside.attrs({
 })``
 
 const Tip = styled.aside.attrs({
-  className: "bg-white py-10 px-9 w-8/12",
+  className: "mt-27 bg-white py-10 px-9 w-8/12",
 })`
   height: fit-content;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
@@ -185,24 +216,50 @@ const _Controls = styled.nav.attrs({
 })``
 
 const Back = styled.a.attrs({
-  className: "",
+  className: "cursor-pointer",
 })``
 
 const PageCounter = styled.div.attrs({
   className: "",
 })``
 
-Onboarding.getInitialProps = async ({ req }) => {
-  const company_number = R.last(req.originalUrl.split("/"))
+Onboarding.getInitialProps = async ctx => {
+  const { req } = ctx
+  // makes sure session is authenticated and that page is server side rendered
+  // (auth does not work at the moment without SSR)
+  restrictAccess(ctx)
 
-  const res = await axios(
-    `${process.env.HOST}/api/get-company?company_number=${company_number}`
-  )
-  const {
-    data: { company },
-  } = res
+  // we need this when the axios request gets sent from the server rather than the browser
+  // as the session cookies are not passed along to axios from the req object. This is not
+  // a problem on the browser as cookies are added to every request automatically
+  const cookies = nextCookies(ctx)
+  const serializedCookies = R.pipe(
+    R.mapObjIndexed((val, key) => `${key}=${val};`),
+    R.values,
+    R.join(" ")
+  )(cookies)
 
-  return { company }
+  try {
+    const company_number = R.last(req.originalUrl.split("/"))
+
+    const res = await axios.get(
+      `${process.env.HOST}/api/get-company?company_number=${company_number}`,
+      {
+        headers: { Cookie: serializedCookies },
+      }
+    )
+
+    const {
+      data: { company },
+    } = res
+
+    const user = req.user
+
+    return { company, user }
+  } catch (err) {
+    console.error("Error in [company_number] getInitProps: ", err) //eslint-disable-line
+    return {}
+  }
 }
 
 export default Onboarding

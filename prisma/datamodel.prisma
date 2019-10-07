@@ -30,10 +30,11 @@ type User {
   employeeID: String
   verificationToken: VerificationToken @relation(onDelete: CASCADE)
   loan: Loan @relation(onDelete: CASCADE)
-  updatedAt: DateTime! @updatedAt
-  createdAt: DateTime! @createdAt
   mangoWalletId: String @unique
   mangoUserId: String @unique
+  paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 type VerificationToken {
@@ -51,6 +52,31 @@ type Loan {
   terms: Int!
   approved: Boolean! @default(value: false)
   agreementURL: String
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type PaymentRequest {
+  id: ID! @id
+  mangoPaymentID: String @unique
+  user: User! @relation(onDelete: SET_NULL)
+  childcareProvider: ChildcareProvider! @relation(onDelete: SET_NULL)
+  amountToPay: Float! 
+  consentToPay: Boolean! @default(value: false)
+  reference: String
+  expiresAt: DateTime
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type ChildcareProvider {
+  id: ID! @id
+  email: String! @unique
+  companyNumber: String! @unique
+  mangoLegalUserID: String @unique
+  approved: Boolean! @default(value: false)
+  paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)
+  expiresAt: DateTime
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }

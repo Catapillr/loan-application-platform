@@ -29,15 +29,16 @@ const Copy = styled.p.attrs({
 const Next = styled.button.attrs({
   className:
     "text-teal border border-teal rounded-full py-2 px-17 text-center block m-auto",
+  type: "button",
 })``
 
 const validation = Yup.object().shape({
-  email: Yup.string()
-    .email()
+  providerEmail: Yup.string()
+    .email("Please enter a valid email")
     .required("Required!"),
 })
 
-const Email = ({ incrementPage, company, Controls }) => (
+const Email = ({ incrementPage, company, Controls, submitForm, isValid }) => (
   <Container>
     <Controls />
     <Icon />
@@ -54,10 +55,12 @@ const Email = ({ incrementPage, company, Controls }) => (
     <Input
       name="providerEmail"
       component={TextInput}
-      className="w-full mt-10 mb-10"
+      className="w-full mt-10"
       placeholder="Provider's email address..."
     />
-    <Next onClick={incrementPage}>Next</Next>
+    <Next className="mt-10" onClick={isValid ? incrementPage : submitForm}>
+      Next
+    </Next>
   </Container>
 )
 

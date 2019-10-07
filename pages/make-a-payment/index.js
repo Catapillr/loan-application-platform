@@ -25,7 +25,7 @@ const Aside = styled.aside.attrs({
 })``
 
 const Tip = styled.aside.attrs({
-  className: "bg-white py-10 px-9 w-8/12",
+  className: "bg-white py-10 px-9 w-8/12 mt-27",
 })`
   height: fit-content;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
@@ -128,7 +128,7 @@ const Search = () => {
 
 const MakeAPayment = () => (
   <Container>
-    <Header />
+    <Header activeHref="/make-a-payment" />
     <Contents>
       <Main>
         <Title className="mb-12">Make a payment</Title>

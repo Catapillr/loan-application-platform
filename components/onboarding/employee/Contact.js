@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import axios from "axios"
 import { parsePhoneNumberFromString } from "libphonenumber-js"
 
-import Questions from "./Questions"
+import Questions from "../Questions"
 import { TextInput, SelectInput } from "../../Input"
 
 import progress4 from "../../../static/images/progress4.svg"
