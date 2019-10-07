@@ -25,10 +25,6 @@ const Title = styled.label.attrs({
   className: "mb-10 block ttu font-bold text-center font-lg",
 })``
 
-const Error = styled.p.attrs({
-  className: "text-red my-5d5",
-})``
-
 const Copy = styled.p.attrs({
   className: "text-center",
 })``
@@ -63,7 +59,7 @@ const Pay = ({
   incrementPage,
   setFieldValue,
   company,
-  values: { amountToPay, reference },
+  values: { amountToPay },
   Controls,
 }) => (
   <Container>

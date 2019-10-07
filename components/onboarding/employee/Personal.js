@@ -1,7 +1,7 @@
 import * as Yup from "yup"
 import moment from "moment"
 
-import Questions from "./Questions"
+import Questions from "../Questions"
 import { TextInput } from "../../Input"
 
 import progress3 from "../../../static/images/progress3.svg"

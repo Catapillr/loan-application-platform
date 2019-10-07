@@ -2,7 +2,6 @@ import * as Yup from "yup"
 import styled from "styled-components"
 import { Input, PriceInput, TextAreaInput, CheckboxInput } from "../../Input"
 
-import Pen from "../../../static/icons/pen.svg"
 import Nursery from "../../../static/icons/nursery.svg"
 
 const validation = Yup.object().shape({
@@ -44,15 +43,6 @@ const Submit = styled.button.attrs({
     "text-teal border border-teal rounded-full py-2 px-17 text-center block m-auto",
   type: "submit",
 })``
-
-const formatToCurrency = amount => {
-  const currency = new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: "GBP",
-  }).format(amount)
-
-  return currency !== "£NaN" ? currency : "£0.00"
-}
 
 const Summary = ({ values, company, Controls }) => (
   <Container>

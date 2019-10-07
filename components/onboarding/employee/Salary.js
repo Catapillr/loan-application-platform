@@ -1,6 +1,6 @@
 import * as Yup from "yup"
 
-import Questions from "./Questions"
+import Questions from "../Questions"
 import { NumberInput } from "../../../components/Input"
 
 import progress2 from "../../../static/images/progress2.svg"

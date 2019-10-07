@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import * as Yup from "yup"
 import styled from "styled-components"
 
-import Questions from "./Questions"
+import Questions from "../Questions"
 import { RangeInput, SelectInput, NumberInput } from "../../Input"
 
 import progress2 from "../../../static/images/progress2.svg"
