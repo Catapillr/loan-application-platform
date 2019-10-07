@@ -5,6 +5,7 @@ import axios from "axios"
 
 import Questions from "../Questions"
 import { TextInput, CheckboxInput } from "../../Input"
+import { USER } from "../../../utils/constants"
 
 import progress1 from "../../../static/images/progress1.svg"
 
@@ -21,7 +22,7 @@ const validation = Yup.object().shape({
 
 const doesEmailExist = async ({ email }) => {
   const res = await axios(
-    `${process.env.HOST}/api/does-email-exist?email=${email}`
+    `${process.env.HOST}/api/does-email-exist?email=${email}&accountType=${USER}`
   )
 
   const {

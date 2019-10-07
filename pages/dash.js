@@ -1,7 +1,7 @@
 // import Link from "next/link"
 import styled from "styled-components"
 
-import { NURSERY, CLUB } from "../components/constants"
+import { NURSERY, CLUB } from "../utils/constants"
 
 import Header from "../components/Header"
 import Footer from "../components/Footer"

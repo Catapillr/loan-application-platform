@@ -1,9 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
 import { prisma } from "../../prisma/generated/ts"
+import { USER, CHILDCAREPROVIDER } from "../../utils/constants"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const doesEmailExist = await prisma.$exists.user({
+  const accountTypeExists = params => {
+    switch (req.query.accountType as string) {
+      case USER:
+        return prisma.$exists.user(params)
+      case CHILDCAREPROVIDER:
+        return prisma.$exists.childcareProvider(params)
+    }
+  }
+
+  const doesEmailExist = await accountTypeExists({
     email: req.query.email as string,
   })
 

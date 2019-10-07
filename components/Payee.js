@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { NURSERY, CHILDMINDER, CLUB } from "../components/constants"
+import { NURSERY, CHILDMINDER, CLUB } from "../utils/constants"
 
 import nursery from "../static/icons/nursery.svg"
 import childminder from "../static/icons/childminder.svg"

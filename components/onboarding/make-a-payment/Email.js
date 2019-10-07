@@ -1,8 +1,23 @@
 import * as Yup from "yup"
 import styled from "styled-components"
+import axios from "axios"
+
+import { CHILDCAREPROVIDER } from "../../../utils/constants"
 import { Input, TextInput } from "../../Input"
 
 import Nursery from "../../../static/icons/nursery.svg"
+
+const doesEmailExist = async ({ email }) => {
+  const res = await axios(
+    `${process.env.HOST}/api/does-email-exist?email=${email}&accountType=${CHILDCAREPROVIDER}`
+  )
+
+  const {
+    data: { doesEmailExist },
+  } = res
+
+  return doesEmailExist
+}
 
 const Container = styled.section.attrs({
   className: "w-full block bg-white px-10 pb-10 pt-6",
@@ -38,6 +53,15 @@ const validation = Yup.object().shape({
     .required("Required!"),
 })
 
+const validateEmail = async value => {
+  let error
+  const emailExists = await doesEmailExist({ email: value })
+  if (emailExists) {
+    error = "This email already exists on our system"
+    return error
+  }
+}
+
 const Email = ({ incrementPage, company, Controls, submitForm, isValid }) => (
   <Container>
     <Controls />
@@ -57,6 +81,7 @@ const Email = ({ incrementPage, company, Controls, submitForm, isValid }) => (
       component={TextInput}
       className="w-full mt-10"
       placeholder="Provider's email address..."
+      validate={validateEmail}
     />
     <Next className="mt-10" onClick={isValid ? incrementPage : submitForm}>
       Next
