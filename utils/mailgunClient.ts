@@ -84,7 +84,7 @@ const sendEmployeePaymentNotification = ({ payment, user }) =>
   mailgunEmailTemplate({
     email: user.email,
     subject: `Your Catapillr loan has been paid into your account!`,
-    
+
     template: "employee-payment-notification",
     data: {
       "v:userFirstName": user.firstName,
@@ -103,6 +103,19 @@ const sendLoanTransferDetails = ({ email, BankDetails, WireReference }) =>
     },
   })
 
+const sendPaymentRequestDetails = ({ user, email, amountToPay, slug }) =>
+  mailgunEmailTemplate({
+    email,
+    subject: `${user.firstName} ${user.lastName} wants to pay you ${amountToPay}`,
+    template: "payment-request-details",
+    data: {
+      "v:slug": slug,
+      "v:userFirstName": user.firstName,
+      "v:userLastName": user.lastName,
+      "v:amountToPay": amountToPay,
+    },
+  })
+
 export {
   mailgunEmailTemplate,
   sendEmployeeEmailVerification,
@@ -111,4 +124,5 @@ export {
   sendIncorrectPaymentNotification,
   sendEmployerPaymentNotification,
   sendEmployeePaymentNotification,
+  sendPaymentRequestDetails,
 }
