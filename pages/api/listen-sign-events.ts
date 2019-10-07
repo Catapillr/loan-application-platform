@@ -9,11 +9,13 @@ import { prisma } from "../../prisma/generated/ts"
 import {
   sendEmployeeLoanApproval,
   sendLoanTransferDetails,
+  sendEmployeeApplicationCompleteConfirmation,
 } from "../../utils/mailgunClient"
 
 // Hellosign constants
 const Signed = "signed"
 const SignatureRequestSigned = "signature_request_signed"
+const AwaitingSignature = "awaiting_signature"
 const Employer = "Employer"
 const Employee = "Employee"
 const Natural = "NATURAL"
@@ -33,13 +35,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   form.parse(req, async (err, fields) => {
     if (err) {
-      return console.log("Listen for signEvent error", err) //eslint-disable-line no-console
+      return console.error("Listen for signEvent error", err) //eslint-disable-line no-console
     }
 
     const signEvent = JSON.parse(fields.json as string)
 
-    // TODO: check for event signature_request_all_signed
-    if (signEvent.event.event_type !== SignatureRequestSigned) return
+    if (signEvent.event.event_type !== SignatureRequestSigned) {
+      return res.status(200).send("Hello API Event Received")
+    }
 
     const getSignature = (role: Role) =>
       R.pipe(
@@ -48,22 +51,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         R.head
       )(signEvent)
 
-    const employerSignature = getSignature(Employer)
+    const employerSignatureInfo = getSignature(Employer)
+    const employeeSignatureInfo = getSignature(Employee)
 
-    // TODO: if above event check field for downloadable PDF so we can put that in loan table under agreementURL
-    if (employerSignature.status_code === Signed) {
-      const employeeSignature = getSignature(Employee)
-      const employeeEmail = employeeSignature.signer_email_address
-      const employerEmail = employerSignature.signer_email_address
+    const employeeEmail = employeeSignatureInfo.signer_email_address
+    const employerEmail = employerSignatureInfo.signer_email_address
 
-      // 1. email to employee
+    if (
+      employeeSignatureInfo.status_code === Signed &&
+      employerSignatureInfo.status_code === AwaitingSignature
+    ) {
+      sendEmployeeApplicationCompleteConfirmation(employeeEmail)
+      return res.status(200).send("Hello API Event Received")
+    }
+
+    if (employerSignatureInfo.status_code === Signed) {
       sendEmployeeLoanApproval(employeeEmail)
-
-      // 2. create employee e-wallet
 
       // TODO: maybe add https://github.com/firede/ts-transform-graphql-tag
       try {
-        const employeeWithLoanFragment = gql`
+        const employee: any = await prisma.user({
+          email: employeeEmail,
+        }).$fragment(gql`
           fragment EmployeeWithLoan on User {
             firstName
             lastName
@@ -75,13 +84,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               agreementURL
             }
           }
-        `
-
-        const employee: any = await prisma
-          .user({
-            email: employeeEmail,
-          })
-          .$fragment(employeeWithLoanFragment)
+        `)
 
         const { Id: newMangoUserId } = await mango.Users.create({
           FirstName: employee.firstName,
@@ -97,16 +100,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Owners: [newMangoUserId],
           Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
           Currency: GBP,
-        })
-
-        await prisma.updateUser({
-          data: {
-            mangoWalletId: newWalletId as string,
-            mangoUserId: newMangoUserId as string,
-          },
-          where: {
-            email: employeeEmail as string,
-          },
         })
 
         const { WireReference, BankAccount } = await mango.PayIns.create({
@@ -125,19 +118,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })
 
-        // 3. send e-wallet account details to employer
+        await prisma.updateUser({
+          data: {
+            mangoWalletId: newWalletId as string,
+            mangoUserId: newMangoUserId as string,
+          },
+          where: {
+            email: employeeEmail as string,
+          },
+        })
+
         sendLoanTransferDetails({
           email: employerEmail,
           BankDetails: JSON.stringify(BankAccount, undefined, 2),
           WireReference,
         })
+
+        return res.status(200).send("Hello API Event Received")
       } catch (err) {
         console.error("Error with creating mango payIn instance: ", err)
       }
     }
   })
-
-  res.status(200).send("Hello API Event Received")
 }
 
 export const config = {

@@ -37,6 +37,14 @@ const sendEmployeeEmailVerification = ({ email, random }) =>
     },
   })
 
+const sendEmployeeApplicationCompleteConfirmation = (email: string) =>
+  mailgunEmailTemplate({
+    email,
+    subject: "Your application is complete",
+    template: "employee-application-complete",
+    data: {},
+  })
+
 const sendEmployeeLoanApproval = (email: string) =>
   mailgunEmailTemplate({
     email,
@@ -125,4 +133,5 @@ export {
   sendEmployerPaymentNotification,
   sendEmployeePaymentNotification,
   sendPaymentRequestDetails,
+  sendEmployeeApplicationCompleteConfirmation,
 }
