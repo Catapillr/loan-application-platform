@@ -19,7 +19,7 @@ const seedDatabase = async () => {
       maxSalaryPercentage: 25,
       payrollEmail: "j@yallacooperative.com",
       signerEmail: "j@yallacooperative.com",
-      address: "149 Fonthill Road, London, N4 3HF"
+      address: "149 Fonthill Road, London, N4 3HF",
     })
 
     const infact = await prisma.createEmployer({
@@ -32,7 +32,7 @@ const seedDatabase = async () => {
       payrollEmail: "hello@infactcoop.com",
       signerEmail: "hello@infactcoop.com",
       address: "149 Fonthill Road, London, N4 3HF",
-      companyNumber: "11912270"
+      companyNumber: "11912270",
     })
 
     const ivan = await prisma.createUser({
@@ -56,9 +56,30 @@ const seedDatabase = async () => {
       },
     })
 
+    const ivanLittleOnes = await prisma.createPaymentRequest({
+      user: {
+        connect: {
+          email: "ivan@infactcoop.com",
+        },
+      },
+      childcareProvider: {
+        create: {
+          email: "suzanne@littleonesnursery.org.uk",
+          companyNumber: "11790309",
+          approved: false,
+          expiresAt: "2019-11-22T13:57:31.123Z",
+        },
+      },
+      amountToPay: 123330,
+      consentToPay: true,
+      reference: "Little ones after school club",
+      expiresAt: "2019-11-22T13:57:31.123Z",
+    })
+
     console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(infact, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(ivan, undefined, 2)) //eslint-disable-line no-console
+    console.log(JSON.stringify(ivanLittleOnes, undefined, 2)) //eslint-disable-line no-console
   } catch (e) {
     console.log(JSON.stringify(e, undefined, 2)) //eslint-disable-line no-console
   }
