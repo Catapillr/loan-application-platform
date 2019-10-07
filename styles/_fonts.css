@@ -128,12 +128,12 @@
     font-size: theme("fontSize.3xl");
     line-height: theme("lineHeight.3xl");
   }
-  .font-4xl {
-    font-size: theme("fontSize.4xl");
-    line-height: theme("lineHeight.4xl");
+  .font-subheader {
+    font-size: theme("fontSize.subheader");
+    line-height: theme("lineHeight.subheader");
   }
-  .font-5xl {
-    font-size: theme("fontSize.5xl");
-    line-height: theme("lineHeight.5xl");
+  .font-header {
+    font-size: theme("fontSize.header");
+    line-height: theme("lineHeight.header");
   }
 }
