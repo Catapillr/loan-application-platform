@@ -13,6 +13,7 @@ import * as Steps from "../../components/onboarding/make-a-payment/stepNames"
 import Email from "../../components/onboarding/make-a-payment/Email"
 import Pay from "../../components/onboarding/make-a-payment/Pay"
 import Summary from "../../components/onboarding/make-a-payment/Summary"
+import Confirmation from "../../components/onboarding/make-a-payment/Confirmation"
 
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
@@ -24,7 +25,12 @@ const initialValues = {
   consentToPay: false,
 }
 
-const onSubmit = ({ incrementPage, company, user }) => async values => {
+const onSubmit = ({
+  incrementPage,
+  company,
+  user,
+  setFormCompleted,
+}) => async values => {
   const requestBody = {
     childcareProvider: {
       providerEmail: values.providerEmail,
@@ -44,6 +50,7 @@ const onSubmit = ({ incrementPage, company, user }) => async values => {
       requestBody
     )
     incrementPage()
+    setFormCompleted(true)
   } catch (e) {
     //eslint-disable-next-line no-console
     console.error("Loan agreement sending error", e)
@@ -52,7 +59,7 @@ const onSubmit = ({ incrementPage, company, user }) => async values => {
 
 const Wizard = ({ children, company, user }) => {
   const [page, setPage] = useState(Steps.Email)
-  // const [formCompleted, setFormCompleted] = useState(false)
+  const [formCompleted, setFormCompleted] = useState(false)
   const steps = React.Children.toArray(children)
 
   const pages = steps.map(step => step.type.componentName)
@@ -90,7 +97,12 @@ const Wizard = ({ children, company, user }) => {
         {...{
           initialValues,
           validationSchema,
-          onSubmit: onSubmit({ incrementPage, company, user }),
+          onSubmit: onSubmit({
+            incrementPage,
+            company,
+            user,
+            setFormCompleted,
+          }),
           enableReinitialize: false,
         }}
       >
@@ -104,9 +116,15 @@ const Wizard = ({ children, company, user }) => {
           setFieldValue,
         }) => {
           return (
-            <Contents>
+            <Contents formCompleted={formCompleted}>
               <Main>
-                <Title className="mb-12">Make a payment</Title>
+                <Title
+                  className={`mb-12 ${
+                    formCompleted ? "text-center" : "text-left"
+                  }`}
+                >
+                  {formCompleted ? "Thank you!" : "Make a payment"}
+                </Title>
 
                 <Form>
                   <RenderStep
@@ -129,24 +147,27 @@ const Wizard = ({ children, company, user }) => {
                   ></RenderStep>
                 </Form>
               </Main>
-              <Aside>
-                <Tip>
-                  <h2 className="font-bold mb-6">How does this work?</h2>
-                  <p className="mb-6">
-                    Unfortunately, the childcare provider you selected is not
-                    yet on our database.
-                  </p>
-                  <p className="mb-6">
-                    The good news is that we can send them an email invite with
-                    a magic link containing the amount you would like to pay.
-                  </p>
+              {!formCompleted && (
+                <Aside>
+                  <Tip>
+                    <h2 className="font-bold mb-6">How does this work?</h2>
+                    <p className="mb-6">
+                      Unfortunately, the childcare provider you selected is not
+                      yet on our database.
+                    </p>
+                    <p className="mb-6">
+                      The good news is that we can send them an email invite
+                      with a magic link containing the amount you would like to
+                      pay.
+                    </p>
 
-                  <p className="mb-6">
-                    As soon as they sign up, they will be able to easily claim
-                    the amount, and you will be notified!
-                  </p>
-                </Tip>
-              </Aside>
+                    <p className="mb-6">
+                      As soon as they sign up, they will be able to easily claim
+                      the amount, and you will be notified!
+                    </p>
+                  </Tip>
+                </Aside>
+              )}
             </Contents>
           )
         }}
@@ -171,6 +192,7 @@ const Onboarding = ({ company, user }) => {
       <Wizard {...{ company, user }}>
         <Pay />
         <Summary />
+        <Confirmation />
       </Wizard>
     )
   }
@@ -180,13 +202,18 @@ const Onboarding = ({ company, user }) => {
       <Email />
       <Pay />
       <Summary />
+      <Confirmation />
     </Wizard>
   )
 }
 
-const Contents = styled.section.attrs({
-  className: "flex flex-grow justify-between pl-43 pr-12 py-18 h-full",
-})``
+const Contents = styled.section.attrs(({ formCompleted }) => ({
+  className: `flex ${
+    formCompleted
+      ? "justify-center items-center px-43"
+      : "flex-grow justify-between pl-43 pr-12"
+  } py-18 h-full`,
+}))``
 
 const Main = styled.main.attrs({
   className: "w-6/12",

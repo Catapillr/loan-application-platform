@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>circle-03</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Catapillr-app" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="loader" transform="translate(-645.000000, -457.000000)" stroke="#32334F" stroke-width="9">
+            <g id="Group-11">
+                <g id="circle-03" transform="translate(645.000000, 457.000000)">
+                    <g id="Group" transform="translate(75.000000, 75.000000) rotate(-2.499326) translate(-75.000000, -75.000000) translate(4.687500, 4.687500)">
+                        <circle id="Oval" opacity="0.4" cx="70.3125" cy="70.3125" r="70.3125"></circle>
+                        <path d="M70.3125,0 C109.145016,0 140.625,31.4799844 140.625,70.3125" id="Path"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
