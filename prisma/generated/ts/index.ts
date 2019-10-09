@@ -361,6 +361,8 @@ export type UserOrderByInput =
   | "annualSalary_DESC"
   | "employeeID_ASC"
   | "employeeID_DESC"
+  | "gdprConsent_ASC"
+  | "gdprConsent_DESC"
   | "mangoWalletId_ASC"
   | "mangoWalletId_DESC"
   | "mangoUserId_ASC"
@@ -594,6 +596,7 @@ export interface UserCreateWithoutPaymentRequestsInput {
   annualSalary: Float;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
+  gdprConsent: Boolean;
   loan?: Maybe<LoanCreateOneInput>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
@@ -873,6 +876,7 @@ export interface UserUpdateManyMutationInput {
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Float>;
   employeeID?: Maybe<String>;
+  gdprConsent?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
 }
@@ -917,6 +921,7 @@ export interface UserCreateInput {
   annualSalary: Float;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
+  gdprConsent: Boolean;
   loan?: Maybe<LoanCreateOneInput>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
@@ -1026,6 +1031,7 @@ export interface UserUpdateWithoutPaymentRequestsDataInput {
   annualSalary?: Maybe<Float>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
+  gdprConsent?: Maybe<Boolean>;
   loan?: Maybe<LoanUpdateOneInput>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
@@ -1141,6 +1147,7 @@ export interface UserUpdateWithoutEmployerDataInput {
   annualSalary?: Maybe<Float>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
+  gdprConsent?: Maybe<Boolean>;
   loan?: Maybe<LoanUpdateOneInput>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
@@ -1409,6 +1416,8 @@ export interface UserWhereInput {
   employeeID_ends_with?: Maybe<String>;
   employeeID_not_ends_with?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenWhereInput>;
+  gdprConsent?: Maybe<Boolean>;
+  gdprConsent_not?: Maybe<Boolean>;
   loan?: Maybe<LoanWhereInput>;
   mangoWalletId?: Maybe<String>;
   mangoWalletId_not?: Maybe<String>;
@@ -1480,6 +1489,7 @@ export interface UserUpdateInput {
   annualSalary?: Maybe<Float>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
+  gdprConsent?: Maybe<Boolean>;
   loan?: Maybe<LoanUpdateOneInput>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
@@ -1609,6 +1619,7 @@ export interface UserUpdateManyDataInput {
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Float>;
   employeeID?: Maybe<String>;
+  gdprConsent?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
 }
@@ -1838,6 +1849,8 @@ export interface UserScalarWhereInput {
   employeeID_not_starts_with?: Maybe<String>;
   employeeID_ends_with?: Maybe<String>;
   employeeID_not_ends_with?: Maybe<String>;
+  gdprConsent?: Maybe<Boolean>;
+  gdprConsent_not?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
   mangoWalletId_not?: Maybe<String>;
   mangoWalletId_in?: Maybe<String[] | String>;
@@ -1900,6 +1913,7 @@ export interface UserCreateWithoutEmployerInput {
   annualSalary: Float;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
+  gdprConsent: Boolean;
   loan?: Maybe<LoanCreateOneInput>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
@@ -2299,6 +2313,7 @@ export interface UserPreviousValues {
   employmentStartDate: DateTimeOutput;
   annualSalary: Float;
   employeeID?: String;
+  gdprConsent: Boolean;
   mangoWalletId?: String;
   mangoUserId?: String;
   updatedAt: DateTimeOutput;
@@ -2319,6 +2334,7 @@ export interface UserPreviousValuesPromise
   employmentStartDate: () => Promise<DateTimeOutput>;
   annualSalary: () => Promise<Float>;
   employeeID: () => Promise<String>;
+  gdprConsent: () => Promise<Boolean>;
   mangoWalletId: () => Promise<String>;
   mangoUserId: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -2339,6 +2355,7 @@ export interface UserPreviousValuesSubscription
   employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   annualSalary: () => Promise<AsyncIterator<Float>>;
   employeeID: () => Promise<AsyncIterator<String>>;
+  gdprConsent: () => Promise<AsyncIterator<Boolean>>;
   mangoWalletId: () => Promise<AsyncIterator<String>>;
   mangoUserId: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -3111,6 +3128,7 @@ export interface User {
   employmentStartDate: DateTimeOutput;
   annualSalary: Float;
   employeeID?: String;
+  gdprConsent: Boolean;
   mangoWalletId?: String;
   mangoUserId?: String;
   updatedAt: DateTimeOutput;
@@ -3131,6 +3149,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   annualSalary: () => Promise<Float>;
   employeeID: () => Promise<String>;
   verificationToken: <T = VerificationTokenPromise>() => T;
+  gdprConsent: () => Promise<Boolean>;
   loan: <T = LoanPromise>() => T;
   mangoWalletId: () => Promise<String>;
   mangoUserId: () => Promise<String>;
@@ -3163,6 +3182,7 @@ export interface UserSubscription
   annualSalary: () => Promise<AsyncIterator<Float>>;
   employeeID: () => Promise<AsyncIterator<String>>;
   verificationToken: <T = VerificationTokenSubscription>() => T;
+  gdprConsent: () => Promise<AsyncIterator<Boolean>>;
   loan: <T = LoanSubscription>() => T;
   mangoWalletId: () => Promise<AsyncIterator<String>>;
   mangoUserId: () => Promise<AsyncIterator<String>>;
@@ -3197,6 +3217,7 @@ export interface UserNullablePromise
   annualSalary: () => Promise<Float>;
   employeeID: () => Promise<String>;
   verificationToken: <T = VerificationTokenPromise>() => T;
+  gdprConsent: () => Promise<Boolean>;
   loan: <T = LoanPromise>() => T;
   mangoWalletId: () => Promise<String>;
   mangoUserId: () => Promise<String>;

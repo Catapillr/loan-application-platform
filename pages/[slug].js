@@ -45,6 +45,7 @@ import orangeLogo from "../static/logo_orange.svg"
 //   employeeID: "8sdj98sd",
 //   phoneNumber: "07443998236",
 //   confirmation: false,
+//   gdprConsent: false
 // }
 
 const initialValues = {
@@ -62,6 +63,7 @@ const initialValues = {
   employeeID: "",
   phoneNumber: "",
   confirmation: false,
+  gdprConsent: false,
 }
 
 const Previous = ({ decrementPage, hidePrevious }) => (
@@ -219,7 +221,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
 }
 
 const Wizard = ({ children, employer }) => {
-  const [page, setPage] = useState(Steps.Welcome)
+  const [page, setPage] = useState(Steps.Summary)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
@@ -359,6 +361,7 @@ const Container = styled.div.attrs({
   className: "bg-white flex flex-col items-center justify-between",
 })`
   width: 90%;
+  margin: 60px 0 60px 0;
   min-height: -webkit-fill-available;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `

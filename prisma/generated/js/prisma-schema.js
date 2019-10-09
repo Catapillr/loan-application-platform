@@ -1276,6 +1276,7 @@ type User {
   annualSalary: Float!
   employeeID: String
   verificationToken: VerificationToken
+  gdprConsent: Boolean!
   loan: Loan
   mangoWalletId: String
   mangoUserId: String
@@ -1304,6 +1305,7 @@ input UserCreateInput {
   annualSalary: Float!
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
+  gdprConsent: Boolean!
   loan: LoanCreateOneInput
   mangoWalletId: String
   mangoUserId: String
@@ -1333,6 +1335,7 @@ input UserCreateWithoutEmployerInput {
   annualSalary: Float!
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
+  gdprConsent: Boolean!
   loan: LoanCreateOneInput
   mangoWalletId: String
   mangoUserId: String
@@ -1353,6 +1356,7 @@ input UserCreateWithoutPaymentRequestsInput {
   annualSalary: Float!
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
+  gdprConsent: Boolean!
   loan: LoanCreateOneInput
   mangoWalletId: String
   mangoUserId: String
@@ -1386,6 +1390,8 @@ enum UserOrderByInput {
   annualSalary_DESC
   employeeID_ASC
   employeeID_DESC
+  gdprConsent_ASC
+  gdprConsent_DESC
   mangoWalletId_ASC
   mangoWalletId_DESC
   mangoUserId_ASC
@@ -1408,6 +1414,7 @@ type UserPreviousValues {
   employmentStartDate: DateTime!
   annualSalary: Float!
   employeeID: String
+  gdprConsent: Boolean!
   mangoWalletId: String
   mangoUserId: String
   updatedAt: DateTime!
@@ -1539,6 +1546,8 @@ input UserScalarWhereInput {
   employeeID_not_starts_with: String
   employeeID_ends_with: String
   employeeID_not_ends_with: String
+  gdprConsent: Boolean
+  gdprConsent_not: Boolean
   mangoWalletId: String
   mangoWalletId_not: String
   mangoWalletId_in: [String!]
@@ -1619,6 +1628,7 @@ input UserUpdateInput {
   annualSalary: Float
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
+  gdprConsent: Boolean
   loan: LoanUpdateOneInput
   mangoWalletId: String
   mangoUserId: String
@@ -1636,6 +1646,7 @@ input UserUpdateManyDataInput {
   employmentStartDate: DateTime
   annualSalary: Float
   employeeID: String
+  gdprConsent: Boolean
   mangoWalletId: String
   mangoUserId: String
 }
@@ -1651,6 +1662,7 @@ input UserUpdateManyMutationInput {
   employmentStartDate: DateTime
   annualSalary: Float
   employeeID: String
+  gdprConsent: Boolean
   mangoWalletId: String
   mangoUserId: String
 }
@@ -1691,6 +1703,7 @@ input UserUpdateWithoutEmployerDataInput {
   annualSalary: Float
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
+  gdprConsent: Boolean
   loan: LoanUpdateOneInput
   mangoWalletId: String
   mangoUserId: String
@@ -1710,6 +1723,7 @@ input UserUpdateWithoutPaymentRequestsDataInput {
   annualSalary: Float
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
+  gdprConsent: Boolean
   loan: LoanUpdateOneInput
   mangoWalletId: String
   mangoUserId: String
@@ -1858,6 +1872,8 @@ input UserWhereInput {
   employeeID_ends_with: String
   employeeID_not_ends_with: String
   verificationToken: VerificationTokenWhereInput
+  gdprConsent: Boolean
+  gdprConsent_not: Boolean
   loan: LoanWhereInput
   mangoWalletId: String
   mangoWalletId_not: String

@@ -54,6 +54,7 @@ const seedDatabase = async () => {
           approved: true,
         },
       },
+      gdprConsent: true
     })
 
     const ivanLittleOnes = await prisma.createPaymentRequest({
