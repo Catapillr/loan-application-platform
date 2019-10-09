@@ -1,5 +1,4 @@
 import { ErrorMessage, Field } from "formik"
-import Link from "next/link"
 import styled from "styled-components"
 import TextArea from "react-autosize-textarea"
 import * as R from "ramda"
