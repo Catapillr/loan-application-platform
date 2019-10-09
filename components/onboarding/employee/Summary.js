@@ -137,16 +137,6 @@ const Summary = ({ values, setPage }) => {
           )
         })}
         <Divider />
-        {/* <div className="flex">
-          <img className="mr-4" src={tealTick} alt="tick" />
-          <div>
-            <p>
-              By submitting you are confirming that, to the best of your
-              knowledge, the details you are providing are correct.
-            </p>
-            <p className="text-teal underline">I've got some questions</p>
-          </div>
-        </div> */}
         <Questions
           formWidth="100"
           questions={[
@@ -158,7 +148,7 @@ const Summary = ({ values, setPage }) => {
               className: "",
               type: "checkbox",
               component: CheckboxInput,
-              link: { text: "I've got some questions", href: "/faq" },
+              link: { text: "I've got some questions", href: "faq" },
             },
             {
               text:
@@ -168,7 +158,7 @@ const Summary = ({ values, setPage }) => {
               className: "",
               type: "checkbox",
               component: CheckboxInput,
-              link: { text: "See privacy policy", href: "/privacy" },
+              link: { text: "See privacy policy", href: "privacy" },
             },
           ]}
         />

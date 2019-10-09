@@ -240,9 +240,13 @@ const LabelAndLink = ({ name, link, text }) => (
       {text}
     </Label>
     {link && (
-      <Link href={link.href}>
+      <a
+        href={`${process.env.HOST}/${link.href}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <span className="text-teal underline mb-3"> {link.text}</span>
-      </Link>
+      </a>
     )}
   </div>
 )
