@@ -19,6 +19,10 @@ type AggregatePaymentRequest {
   count: Int!
 }
 
+type AggregateSuffix {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -270,7 +274,7 @@ type Employer {
   address: String!
   companyNumber: String
   user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  emailSuffix: String!
+  emailSuffixes(where: SuffixWhereInput, orderBy: SuffixOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Suffix!]
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
@@ -293,7 +297,7 @@ input EmployerCreateInput {
   address: String!
   companyNumber: String
   user: UserCreateManyWithoutEmployerInput
-  emailSuffix: String!
+  emailSuffixes: SuffixCreateManyWithoutEmployerInput
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
@@ -301,9 +305,28 @@ input EmployerCreateInput {
   signerEmail: String!
 }
 
+input EmployerCreateOneWithoutEmailSuffixesInput {
+  create: EmployerCreateWithoutEmailSuffixesInput
+  connect: EmployerWhereUniqueInput
+}
+
 input EmployerCreateOneWithoutUserInput {
   create: EmployerCreateWithoutUserInput
   connect: EmployerWhereUniqueInput
+}
+
+input EmployerCreateWithoutEmailSuffixesInput {
+  id: ID
+  name: String!
+  slug: String!
+  address: String!
+  companyNumber: String
+  user: UserCreateManyWithoutEmployerInput
+  maximumAmount: Float!
+  minimumServiceLength: Int!
+  maxSalaryPercentage: Float!
+  payrollEmail: String!
+  signerEmail: String!
 }
 
 input EmployerCreateWithoutUserInput {
@@ -312,7 +335,7 @@ input EmployerCreateWithoutUserInput {
   slug: String!
   address: String!
   companyNumber: String
-  emailSuffix: String!
+  emailSuffixes: SuffixCreateManyWithoutEmployerInput
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
@@ -336,8 +359,6 @@ enum EmployerOrderByInput {
   address_DESC
   companyNumber_ASC
   companyNumber_DESC
-  emailSuffix_ASC
-  emailSuffix_DESC
   maximumAmount_ASC
   maximumAmount_DESC
   minimumServiceLength_ASC
@@ -360,7 +381,6 @@ type EmployerPreviousValues {
   slug: String!
   address: String!
   companyNumber: String
-  emailSuffix: String!
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
@@ -394,7 +414,7 @@ input EmployerUpdateInput {
   address: String
   companyNumber: String
   user: UserUpdateManyWithoutEmployerInput
-  emailSuffix: String
+  emailSuffixes: SuffixUpdateManyWithoutEmployerInput
   maximumAmount: Float
   minimumServiceLength: Int
   maxSalaryPercentage: Float
@@ -407,12 +427,18 @@ input EmployerUpdateManyMutationInput {
   slug: String
   address: String
   companyNumber: String
-  emailSuffix: String
   maximumAmount: Float
   minimumServiceLength: Int
   maxSalaryPercentage: Float
   payrollEmail: String
   signerEmail: String
+}
+
+input EmployerUpdateOneRequiredWithoutEmailSuffixesInput {
+  create: EmployerCreateWithoutEmailSuffixesInput
+  update: EmployerUpdateWithoutEmailSuffixesDataInput
+  upsert: EmployerUpsertWithoutEmailSuffixesInput
+  connect: EmployerWhereUniqueInput
 }
 
 input EmployerUpdateOneRequiredWithoutUserInput {
@@ -422,17 +448,35 @@ input EmployerUpdateOneRequiredWithoutUserInput {
   connect: EmployerWhereUniqueInput
 }
 
-input EmployerUpdateWithoutUserDataInput {
+input EmployerUpdateWithoutEmailSuffixesDataInput {
   name: String
   slug: String
   address: String
   companyNumber: String
-  emailSuffix: String
+  user: UserUpdateManyWithoutEmployerInput
   maximumAmount: Float
   minimumServiceLength: Int
   maxSalaryPercentage: Float
   payrollEmail: String
   signerEmail: String
+}
+
+input EmployerUpdateWithoutUserDataInput {
+  name: String
+  slug: String
+  address: String
+  companyNumber: String
+  emailSuffixes: SuffixUpdateManyWithoutEmployerInput
+  maximumAmount: Float
+  minimumServiceLength: Int
+  maxSalaryPercentage: Float
+  payrollEmail: String
+  signerEmail: String
+}
+
+input EmployerUpsertWithoutEmailSuffixesInput {
+  update: EmployerUpdateWithoutEmailSuffixesDataInput!
+  create: EmployerCreateWithoutEmailSuffixesInput!
 }
 
 input EmployerUpsertWithoutUserInput {
@@ -514,20 +558,9 @@ input EmployerWhereInput {
   user_every: UserWhereInput
   user_some: UserWhereInput
   user_none: UserWhereInput
-  emailSuffix: String
-  emailSuffix_not: String
-  emailSuffix_in: [String!]
-  emailSuffix_not_in: [String!]
-  emailSuffix_lt: String
-  emailSuffix_lte: String
-  emailSuffix_gt: String
-  emailSuffix_gte: String
-  emailSuffix_contains: String
-  emailSuffix_not_contains: String
-  emailSuffix_starts_with: String
-  emailSuffix_not_starts_with: String
-  emailSuffix_ends_with: String
-  emailSuffix_not_ends_with: String
+  emailSuffixes_every: SuffixWhereInput
+  emailSuffixes_some: SuffixWhereInput
+  emailSuffixes_none: SuffixWhereInput
   maximumAmount: Float
   maximumAmount_not: Float
   maximumAmount_in: [Float!]
@@ -605,7 +638,6 @@ input EmployerWhereUniqueInput {
   id: ID
   slug: String
   companyNumber: String
-  emailSuffix: String
 }
 
 type Loan {
@@ -821,6 +853,12 @@ type Mutation {
   upsertPaymentRequest(where: PaymentRequestWhereUniqueInput!, create: PaymentRequestCreateInput!, update: PaymentRequestUpdateInput!): PaymentRequest!
   deletePaymentRequest(where: PaymentRequestWhereUniqueInput!): PaymentRequest
   deleteManyPaymentRequests(where: PaymentRequestWhereInput): BatchPayload!
+  createSuffix(data: SuffixCreateInput!): Suffix!
+  updateSuffix(data: SuffixUpdateInput!, where: SuffixWhereUniqueInput!): Suffix
+  updateManySuffixes(data: SuffixUpdateManyMutationInput!, where: SuffixWhereInput): BatchPayload!
+  upsertSuffix(where: SuffixWhereUniqueInput!, create: SuffixCreateInput!, update: SuffixUpdateInput!): Suffix!
+  deleteSuffix(where: SuffixWhereUniqueInput!): Suffix
+  deleteManySuffixes(where: SuffixWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -1244,6 +1282,9 @@ type Query {
   paymentRequest(where: PaymentRequestWhereUniqueInput!): PaymentRequest
   paymentRequests(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PaymentRequest]!
   paymentRequestsConnection(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentRequestConnection!
+  suffix(where: SuffixWhereUniqueInput!): Suffix
+  suffixes(where: SuffixWhereInput, orderBy: SuffixOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Suffix]!
+  suffixesConnection(where: SuffixWhereInput, orderBy: SuffixOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SuffixConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -1258,8 +1299,191 @@ type Subscription {
   employer(where: EmployerSubscriptionWhereInput): EmployerSubscriptionPayload
   loan(where: LoanSubscriptionWhereInput): LoanSubscriptionPayload
   paymentRequest(where: PaymentRequestSubscriptionWhereInput): PaymentRequestSubscriptionPayload
+  suffix(where: SuffixSubscriptionWhereInput): SuffixSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   verificationToken(where: VerificationTokenSubscriptionWhereInput): VerificationTokenSubscriptionPayload
+}
+
+type Suffix {
+  id: ID!
+  domain: String!
+  employer: Employer!
+}
+
+type SuffixConnection {
+  pageInfo: PageInfo!
+  edges: [SuffixEdge]!
+  aggregate: AggregateSuffix!
+}
+
+input SuffixCreateInput {
+  id: ID
+  domain: String!
+  employer: EmployerCreateOneWithoutEmailSuffixesInput!
+}
+
+input SuffixCreateManyWithoutEmployerInput {
+  create: [SuffixCreateWithoutEmployerInput!]
+  connect: [SuffixWhereUniqueInput!]
+}
+
+input SuffixCreateWithoutEmployerInput {
+  id: ID
+  domain: String!
+}
+
+type SuffixEdge {
+  node: Suffix!
+  cursor: String!
+}
+
+enum SuffixOrderByInput {
+  id_ASC
+  id_DESC
+  domain_ASC
+  domain_DESC
+}
+
+type SuffixPreviousValues {
+  id: ID!
+  domain: String!
+}
+
+input SuffixScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  domain: String
+  domain_not: String
+  domain_in: [String!]
+  domain_not_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_gt: String
+  domain_gte: String
+  domain_contains: String
+  domain_not_contains: String
+  domain_starts_with: String
+  domain_not_starts_with: String
+  domain_ends_with: String
+  domain_not_ends_with: String
+  AND: [SuffixScalarWhereInput!]
+  OR: [SuffixScalarWhereInput!]
+  NOT: [SuffixScalarWhereInput!]
+}
+
+type SuffixSubscriptionPayload {
+  mutation: MutationType!
+  node: Suffix
+  updatedFields: [String!]
+  previousValues: SuffixPreviousValues
+}
+
+input SuffixSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SuffixWhereInput
+  AND: [SuffixSubscriptionWhereInput!]
+  OR: [SuffixSubscriptionWhereInput!]
+  NOT: [SuffixSubscriptionWhereInput!]
+}
+
+input SuffixUpdateInput {
+  domain: String
+  employer: EmployerUpdateOneRequiredWithoutEmailSuffixesInput
+}
+
+input SuffixUpdateManyDataInput {
+  domain: String
+}
+
+input SuffixUpdateManyMutationInput {
+  domain: String
+}
+
+input SuffixUpdateManyWithoutEmployerInput {
+  create: [SuffixCreateWithoutEmployerInput!]
+  delete: [SuffixWhereUniqueInput!]
+  connect: [SuffixWhereUniqueInput!]
+  set: [SuffixWhereUniqueInput!]
+  disconnect: [SuffixWhereUniqueInput!]
+  update: [SuffixUpdateWithWhereUniqueWithoutEmployerInput!]
+  upsert: [SuffixUpsertWithWhereUniqueWithoutEmployerInput!]
+  deleteMany: [SuffixScalarWhereInput!]
+  updateMany: [SuffixUpdateManyWithWhereNestedInput!]
+}
+
+input SuffixUpdateManyWithWhereNestedInput {
+  where: SuffixScalarWhereInput!
+  data: SuffixUpdateManyDataInput!
+}
+
+input SuffixUpdateWithoutEmployerDataInput {
+  domain: String
+}
+
+input SuffixUpdateWithWhereUniqueWithoutEmployerInput {
+  where: SuffixWhereUniqueInput!
+  data: SuffixUpdateWithoutEmployerDataInput!
+}
+
+input SuffixUpsertWithWhereUniqueWithoutEmployerInput {
+  where: SuffixWhereUniqueInput!
+  update: SuffixUpdateWithoutEmployerDataInput!
+  create: SuffixCreateWithoutEmployerInput!
+}
+
+input SuffixWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  domain: String
+  domain_not: String
+  domain_in: [String!]
+  domain_not_in: [String!]
+  domain_lt: String
+  domain_lte: String
+  domain_gt: String
+  domain_gte: String
+  domain_contains: String
+  domain_not_contains: String
+  domain_starts_with: String
+  domain_not_starts_with: String
+  domain_ends_with: String
+  domain_not_ends_with: String
+  employer: EmployerWhereInput
+  AND: [SuffixWhereInput!]
+  OR: [SuffixWhereInput!]
+  NOT: [SuffixWhereInput!]
+}
+
+input SuffixWhereUniqueInput {
+  id: ID
+  domain: String
 }
 
 type User {

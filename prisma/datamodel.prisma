@@ -5,7 +5,7 @@ type Employer {
   address: String!
   companyNumber: String @unique
   user: [User!]
-  emailSuffix: String! @unique
+  emailSuffixes: [Suffix!] @unique @relation(onDelete: CASCADE)
   maximumAmount: Float!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
@@ -13,6 +13,12 @@ type Employer {
   signerEmail: String!
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
+}
+
+type Suffix {
+  id: ID! @id
+  domain: String! @unique
+  employer: Employer!
 }
 
 type User {
