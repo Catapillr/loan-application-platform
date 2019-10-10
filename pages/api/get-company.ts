@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import axios from "axios"
-import * as R from "ramda"
+
+import { prisma } from "../../prisma/generated/ts"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -15,7 +16,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     )
 
-    res.status(200).json({ company })
+    const catapillrChildcareProvider = await prisma.childcareProvider({
+      companyNumber: company_number as string,
+    })
+
+    res.json({ company, catapillrChildcareProvider })
   } catch (e) {
     console.log("There was an error retrieving Companies House data: ", e) //eslint-disable-line no-console
   }

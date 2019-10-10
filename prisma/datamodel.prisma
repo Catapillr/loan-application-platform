@@ -61,7 +61,7 @@ type PaymentRequest {
   mangoPaymentID: String @unique
   user: User! @relation(onDelete: SET_NULL)
   childcareProvider: ChildcareProvider! @relation(onDelete: SET_NULL)
-  amountToPay: Float! 
+  amountToPay: Float!
   consentToPay: Boolean! @default(value: false)
   reference: String
   expiresAt: DateTime
@@ -74,6 +74,8 @@ type ChildcareProvider {
   email: String! @unique
   companyNumber: String! @unique
   mangoLegalUserID: String @unique
+  mangoBankAccountID: String @unique
+  mangoWalletId: String @unique
   approved: Boolean! @default(value: false)
   paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)
   expiresAt: DateTime

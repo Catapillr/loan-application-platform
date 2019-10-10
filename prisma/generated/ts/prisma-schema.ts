@@ -35,6 +35,8 @@ type ChildcareProvider {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean!
   paymentRequests(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PaymentRequest!]
   expiresAt: DateTime
@@ -53,6 +55,8 @@ input ChildcareProviderCreateInput {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   paymentRequests: PaymentRequestCreateManyWithoutChildcareProviderInput
   expiresAt: DateTime
@@ -68,6 +72,8 @@ input ChildcareProviderCreateWithoutPaymentRequestsInput {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   expiresAt: DateTime
 }
@@ -86,6 +92,10 @@ enum ChildcareProviderOrderByInput {
   companyNumber_DESC
   mangoLegalUserID_ASC
   mangoLegalUserID_DESC
+  mangoBankAccountID_ASC
+  mangoBankAccountID_DESC
+  mangoWalletId_ASC
+  mangoWalletId_DESC
   approved_ASC
   approved_DESC
   expiresAt_ASC
@@ -101,6 +111,8 @@ type ChildcareProviderPreviousValues {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean!
   expiresAt: DateTime
   updatedAt: DateTime!
@@ -129,6 +141,8 @@ input ChildcareProviderUpdateInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   paymentRequests: PaymentRequestUpdateManyWithoutChildcareProviderInput
   expiresAt: DateTime
@@ -138,6 +152,8 @@ input ChildcareProviderUpdateManyMutationInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   expiresAt: DateTime
 }
@@ -153,6 +169,8 @@ input ChildcareProviderUpdateWithoutPaymentRequestsDataInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   expiresAt: DateTime
 }
@@ -219,6 +237,34 @@ input ChildcareProviderWhereInput {
   mangoLegalUserID_not_starts_with: String
   mangoLegalUserID_ends_with: String
   mangoLegalUserID_not_ends_with: String
+  mangoBankAccountID: String
+  mangoBankAccountID_not: String
+  mangoBankAccountID_in: [String!]
+  mangoBankAccountID_not_in: [String!]
+  mangoBankAccountID_lt: String
+  mangoBankAccountID_lte: String
+  mangoBankAccountID_gt: String
+  mangoBankAccountID_gte: String
+  mangoBankAccountID_contains: String
+  mangoBankAccountID_not_contains: String
+  mangoBankAccountID_starts_with: String
+  mangoBankAccountID_not_starts_with: String
+  mangoBankAccountID_ends_with: String
+  mangoBankAccountID_not_ends_with: String
+  mangoWalletId: String
+  mangoWalletId_not: String
+  mangoWalletId_in: [String!]
+  mangoWalletId_not_in: [String!]
+  mangoWalletId_lt: String
+  mangoWalletId_lte: String
+  mangoWalletId_gt: String
+  mangoWalletId_gte: String
+  mangoWalletId_contains: String
+  mangoWalletId_not_contains: String
+  mangoWalletId_starts_with: String
+  mangoWalletId_not_starts_with: String
+  mangoWalletId_ends_with: String
+  mangoWalletId_not_ends_with: String
   approved: Boolean
   approved_not: Boolean
   paymentRequests_every: PaymentRequestWhereInput
@@ -258,6 +304,8 @@ input ChildcareProviderWhereUniqueInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
 }
 
 scalar DateTime

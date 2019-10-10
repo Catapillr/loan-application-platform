@@ -6,7 +6,7 @@ import Pen from "../../../static/icons/pen.svg"
 import Nursery from "../../../static/icons/nursery.svg"
 
 const validation = Yup.object().shape({
-  amountToPay: Yup.string().required("Required!"),
+  amountToPay: Yup.string().required("Payment amount is required"),
   reference: Yup.string(),
 })
 
@@ -61,6 +61,8 @@ const Pay = ({
   company,
   values: { amountToPay },
   Controls,
+  isValid,
+  submitForm: showErrors,
 }) => (
   <Container>
     <Controls />
@@ -75,7 +77,7 @@ const Pay = ({
       }
       component={PriceInput}
       size={amountToPay.length > 7 ? amountToPay.length : 7}
-      className="mb-6 text-center block m-auto"
+      className="text-center block m-auto"
       placeholder="£0.00"
     />
     <Reference>
@@ -87,7 +89,13 @@ const Pay = ({
         placeholder="What is this amount for?"
       />
     </Reference>
-    <Next onClick={incrementPage}>Next</Next>
+    <Next
+      onClick={() => {
+        isValid ? incrementPage() : showErrors()
+      }}
+    >
+      Next
+    </Next>
   </Container>
 )
 

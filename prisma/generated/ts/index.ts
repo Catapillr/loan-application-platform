@@ -379,6 +379,10 @@ export type ChildcareProviderOrderByInput =
   | "companyNumber_DESC"
   | "mangoLegalUserID_ASC"
   | "mangoLegalUserID_DESC"
+  | "mangoBankAccountID_ASC"
+  | "mangoBankAccountID_DESC"
+  | "mangoWalletId_ASC"
+  | "mangoWalletId_DESC"
   | "approved_ASC"
   | "approved_DESC"
   | "expiresAt_ASC"
@@ -466,6 +470,8 @@ export type ChildcareProviderWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
   mangoLegalUserID?: Maybe<String>;
+  mangoBankAccountID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
 }>;
 
 export interface PaymentRequestCreateManyWithoutChildcareProviderInput {
@@ -896,6 +902,8 @@ export interface ChildcareProviderUpdateInput {
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
   mangoLegalUserID?: Maybe<String>;
+  mangoBankAccountID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   paymentRequests?: Maybe<
     PaymentRequestUpdateManyWithoutChildcareProviderInput
@@ -1152,6 +1160,8 @@ export interface ChildcareProviderCreateInput {
   email: String;
   companyNumber: String;
   mangoLegalUserID?: Maybe<String>;
+  mangoBankAccountID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   paymentRequests?: Maybe<
     PaymentRequestCreateManyWithoutChildcareProviderInput
@@ -1225,6 +1235,34 @@ export interface ChildcareProviderWhereInput {
   mangoLegalUserID_not_starts_with?: Maybe<String>;
   mangoLegalUserID_ends_with?: Maybe<String>;
   mangoLegalUserID_not_ends_with?: Maybe<String>;
+  mangoBankAccountID?: Maybe<String>;
+  mangoBankAccountID_not?: Maybe<String>;
+  mangoBankAccountID_in?: Maybe<String[] | String>;
+  mangoBankAccountID_not_in?: Maybe<String[] | String>;
+  mangoBankAccountID_lt?: Maybe<String>;
+  mangoBankAccountID_lte?: Maybe<String>;
+  mangoBankAccountID_gt?: Maybe<String>;
+  mangoBankAccountID_gte?: Maybe<String>;
+  mangoBankAccountID_contains?: Maybe<String>;
+  mangoBankAccountID_not_contains?: Maybe<String>;
+  mangoBankAccountID_starts_with?: Maybe<String>;
+  mangoBankAccountID_not_starts_with?: Maybe<String>;
+  mangoBankAccountID_ends_with?: Maybe<String>;
+  mangoBankAccountID_not_ends_with?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  mangoWalletId_not?: Maybe<String>;
+  mangoWalletId_in?: Maybe<String[] | String>;
+  mangoWalletId_not_in?: Maybe<String[] | String>;
+  mangoWalletId_lt?: Maybe<String>;
+  mangoWalletId_lte?: Maybe<String>;
+  mangoWalletId_gt?: Maybe<String>;
+  mangoWalletId_gte?: Maybe<String>;
+  mangoWalletId_contains?: Maybe<String>;
+  mangoWalletId_not_contains?: Maybe<String>;
+  mangoWalletId_starts_with?: Maybe<String>;
+  mangoWalletId_not_starts_with?: Maybe<String>;
+  mangoWalletId_ends_with?: Maybe<String>;
+  mangoWalletId_not_ends_with?: Maybe<String>;
   approved?: Maybe<Boolean>;
   approved_not?: Maybe<Boolean>;
   paymentRequests_every?: Maybe<PaymentRequestWhereInput>;
@@ -1631,6 +1669,8 @@ export interface ChildcareProviderUpdateManyMutationInput {
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
   mangoLegalUserID?: Maybe<String>;
+  mangoBankAccountID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   expiresAt?: Maybe<DateTimeInput>;
 }
@@ -1639,6 +1679,8 @@ export interface ChildcareProviderUpdateWithoutPaymentRequestsDataInput {
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
   mangoLegalUserID?: Maybe<String>;
+  mangoBankAccountID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   expiresAt?: Maybe<DateTimeInput>;
 }
@@ -1922,6 +1964,8 @@ export interface ChildcareProviderCreateWithoutPaymentRequestsInput {
   email: String;
   companyNumber: String;
   mangoLegalUserID?: Maybe<String>;
+  mangoBankAccountID?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   expiresAt?: Maybe<DateTimeInput>;
 }
@@ -2408,6 +2452,8 @@ export interface ChildcareProvider {
   email: String;
   companyNumber: String;
   mangoLegalUserID?: String;
+  mangoBankAccountID?: String;
+  mangoWalletId?: String;
   approved: Boolean;
   expiresAt?: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2421,6 +2467,8 @@ export interface ChildcareProviderPromise
   email: () => Promise<String>;
   companyNumber: () => Promise<String>;
   mangoLegalUserID: () => Promise<String>;
+  mangoBankAccountID: () => Promise<String>;
+  mangoWalletId: () => Promise<String>;
   approved: () => Promise<Boolean>;
   paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
     where?: PaymentRequestWhereInput;
@@ -2443,6 +2491,8 @@ export interface ChildcareProviderSubscription
   email: () => Promise<AsyncIterator<String>>;
   companyNumber: () => Promise<AsyncIterator<String>>;
   mangoLegalUserID: () => Promise<AsyncIterator<String>>;
+  mangoBankAccountID: () => Promise<AsyncIterator<String>>;
+  mangoWalletId: () => Promise<AsyncIterator<String>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   paymentRequests: <
     T = Promise<AsyncIterator<PaymentRequestSubscription>>
@@ -2467,6 +2517,8 @@ export interface ChildcareProviderNullablePromise
   email: () => Promise<String>;
   companyNumber: () => Promise<String>;
   mangoLegalUserID: () => Promise<String>;
+  mangoBankAccountID: () => Promise<String>;
+  mangoWalletId: () => Promise<String>;
   approved: () => Promise<Boolean>;
   paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
     where?: PaymentRequestWhereInput;
@@ -2704,6 +2756,8 @@ export interface ChildcareProviderPreviousValues {
   email: String;
   companyNumber: String;
   mangoLegalUserID?: String;
+  mangoBankAccountID?: String;
+  mangoWalletId?: String;
   approved: Boolean;
   expiresAt?: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2717,6 +2771,8 @@ export interface ChildcareProviderPreviousValuesPromise
   email: () => Promise<String>;
   companyNumber: () => Promise<String>;
   mangoLegalUserID: () => Promise<String>;
+  mangoBankAccountID: () => Promise<String>;
+  mangoWalletId: () => Promise<String>;
   approved: () => Promise<Boolean>;
   expiresAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -2730,6 +2786,8 @@ export interface ChildcareProviderPreviousValuesSubscription
   email: () => Promise<AsyncIterator<String>>;
   companyNumber: () => Promise<AsyncIterator<String>>;
   mangoLegalUserID: () => Promise<AsyncIterator<String>>;
+  mangoBankAccountID: () => Promise<AsyncIterator<String>>;
+  mangoWalletId: () => Promise<AsyncIterator<String>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
