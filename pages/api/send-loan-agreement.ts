@@ -5,7 +5,7 @@ import * as R from "ramda"
 
 import { prisma } from "../../prisma/generated/ts"
 import { userInfo } from "os"
-import convertToSterling from "../../utils/convertToSterling"
+import convertToPounds from "../../utils/convertToPounds"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
@@ -50,7 +50,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.error("Error creating prisma user: ", e) //eslint-disable-line no-console
     })
 
-  const loanOptions = (loanAmount: number, loanTerms: number, maximumTerms: number = 12): { name: string, value: any }[] => {
+  const loanOptions = (
+    loanAmount: number,
+    loanTerms: number,
+    maximumTerms: number = 12
+  ): { name: string; value: any }[] => {
     const mapIndexed = R.addIndex(R.map)
 
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
@@ -68,23 +72,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "loanMonthlyRepayment",
-        value: convertToSterling(monthlyRepayment),
-      }]
-
+        value: convertToPounds(monthlyRepayment),
+      },
+    ]
 
     const loanMonths = mapIndexed((_, index) => ({
-        name: `loanMonth${index + 1}`,
-        value: `${
-          index + 1 === loanTerms
-            ? convertToSterling(lastMonth)
-            : convertToSterling(monthlyRepayment)
-        }`,
-      }))([...Array(loanTerms)])
+      name: `loanMonth${index + 1}`,
+      value: `${
+        index + 1 === loanTerms
+          ? convertToPounds(lastMonth)
+          : convertToPounds(monthlyRepayment)
+      }`,
+    }))([...Array(loanTerms)])
 
     const defaultMonths = mapIndexed((_, index) => ({
-        name: `loanMonth${loanTerms + index + 1}`,
-        value: "n/a"
-      }))([...Array(maximumTerms - loanTerms)])
+      name: `loanMonth${loanTerms + index + 1}`,
+      value: "n/a",
+    }))([...Array(maximumTerms - loanTerms)])
 
     // @ts-ignore
     return [...loanDetails, ...loanMonths, ...defaultMonths]
@@ -132,11 +136,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ],
   }
 
-console.log("opts", opts);
-
+  console.log("opts", opts)
 
   helloSignClient.signatureRequest.sendWithTemplate(opts).catch(e => {
-
     console.error("Sending loan agreement Hellosign error: ", e) //eslint-disable-line no-console
   })
 

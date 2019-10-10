@@ -19,7 +19,6 @@ const Container = styled.div.attrs(() => ({
   background-size: cover;
   min-height: 100vh;
   height: fit-content;
-  // padding: 50px 0;
 `
 
 const { theme } = resolveConfig(tailwindConfig)

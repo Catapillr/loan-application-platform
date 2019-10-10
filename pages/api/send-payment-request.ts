@@ -5,7 +5,7 @@ import * as crypto from "crypto"
 import { prisma } from "../../prisma/generated/ts"
 
 import { sendPaymentRequestDetails } from "../../utils/mailgunClient"
-const convertToPennies = amount => parseInt(amount.substring(1)) * 100
+import convertToPennies from "../../utils/convertToPennies"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
@@ -47,7 +47,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     user,
     email: providerEmail,
     amountToPay,
-    slug: newChildcareProvider.id,
+    slug: paymentRequest.id,
   })
 
   res.status(200).json({ paymentRequest, newChildcareProvider })

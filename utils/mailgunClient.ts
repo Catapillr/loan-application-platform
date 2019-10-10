@@ -1,6 +1,6 @@
 import * as mailgun from "mailgun.js"
 import R from "ramda"
-import convertToSterling from "../utils/convertToSterling"
+import convertToPounds from "../utils/convertToPounds"
 
 const mailgunClient = mailgun.client({
   username: "api",
@@ -54,11 +54,11 @@ const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
       "v:adminName": process.env.ADMIN_NAME,
       "v:userFirstName": user.firstName,
       "v:userLastName": user.lastName,
-      "v:loanAmount": convertToSterling(payment.loanAmount),
-      "v:payInAmount": convertToSterling(payment.payInAmount),
+      "v:loanAmount": convertToPounds(payment.loanAmount),
+      "v:payInAmount": convertToPounds(payment.payInAmount),
       "v:dateOfPayment": payment.dateOfPayment,
       "v:payInId": payment.payInId,
-      "v:discrepancy": convertToSterling(payment.discrepancy),
+      "v:discrepancy": convertToPounds(payment.discrepancy),
       "v:userId": user.id,
       "v:mangoWalletId": user.mangoWalletId,
       "v:employerId": employer.id,
@@ -75,7 +75,7 @@ const sendEmployerPaymentNotification = ({ payment, user, employer }) =>
     data: {
       "v:userFirstName": user.firstName,
       "v:userLastName": user.lastName,
-      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:loanAmount": convertToPounds(payment.loanAmount),
       "v:dateOfPayment": payment.dateOfPayment,
     },
   })
@@ -88,7 +88,7 @@ const sendEmployeePaymentNotification = ({ payment, user }) =>
     template: "employee-payment-notification",
     data: {
       "v:userFirstName": user.firstName,
-      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:loanAmount": convertToPounds(payment.loanAmount),
       "v:magicLink": "https://www.catapillr.com/", // TODO: Change this to magic link
     },
   })

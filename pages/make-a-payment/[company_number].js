@@ -8,6 +8,7 @@ import * as R from "ramda"
 import styled from "styled-components"
 
 import restrictAccess from "../../utils/restrictAccess"
+import getLastPath from "../../utils/getLastPath"
 
 import * as Steps from "../../components/onboarding/make-a-payment/stepNames"
 import Email from "../../components/onboarding/make-a-payment/Email"
@@ -267,7 +268,7 @@ Onboarding.getInitialProps = async ctx => {
   )(cookies)
 
   try {
-    const company_number = R.last(req.originalUrl.split("/"))
+    const company_number = getLastPath(req.originalUrl)
 
     const res = await axios.get(
       `${process.env.HOST}/api/get-company?company_number=${company_number}`,
@@ -285,7 +286,7 @@ Onboarding.getInitialProps = async ctx => {
     return { company, user }
   } catch (err) {
     console.error("Error in [company_number] getInitProps: ", err) //eslint-disable-line
-    return {}
+    return { error: "Sorry, that company doesn't seem to exist!" }
   }
 }
 
