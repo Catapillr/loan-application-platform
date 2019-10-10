@@ -341,6 +341,20 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
 }
 
 const EmployeeOnboarding = ({ employer }) => {
+  if (!employer) {
+    return (
+      <Container>
+        <Header>
+          <Logo />
+        </Header>
+        <ErrorDiv className="text-center">
+          Sorry, we couldn't find that employer. <br />
+          Make sure the URL you entered is correct!
+        </ErrorDiv>
+      </Container>
+    )
+  }
+
   return (
     <Wizard employer={employer}>
       <Welcome />
@@ -376,6 +390,14 @@ const Footer = styled.div.attrs({ className: "w-full bg-white" })`
 `
 
 const StyledForm = styled(Form).attrs({
+  className: "pt-10 pb-20 flex justify-center items-center",
+})`
+  width: 70%;
+  min-height: 55vh;
+  max-width: 860px;
+`
+
+const ErrorDiv = styled.div.attrs({
   className: "pt-10 pb-20 flex justify-center items-center",
 })`
   width: 70%;
