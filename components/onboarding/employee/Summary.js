@@ -16,7 +16,7 @@ const sections = [
     fields: [
       { title: "First name", field: "firstName", page: Personal },
       { title: "Last name", field: "lastName", page: Personal },
-      { title: "Date of birth", field: "dob", date: true, page: Personal },
+      { title: "Date of birth", field: "dob", page: Personal },
       { title: "Nationality", field: "nationality", page: Contact },
       { title: "Email", field: "email", page: Eligibility },
       { title: "Contact number", field: "phoneNumber", page: Contact },
@@ -28,7 +28,6 @@ const sections = [
       {
         title: "Start date",
         field: "employmentStartDate",
-        date: true,
         page: Eligibility,
       },
       { title: "Contract type", field: "permanentRole", page: Eligibility },
@@ -46,13 +45,13 @@ const sections = [
   },
 ]
 
-const getValues = (field, date) => values => {
+const getValues = field => values => {
   const value = values[field]
   switch (true) {
-    case date:
+    case field === "dob" || field === "employmentStartDate":
       return moment(
-        `${value.month} ${value.day} ${value.year}`,
-        "MM-DD-YYYY"
+        `${value.day} ${value.month} ${value.year}`,
+        "DD-MM-YYYY"
       ).format("DD MMMM YYYY")
     case field === "permanentRole":
       return "Permanent role"

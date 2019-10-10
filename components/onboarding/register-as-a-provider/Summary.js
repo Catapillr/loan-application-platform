@@ -6,24 +6,95 @@ import { Heading } from "../styles"
 
 import tealTick from "../../../static/icons/teal-tick.svg"
 import progress4 from "../../../static/images/progress4.svg"
-import {} from "./stepNames"
+import { BusinessDetails, Documents, BankDetails } from "./stepNames"
 
 import nationalities from "../nationalityOptions"
 
 const sections = [
   {
-    heading: "Personal Details",
+    heading: "Business Details",
     fields: [
+      { title: "Business name", Field: "businessName", page: BusinessDetails },
+      {
+        title: "Generic business email",
+        Field: "businessEmail",
+        page: BusinessDetails,
+      },
+      {
+        title: "Company Number",
+        Field: "companyNumber",
+        page: BusinessDetails,
+      },
     ],
   },
   {
-    heading: "Employment Details",
+    heading: "Details of the Legal Representative",
     fields: [
+      {
+        title: "First name",
+        Field: "ownerFirstName",
+        page: BusinessDetails,
+      },
+      {
+        title: "Last name",
+        Field: "ownerLastName",
+        page: BusinessDetails,
+      },
+      {
+        title: "Key contact",
+        Field: "ownerKeyContact",
+        page: BusinessDetails,
+      },
+      {
+        title: "Country of residence",
+        Field: "ownerCountryOfResidence",
+        page: BusinessDetails,
+      },
+      {
+        title: "Nationality",
+        Field: "ownerNationality",
+        page: BusinessDetails,
+      },
     ],
   },
   {
-    heading: "Your loan application details",
+    heading: "Documents",
     fields: [
+      {
+        title: "Proof of ID",
+        Field: "proofOfId",
+        page: Documents,
+      },
+      {
+        title: "Articles of Association",
+        Field: "articlesOfAssociation",
+        page: Documents,
+      },
+      {
+        title: "Proof of Registration",
+        Field: "proofOfRegistration",
+        page: Documents,
+      },
+    ],
+  },
+  {
+    heading: "Bank Details",
+    fields: [
+      {
+        title: "Bank or Building Society Name",
+        Field: "bankName",
+        page: BankDetails,
+      },
+      {
+        title: "Account Number",
+        Field: "accountNumber",
+        page: BankDetails,
+      },
+      {
+        title: "Sort Code",
+        Field: "sortCode",
+        page: BankDetails,
+      },
     ],
   },
 ]

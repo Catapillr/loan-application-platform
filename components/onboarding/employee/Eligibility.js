@@ -4,7 +4,7 @@ import * as R from "ramda"
 import axios from "axios"
 
 import Questions from "../Questions"
-import { TextInput, CheckboxInput } from "../../Input"
+import { TextInput, CheckboxInput, DateInput } from "../../Input"
 import { USER } from "../../../utils/constants"
 
 import progress1 from "../../../static/images/progress1.svg"
@@ -13,7 +13,7 @@ const validation = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
     .required("Required"),
-  employmentStartDate: Yup.object(),
+  employmentStartDate: Yup.object().required(),
   permanentRole: Yup.boolean().oneOf(
     [true],
     "Sorry, you must be in a permanent role to apply!"
@@ -55,6 +55,9 @@ const validateDate = (minimumServiceLength, date) => {
   const dateIsValid = employmentStartDate.isValid()
   const futureDate = employmentStartDate.isAfter(moment())
   const invalidStart = employmentStartDate.isAfter(minimumServiceDate)
+  const ancientDate = employmentStartDate.isBefore(
+    moment().subtract(170, "years")
+  )
 
   if (!day || !month || !year) {
     return "Please enter a whole date"
@@ -67,6 +70,9 @@ const validateDate = (minimumServiceLength, date) => {
   }
   if (invalidStart) {
     return "Sorry, but you haven't been working long enough to qualify for a loan :( Come back soon!"
+  }
+  if (ancientDate) {
+    return "You selected a date over 170 years ago! Are you sure?"
   }
 }
 
@@ -87,8 +93,9 @@ const Eligibility = ({
       },
       {
         text: "When did you start working for your employer?",
-        date: true,
         name: "employmentStartDate",
+        component: DateInput,
+        custom: true,
         validate: () => validateDate(minimumServiceLength, employmentStartDate),
       },
       {

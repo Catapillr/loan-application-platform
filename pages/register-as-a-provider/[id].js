@@ -4,32 +4,56 @@ import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
 
-import * as Steps from "../components/onboarding/payee/stepNames"
+import * as Steps from "../../components/onboarding/register-as-a-provider/stepNames"
+import getLastPath from "../../utils/getLastPath"
 
-import Welcome from "../components/onboarding/payee/Welcome"
-import Summary from "../components/onboarding/payee/Summary"
-import Confirmation from "../components/onboarding/payee/Confirmation"
+import Welcome from "../../components/onboarding/register-as-a-provider/Welcome"
+import BusinessDetails from "../../components/onboarding/register-as-a-provider/BusinessDetails"
+import BankDetails from "../../components/onboarding/register-as-a-provider/BankDetails"
+import Documents from "../../components/onboarding/register-as-a-provider/Documents"
+import Summary from "../../components/onboarding/register-as-a-provider/Summary"
+import Confirmation from "../../components/onboarding/register-as-a-provider/Confirmation"
 
-import DebugFormik from "../components/DebugFormik"
-import { Button } from "../components/onboarding/styles"
+import DebugFormik from "../../components/DebugFormik"
+import { Button } from "../../components/onboarding/styles"
 
-import orangeLogo from "../static/logo_orange.svg"
+import orangeLogo from "../../static/logo_orange.svg"
 
 const initialValues = {
-  employmentStartDate: { day: "", month: "", year: "" },
-  email: "",
-  token: "",
-  permanentRole: false,
-  annualSalary: 0,
-  loanAmount: 0,
-  loanTerms: "",
-  firstName: "",
-  lastName: "",
-  dob: { day: "", month: "", year: "" },
-  nationality: "",
-  employeeID: "",
-  phoneNumber: "",
-  confirmation: false,
+  businessName: "",
+  businessEmail: "",
+  companyNumber: "",
+  ownerFirstName: "",
+  ownerLastName: "",
+  ownerKeyContact: "",
+  ownerDob: { day: "", month: "", year: "" },
+  ownerCountryOfResidence: "",
+  ownerNationality: "",
+  proofOfId: {
+    name: "",
+    lastModified: "",
+    lastModifiedDate: "",
+    webkitRelativePath: "",
+  },
+  articlesOfAssociation: {
+    name: "",
+    lastModified: "",
+    lastModifiedDate: "",
+    webkitRelativePath: "",
+  },
+  proofOfRegistration: {
+    name: "",
+    lastModified: "",
+    lastModifiedDate: "",
+    webkitRelativePath: "",
+  },
+  bankName: "",
+  accountNumber: "",
+  sortCode: {
+    firstSection: "",
+    secondSection: "",
+    thirdSection: "",
+  },
 }
 
 const Previous = ({ decrementPage, hidePrevious }) => (
@@ -148,12 +172,12 @@ const Controls = ({
   )
 }
 
-const onSubmit = ({ incrementPage, employer }) => async values => {
+const onSubmit = ({ incrementPage, paymentRequest }) => async values => {
   //eslint-disable-next-line no-console
   console.log("employeeOnboarding form submitted")
   try {
     await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
-      employer,
+      paymentRequest,
       ...values,
     })
 
@@ -166,7 +190,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
   }
 }
 
-const Wizard = ({ children, employer }) => {
+const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
   const [page, setPage] = useState(Steps.Welcome)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
@@ -200,7 +224,7 @@ const Wizard = ({ children, employer }) => {
       {...{
         initialValues,
         validationSchema,
-        onSubmit: onSubmit({ incrementPage, employer }),
+        onSubmit: onSubmit({ incrementPage, paymentRequest }),
         enableReinitialize: false,
       }}
     >
@@ -217,7 +241,7 @@ const Wizard = ({ children, employer }) => {
 
         return (
           <Container>
-            <Header activeHref="new-payee">
+            <Header activeHref="make-a-payment">
               <Logo />
             </Header>
             <StyledForm>
@@ -228,7 +252,9 @@ const Wizard = ({ children, employer }) => {
                   setTouched,
                   component: React.cloneElement(activePage, {
                     setPage,
-                    employer,
+                    paymentRequest,
+                    childcareProvider,
+                    user,
                     values,
                     emailVerificationError,
                     incrementPage,
@@ -286,26 +312,26 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
   return <>{component}</>
 }
 
-const PayeeOnboarding = ({ employer }) => {
+const ProviderOnboarding = ({
+  paymentRequest,
+  childcareProvider,
+  user,
+  error,
+}) => {
+  if (error) {
+    return <div>{error}</div>
+  }
+
   return (
-    <Wizard employer={employer}>
+    <Wizard {...{ paymentRequest, childcareProvider, user }}>
       <Welcome />
+      <BusinessDetails />
+      <Documents />
+      <BankDetails />
       <Summary />
       <Confirmation />
     </Wizard>
   )
-}
-
-PayeeOnboarding.getInitialProps = async ({ req }) => {
-  const slug = req.originalUrl.slice(1)
-  const res = await axios(
-    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
-  )
-
-  const {
-    data: { employer },
-  } = res
-  return { employer }
 }
 
 const Container = styled.div.attrs({
@@ -314,6 +340,7 @@ const Container = styled.div.attrs({
   width: 90%;
   min-height: -webkit-fill-available;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
+  margin: 50px 0;
 `
 
 const Header = styled.div.attrs({
@@ -343,4 +370,27 @@ const ControlsSection = styled.section.attrs({
   transform: rotate(180deg);
 `
 
-export default PayeeOnboarding
+ProviderOnboarding.getInitialProps = async ctx => {
+  const { req } = ctx
+  try {
+    const id = getLastPath(req.originalUrl)
+
+    const res = await axios.get(
+      `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
+    )
+
+    const {
+      data: { paymentRequest, childcareProvider, user },
+    } = res
+
+    return { paymentRequest, childcareProvider, user }
+  } catch (error) {
+    console.error("Error in [id] getInitProps: ", error) //eslint-disable-line
+    return {
+      error:
+        "Sorry, there seems to have been a problem retrieving that payment. Please check that the link is correct and try again!",
+    }
+  }
+}
+
+export default ProviderOnboarding

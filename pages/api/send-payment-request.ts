@@ -3,9 +3,9 @@ import moment from "moment"
 import mangopay from "mangopay2-nodejs-sdk"
 
 import { prisma } from "../../prisma/generated/ts"
+import convertToPennies from "../../utils/convertToPennies"
 
 import { sendPaymentRequestDetails } from "../../utils/mailgunClient"
-const convertToPennies = (amount: string) => parseInt(amount.substring(1)) * 100
 
 const mango = new mangopay({
   clientId: process.env.MANGO_CLIENT_ID,

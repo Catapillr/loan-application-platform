@@ -2,6 +2,8 @@ import * as Yup from "yup"
 import styled from "styled-components"
 import { Input, PriceInput, TextAreaInput } from "../../Input"
 
+import formatToCurrencyString from "../../../utils/formatToCurrencyString"
+
 import Pen from "../../../static/icons/pen.svg"
 import Nursery from "../../../static/icons/nursery.svg"
 
@@ -44,17 +46,6 @@ const Edit = styled.img.attrs({
   className: "mr-8",
 })``
 
-const formatToCurrency = amount => {
-  const sanitised = amount.replace(/[^0-9.]/g, "")
-
-  const currency = new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: "GBP",
-  }).format(sanitised)
-
-  return currency !== "£NaN" ? currency : "£0.00"
-}
-
 const Pay = ({
   incrementPage,
   setFieldValue,
@@ -73,7 +64,7 @@ const Pay = ({
     <Input
       name="amountToPay"
       onBlur={e =>
-        setFieldValue("amountToPay", formatToCurrency(e.target.value))
+        setFieldValue("amountToPay", formatToCurrencyString(e.target.value))
       }
       component={PriceInput}
       size={amountToPay.length > 7 ? amountToPay.length : 7}
