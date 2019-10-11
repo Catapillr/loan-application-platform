@@ -6,46 +6,71 @@ import Questions from "../Questions"
 import { FileInput } from "../../Input"
 
 import progress4 from "../../../static/images/progress4.svg"
+import checkFileType from "../../../utils/checkFileType"
 
 const validation = Yup.object().shape({
   proofOfId: Yup.mixed()
     .test(
       "Check file exists",
       "You need to upload a Proof of ID for us to be able to continue",
-      value => value.name
+      value => !!value.name
     )
     .test(
       "Check file format is supported",
       "The file format of your Proof of ID is not supported",
-      value => {
-        return value.type === "image/png"
-      }
+      checkFileType(["application/pdf", "image/jpeg", "image/gif", "image/png"])
+    )
+    .test(
+      "Check file format is large enough",
+      "Please upload a file larger than 1Kb!",
+      value => value.size > 1000
+    )
+    .test(
+      "Check file format isn't too big",
+      "That file is too big! Please upload a file smaller than 7Mb!",
+      value => value.size < 7000000
     ),
   articlesOfAssociation: Yup.mixed()
     .test(
       "Check file exists",
       "You need to upload your Articles of Association for us to be able to continue",
-      value => value.name
+      value => !!value.name
     )
     .test(
       "Check file format is supported",
       "The file format of your Articles of Association is not supported",
-      value => {
-        return value.type === "image/png"
-      }
+      checkFileType(["application/pdf", "image/jpeg", "image/gif", "image/png"])
+    )
+    .test(
+      "Check file format is large enough",
+      "Please upload a file larger than 1Kb!",
+      value => value.size > 1000
+    )
+    .test(
+      "Check file format isn't too big",
+      "That file is too big! Please upload a file smaller than 7Mb!",
+      value => value.size < 7000000
     ),
   proofOfRegistration: Yup.mixed()
     .test(
       "Check file exists",
       "You need to upload a Proof of Registration for us to be able to continue",
-      value => value.name
+      value => !!value.name
     )
     .test(
       "Check file format is supported",
       "The file format of your Proof of Registration is not supported",
-      value => {
-        return value.type === "image/png"
-      }
+      checkFileType(["application/pdf", "image/jpeg", "image/gif", "image/png"])
+    )
+    .test(
+      "Check file format is large enough",
+      "Please upload a file larger than 1Kb!",
+      value => value.size > 1000
+    )
+    .test(
+      "Check file format isn't too big",
+      "That file is too big! Please upload a file smaller than 7Mb!",
+      value => value.size < 7000000
     ),
 })
 

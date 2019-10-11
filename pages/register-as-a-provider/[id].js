@@ -233,42 +233,41 @@ const onSubmit = ({
   childcareProviderEmail,
 }) => async values => {
   //eslint-disable-next-line no-console
-  console.log("employeeOnboarding form submitted")
+  console.log("Register-as-a-provider form submitted")
 
-  // TODO: Make form object -> formdata function into util
   try {
     const form = new FormData()
 
-    const normalFields = R.pipe(
-      R.map(val => (val instanceof File ? null : val)),
-      R.filter(el => !!el)
-    )(values)
+    const [files, fields] = R.partition(value => value instanceof File)(values)
 
-    const fileFields = R.pipe(
-      R.map(val => (val instanceof File ? val : null)),
-      R.filter(el => !!el)
-    )(values)
-
-    R.mapObjIndexed((val, key) => form.append(key, val))(values)
-
-    console.log("woooooooooooooooooooooo", normalFields)
-    console.log("woooooooooooooooooooooo file", fileFields)
-
-    const promise = (file, key) => {
+    const encodeFiles = (key, file) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
-        reader.onloadend = () => {
-          resolve({ [key]: reader.result })
+        reader.onerror = () => {
+          reader.abort()
+          reject(`There was an error reading file ${file.name}`)
         }
+
+        reader.onload = () => {
+          resolve([key, reader.result])
+        }
+
         return reader.readAsDataURL(file)
       })
     }
 
-    const files = await Promise.all(
-      R.pipe(R.mapObjIndexed((file, key) => promise(file, key)))(fileFields)
-    )
+    const base64Files = async files => {
+      return R.pipe(
+        R.toPairs,
+        R.map(([key, file]) => encodeFiles(key, file)),
+        Promise.all.bind(Promise)
+      )(files).then(R.fromPairs)
+    }
 
-    console.log("files: ", files)
+    console.log("base64Files: ", await base64Files(files))
+
+    R.mapObjIndexed((val, key) => form.append(key, val))(fields)
+    console.log("form", form)
 
     // const promise = () =>
     //   new Promise((resolve, reject) => {
@@ -335,7 +334,6 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
           childcareProviderEmail: childcareProvider.email,
         }),
         enableReinitialize: false,
-        isInitialValid: true,
       }}
     >
       {({
@@ -347,7 +345,7 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
         setTouched,
         setFieldValue,
       }) => {
-        console.log(values)
+        // console.log(values)
         const debugging = false
 
         return (
