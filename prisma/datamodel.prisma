@@ -29,6 +29,7 @@ type User {
   annualSalary: Float!
   employeeID: String
   verificationToken: VerificationToken @relation(onDelete: CASCADE)
+  gdprConsent: Boolean! 
   loan: Loan @relation(onDelete: CASCADE)
   mangoWalletId: String @unique
   mangoUserId: String @unique

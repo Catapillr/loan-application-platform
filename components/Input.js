@@ -7,13 +7,16 @@ import slider from "../static/icons/slider.svg"
 import tick from "../static/icons/tick.svg"
 import dropdown from "../static/icons/dropdown.svg"
 
-const Input = ({ text, width, name, margin, direction, ...attrs }) => {
+const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (
     <Container {...{ text, width, margin, direction }}>
-      {text && <Label name={name}>{text}</Label>}
+      {text && <LabelAndLink name={name} link={link} text={text} />}
       <Field {...{ name, direction, id: name, ...attrs }} />
       <div className="relative">
-        <ErrorMessage name={name} render={msg => <Error>{msg}</Error>} />
+        <ErrorMessage
+          name={name}
+          render={msg => <Error direction={direction}>{msg}</Error>}
+        />
       </div>
     </Container>
   )
@@ -216,13 +219,36 @@ const Container = styled.div.attrs(
 )``
 
 const Error = styled.span.attrs({
-  className: "text-red absolute mt-1",
-})``
+  className: `text-red absolute mt-1`,
+})`
+ ${({ direction }) =>
+   direction === "flex-row-reverse" &&
+   `margin-top: 72px;
+    width: 100vw; `} 
+  }
+`
 
-const Label = styled.label.attrs(({ name }) => ({
-  className: "block mb-5",
+const Label = styled.label.attrs(({ name, link }) => ({
+  className: `block ${link ? "mb-2" : "mb-5"}`,
   htmlFor: name,
 }))``
+
+const LabelAndLink = ({ name, link, text }) => (
+  <div className="flex flex-col w-full">
+    <Label name={name} link={link}>
+      {text}
+    </Label>
+    {link && (
+      <a
+        href={`${process.env.HOST}/${link.href}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className="text-teal underline mb-3"> {link.text}</span>
+      </a>
+    )}
+  </div>
+)
 
 const AddHeight = styled.div`
   height: 30px;

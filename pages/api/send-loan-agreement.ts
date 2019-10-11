@@ -25,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     employeeID,
     phoneNumber,
     employer,
+    gdprConsent
   } = req.body
 
   prisma
@@ -45,6 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           terms: parseInt(loanTerms),
         },
       },
+      gdprConsent
     })
     .catch(e => {
       console.error("Error creating prisma user: ", e) //eslint-disable-line no-console
@@ -73,18 +75,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 
     const loanMonths = mapIndexed((_, index) => ({
-        name: `loanMonth${index + 1}`,
-        value: `${
-          index + 1 === loanTerms
-            ? convertToSterling(lastMonth)
-            : convertToSterling(monthlyRepayment)
+      name: `loanMonth${index + 1}`,
+      value: `${
+        index + 1 === loanTerms
+          ? convertToSterling(lastMonth)
+          : convertToSterling(monthlyRepayment)
         }`,
-      }))([...Array(loanTerms)])
+    }))([...Array(loanTerms)])
 
     const defaultMonths = mapIndexed((_, index) => ({
-        name: `loanMonth${loanTerms + index + 1}`,
-        value: "n/a"
-      }))([...Array(maximumTerms - loanTerms)])
+      name: `loanMonth${loanTerms + index + 1}`,
+      value: "n/a"
+    }))([...Array(maximumTerms - loanTerms)])
 
     // @ts-ignore
     return [...loanDetails, ...loanMonths, ...defaultMonths]
@@ -132,7 +134,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ],
   }
 
-console.log("opts", opts);
+  console.log("opts", opts);
 
 
   helloSignClient.signatureRequest.sendWithTemplate(opts).catch(e => {
