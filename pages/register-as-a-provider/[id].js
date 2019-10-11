@@ -6,6 +6,7 @@ import * as R from "ramda"
 
 import * as Steps from "../../components/onboarding/register-as-a-provider/stepNames"
 import getLastPath from "../../utils/getLastPath"
+import createFormData from "../../utils/createFormData"
 
 import Welcome from "../../components/onboarding/register-as-a-provider/Welcome"
 import BusinessDetails from "../../components/onboarding/register-as-a-provider/BusinessDetails"
@@ -236,55 +237,9 @@ const onSubmit = ({
   console.log("Register-as-a-provider form submitted")
 
   try {
-    const form = new FormData()
+    const form = createFormData(values)
+    axios.post("/api/register-provider", form)
 
-    const [files, fields] = R.partition(value => value instanceof File)(values)
-
-    const encodeFiles = (key, file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onerror = () => {
-          reader.abort()
-          reject(`There was an error reading file ${file.name}`)
-        }
-
-        reader.onload = () => {
-          resolve([key, reader.result])
-        }
-
-        return reader.readAsDataURL(file)
-      })
-    }
-
-    const base64Files = async files => {
-      return R.pipe(
-        R.toPairs,
-        R.map(([key, file]) => encodeFiles(key, file)),
-        Promise.all.bind(Promise)
-      )(files).then(R.fromPairs)
-    }
-
-    console.log("base64Files: ", await base64Files(files))
-
-    R.mapObjIndexed((val, key) => form.append(key, val))(fields)
-    console.log("form", form)
-
-    // const promise = () =>
-    //   new Promise((resolve, reject) => {
-    //     R.mapObjIndexed((val, key) => {
-    //       if (val instanceof File) {
-    //         const reader = new FileReader()
-    //         reader.onloadend = () => {
-    //           form.append(key, reader.result)
-    //           resolve()
-    //         }
-    //         return reader.readAsDataURL(val)
-    //       }
-    //       return form.append(key, val)
-    //     })(values)
-    //   })
-    //
-    // axios.post("/api/register-provider", form)
     incrementPage()
   } catch (e) {
     // TODO: trigger submit error (maybe with toast error)
