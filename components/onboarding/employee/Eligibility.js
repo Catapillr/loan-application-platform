@@ -72,7 +72,7 @@ const validateDate = (minimumServiceLength, date) => {
     return "That date is in the future!"
   }
   if (invalidStart) {
-    return "Sorry, but you haven't been working long enough to qualify for a loan :( Come back soon!"
+    return "Sorry, you haven't been working long enough to qualify for a loan."
   }
 }
 
