@@ -1,13 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
-// import mangopay from "mangopay2-nodejs-sdk"
 
-// const mango = new mangopay({
-//   clientId: process.env.MANGO_CLIENT_ID,
-//   clientApiKey: process.env.MANGO_KEY,
-//   // Set the right production API url. If testing, omit the property since it defaults to sandbox URL
-//   // baseUrl: "https://api.mangopay.com",
-// })
+// import mango from "../../lib/mango"
 
 import { prisma } from "../../prisma/generated/ts"
 import { sendPaymentRequestDetails } from "../../utils/mailgunClient"

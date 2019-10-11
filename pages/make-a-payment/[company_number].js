@@ -63,7 +63,6 @@ const onSubmit = ({
     return axios.post(`${process.env.HOST}/api/send-payment-request`, {
       ...paymentRequest,
       childcareProviderId: catapillrChildcareProvider.id,
-      isProviderRegistered,
     })
   }
 
