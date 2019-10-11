@@ -44,18 +44,19 @@ const onSubmit = ({
   }
 
   const setupProviderAndSendPayment = async () => {
-    const {
-      data: { childcareProviderId },
-    } = await axios.post(
-      `${process.env.HOST}/api/add-childcare-provider`,
-      childcareProvider
-    )
-
-    return axios.post(`${process.env.HOST}/api/send-payment-request`, {
+    // const {
+    //   data: { childcareProviderId },
+    // } =
+    await axios.post(`${process.env.HOST}/api/add-childcare-provider`, {
+      ...childcareProvider,
       ...paymentRequest,
-      childcareProviderId,
-      isProviderRegistered,
     })
+
+    // return axios.post(`${process.env.HOST}/api/send-payment-request`, {
+    //   ...paymentRequest,
+    //   childcareProviderId,
+    //   isProviderRegistered,
+    // })
   }
 
   const sendPayment = () => {
@@ -142,7 +143,6 @@ const Wizard = ({ children, company, user, catapillrChildcareProvider }) => {
           setTouched,
           setFieldValue,
         }) => {
-          console.log(values)
           return (
             <Contents formCompleted={formCompleted}>
               <Main>

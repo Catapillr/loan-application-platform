@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "../../prisma/generated/ts"
 import gql from "graphql-tag"
-import * as R from "ramda"
 
 const hydratePaymentRequest = gql`
   fragment paymentRequestHydrated on PaymentRequest {
@@ -35,6 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       })
       .$fragment(hydratePaymentRequest)
 
+    // res.status(200).end()
     return res.status(200).json({
       childcareProvider,
       user,

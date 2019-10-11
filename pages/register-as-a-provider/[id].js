@@ -19,41 +19,97 @@ import { Button } from "../../components/onboarding/styles"
 
 import orangeLogo from "../../static/logo_orange.svg"
 
+// const initialValues = {
+//   businessName: "",
+//   businessEmail: "",
+//   companyNumber: "",
+//   ownerFirstName: "",
+//   ownerLastName: "",
+//   ownerKeyContact: "",
+//   ownerDob: { day: "", month: "", year: "" },
+//   ownerCountryOfResidence: "",
+//   ownerNationality: "",
+//   proofOfId: {
+//     name: "",
+//     lastModified: "",
+//     lastModifiedDate: "",
+//     webkitRelativePath: "",
+//   },
+//   articlesOfAssociation: {
+//     name: "",
+//     lastModified: "",
+//     lastModifiedDate: "",
+//     webkitRelativePath: "",
+//   },
+//   proofOfRegistration: {
+//     name: "",
+//     lastModified: "",
+//     lastModifiedDate: "",
+//     webkitRelativePath: "",
+//   },
+//   bankName: "",
+//   accountNumber: "",
+//   sortCode: {
+//     firstSection: "",
+//     secondSection: "",
+//     thirdSection: "",
+//   },
+//   AddressLine1: "",
+//   AddressLine2: "",
+//   City: "",
+//   Region: "",
+//   PostalCode: "",
+//   Country: "",
+// }
+
 const initialValues = {
-  businessName: "",
-  businessEmail: "",
-  companyNumber: "",
-  ownerFirstName: "",
-  ownerLastName: "",
-  ownerKeyContact: "",
-  ownerDob: { day: "", month: "", year: "" },
-  ownerCountryOfResidence: "",
-  ownerNationality: "",
+  businessName: "InFact",
+  businessEmail: "hello@infactcoop.com",
+  companyNumber: "11912270",
+  ownerFirstName: "Maximus",
+  ownerLastName: "Gerber",
+  // TODO: do we need this field?
+  ownerKeyContact: "Lucy",
+  ownerDob: { day: "17", month: "03", year: "1992" },
+  ownerCountryOfResidence: "GB",
+  ownerNationality: "GB",
   proofOfId: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
+    // lastModified: 1570704053202,
+    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+    // name: "Screenshot 2019-10-10 at 11.40.47.png",
+    // size: 948892,
+    // type: "image/png",
+    // webkitRelativePath: "",
   },
   articlesOfAssociation: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
+    // lastModified: 1570704053202,
+    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+    // name: "Screenshot 2019-10-10 at 11.40.47.png",
+    // size: 948892,
+    // type: "image/png",
+    // webkitRelativePath: "",
   },
   proofOfRegistration: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
+    // lastModified: 1570704053202,
+    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+    // name: "Screenshot 2019-10-10 at 11.40.47.png",
+    // size: 948892,
+    // type: "image/png",
+    // webkitRelativePath: "",
   },
-  bankName: "",
-  accountNumber: "",
+  bankName: "Monzo",
+  accountNumber: "17918586",
   sortCode: {
-    firstSection: "",
-    secondSection: "",
-    thirdSection: "",
+    firstSection: "23",
+    secondSection: "69",
+    thirdSection: "72",
   },
+  AddressLine1: "Space 4",
+  AddressLine2: "149 Fonthill Road",
+  City: "London",
+  Region: "London",
+  PostalCode: "N4 3HF",
+  Country: "GB",
 }
 
 const Previous = ({ decrementPage, hidePrevious }) => (
@@ -172,15 +228,64 @@ const Controls = ({
   )
 }
 
-const onSubmit = ({ incrementPage, paymentRequest }) => async values => {
+const onSubmit = ({
+  incrementPage,
+  childcareProviderEmail,
+}) => async values => {
   //eslint-disable-next-line no-console
   console.log("employeeOnboarding form submitted")
-  try {
-    await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
-      paymentRequest,
-      ...values,
-    })
 
+  // TODO: Make form object -> formdata function into util
+  try {
+    const form = new FormData()
+
+    const normalFields = R.pipe(
+      R.map(val => (val instanceof File ? null : val)),
+      R.filter(el => !!el)
+    )(values)
+
+    const fileFields = R.pipe(
+      R.map(val => (val instanceof File ? val : null)),
+      R.filter(el => !!el)
+    )(values)
+
+    R.mapObjIndexed((val, key) => form.append(key, val))(values)
+
+    console.log("woooooooooooooooooooooo", normalFields)
+    console.log("woooooooooooooooooooooo file", fileFields)
+
+    const promise = (file, key) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          resolve({ [key]: reader.result })
+        }
+        return reader.readAsDataURL(file)
+      })
+    }
+
+    const files = await Promise.all(
+      R.pipe(R.mapObjIndexed((file, key) => promise(file, key)))(fileFields)
+    )
+
+    console.log("files: ", files)
+
+    // const promise = () =>
+    //   new Promise((resolve, reject) => {
+    //     R.mapObjIndexed((val, key) => {
+    //       if (val instanceof File) {
+    //         const reader = new FileReader()
+    //         reader.onloadend = () => {
+    //           form.append(key, reader.result)
+    //           resolve()
+    //         }
+    //         return reader.readAsDataURL(val)
+    //       }
+    //       return form.append(key, val)
+    //     })(values)
+    //   })
+    //
+    // axios.post("/api/register-provider", form)
     incrementPage()
   } catch (e) {
     // TODO: trigger submit error (maybe with toast error)
@@ -191,7 +296,7 @@ const onSubmit = ({ incrementPage, paymentRequest }) => async values => {
 }
 
 const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
-  const [page, setPage] = useState(Steps.Welcome)
+  const [page, setPage] = useState(Steps.Documents)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
@@ -224,8 +329,13 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
       {...{
         initialValues,
         validationSchema,
-        onSubmit: onSubmit({ incrementPage, paymentRequest }),
+        onSubmit: onSubmit({
+          incrementPage,
+          paymentRequest,
+          childcareProviderEmail: childcareProvider.email,
+        }),
         enableReinitialize: false,
+        isInitialValid: true,
       }}
     >
       {({
@@ -237,6 +347,7 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
         setTouched,
         setFieldValue,
       }) => {
+        console.log(values)
         const debugging = false
 
         return (
@@ -382,6 +493,11 @@ ProviderOnboarding.getInitialProps = async ctx => {
     const {
       data: { paymentRequest, childcareProvider, user },
     } = res
+
+    // const company =
+    await axios.get(
+      `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`
+    )
 
     return { paymentRequest, childcareProvider, user }
   } catch (error) {

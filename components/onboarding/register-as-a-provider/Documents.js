@@ -18,7 +18,7 @@ const validation = Yup.object().shape({
       "Check file format is supported",
       "The file format of your Proof of ID is not supported",
       value => {
-        return value.type === "text/rtf"
+        return value.type === "image/png"
       }
     ),
   articlesOfAssociation: Yup.mixed()
@@ -31,7 +31,7 @@ const validation = Yup.object().shape({
       "Check file format is supported",
       "The file format of your Articles of Association is not supported",
       value => {
-        return value.type === "text/rtf"
+        return value.type === "image/png"
       }
     ),
   proofOfRegistration: Yup.mixed()
@@ -44,7 +44,7 @@ const validation = Yup.object().shape({
       "Check file format is supported",
       "The file format of your Proof of Registration is not supported",
       value => {
-        return value.type === "text/rtf"
+        return value.type === "image/png"
       }
     ),
 })

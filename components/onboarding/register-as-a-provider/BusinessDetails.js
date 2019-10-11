@@ -35,6 +35,13 @@ const validation = Yup.object().shape({
   ownerNationality: Yup.string()
     .oneOf(nationalityValues, "Please select a valid country")
     .required("This is a required field"),
+
+  AddressLine1: Yup.string().required("This is a required field"),
+  AddressLine2: Yup.string(),
+  City: Yup.string().required("This is a required field"),
+  Region: Yup.string().required("This is a required field"),
+  PostalCode: Yup.string().required("This is a required field"),
+  Country: Yup.string().required("This is a required field"),
 })
 
 const validateDate = date => {
@@ -97,6 +104,7 @@ const BusinessDetails = ({ values: { ownerDob } }) => (
     <Questions
       formWidth="100"
       title="1.2 Details of the business owner or legal representative"
+      className="mb-10"
       questions={[
         {
           text: "First name",
@@ -142,10 +150,98 @@ const BusinessDetails = ({ values: { ownerDob } }) => (
           options: nationalityOptions,
           placeholder: "Select nationality",
         },
+
+        {
+          text: "Address Line 1",
+          name: "AddressLine1",
+          component: TextInput,
+          width: "full",
+          placeholder: "148 Fonthill Road",
+        },
+        {
+          text: "Address Line 2",
+          name: "AddressLine2",
+          component: TextInput,
+          width: "full",
+          placeholder: "Finsbury Park",
+        },
+        {
+          text: "City",
+          name: "City",
+          component: TextInput,
+          width: "1/2",
+          placeholder: "Stroud",
+        },
+        {
+          text: "Post code",
+          name: "PostalCode",
+          component: TextInput,
+          width: "1/2",
+          placeholder: "AB1 3NT",
+        },
+
+        {
+          text: "Country",
+          name: "Country",
+          component: SelectInput,
+          options: nationalityOptions,
+          width: "full",
+          placeholder: "Select country",
+        },
+      ]}
+    />
+    <Questions
+      formWidth="100"
+      title="1.3 Registered Company Address"
+      questions={[
+        {
+          text: "Address Line 1",
+          name: "AddressLine1",
+          component: TextInput,
+          width: "full",
+          placeholder: "148 Fonthill Road",
+        },
+        {
+          text: "Address Line 2",
+          name: "AddressLine2",
+          component: TextInput,
+          width: "full",
+          placeholder: "Finsbury Park",
+        },
+        {
+          text: "City",
+          name: "City",
+          component: TextInput,
+          width: "1/2",
+          placeholder: "Stroud",
+        },
+        {
+          text: "Post code",
+          name: "PostalCode",
+          component: TextInput,
+          width: "1/2",
+          placeholder: "AB1 3NT",
+        },
+
+        {
+          text: "Country",
+          name: "Country",
+          component: SelectInput,
+          options: nationalityOptions,
+          width: "full",
+          placeholder: "Select country",
+        },
       ]}
     />
   </Container>
 )
+
+// "AddressLine1": "1 Mangopay Street",
+// "AddressLine2": "The Loop",
+// "City": "Paris",
+// "Region": "Ile de France",
+// "PostalCode": "75001",
+// "Country": "FR"
 
 BusinessDetails.validationSchema = validation
 BusinessDetails.progressImg = progress3

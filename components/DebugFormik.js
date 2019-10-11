@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 const Container = styled.div`
+  background-color: white;
   right: 300px;
   .pre-block {
     background: #dedede;

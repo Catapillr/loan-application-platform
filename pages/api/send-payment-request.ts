@@ -113,13 +113,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // TODO: check slug is working properly
     // TODO: send different email if provider already registered
-    !isProviderRegistered &&
-      sendPaymentRequestDetails({
-        user,
-        email: childcareProvider.email,
-        amountToPay,
-        slug: childcareProvider.id,
-      })
+    // !isProviderRegistered &&
+    //   sendPaymentRequestDetails({
+    //     user,
+    //     email: childcareProvider.email,
+    //     amountToPay,
+    //     slug: childcareProvider.id,
+    //   })
 
     // res.status(200).json({ paymentRequest, newChildcareProvider })
     res.status(200).end()
