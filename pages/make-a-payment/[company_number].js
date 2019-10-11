@@ -43,20 +43,11 @@ const onSubmit = ({
     reference: values.reference,
   }
 
-  const setupProviderAndSendPayment = async () => {
-    // const {
-    //   data: { childcareProviderId },
-    // } =
-    await axios.post(`${process.env.HOST}/api/add-childcare-provider`, {
+  const setupProviderAndSendPayment = () => {
+    return axios.post(`${process.env.HOST}/api/add-childcare-provider`, {
       ...childcareProvider,
       ...paymentRequest,
     })
-
-    // return axios.post(`${process.env.HOST}/api/send-payment-request`, {
-    //   ...paymentRequest,
-    //   childcareProviderId,
-    //   isProviderRegistered,
-    // })
   }
 
   const sendPayment = () => {
@@ -70,6 +61,7 @@ const onSubmit = ({
     isProviderRegistered
       ? await sendPayment()
       : await setupProviderAndSendPayment()
+
     incrementPage()
     setFormCompleted(true)
   } catch (e) {
