@@ -84,7 +84,8 @@ const Eligibility = ({ employer, values: { employmentStartDate } }) => {
       title="We need a few details from you to verify that you are eligible"
       questions={[
         {
-          text: "I confirm that my current role is permanent:",
+          text:
+            "The childcare cash advance scheme is currently only available for permanent employees. Please click the box below to confirm you are a permanent employee.",
           name: "permanentRole",
           className: "",
           type: "checkbox",
