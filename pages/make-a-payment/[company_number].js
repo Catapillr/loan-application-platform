@@ -70,7 +70,13 @@ const onSubmit = ({
   }
 }
 
-const Wizard = ({ children, company, user, catapillrChildcareProvider }) => {
+const Wizard = ({
+  children,
+  company,
+  user,
+  catapillrChildcareProvider,
+  userWalletBalance,
+}) => {
   const [isProviderRegistered] = useState(!!catapillrChildcareProvider)
 
   const initialPage = isProviderRegistered ? Steps.Pay : Steps.Email
@@ -162,6 +168,7 @@ const Wizard = ({ children, company, user, catapillrChildcareProvider }) => {
                         company,
                         Controls,
                         isProviderRegistered,
+                        userWalletBalance,
                       }),
                     }}
                   ></RenderStep>
@@ -206,10 +213,17 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
   return <>{component}</>
 }
 
-const MakeAPayment = ({ company, user, catapillrChildcareProvider }) => {
+const MakeAPayment = ({
+  company,
+  user,
+  catapillrChildcareProvider,
+  userWalletBalance,
+}) => {
   if (catapillrChildcareProvider) {
     return (
-      <Wizard {...{ company, user, catapillrChildcareProvider }}>
+      <Wizard
+        {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
+      >
         <Pay />
         <Summary />
         <Confirmation />
@@ -218,7 +232,9 @@ const MakeAPayment = ({ company, user, catapillrChildcareProvider }) => {
   }
 
   return (
-    <Wizard {...{ company, user, catapillrChildcareProvider }}>
+    <Wizard
+      {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
+    >
       <Email />
       <Pay />
       <Summary />
@@ -289,20 +305,28 @@ MakeAPayment.getInitialProps = async ctx => {
   try {
     const company_number = getLastPath(req.originalUrl)
 
-    const res = await axios.get(
-      `${process.env.HOST}/api/get-company?company_number=${company_number}`,
+    const [
       {
+        data: { company, catapillrChildcareProvider },
+      },
+      {
+        data: { userWalletBalance },
+      },
+    ] = await Promise.all([
+      axios.get(
+        `${process.env.HOST}/api/get-company?company_number=${company_number}`,
+        {
+          headers: { Cookie: serializedCookies },
+        }
+      ),
+      axios.get(`${process.env.HOST}/api/private/get-user-wallet-balance`, {
         headers: { Cookie: serializedCookies },
-      }
-    )
-
-    const {
-      data: { company, catapillrChildcareProvider },
-    } = res
+      }),
+    ])
 
     const user = req.user
 
-    return { company, user, catapillrChildcareProvider }
+    return { company, user, catapillrChildcareProvider, userWalletBalance }
   } catch (err) {
     console.error("Error in [company_number] getInitProps: ", err) //eslint-disable-line
     return { error: "Sorry, that company doesn't seem to exist!" }

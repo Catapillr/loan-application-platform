@@ -1,5 +1,7 @@
 import * as Yup from "yup"
+import currencyFormatter from "currency-formatter"
 import styled from "styled-components"
+
 import { Input, PriceInput, TextAreaInput } from "../../Input"
 
 import formatToCurrencyString from "../../../utils/formatToCurrencyString"
@@ -46,10 +48,15 @@ const Edit = styled.img.attrs({
   className: "mr-8",
 })``
 
-const validateAmount = value => {
-  const amount = parseFloat(value.substring(1))
+const validateAmount = ({ userWalletBalance }) => value => {
+  const amount = currencyFormatter.unformat(value, { code: "GBP" }) * 100
+
   if (amount <= 0) {
     return "Amount must be more than 0"
+  }
+
+  if (amount > userWalletBalance) {
+    return "You do not have sufficient funds for that payment"
   }
 }
 
@@ -61,6 +68,7 @@ const Pay = ({
   Controls,
   isValid,
   submitForm: showErrors,
+  userWalletBalance,
 }) => (
   <Container>
     <Controls />
@@ -73,7 +81,7 @@ const Pay = ({
       onBlur={e => {
         setFieldValue("amountToPay", formatToCurrencyString(e.target.value))
       }}
-      validate={validateAmount}
+      validate={validateAmount({ userWalletBalance })}
       component={PriceInput}
       size={amountToPay.length > 7 ? amountToPay.length : 7}
       className="text-center block m-auto"
