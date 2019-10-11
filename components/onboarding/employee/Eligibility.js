@@ -6,6 +6,7 @@ import axios from "axios"
 import Questions from "../Questions"
 import { TextInput, CheckboxInput } from "../../Input"
 import { USER } from "../../../utils/constants"
+import zeroIndexMonth from "../../../utils/zeroIndexMonth"
 
 import progress1 from "../../../static/images/progress1.svg"
 
@@ -53,7 +54,7 @@ const validateEmail = async (emailSuffixes, value) => {
 
 const validateDate = (minimumServiceLength, date) => {
   const { day, month, year } = date
-  const dateMonthZeroIndexed = R.assoc("month", date.month - 1, date)
+  const dateMonthZeroIndexed = zeroIndexMonth(date)
   const employmentStartDate = moment(dateMonthZeroIndexed)
   const minimumServiceDate = moment().subtract(minimumServiceLength, "months")
 

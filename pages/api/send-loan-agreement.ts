@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 import * as R from "ramda"
 
+import zeroIndexMonth from "../../utils/zeroIndexMonth"
+
 import { prisma } from "../../prisma/generated/ts"
 import { userInfo } from "os"
 import convertToSterling from "../../utils/convertToSterling"
@@ -34,9 +36,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       lastName,
       email,
       phoneNumber,
-      dob: moment(dob).toDate(),
+      dob: moment(zeroIndexMonth(dob)).toDate(),
       nationality,
-      employmentStartDate: moment(employmentStartDate).toDate(),
+      employmentStartDate: moment(zeroIndexMonth(employmentStartDate)).toDate(),
       employeeID,
       annualSalary: parseFloat(annualSalary),
       employer: { connect: { slug: employer.slug } },
