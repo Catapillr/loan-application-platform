@@ -1,55 +1,26 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import moment from "moment"
 
 import mango from "../../lib/mango"
 
 import { prisma } from "../../prisma/generated/ts"
 import convertToPennies from "../../utils/convertToPennies"
 
-import { sendPaymentRequestDetails } from "../../utils/mailgunClient"
+import {
+  sendProviderPaymentNotification,
+  sendEmployeeOutgoingPaymentNotification,
+} from "../../utils/mailgunClient"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // @ts-ignore
   const user = req.user
-  const {
-    childcareProviderId,
-    amountToPay,
-    consentToPay,
-    reference,
-    expiryDays = 7,
-  } = req.body
-
-  const expiresAt = moment()
-    .add(expiryDays, "days")
-    .toDate()
+  const { childcareProviderId, amountToPay, reference } = req.body
 
   try {
     const childcareProvider = await prisma.childcareProvider({
       id: childcareProviderId,
     })
 
-    // const paymentRequest = await prisma.createPaymentRequest({
-
-    await prisma.createPaymentRequest({
-      user: {
-        connect: {
-          email: user.email,
-        },
-      },
-      childcareProvider: {
-        connect: {
-          id: childcareProvider.id,
-        },
-      },
-      amountToPay: convertToPennies(amountToPay),
-      consentToPay,
-      expiresAt,
-      reference,
-    })
-
-    // for when provider is already registered
-
-    const transfer = await mango.Transfers.create({
+    await mango.Transfers.create({
       AuthorId: user.mangoUserId,
       DebitedFunds: {
         Currency: "GBP",
@@ -67,27 +38,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       childcareProvider.mangoLegalUserID,
       childcareProvider.mangoBankAccountID
     )
-    // TODO: potentially add id that comes back from transfer to database
 
-    //    {
-    // Id: '69774277',
-    // Tag: null,
-    // CreationDate: 1570639563,
-    // AuthorId: '68516446',
-    // CreditedUserId: '69681155',
-    // DebitedFunds: { Currency: 'GBP', Amount: 12300 },
-    // CreditedFunds: { Currency: 'GBP', Amount: 12300 },
-    // Fees: { Currency: 'GBP', Amount: 0 },
-    // Status: 'SUCCEEDED',
-    // ResultCode: '000000',
-    // ResultMessage: 'Success',
-    // ExecutionDate: 1570639563,
-    // Type: 'TRANSFER',
-    // Nature: 'REGULAR',
-    // DebitedWalletId: '68516447',
-    // CreditedWalletId: '69681266' }
-
-    mango.PayOuts.create({
+    await mango.PayOuts.create({
       AuthorId: childcareProvider.mangoLegalUserID,
       DebitedFunds: {
         Currency: "GBP",
@@ -102,19 +54,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       BankWireRef: reference,
       // @ts-ignore
       PaymentType: "BANK_WIRE",
-    }).then(console.log)
+    })
 
-    // TODO: check slug is working properly
-    // TODO: send different email if provider already registered
-    // !isProviderRegistered &&
-    //   sendPaymentRequestDetails({
-    //     user,
-    //     email: childcareProvider.email,
-    //     amountToPay,
-    //     slug: childcareProvider.id,
-    //   })
+    sendProviderPaymentNotification({
+      email: childcareProvider.email,
+      amountToPay,
+      employeeName: `${user.firstName} ${user.lastName}`,
+    })
 
-    // res.status(200).json({ paymentRequest, newChildcareProvider })
+    sendEmployeeOutgoingPaymentNotification({ email: user.email, amountToPay })
     res.status(200).end()
   } catch (err) {
     console.error(err)

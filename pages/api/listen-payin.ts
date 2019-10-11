@@ -7,7 +7,7 @@ import mango from "../../lib/mango"
 import {
   sendIncorrectPaymentNotification,
   sendEmployerPaymentNotification,
-  sendEmployeePaymentNotification,
+  sendEmployeeLoanPaymentNotification,
 } from "../../utils/mailgunClient"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -59,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         employer,
       })
 
-      await sendEmployeePaymentNotification({
+      await sendEmployeeLoanPaymentNotification({
         payment,
         user,
       })
