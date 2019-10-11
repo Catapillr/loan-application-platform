@@ -4,23 +4,23 @@ import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
 
-import * as Steps from "../components/onboarding/employee/stepNames"
+import * as Steps from "../../components/onboarding/employee/stepNames"
 
-import Welcome from "../components/onboarding/employee/Welcome"
-import Eligibility from "../components/onboarding/employee/Eligibility"
-import Verification from "../components/onboarding/employee/Verification"
-import Salary from "../components/onboarding/employee/Salary"
-import Loan from "../components/onboarding/employee/Loan"
-import Accuracy from "../components/onboarding/employee/Accuracy"
-import Personal from "../components/onboarding/employee/Personal"
-import Contact from "../components/onboarding/employee/Contact"
-import Summary from "../components/onboarding/employee/Summary"
-import Confirmation from "../components/onboarding/employee/Confirmation"
+import Welcome from "../../components/onboarding/employee/Welcome"
+import Eligibility from "../../components/onboarding/employee/Eligibility"
+import Verification from "../../components/onboarding/employee/Verification"
+import Salary from "../../components/onboarding/employee/Salary"
+import Loan from "../../components/onboarding/employee/Loan"
+import Accuracy from "../../components/onboarding/employee/Accuracy"
+import Personal from "../../components/onboarding/employee/Personal"
+import Contact from "../../components/onboarding/employee/Contact"
+import Summary from "../../components/onboarding/employee/Summary"
+import Confirmation from "../../components/onboarding/employee/Confirmation"
 
-import DebugFormik from "../components/DebugFormik"
-import { Button } from "../components/onboarding/styles"
+import DebugFormik from "../../components/DebugFormik"
+import { Button } from "../../components/onboarding/styles"
 
-import orangeLogo from "../static/logo_orange.svg"
+import orangeLogo from "../../static/logo_orange.svg"
 
 // const initialValues = {
 //   employmentStartDate: {
@@ -416,7 +416,7 @@ const ControlsSection = styled.section.attrs({
 `
 
 EmployeeOnboarding.getInitialProps = async ({ req }) => {
-  const slug = req.originalUrl.slice(1)
+  const slug = req.originalUrl.slice(27)
   const res = await axios(
     `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
   )
