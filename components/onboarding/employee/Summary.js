@@ -71,7 +71,7 @@ const getValues = (field, date) => values => {
       return "Permanent role"
     case !value:
       return "N/A"
-    case field === "loanAmount":
+    case field === "loanAmount" || field === "annualSalary":
       return `£${value}`
     case field === "monthlyRepayment":
       return `£${values.loanAmount / values.loanTerms}`

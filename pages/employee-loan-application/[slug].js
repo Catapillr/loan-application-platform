@@ -41,11 +41,11 @@ import orangeLogo from "../../static/logo_orange.svg"
 //     month: 3,
 //     year: 1989,
 //   },
-//   nationality: "Colombian",
+//   nationality: "BE",
 //   employeeID: "8sdj98sd",
 //   phoneNumber: "07443998236",
 //   confirmation: false,
-//   gdprConsent: false
+//   gdprConsent: false,
 // }
 
 const initialValues = {
@@ -98,6 +98,7 @@ const Next = ({
   formCompleted,
   submitForm: displayErrors,
   hideNext,
+  page,
 }) => (
   <div className="w-40">
     {!hideNext && (
@@ -107,7 +108,7 @@ const Next = ({
         onClick={isValid ? onClick : displayErrors}
         disabled={isSubmitting}
       >
-        {formCompleted ? "Summary" : "Next"}
+        {formCompleted && page !== Steps.Salary ? "Summary" : "Next"}
       </Button>
     )}
   </div>
@@ -175,6 +176,11 @@ const Controls = ({
           setFormCompleted(true)
           incrementPage()
         }
+
+      case Steps.Salary:
+        return () => {
+          incrementPage()
+        }
       default:
         return formCompleted ? goToSummaryPage : incrementPage
     }
@@ -195,6 +201,7 @@ const Controls = ({
             formCompleted,
             submitForm,
             hideNext,
+            page,
           }}
         />
       )}
@@ -221,7 +228,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
 }
 
 const Wizard = ({ children, employer }) => {
-  const [page, setPage] = useState(Steps.Welcome)
+  const [page, setPage] = useState(Steps.Salary)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
