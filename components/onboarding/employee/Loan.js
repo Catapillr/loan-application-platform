@@ -7,8 +7,7 @@ import { RangeInput, SelectInput, NumberInput } from "../../Input"
 
 import progress2 from "../../../static/images/progress2.svg"
 
-// TODO: loan amount has to be sent in pennies to mangopay so needs to be stored in pennies
-// i.e. for £3000 loan we have to send amount of 300000 : Int
+import penniesToPounds from "../../../utils/penniesToPounds"
 
 const validation = Yup.object().shape({
   loanAmount: Yup.number()
@@ -47,7 +46,7 @@ const Loan = ({
   const { annualSalary, loanAmount, loanTerms } = values
   const maxLoan = Math.min(
     annualSalary * maxSalaryPercentage * 0.01,
-    maximumAmount
+    penniesToPounds(maximumAmount)
   )
   const monthlyRepayment = (loanAmount / (loanTerms || 12)).toFixed(2)
 

@@ -1496,7 +1496,7 @@ type User {
   dob: DateTime!
   nationality: String!
   employmentStartDate: DateTime!
-  annualSalary: Float!
+  annualSalary: Int!
   employeeID: String
   verificationToken: VerificationToken
   gdprConsent: Boolean!
@@ -1525,7 +1525,7 @@ input UserCreateInput {
   dob: DateTime!
   nationality: String!
   employmentStartDate: DateTime!
-  annualSalary: Float!
+  annualSalary: Int!
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
@@ -1555,7 +1555,7 @@ input UserCreateWithoutEmployerInput {
   dob: DateTime!
   nationality: String!
   employmentStartDate: DateTime!
-  annualSalary: Float!
+  annualSalary: Int!
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
@@ -1576,7 +1576,7 @@ input UserCreateWithoutPaymentRequestsInput {
   dob: DateTime!
   nationality: String!
   employmentStartDate: DateTime!
-  annualSalary: Float!
+  annualSalary: Int!
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
@@ -1635,7 +1635,7 @@ type UserPreviousValues {
   dob: DateTime!
   nationality: String!
   employmentStartDate: DateTime!
-  annualSalary: Float!
+  annualSalary: Int!
   employeeID: String
   gdprConsent: Boolean!
   mangoWalletId: String
@@ -1747,14 +1747,14 @@ input UserScalarWhereInput {
   employmentStartDate_lte: DateTime
   employmentStartDate_gt: DateTime
   employmentStartDate_gte: DateTime
-  annualSalary: Float
-  annualSalary_not: Float
-  annualSalary_in: [Float!]
-  annualSalary_not_in: [Float!]
-  annualSalary_lt: Float
-  annualSalary_lte: Float
-  annualSalary_gt: Float
-  annualSalary_gte: Float
+  annualSalary: Int
+  annualSalary_not: Int
+  annualSalary_in: [Int!]
+  annualSalary_not_in: [Int!]
+  annualSalary_lt: Int
+  annualSalary_lte: Int
+  annualSalary_gt: Int
+  annualSalary_gte: Int
   employeeID: String
   employeeID_not: String
   employeeID_in: [String!]
@@ -1848,7 +1848,7 @@ input UserUpdateInput {
   dob: DateTime
   nationality: String
   employmentStartDate: DateTime
-  annualSalary: Float
+  annualSalary: Int
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
@@ -1867,7 +1867,7 @@ input UserUpdateManyDataInput {
   dob: DateTime
   nationality: String
   employmentStartDate: DateTime
-  annualSalary: Float
+  annualSalary: Int
   employeeID: String
   gdprConsent: Boolean
   mangoWalletId: String
@@ -1883,7 +1883,7 @@ input UserUpdateManyMutationInput {
   dob: DateTime
   nationality: String
   employmentStartDate: DateTime
-  annualSalary: Float
+  annualSalary: Int
   employeeID: String
   gdprConsent: Boolean
   mangoWalletId: String
@@ -1923,7 +1923,7 @@ input UserUpdateWithoutEmployerDataInput {
   dob: DateTime
   nationality: String
   employmentStartDate: DateTime
-  annualSalary: Float
+  annualSalary: Int
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
@@ -1943,7 +1943,7 @@ input UserUpdateWithoutPaymentRequestsDataInput {
   dob: DateTime
   nationality: String
   employmentStartDate: DateTime
-  annualSalary: Float
+  annualSalary: Int
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
@@ -2072,14 +2072,14 @@ input UserWhereInput {
   employmentStartDate_lte: DateTime
   employmentStartDate_gt: DateTime
   employmentStartDate_gte: DateTime
-  annualSalary: Float
-  annualSalary_not: Float
-  annualSalary_in: [Float!]
-  annualSalary_not_in: [Float!]
-  annualSalary_lt: Float
-  annualSalary_lte: Float
-  annualSalary_gt: Float
-  annualSalary_gte: Float
+  annualSalary: Int
+  annualSalary_not: Int
+  annualSalary_in: [Int!]
+  annualSalary_not_in: [Int!]
+  annualSalary_lt: Int
+  annualSalary_lte: Int
+  annualSalary_gt: Int
+  annualSalary_gte: Int
   employeeID: String
   employeeID_not: String
   employeeID_in: [String!]

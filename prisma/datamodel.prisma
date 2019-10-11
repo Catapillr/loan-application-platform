@@ -32,7 +32,7 @@ type User {
   dob: DateTime!
   nationality: String!
   employmentStartDate: DateTime!
-  annualSalary: Float!
+  annualSalary: Int!
   employeeID: String
   verificationToken: VerificationToken @relation(onDelete: CASCADE)
   gdprConsent: Boolean!
