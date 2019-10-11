@@ -12,10 +12,13 @@ import progress2 from "../../../static/images/progress2.svg"
 
 const validation = Yup.object().shape({
   loanAmount: Yup.number()
+    .typeError("Please enter digits only in this box")
     .moreThan(0, "Please choose a loan amount using the slider")
     .required("Required"),
 
-  loanTerms: Yup.number().required("Required"),
+  loanTerms: Yup.number()
+    .typeError("Please enter digits only in this box")
+    .required("Required"),
 })
 
 const validateLoanAmount = (value, maxLoan) => {

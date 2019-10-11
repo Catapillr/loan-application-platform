@@ -11,7 +11,13 @@ const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (
     <Container {...{ text, width, margin, direction }}>
       {text && <LabelAndLink name={name} link={link} text={text} />}
-      <Field {...{ name, direction, id: name, ...attrs }} />
+      {attrs.component === NumberInput ? (
+        <InputWrap name={name}>
+          <Field {...{ name, direction, id: name, ...attrs }} />
+        </InputWrap>
+      ) : (
+        <Field {...{ name, direction, id: name, ...attrs }} />
+      )}
       <div className="relative">
         <ErrorMessage
           name={name}
@@ -110,6 +116,21 @@ const DateInput = ({ text, validate, name }) => (
   </Container>
 )
 
+const InputWrap = styled.span.attrs({
+  className: "w-full",
+})`
+  margin-top: -20px;
+
+  ::before {
+      position: relative;
+      content: "£";
+      left: 36px;
+      ${({ name }) => name === "annualSalary" && "top: 32px"};
+    } 
+  }
+
+`
+
 const NumberInput = styled.input.attrs(
   ({ field, form: { errors, touched } }) => {
     const { name } = field
@@ -131,7 +152,8 @@ const NumberInput = styled.input.attrs(
     })()
 
     return {
-      className: `border-solid border-2 border-${
+      className: `${name === "annualSalary" &&
+        "w-full"} border-solid border-2 border-${
         showErrors || showDateErrors ? "red" : "midgray"
       } rounded-full py-2d5 text-center mr-2`,
       ...field,
