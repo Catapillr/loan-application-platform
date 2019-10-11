@@ -523,7 +523,7 @@ export interface EmployerCreateWithoutUserInput {
   address: String;
   companyNumber?: Maybe<String>;
   emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -561,14 +561,14 @@ export interface LoanWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  amount?: Maybe<Float>;
-  amount_not?: Maybe<Float>;
-  amount_in?: Maybe<Float[] | Float>;
-  amount_not_in?: Maybe<Float[] | Float>;
-  amount_lt?: Maybe<Float>;
-  amount_lte?: Maybe<Float>;
-  amount_gt?: Maybe<Float>;
-  amount_gte?: Maybe<Float>;
+  amount?: Maybe<Int>;
+  amount_not?: Maybe<Int>;
+  amount_in?: Maybe<Int[] | Int>;
+  amount_not_in?: Maybe<Int[] | Int>;
+  amount_lt?: Maybe<Int>;
+  amount_lte?: Maybe<Int>;
+  amount_gt?: Maybe<Int>;
+  amount_gte?: Maybe<Int>;
   terms?: Maybe<Int>;
   terms_not?: Maybe<Int>;
   terms_in?: Maybe<Int[] | Int>;
@@ -715,7 +715,7 @@ export interface LoanSubscriptionWhereInput {
 
 export interface LoanCreateInput {
   id?: Maybe<ID_Input>;
-  amount: Float;
+  amount: Int;
   terms: Int;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
@@ -886,7 +886,7 @@ export interface EmployerUpdateWithoutEmailSuffixesDataInput {
   address?: Maybe<String>;
   companyNumber?: Maybe<String>;
   user?: Maybe<UserUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -911,7 +911,7 @@ export interface EmployerUpdateWithoutUserDataInput {
   address?: Maybe<String>;
   companyNumber?: Maybe<String>;
   emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -1029,7 +1029,7 @@ export interface EmployerUpdateManyMutationInput {
   slug?: Maybe<String>;
   address?: Maybe<String>;
   companyNumber?: Maybe<String>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -1400,7 +1400,7 @@ export interface ChildcareProviderWhereInput {
 }
 
 export interface LoanUpdateDataInput {
-  amount?: Maybe<Float>;
+  amount?: Maybe<Int>;
   terms?: Maybe<Int>;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
@@ -1649,7 +1649,7 @@ export interface EmployerCreateWithoutEmailSuffixesInput {
   address: String;
   companyNumber?: Maybe<String>;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -1681,7 +1681,7 @@ export interface ChildcareProviderUpdateManyMutationInput {
 }
 
 export interface LoanUpdateManyMutationInput {
-  amount?: Maybe<Float>;
+  amount?: Maybe<Int>;
   terms?: Maybe<Int>;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
@@ -1735,7 +1735,7 @@ export interface EmployerCreateInput {
   companyNumber?: Maybe<String>;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
   emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -1928,14 +1928,14 @@ export interface EmployerWhereInput {
   emailSuffixes_every?: Maybe<SuffixWhereInput>;
   emailSuffixes_some?: Maybe<SuffixWhereInput>;
   emailSuffixes_none?: Maybe<SuffixWhereInput>;
-  maximumAmount?: Maybe<Float>;
-  maximumAmount_not?: Maybe<Float>;
-  maximumAmount_in?: Maybe<Float[] | Float>;
-  maximumAmount_not_in?: Maybe<Float[] | Float>;
-  maximumAmount_lt?: Maybe<Float>;
-  maximumAmount_lte?: Maybe<Float>;
-  maximumAmount_gt?: Maybe<Float>;
-  maximumAmount_gte?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
+  maximumAmount_not?: Maybe<Int>;
+  maximumAmount_in?: Maybe<Int[] | Int>;
+  maximumAmount_not_in?: Maybe<Int[] | Int>;
+  maximumAmount_lt?: Maybe<Int>;
+  maximumAmount_lte?: Maybe<Int>;
+  maximumAmount_gt?: Maybe<Int>;
+  maximumAmount_gte?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   minimumServiceLength_not?: Maybe<Int>;
   minimumServiceLength_in?: Maybe<Int[] | Int>;
@@ -2086,7 +2086,7 @@ export interface EmployerUpdateInput {
   companyNumber?: Maybe<String>;
   user?: Maybe<UserUpdateManyWithoutEmployerInput>;
   emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -2376,7 +2376,7 @@ export interface UserSubscriptionWhereInput {
 }
 
 export interface LoanUpdateInput {
-  amount?: Maybe<Float>;
+  amount?: Maybe<Int>;
   terms?: Maybe<Int>;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
@@ -2754,7 +2754,7 @@ export interface UserEdgeSubscription
 
 export interface Loan {
   id: ID_Output;
-  amount: Float;
+  amount: Int;
   terms: Int;
   approved: Boolean;
   agreementURL?: String;
@@ -2764,7 +2764,7 @@ export interface Loan {
 
 export interface LoanPromise extends Promise<Loan>, Fragmentable {
   id: () => Promise<ID_Output>;
-  amount: () => Promise<Float>;
+  amount: () => Promise<Int>;
   terms: () => Promise<Int>;
   approved: () => Promise<Boolean>;
   agreementURL: () => Promise<String>;
@@ -2776,7 +2776,7 @@ export interface LoanSubscription
   extends Promise<AsyncIterator<Loan>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<Float>>;
+  amount: () => Promise<AsyncIterator<Int>>;
   terms: () => Promise<AsyncIterator<Int>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   agreementURL: () => Promise<AsyncIterator<String>>;
@@ -2788,7 +2788,7 @@ export interface LoanNullablePromise
   extends Promise<Loan | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  amount: () => Promise<Float>;
+  amount: () => Promise<Int>;
   terms: () => Promise<Int>;
   approved: () => Promise<Boolean>;
   agreementURL: () => Promise<String>;
@@ -3096,7 +3096,7 @@ export interface EmployerPreviousValues {
   slug: String;
   address: String;
   companyNumber?: String;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -3113,7 +3113,7 @@ export interface EmployerPreviousValuesPromise
   slug: () => Promise<String>;
   address: () => Promise<String>;
   companyNumber: () => Promise<String>;
-  maximumAmount: () => Promise<Float>;
+  maximumAmount: () => Promise<Int>;
   minimumServiceLength: () => Promise<Int>;
   maxSalaryPercentage: () => Promise<Float>;
   payrollEmail: () => Promise<String>;
@@ -3130,7 +3130,7 @@ export interface EmployerPreviousValuesSubscription
   slug: () => Promise<AsyncIterator<String>>;
   address: () => Promise<AsyncIterator<String>>;
   companyNumber: () => Promise<AsyncIterator<String>>;
-  maximumAmount: () => Promise<AsyncIterator<Float>>;
+  maximumAmount: () => Promise<AsyncIterator<Int>>;
   minimumServiceLength: () => Promise<AsyncIterator<Int>>;
   maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
   payrollEmail: () => Promise<AsyncIterator<String>>;
@@ -3242,7 +3242,7 @@ export interface SuffixEdgeSubscription
 
 export interface LoanPreviousValues {
   id: ID_Output;
-  amount: Float;
+  amount: Int;
   terms: Int;
   approved: Boolean;
   agreementURL?: String;
@@ -3254,7 +3254,7 @@ export interface LoanPreviousValuesPromise
   extends Promise<LoanPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  amount: () => Promise<Float>;
+  amount: () => Promise<Int>;
   terms: () => Promise<Int>;
   approved: () => Promise<Boolean>;
   agreementURL: () => Promise<String>;
@@ -3266,7 +3266,7 @@ export interface LoanPreviousValuesSubscription
   extends Promise<AsyncIterator<LoanPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<Float>>;
+  amount: () => Promise<AsyncIterator<Int>>;
   terms: () => Promise<AsyncIterator<Int>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   agreementURL: () => Promise<AsyncIterator<String>>;
@@ -3301,7 +3301,7 @@ export interface Employer {
   slug: String;
   address: String;
   companyNumber?: String;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -3334,7 +3334,7 @@ export interface EmployerPromise extends Promise<Employer>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  maximumAmount: () => Promise<Float>;
+  maximumAmount: () => Promise<Int>;
   minimumServiceLength: () => Promise<Int>;
   maxSalaryPercentage: () => Promise<Float>;
   payrollEmail: () => Promise<String>;
@@ -3369,7 +3369,7 @@ export interface EmployerSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  maximumAmount: () => Promise<AsyncIterator<Float>>;
+  maximumAmount: () => Promise<AsyncIterator<Int>>;
   minimumServiceLength: () => Promise<AsyncIterator<Int>>;
   maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
   payrollEmail: () => Promise<AsyncIterator<String>>;
@@ -3404,7 +3404,7 @@ export interface EmployerNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  maximumAmount: () => Promise<Float>;
+  maximumAmount: () => Promise<Int>;
   minimumServiceLength: () => Promise<Int>;
   maxSalaryPercentage: () => Promise<Float>;
   payrollEmail: () => Promise<String>;
@@ -3744,9 +3744,9 @@ export interface AggregatePaymentRequestSubscription
 }
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 */
-export type Int = number;
+export type Float = number;
 
 export type Long = string;
 
@@ -3761,9 +3761,9 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
-export type Float = number;
+export type Int = number;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.

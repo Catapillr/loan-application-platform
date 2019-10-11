@@ -6,7 +6,7 @@ type Employer {
   companyNumber: String @unique
   user: [User!]
   emailSuffixes: [Suffix!] @unique @relation(onDelete: CASCADE)
-  maximumAmount: Float!
+  maximumAmount: Int!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
   payrollEmail: String!
@@ -35,7 +35,7 @@ type User {
   annualSalary: Float!
   employeeID: String
   verificationToken: VerificationToken @relation(onDelete: CASCADE)
-  gdprConsent: Boolean! 
+  gdprConsent: Boolean!
   loan: Loan @relation(onDelete: CASCADE)
   mangoWalletId: String @unique
   mangoUserId: String @unique
@@ -55,7 +55,7 @@ type VerificationToken {
 
 type Loan {
   id: ID! @id
-  amount: Float!
+  amount: Int!
   terms: Int!
   approved: Boolean! @default(value: false)
   agreementURL: String
@@ -68,7 +68,7 @@ type PaymentRequest {
   mangoPaymentID: String @unique
   user: User! @relation(onDelete: SET_NULL)
   childcareProvider: ChildcareProvider! @relation(onDelete: SET_NULL)
-  amountToPay: Float! 
+  amountToPay: Float!
   consentToPay: Boolean! @default(value: false)
   reference: String
   expiresAt: DateTime

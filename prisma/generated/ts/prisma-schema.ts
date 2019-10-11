@@ -274,7 +274,7 @@ type Employer {
   companyNumber: String
   user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   emailSuffixes(where: SuffixWhereInput, orderBy: SuffixOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Suffix!]
-  maximumAmount: Float!
+  maximumAmount: Int!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
   payrollEmail: String!
@@ -297,7 +297,7 @@ input EmployerCreateInput {
   companyNumber: String
   user: UserCreateManyWithoutEmployerInput
   emailSuffixes: SuffixCreateManyWithoutEmployerInput
-  maximumAmount: Float!
+  maximumAmount: Int!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
   payrollEmail: String!
@@ -321,7 +321,7 @@ input EmployerCreateWithoutEmailSuffixesInput {
   address: String!
   companyNumber: String
   user: UserCreateManyWithoutEmployerInput
-  maximumAmount: Float!
+  maximumAmount: Int!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
   payrollEmail: String!
@@ -335,7 +335,7 @@ input EmployerCreateWithoutUserInput {
   address: String!
   companyNumber: String
   emailSuffixes: SuffixCreateManyWithoutEmployerInput
-  maximumAmount: Float!
+  maximumAmount: Int!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
   payrollEmail: String!
@@ -380,7 +380,7 @@ type EmployerPreviousValues {
   slug: String!
   address: String!
   companyNumber: String
-  maximumAmount: Float!
+  maximumAmount: Int!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
   payrollEmail: String!
@@ -414,7 +414,7 @@ input EmployerUpdateInput {
   companyNumber: String
   user: UserUpdateManyWithoutEmployerInput
   emailSuffixes: SuffixUpdateManyWithoutEmployerInput
-  maximumAmount: Float
+  maximumAmount: Int
   minimumServiceLength: Int
   maxSalaryPercentage: Float
   payrollEmail: String
@@ -426,7 +426,7 @@ input EmployerUpdateManyMutationInput {
   slug: String
   address: String
   companyNumber: String
-  maximumAmount: Float
+  maximumAmount: Int
   minimumServiceLength: Int
   maxSalaryPercentage: Float
   payrollEmail: String
@@ -453,7 +453,7 @@ input EmployerUpdateWithoutEmailSuffixesDataInput {
   address: String
   companyNumber: String
   user: UserUpdateManyWithoutEmployerInput
-  maximumAmount: Float
+  maximumAmount: Int
   minimumServiceLength: Int
   maxSalaryPercentage: Float
   payrollEmail: String
@@ -466,7 +466,7 @@ input EmployerUpdateWithoutUserDataInput {
   address: String
   companyNumber: String
   emailSuffixes: SuffixUpdateManyWithoutEmployerInput
-  maximumAmount: Float
+  maximumAmount: Int
   minimumServiceLength: Int
   maxSalaryPercentage: Float
   payrollEmail: String
@@ -560,14 +560,14 @@ input EmployerWhereInput {
   emailSuffixes_every: SuffixWhereInput
   emailSuffixes_some: SuffixWhereInput
   emailSuffixes_none: SuffixWhereInput
-  maximumAmount: Float
-  maximumAmount_not: Float
-  maximumAmount_in: [Float!]
-  maximumAmount_not_in: [Float!]
-  maximumAmount_lt: Float
-  maximumAmount_lte: Float
-  maximumAmount_gt: Float
-  maximumAmount_gte: Float
+  maximumAmount: Int
+  maximumAmount_not: Int
+  maximumAmount_in: [Int!]
+  maximumAmount_not_in: [Int!]
+  maximumAmount_lt: Int
+  maximumAmount_lte: Int
+  maximumAmount_gt: Int
+  maximumAmount_gte: Int
   minimumServiceLength: Int
   minimumServiceLength_not: Int
   minimumServiceLength_in: [Int!]
@@ -641,7 +641,7 @@ input EmployerWhereUniqueInput {
 
 type Loan {
   id: ID!
-  amount: Float!
+  amount: Int!
   terms: Int!
   approved: Boolean!
   agreementURL: String
@@ -657,7 +657,7 @@ type LoanConnection {
 
 input LoanCreateInput {
   id: ID
-  amount: Float!
+  amount: Int!
   terms: Int!
   approved: Boolean
   agreementURL: String
@@ -692,7 +692,7 @@ enum LoanOrderByInput {
 
 type LoanPreviousValues {
   id: ID!
-  amount: Float!
+  amount: Int!
   terms: Int!
   approved: Boolean!
   agreementURL: String
@@ -719,21 +719,21 @@ input LoanSubscriptionWhereInput {
 }
 
 input LoanUpdateDataInput {
-  amount: Float
+  amount: Int
   terms: Int
   approved: Boolean
   agreementURL: String
 }
 
 input LoanUpdateInput {
-  amount: Float
+  amount: Int
   terms: Int
   approved: Boolean
   agreementURL: String
 }
 
 input LoanUpdateManyMutationInput {
-  amount: Float
+  amount: Int
   terms: Int
   approved: Boolean
   agreementURL: String
@@ -768,14 +768,14 @@ input LoanWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  amount: Float
-  amount_not: Float
-  amount_in: [Float!]
-  amount_not_in: [Float!]
-  amount_lt: Float
-  amount_lte: Float
-  amount_gt: Float
-  amount_gte: Float
+  amount: Int
+  amount_not: Int
+  amount_in: [Int!]
+  amount_not_in: [Int!]
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
   terms: Int
   terms_not: Int
   terms_in: [Int!]
