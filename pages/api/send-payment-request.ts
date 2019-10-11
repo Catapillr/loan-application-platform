@@ -39,6 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       childcareProvider.mangoBankAccountID
     )
 
+    // TODO: should we move this out to listen event?
     await mango.PayOuts.create({
       AuthorId: childcareProvider.mangoLegalUserID,
       DebitedFunds: {
