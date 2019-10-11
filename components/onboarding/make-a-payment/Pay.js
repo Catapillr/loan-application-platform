@@ -46,6 +46,13 @@ const Edit = styled.img.attrs({
   className: "mr-8",
 })``
 
+const validateAmount = value => {
+  const amount = parseFloat(value.substring(1))
+  if (amount <= 0) {
+    return "Amount must be more than 0"
+  }
+}
+
 const Pay = ({
   incrementPage,
   setFieldValue,
@@ -63,9 +70,10 @@ const Pay = ({
     <Copy>How much would you like to pay?</Copy>
     <Input
       name="amountToPay"
-      onBlur={e =>
+      onBlur={e => {
         setFieldValue("amountToPay", formatToCurrencyString(e.target.value))
-      }
+      }}
+      validate={validateAmount}
       component={PriceInput}
       size={amountToPay.length > 7 ? amountToPay.length : 7}
       className="text-center block m-auto"
