@@ -32,9 +32,14 @@ const doesEmailExist = async ({ email }) => {
   return doesEmailExist
 }
 
-const validateEmail = async (emailSuffix, value) => {
+const validateEmail = async (emailSuffixes, value) => {
   let error
-  if (!value.endsWith(emailSuffix)) {
+
+  const valueEndsWithEligibleSuffix = R.any(suffix =>
+    value.endsWith(suffix.domain)
+  )(emailSuffixes)
+
+  if (!valueEndsWithEligibleSuffix) {
     error = "Sorry! You need a work email address to sign up."
     return error
   }
@@ -70,39 +75,40 @@ const validateDate = (minimumServiceLength, date) => {
   }
 }
 
-const Eligibility = ({
-  employer: { emailSuffix, minimumServiceLength },
-  values: { employmentStartDate },
-}) => (
-  <Questions
-    formWidth="70"
-    title="We need a few details from you to verify that you are eligible"
-    questions={[
-      {
-        text: "I confirm that my current role is permanent:",
-        name: "permanentRole",
-        className: "",
-        type: "checkbox",
-        component: CheckboxInput,
-      },
-      {
-        text: "When did you start working for your employer?",
-        date: true,
-        name: "employmentStartDate",
-        validate: () => validateDate(minimumServiceLength, employmentStartDate),
-      },
-      {
-        text: "Please enter your work email:",
-        name: "email",
-        type: "email",
-        component: TextInput,
-        className: "",
-        validate: value => validateEmail(emailSuffix, value),
-        placeholder: "e.g. dan@example.com",
-      },
-    ]}
-  />
-)
+const Eligibility = ({ employer, values: { employmentStartDate } }) => {
+  const { emailSuffixes, minimumServiceLength } = employer
+  return (
+    <Questions
+      formWidth="70"
+      title="We need a few details from you to verify that you are eligible"
+      questions={[
+        {
+          text: "I confirm that my current role is permanent:",
+          name: "permanentRole",
+          className: "",
+          type: "checkbox",
+          component: CheckboxInput,
+        },
+        {
+          text: "When did you start working for your employer?",
+          date: true,
+          name: "employmentStartDate",
+          validate: () =>
+            validateDate(minimumServiceLength, employmentStartDate),
+        },
+        {
+          text: "Please enter your work email:",
+          name: "email",
+          type: "email",
+          component: TextInput,
+          className: "",
+          validate: value => validateEmail(emailSuffixes, value),
+          placeholder: "e.g. dan@example.com",
+        },
+      ]}
+    />
+  )
+}
 
 Eligibility.validationSchema = validation
 Eligibility.progressImg = progress1

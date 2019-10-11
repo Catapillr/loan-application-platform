@@ -13,7 +13,6 @@ const seedDatabase = async () => {
     const yalla = await prisma.createEmployer({
       name: "yalla",
       slug: "yalla",
-      emailSuffix: "@yallacooperative.com",
       maximumAmount: 2000,
       minimumServiceLength: 8,
       maxSalaryPercentage: 25,
@@ -22,10 +21,27 @@ const seedDatabase = async () => {
       address: "149 Fonthill Road, London, N4 3HF",
     })
 
+    const yallaSuffix = await prisma.createSuffix({
+      domain: "@yallacooperative.com",
+      employer: {
+        connect: {
+          slug: "yalla",
+        },
+      }
+    })
+
+    const yallaSuffix2 = await prisma.createSuffix({
+      domain: "@yalla.com",
+      employer: {
+        connect: {
+          slug: "yalla",
+        },
+      }
+    })
+
     const infact = await prisma.createEmployer({
       name: "infact",
       slug: "infact",
-      emailSuffix: "@infactcoop.com",
       maximumAmount: 3000,
       minimumServiceLength: 6,
       maxSalaryPercentage: 20,
@@ -33,6 +49,26 @@ const seedDatabase = async () => {
       signerEmail: "hello@infactcoop.com",
       address: "149 Fonthill Road, London, N4 3HF",
       companyNumber: "11912270",
+      emailSuffixes: null,
+    })
+
+
+    const infactSuffix = await prisma.createSuffix({
+      domain: "@infactcoop.com",
+      employer: {
+        connect: {
+          slug: "infact",
+        },
+      }
+    })
+
+    const infactSuffix2 = await prisma.createSuffix({
+      domain: "@infact.com",
+      employer: {
+        connect: {
+          slug: "infact",
+        },
+      }
     })
 
     const ivan = await prisma.createUser({
