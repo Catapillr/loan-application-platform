@@ -148,7 +148,10 @@ const Summary = ({ values, setPage }) => {
               className: "",
               type: "checkbox",
               component: CheckboxInput,
-              link: { text: "I've got some questions", href: "faq" },
+              link: {
+                text: "I've got some questions",
+                href: "https://catapillr.com/faq/",
+              },
             },
             {
               text:
@@ -158,7 +161,10 @@ const Summary = ({ values, setPage }) => {
               className: "",
               type: "checkbox",
               component: CheckboxInput,
-              link: { text: "See privacy policy", href: "privacy" },
+              link: {
+                text: "See privacy policy",
+                href: "https://catapillr.com/data-privacy-policy/",
+              },
             },
           ]}
         />

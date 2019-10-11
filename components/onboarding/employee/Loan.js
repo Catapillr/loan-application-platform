@@ -89,8 +89,8 @@ const Loan = ({
           },
         ]}
       />
-      <div className="w-2/6">
-        <div className="border border-midgray px-8 py-10">
+      <div className="w-2/6 flex flex-col">
+        <div className="border border-midgray px-8 py-10 mb-2">
           <p className="mb-4 bold underline">Summary</p>
           <div>
             <div className="flex justify-between mb-3">
@@ -109,6 +109,18 @@ const Loan = ({
           <Divider />
           <p className="text-right">Total £{loanAmount}</p>
         </div>
+        <p>
+          Have more questions? Why not check out our{" "}
+          <a
+            href="https://catapillr.com/faq/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal underline"
+          >
+            FAQ page
+          </a>
+          .
+        </p>
       </div>
     </div>
   )
