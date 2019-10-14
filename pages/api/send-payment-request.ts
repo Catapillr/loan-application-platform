@@ -102,7 +102,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       BankWireRef: reference,
       // @ts-ignore
       PaymentType: "BANK_WIRE",
-    }).then(console.log)
+    })
 
     // TODO: check slug is working properly
     // TODO: send different email if provider already registered

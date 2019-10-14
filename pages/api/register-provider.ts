@@ -74,8 +74,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const createDocumentWithPages = async (file: any, Type: KycDocument) => {
       try {
-        console.log("file", file)
-        console.log("userID", providerLegalUser.Id)
         const document = await mango.Users.createKycDocument(
           providerLegalUser.Id,
           {

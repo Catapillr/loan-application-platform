@@ -304,7 +304,6 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
         setTouched,
         setFieldValue,
       }) => {
-        // console.log(values)
         const debugging = false
 
         return (
