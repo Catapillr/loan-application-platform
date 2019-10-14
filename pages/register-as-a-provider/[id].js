@@ -237,7 +237,11 @@ const onSubmit = ({
   console.log("Register-as-a-provider form submitted")
 
   try {
-    const form = createFormData(values)
+    const form = createFormData({
+      ...values,
+      childcareProviderEmail,
+    })
+
     axios.post("/api/register-provider", form)
 
     incrementPage()

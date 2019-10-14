@@ -1,11 +1,18 @@
 import * as R from "ramda"
 export default values => {
-    const form = new FormData()
+  const form = new FormData()
 
-    const [files, fields] = R.partition(value => value instanceof File)(values)
+  const [files, fields] = R.partition(value => value instanceof File)(values)
 
-    R.mapObjIndexed((val, key) => form.append(key, val))(fields)
-    R.mapObjIndexed((val, key) => form.append(key, val, val.name))(files)
+  const [complexFields, simpleFields] = R.partition(
+    value => typeof value === "object"
+  )(fields)
 
-return form
+  R.mapObjIndexed((val, key) => form.append(key, val))(simpleFields)
+  R.mapObjIndexed((val, key) => form.append(key, JSON.stringify(val)))(
+    complexFields
+  )
+  R.mapObjIndexed((val, key) => form.append(key, val, val.name))(files)
+
+  return form
 }
