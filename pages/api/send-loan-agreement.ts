@@ -25,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     employeeID,
     phoneNumber,
     employer,
+    gdprConsent,
   } = req.body
 
   prisma
@@ -45,6 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           terms: parseInt(loanTerms),
         },
       },
+      gdprConsent,
     })
     .catch(e => {
       console.error("Error creating prisma user: ", e) //eslint-disable-line no-console

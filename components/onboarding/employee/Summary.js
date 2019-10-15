@@ -1,14 +1,27 @@
 import styled from "styled-components"
 import moment from "moment"
 import * as R from "ramda"
+import * as Yup from "yup"
 
 import { Heading } from "../styles"
+import Questions from "../Questions"
+import { CheckboxInput } from "../../Input"
 
-import tealTick from "../../../static/icons/teal-tick.svg"
 import progress4 from "../../../static/images/progress4.svg"
 import { Loan, Personal, Eligibility, Contact, Salary } from "./stepNames"
 
 import nationalities from "../nationalityOptions"
+
+const validation = Yup.object().shape({
+  confirmation: Yup.boolean().oneOf(
+    [true],
+    "You must confirm your information is correct before continuing"
+  ),
+  gdprConsent: Yup.boolean().oneOf(
+    [true],
+    "Sorry, we need to save your data to process your loan!"
+  ),
+})
 
 const sections = [
   {
@@ -123,21 +136,37 @@ const Summary = ({ values, setPage }) => {
           )
         })}
         <Divider />
-        <div className="flex">
-          <img className="mr-4" src={tealTick} alt="tick" />
-          <div>
-            <p>
-              By submitting you are confirming that, to the best of your
-              knowledge, the details you are providing are correct.
-            </p>
-            <p className="text-teal underline">I've got some questions</p>
-          </div>
-        </div>
+        <Questions
+          formWidth="100"
+          questions={[
+            {
+              text:
+                "By submitting you are confirming that, to the best of your knowledge, the details you are providing are correct.",
+              name: "confirmation",
+              direction: "flex-row-reverse",
+              className: "",
+              type: "checkbox",
+              component: CheckboxInput,
+              link: { text: "I've got some questions", href: "faq" },
+            },
+            {
+              text:
+                "I consent to the storage and processing of this information as outlined in Catapillr's privacy policy.",
+              name: "gdprConsent",
+              direction: "flex-row-reverse",
+              className: "",
+              type: "checkbox",
+              component: CheckboxInput,
+              link: { text: "See privacy policy", href: "privacy" },
+            },
+          ]}
+        />
       </SummaryContainer>
     </main>
   )
 }
 
+Summary.validationSchema = validation
 Summary.progressImg = progress4
 Summary.componentName = "Summary"
 
