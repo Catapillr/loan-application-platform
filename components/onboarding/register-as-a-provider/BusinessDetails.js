@@ -25,14 +25,13 @@ const validation = Yup.object().shape({
     .email()
     .required("This is a required field"),
   companyNumber: Yup.string().required("This is a required field"),
-  ownerFirstName: Yup.string().required("This is a required field"),
-  ownerLastName: Yup.string().required("This is a required field"),
-  ownerKeyContact: Yup.string().required("This is a required field"),
-  ownerDob: Yup.object().required("This is a required field"),
-  ownerCountryOfResidence: Yup.string()
+  repFirstName: Yup.string().required("This is a required field"),
+  repLastName: Yup.string().required("This is a required field"),
+  repDob: Yup.object().required("This is a required field"),
+  repCountryOfResidence: Yup.string()
     .oneOf(nationalityValues, "Please select a valid country")
     .required("This is a required field"),
-  ownerNationality: Yup.string()
+  repNationality: Yup.string()
     .oneOf(nationalityValues, "Please select a valid country")
     .required("This is a required field"),
 
@@ -66,7 +65,7 @@ const validateDate = date => {
   }
 }
 
-const BusinessDetails = ({ values: { ownerDob } }) => (
+const BusinessDetails = ({ values: { repDob } }) => (
   <Container>
     <Heading className="mb-5">
       We need a few details from you to verify you as an eligible provider.
@@ -88,53 +87,91 @@ const BusinessDetails = ({ values: { ownerDob } }) => (
           placeholder: "Start here...",
         },
         {
-          text: "Generic business email",
-          name: "businessEmail",
-          component: TextInput,
-          placeholder: "Example: info@catapillr.com",
-        },
-        {
           text: "Company Number",
           name: "companyNumber",
           component: TextInput,
           width: "1/2",
         },
+        {
+          text: "Generic business email",
+          name: "businessEmail",
+          component: TextInput,
+          placeholder: "Example: info@catapillr.com",
+        },
       ]}
     />
     <Questions
       formWidth="100"
-      title="1.2 Details of the business owner or legal representative"
+      title="1.2 Registered Company Address"
+      questions={[
+        {
+          text: "Address Line 1",
+          name: "AddressLine1",
+          component: TextInput,
+          width: "full",
+          placeholder: "148 Fonthill Road",
+        },
+        {
+          text: "Address Line 2",
+          name: "AddressLine2",
+          component: TextInput,
+          width: "full",
+          placeholder: "Finsbury Park",
+        },
+        {
+          text: "City",
+          name: "City",
+          component: TextInput,
+          width: "1/2",
+          placeholder: "Stroud",
+        },
+        {
+          text: "Post code",
+          name: "PostalCode",
+          component: TextInput,
+          width: "1/2",
+          placeholder: "AB1 3NT",
+        },
+
+        {
+          text: "Country",
+          name: "Country",
+          component: SelectInput,
+          options: nationalityOptions,
+          width: "full",
+          placeholder: "Select country",
+        },
+      ]}
+    />
+    <Questions
+      formWidth="100"
+      title="1.3 Details of the business representative"
       className="mb-10"
       questions={[
         {
           text: "First name",
-          name: "ownerFirstName",
+          name: "repFirstName",
           component: TextInput,
           width: "1/2",
           placeholder: "e.g. Maria",
         },
         {
           text: "Last name",
-          name: "ownerLastName",
+          name: "repLastName",
           component: TextInput,
           width: "1/2",
           placeholder: "e.g. Wilson",
         },
         {
-          text: "Key contact (in case it's not the legal representative)",
-          name: "ownerKeyContact",
-          component: TextInput,
-        },
-        {
           text: "Date of birth",
           component: DateInput,
           custom: true,
-          name: "ownerDob",
-          validate: () => validateDate(ownerDob),
+          name: "repDob",
+          validate: () => validateDate(repDob),
         },
         {
           text: "Country of residence",
-          name: "ownerCountryOfResidence",
+          name: "repCountryOfResidence",
           type: "select",
           component: SelectInput,
           width: "49/100",
@@ -143,93 +180,12 @@ const BusinessDetails = ({ values: { ownerDob } }) => (
         },
         {
           text: "Nationality",
-          name: "ownerNationality",
+          name: "repNationality",
           type: "select",
           component: SelectInput,
           width: "49/100",
           options: nationalityOptions,
           placeholder: "Select nationality",
-        },
-
-        {
-          text: "Address Line 1",
-          name: "AddressLine1",
-          component: TextInput,
-          width: "full",
-          placeholder: "148 Fonthill Road",
-        },
-        {
-          text: "Address Line 2",
-          name: "AddressLine2",
-          component: TextInput,
-          width: "full",
-          placeholder: "Finsbury Park",
-        },
-        {
-          text: "City",
-          name: "City",
-          component: TextInput,
-          width: "1/2",
-          placeholder: "Stroud",
-        },
-        {
-          text: "Post code",
-          name: "PostalCode",
-          component: TextInput,
-          width: "1/2",
-          placeholder: "AB1 3NT",
-        },
-
-        {
-          text: "Country",
-          name: "Country",
-          component: SelectInput,
-          options: nationalityOptions,
-          width: "full",
-          placeholder: "Select country",
-        },
-      ]}
-    />
-    <Questions
-      formWidth="100"
-      title="1.3 Registered Company Address"
-      questions={[
-        {
-          text: "Address Line 1",
-          name: "AddressLine1",
-          component: TextInput,
-          width: "full",
-          placeholder: "148 Fonthill Road",
-        },
-        {
-          text: "Address Line 2",
-          name: "AddressLine2",
-          component: TextInput,
-          width: "full",
-          placeholder: "Finsbury Park",
-        },
-        {
-          text: "City",
-          name: "City",
-          component: TextInput,
-          width: "1/2",
-          placeholder: "Stroud",
-        },
-        {
-          text: "Post code",
-          name: "PostalCode",
-          component: TextInput,
-          width: "1/2",
-          placeholder: "AB1 3NT",
-        },
-
-        {
-          text: "Country",
-          name: "Country",
-          component: SelectInput,
-          options: nationalityOptions,
-          width: "full",
-          placeholder: "Select country",
         },
       ]}
     />

@@ -24,12 +24,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       businessEmail,
       childcareProviderEmail,
       companyNumber,
-      ownerFirstName,
-      ownerLastName,
-      ownerKeyContact,
-      ownerDob,
-      ownerCountryOfResidence,
-      ownerNationality,
+      repFirstName,
+      repLastName,
+      repKeyContact,
+      repDob,
+      repCountryOfResidence,
+      repNationality,
       bankName,
       accountNumber,
       sortCode,
@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } = fields
 
     // @ts-ignore
-    const LegalRepresentativeBirthday = moment(JSON.parse(ownerDob)).unix()
+    const LegalRepresentativeBirthday = moment(JSON.parse(repDob)).unix()
 
     // @ts-ignore
     const providerLegalUser = await mango.Users.create({
@@ -59,11 +59,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         Country,
       },
       LegalRepresentativeBirthday,
-      LegalRepresentativeCountryOfResidence: ownerCountryOfResidence,
-      LegalRepresentativeNationality: ownerNationality,
+      LegalRepresentativeCountryOfResidence: repCountryOfResidence,
+      LegalRepresentativeNationality: repNationality,
       LegalRepresentativeEmail: businessEmail,
-      LegalRepresentativeFirstName: ownerFirstName,
-      LegalRepresentativeLastName: ownerLastName,
+      LegalRepresentativeFirstName: repFirstName,
+      LegalRepresentativeLastName: repLastName,
       CompanyNumber: companyNumber,
     })
 
