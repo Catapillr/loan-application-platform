@@ -6,7 +6,7 @@ import * as R from "ramda"
 import * as moment from "moment"
 import currencyFormatter from "currency-formatter"
 
-import { NURSERY, CLUB } from "../utils/constants"
+// import { NURSERY, CLUB } from "../utils/constants"
 
 import Header from "../components/Header"
 import Footer from "../components/Footer"
@@ -75,15 +75,10 @@ const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
           {R.values(recentPayeesByMangoId).map(payee => (
             <Payee
               name={payee.Name}
-              key={payee.Name}
+              key={payee.Id}
               slug={payee.CompanyNumber}
             />
           ))}
-          {/* <Payee name="True Colours Nursery" childcareType={NURSERY} slug="" />
-          <Payee name="Rocky Climbing Wall" childcareType={CLUB} slug="" />
-          <Payee name="Clapton FC" childcareType={CLUB} slug="" />
-          <Payee name="True Colours Nursery" childcareType={NURSERY} slug="" />
-          <Payee name="Rocky Climbing Wall" childcareType={CLUB} slug="" /> */}
         </PayeesContainer>
       </Main>
       <Aside>
@@ -112,90 +107,29 @@ const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
                       .format("D MMMM YYYY")}
                   />
                 )
-              // case PayIn:
-              //   return (
-              //     <Transaction
-              //       key={transaction.Id}
-              //       name={
-              //         recentPayeesByMangoId[transaction.CreditedUserId].Name
-              //       }
-              //       amount={`+${formatAmounts(
-              //         transaction.DebitedFunds.Amount
-              //       )}`}
-              //       date={moment
-              //         .unix(transaction.ExecutionDate) //eslint-disable-line import/namespace
-              //         .format("D MMMM YYYY")}
-              //     />
-              //   )
+              case PayIn:
+                return (
+                  <Transaction
+                    key={transaction.Id}
+                    name={transaction.debitedUserName}
+                    amount={`+${formatAmounts(
+                      transaction.CreditedFunds.Amount
+                    )}`}
+                    date={moment
+                      .unix(transaction.ExecutionDate) //eslint-disable-line import/namespace
+                      .format("D MMMM YYYY")}
+                  />
+                )
               default:
                 return <div></div>
             }
           })}
-          {/* <Transaction
-            name="True Colours Nursery"
-            amount="-£400"
-            date="12 July 2019"
-          />
-          <Transaction
-            name="Rocky Climbing Wall"
-            amount="-£200"
-            date="10 June 2019"
-          />
-          <Transaction name="Clapton FC" amount="-£500" date="1 May 2019" />
-          <Transaction
-            name="InFact Digital Co-op"
-            amount="+£3,000"
-            date="20 March 2019"
-          /> */}
         </TransactionContainer>
       </Aside>
     </Contents>
-
-    <pre>{JSON.stringify(recentPayeesByMangoId, undefined, 2)}</pre>
-    <pre>{JSON.stringify(transactions, undefined, 2)}</pre>
-
     <Footer />
   </Container>
 )
-
-// { Id: '69682592',
-//     Tag: null,
-//     CreationDate: 1570546169,
-//     AuthorId: '68516446',
-//     CreditedUserId: '69681155',
-//     DebitedFunds: { Currency: 'GBP', Amount: 11000 },
-//     CreditedFunds: { Currency: 'GBP', Amount: 11000 },
-//     Fees: { Currency: 'GBP', Amount: 0 },
-//     Status: 'SUCCEEDED',
-//     ResultCode: '000000',
-//     ResultMessage: 'Success',
-//     ExecutionDate: 1570546169,
-//     Type: 'TRANSFER',
-//     Nature: 'REGULAR',
-//     CreditedWalletId: '69681266',
-//     DebitedWalletId: '68516447',
-//     creditedUser:
-//      { HeadquartersAddress: [Object],
-//        LegalRepresentativeAddress: [Object],
-//        Name: 'InFact',
-//        LegalPersonType: 'BUSINESS',
-//        LegalRepresentativeFirstName: 'Maximus',
-//        LegalRepresentativeLastName: 'Gerber',
-//        LegalRepresentativeEmail: null,
-//        LegalRepresentativeBirthday: 1463496101,
-//        LegalRepresentativeNationality: 'GB',
-//        LegalRepresentativeCountryOfResidence: 'GB',
-//        ProofOfRegistration: null,
-//        ShareholderDeclaration: null,
-//        Statute: null,
-//        LegalRepresentativeProofOfIdentity: null,
-//        CompanyNumber: 'LU72HN11',
-//        PersonType: 'LEGAL',
-//        Email: 'hello@infactcoop.com',
-//        KYCLevel: 'LIGHT',
-//        Id: '69681155',
-//        Tag: null,
-//        CreationDate: 1570544640 } },
 
 Dash.getInitialProps = async ctx => {
   const { req } = ctx
