@@ -14,7 +14,7 @@
     "==docker&prisma==": "---------------------------------------------------------------------------------",
     "up": "docker-compose up -d",
     "down": "docker-compose down --remove-orphans",
-    "deploy": "prisma deploy",
+    "deploy": "prisma deploy --force",
     "schema": "prisma generate",
     "token": "prisma token",
     "==prisma-dev==": "--------------------------------------------------------------------------------------",
