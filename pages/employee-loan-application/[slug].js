@@ -4,23 +4,23 @@ import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
 
-import * as Steps from "../components/onboarding/employee/stepNames"
+import * as Steps from "../../components/onboarding/employee/stepNames"
 
-import Welcome from "../components/onboarding/employee/Welcome"
-import Eligibility from "../components/onboarding/employee/Eligibility"
-import Verification from "../components/onboarding/employee/Verification"
-import Salary from "../components/onboarding/employee/Salary"
-import Loan from "../components/onboarding/employee/Loan"
-import Accuracy from "../components/onboarding/employee/Accuracy"
-import Personal from "../components/onboarding/employee/Personal"
-import Contact from "../components/onboarding/employee/Contact"
-import Summary from "../components/onboarding/employee/Summary"
-import Confirmation from "../components/onboarding/employee/Confirmation"
+import Welcome from "../../components/onboarding/employee/Welcome"
+import Eligibility from "../../components/onboarding/employee/Eligibility"
+import Verification from "../../components/onboarding/employee/Verification"
+import Salary from "../../components/onboarding/employee/Salary"
+import Loan from "../../components/onboarding/employee/Loan"
+import Accuracy from "../../components/onboarding/employee/Accuracy"
+import Personal from "../../components/onboarding/employee/Personal"
+import Contact from "../../components/onboarding/employee/Contact"
+import Summary from "../../components/onboarding/employee/Summary"
+import Confirmation from "../../components/onboarding/employee/Confirmation"
 
-import DebugFormik from "../components/DebugFormik"
-import { Button } from "../components/onboarding/styles"
+import DebugFormik from "../../components/DebugFormik"
+import { Button } from "../../components/onboarding/styles"
 
-import orangeLogo from "../static/logo_orange.svg"
+import orangeLogo from "../../static/logo_orange.svg"
 
 // const initialValues = {
 //   employmentStartDate: {
@@ -41,11 +41,11 @@ import orangeLogo from "../static/logo_orange.svg"
 //     month: 3,
 //     year: 1989,
 //   },
-//   nationality: "Colombian",
+//   nationality: "BE",
 //   employeeID: "8sdj98sd",
 //   phoneNumber: "07443998236",
 //   confirmation: false,
-//   gdprConsent: false
+//   gdprConsent: false,
 // }
 
 const initialValues = {
@@ -98,6 +98,7 @@ const Next = ({
   formCompleted,
   submitForm: displayErrors,
   hideNext,
+  page,
 }) => (
   <div className="w-40">
     {!hideNext && (
@@ -107,7 +108,7 @@ const Next = ({
         onClick={isValid ? onClick : displayErrors}
         disabled={isSubmitting}
       >
-        {formCompleted ? "Summary" : "Next"}
+        {formCompleted && page !== Steps.Salary ? "Summary" : "Next"}
       </Button>
     )}
   </div>
@@ -175,6 +176,11 @@ const Controls = ({
           setFormCompleted(true)
           incrementPage()
         }
+
+      case Steps.Salary:
+        return () => {
+          incrementPage()
+        }
       default:
         return formCompleted ? goToSummaryPage : incrementPage
     }
@@ -195,6 +201,7 @@ const Controls = ({
             formCompleted,
             submitForm,
             hideNext,
+            page,
           }}
         />
       )}
@@ -341,6 +348,20 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
 }
 
 const EmployeeOnboarding = ({ employer }) => {
+  if (!employer) {
+    return (
+      <Container>
+        <Header>
+          <Logo />
+        </Header>
+        <ErrorDiv className="text-center">
+          Sorry, we couldn't find that employer. <br />
+          Make sure the URL you entered is correct!
+        </ErrorDiv>
+      </Container>
+    )
+  }
+
   return (
     <Wizard employer={employer}>
       <Welcome />
@@ -384,6 +405,14 @@ const StyledForm = styled(Form).attrs({
   max-width: 860px;
 `
 
+const ErrorDiv = styled.div.attrs({
+  className: "pt-10 pb-20 flex justify-center items-center",
+})`
+  width: 70%;
+  min-height: 55vh;
+  max-width: 860px;
+`
+
 const Logo = styled.img.attrs({
   src: orangeLogo,
 })``
@@ -395,7 +424,8 @@ const ControlsSection = styled.section.attrs({
 `
 
 EmployeeOnboarding.getInitialProps = async ({ req }) => {
-  const slug = req.originalUrl.slice(1)
+  const slug = req.originalUrl.slice(27)
+
   const {
     data: { employer },
   } = await axios(`${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`)

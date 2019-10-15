@@ -6,7 +6,7 @@ type Employer {
   companyNumber: String @unique
   user: [User!]
   emailSuffixes: [Suffix!] @unique @relation(onDelete: CASCADE)
-  maximumAmount: Float!
+  maximumAmount: Int!
   minimumServiceLength: Int!
   maxSalaryPercentage: Float!
   payrollEmail: String!
@@ -33,7 +33,7 @@ type User {
   dob: DateTime!
   nationality: String!
   employmentStartDate: DateTime!
-  annualSalary: Float!
+  annualSalary: Int!
   employeeID: String
   verificationToken: VerificationToken @relation(onDelete: CASCADE)
   gdprConsent: Boolean!
@@ -57,7 +57,7 @@ type VerificationToken {
 
 type Loan {
   id: ID! @id
-  amount: Float!
+  amount: Int!
   terms: Int!
   approved: Boolean! @default(value: false)
   agreementURL: String

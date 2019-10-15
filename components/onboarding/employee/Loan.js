@@ -7,15 +7,17 @@ import { RangeInput, SelectInput, NumberInput } from "../../Input"
 
 import progress2 from "../../../static/images/progress2.svg"
 
-// TODO: loan amount has to be sent in pennies to mangopay so needs to be stored in pennies
-// i.e. for £3000 loan we have to send amount of 300000 : Int
+import penniesToPounds from "../../../utils/penniesToPounds"
 
 const validation = Yup.object().shape({
   loanAmount: Yup.number()
+    .typeError("Please enter digits only in this box")
     .moreThan(0, "Please choose a loan amount using the slider")
     .required("Required"),
 
-  loanTerms: Yup.number().required("Required"),
+  loanTerms: Yup.number()
+    .typeError("Please enter digits only in this box")
+    .required("Required"),
 })
 
 const validateLoanAmount = (value, maxLoan) => {
@@ -44,7 +46,7 @@ const Loan = ({
   const { annualSalary, loanAmount, loanTerms } = values
   const maxLoan = Math.min(
     annualSalary * maxSalaryPercentage * 0.01,
-    maximumAmount
+    penniesToPounds(maximumAmount)
   )
   const monthlyRepayment = (loanAmount / (loanTerms || 12)).toFixed(2)
 
@@ -89,8 +91,8 @@ const Loan = ({
           },
         ]}
       />
-      <div className="w-2/6">
-        <div className="border border-midgray px-8 py-10">
+      <div className="w-2/6 flex flex-col">
+        <div className="border border-midgray px-8 py-10 mb-2">
           <p className="mb-4 bold underline">Summary</p>
           <div>
             <div className="flex justify-between mb-3">
@@ -109,6 +111,18 @@ const Loan = ({
           <Divider />
           <p className="text-right">Total £{loanAmount}</p>
         </div>
+        <p>
+          Have more questions? Why not check out our{" "}
+          <a
+            href="https://catapillr.com/faq/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal underline"
+          >
+            FAQ page
+          </a>
+          .
+        </p>
       </div>
     </div>
   )

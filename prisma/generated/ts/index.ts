@@ -854,7 +854,7 @@ export interface UserUpdateManyDataInput {
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
   employeeID?: Maybe<String>;
   gdprConsent?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
@@ -986,7 +986,7 @@ export interface EmployerCreateWithoutPayInsInput {
   companyNumber?: Maybe<String>;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
   emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -1022,7 +1022,7 @@ export interface UserCreateWithoutEmployerInput {
   dob: DateTimeInput;
   nationality: String;
   employmentStartDate: DateTimeInput;
-  annualSalary: Float;
+  annualSalary: Int;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
@@ -1042,7 +1042,7 @@ export interface UserUpdateManyMutationInput {
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
   employeeID?: Maybe<String>;
   gdprConsent?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
@@ -1073,7 +1073,7 @@ export interface UserCreateInput {
   dob: DateTimeInput;
   nationality: String;
   employmentStartDate: DateTimeInput;
-  annualSalary: Float;
+  annualSalary: Int;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
@@ -1133,7 +1133,7 @@ export interface EmployerUpdateWithoutEmailSuffixesDataInput {
   address?: Maybe<String>;
   companyNumber?: Maybe<String>;
   user?: Maybe<UserUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -1169,7 +1169,7 @@ export interface EmployerCreateWithoutEmailSuffixesInput {
   address: String;
   companyNumber?: Maybe<String>;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -1187,7 +1187,7 @@ export interface UserUpdateWithoutPaymentRequestsDataInput {
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
@@ -1223,7 +1223,7 @@ export interface EmployerUpdateWithoutUserDataInput {
   address?: Maybe<String>;
   companyNumber?: Maybe<String>;
   emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -1341,7 +1341,7 @@ export interface EmployerUpdateInput {
   companyNumber?: Maybe<String>;
   user?: Maybe<UserUpdateManyWithoutEmployerInput>;
   emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -1476,7 +1476,7 @@ export interface UserCreateWithoutPaymentRequestsInput {
   dob: DateTimeInput;
   nationality: String;
   employmentStartDate: DateTimeInput;
-  annualSalary: Float;
+  annualSalary: Int;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
@@ -1499,7 +1499,7 @@ export interface EmployerCreateWithoutUserInput {
   address: String;
   companyNumber?: Maybe<String>;
   emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -1527,7 +1527,7 @@ export interface UserUpdateWithoutPayInsDataInput {
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
@@ -1563,7 +1563,7 @@ export interface UserCreateWithoutPayInsInput {
   dob: DateTimeInput;
   nationality: String;
   employmentStartDate: DateTimeInput;
-  annualSalary: Float;
+  annualSalary: Int;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
@@ -1983,7 +1983,7 @@ export interface EmployerCreateInput {
   companyNumber?: Maybe<String>;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
   emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -2221,14 +2221,14 @@ export interface UserWhereInput {
   employmentStartDate_lte?: Maybe<DateTimeInput>;
   employmentStartDate_gt?: Maybe<DateTimeInput>;
   employmentStartDate_gte?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  annualSalary_not?: Maybe<Float>;
-  annualSalary_in?: Maybe<Float[] | Float>;
-  annualSalary_not_in?: Maybe<Float[] | Float>;
-  annualSalary_lt?: Maybe<Float>;
-  annualSalary_lte?: Maybe<Float>;
-  annualSalary_gt?: Maybe<Float>;
-  annualSalary_gte?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
+  annualSalary_not?: Maybe<Int>;
+  annualSalary_in?: Maybe<Int[] | Int>;
+  annualSalary_not_in?: Maybe<Int[] | Int>;
+  annualSalary_lt?: Maybe<Int>;
+  annualSalary_lte?: Maybe<Int>;
+  annualSalary_gt?: Maybe<Int>;
+  annualSalary_gte?: Maybe<Int>;
   employeeID?: Maybe<String>;
   employeeID_not?: Maybe<String>;
   employeeID_in?: Maybe<String[] | String>;
@@ -2316,7 +2316,7 @@ export interface UserUpdateInput {
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
@@ -2378,7 +2378,7 @@ export interface EmployerUpdateManyMutationInput {
   slug?: Maybe<String>;
   address?: Maybe<String>;
   companyNumber?: Maybe<String>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -2414,7 +2414,7 @@ export interface EmployerUpdateWithoutPayInsDataInput {
   companyNumber?: Maybe<String>;
   user?: Maybe<UserUpdateManyWithoutEmployerInput>;
   emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
@@ -2498,14 +2498,14 @@ export interface EmployerWhereInput {
   emailSuffixes_every?: Maybe<SuffixWhereInput>;
   emailSuffixes_some?: Maybe<SuffixWhereInput>;
   emailSuffixes_none?: Maybe<SuffixWhereInput>;
-  maximumAmount?: Maybe<Float>;
-  maximumAmount_not?: Maybe<Float>;
-  maximumAmount_in?: Maybe<Float[] | Float>;
-  maximumAmount_not_in?: Maybe<Float[] | Float>;
-  maximumAmount_lt?: Maybe<Float>;
-  maximumAmount_lte?: Maybe<Float>;
-  maximumAmount_gt?: Maybe<Float>;
-  maximumAmount_gte?: Maybe<Float>;
+  maximumAmount?: Maybe<Int>;
+  maximumAmount_not?: Maybe<Int>;
+  maximumAmount_in?: Maybe<Int[] | Int>;
+  maximumAmount_not_in?: Maybe<Int[] | Int>;
+  maximumAmount_lt?: Maybe<Int>;
+  maximumAmount_lte?: Maybe<Int>;
+  maximumAmount_gt?: Maybe<Int>;
+  maximumAmount_gte?: Maybe<Int>;
   minimumServiceLength?: Maybe<Int>;
   minimumServiceLength_not?: Maybe<Int>;
   minimumServiceLength_in?: Maybe<Int[] | Int>;
@@ -2728,14 +2728,14 @@ export interface UserScalarWhereInput {
   employmentStartDate_lte?: Maybe<DateTimeInput>;
   employmentStartDate_gt?: Maybe<DateTimeInput>;
   employmentStartDate_gte?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  annualSalary_not?: Maybe<Float>;
-  annualSalary_in?: Maybe<Float[] | Float>;
-  annualSalary_not_in?: Maybe<Float[] | Float>;
-  annualSalary_lt?: Maybe<Float>;
-  annualSalary_lte?: Maybe<Float>;
-  annualSalary_gt?: Maybe<Float>;
-  annualSalary_gte?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
+  annualSalary_not?: Maybe<Int>;
+  annualSalary_in?: Maybe<Int[] | Int>;
+  annualSalary_not_in?: Maybe<Int[] | Int>;
+  annualSalary_lt?: Maybe<Int>;
+  annualSalary_lte?: Maybe<Int>;
+  annualSalary_gt?: Maybe<Int>;
+  annualSalary_gte?: Maybe<Int>;
   employeeID?: Maybe<String>;
   employeeID_not?: Maybe<String>;
   employeeID_in?: Maybe<String[] | String>;
@@ -2816,7 +2816,7 @@ export interface UserUpdateWithoutEmployerDataInput {
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
@@ -2982,7 +2982,7 @@ export interface User {
   dob: DateTimeOutput;
   nationality: String;
   employmentStartDate: DateTimeOutput;
-  annualSalary: Float;
+  annualSalary: Int;
   employeeID?: String;
   gdprConsent: Boolean;
   mangoWalletId?: String;
@@ -3002,7 +3002,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   dob: () => Promise<DateTimeOutput>;
   nationality: () => Promise<String>;
   employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Float>;
+  annualSalary: () => Promise<Int>;
   employeeID: () => Promise<String>;
   verificationToken: <T = VerificationTokenPromise>() => T;
   gdprConsent: () => Promise<Boolean>;
@@ -3044,7 +3044,7 @@ export interface UserSubscription
   dob: () => Promise<AsyncIterator<DateTimeOutput>>;
   nationality: () => Promise<AsyncIterator<String>>;
   employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  annualSalary: () => Promise<AsyncIterator<Float>>;
+  annualSalary: () => Promise<AsyncIterator<Int>>;
   employeeID: () => Promise<AsyncIterator<String>>;
   verificationToken: <T = VerificationTokenSubscription>() => T;
   gdprConsent: () => Promise<AsyncIterator<Boolean>>;
@@ -3088,7 +3088,7 @@ export interface UserNullablePromise
   dob: () => Promise<DateTimeOutput>;
   nationality: () => Promise<String>;
   employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Float>;
+  annualSalary: () => Promise<Int>;
   employeeID: () => Promise<String>;
   verificationToken: <T = VerificationTokenPromise>() => T;
   gdprConsent: () => Promise<Boolean>;
@@ -3158,7 +3158,7 @@ export interface Employer {
   slug: String;
   address: String;
   companyNumber?: String;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -3191,7 +3191,7 @@ export interface EmployerPromise extends Promise<Employer>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  maximumAmount: () => Promise<Float>;
+  maximumAmount: () => Promise<Int>;
   minimumServiceLength: () => Promise<Int>;
   maxSalaryPercentage: () => Promise<Float>;
   payrollEmail: () => Promise<String>;
@@ -3235,7 +3235,7 @@ export interface EmployerSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  maximumAmount: () => Promise<AsyncIterator<Float>>;
+  maximumAmount: () => Promise<AsyncIterator<Int>>;
   minimumServiceLength: () => Promise<AsyncIterator<Int>>;
   maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
   payrollEmail: () => Promise<AsyncIterator<String>>;
@@ -3279,7 +3279,7 @@ export interface EmployerNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  maximumAmount: () => Promise<Float>;
+  maximumAmount: () => Promise<Int>;
   minimumServiceLength: () => Promise<Int>;
   maxSalaryPercentage: () => Promise<Float>;
   payrollEmail: () => Promise<String>;
@@ -3326,7 +3326,7 @@ export interface UserPreviousValues {
   dob: DateTimeOutput;
   nationality: String;
   employmentStartDate: DateTimeOutput;
-  annualSalary: Float;
+  annualSalary: Int;
   employeeID?: String;
   gdprConsent: Boolean;
   mangoWalletId?: String;
@@ -3347,7 +3347,7 @@ export interface UserPreviousValuesPromise
   dob: () => Promise<DateTimeOutput>;
   nationality: () => Promise<String>;
   employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Float>;
+  annualSalary: () => Promise<Int>;
   employeeID: () => Promise<String>;
   gdprConsent: () => Promise<Boolean>;
   mangoWalletId: () => Promise<String>;
@@ -3368,7 +3368,7 @@ export interface UserPreviousValuesSubscription
   dob: () => Promise<AsyncIterator<DateTimeOutput>>;
   nationality: () => Promise<AsyncIterator<String>>;
   employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  annualSalary: () => Promise<AsyncIterator<Float>>;
+  annualSalary: () => Promise<AsyncIterator<Int>>;
   employeeID: () => Promise<AsyncIterator<String>>;
   gdprConsent: () => Promise<AsyncIterator<Boolean>>;
   mangoWalletId: () => Promise<AsyncIterator<String>>;
@@ -3777,7 +3777,7 @@ export interface EmployerPreviousValues {
   slug: String;
   address: String;
   companyNumber?: String;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
@@ -3794,7 +3794,7 @@ export interface EmployerPreviousValuesPromise
   slug: () => Promise<String>;
   address: () => Promise<String>;
   companyNumber: () => Promise<String>;
-  maximumAmount: () => Promise<Float>;
+  maximumAmount: () => Promise<Int>;
   minimumServiceLength: () => Promise<Int>;
   maxSalaryPercentage: () => Promise<Float>;
   payrollEmail: () => Promise<String>;
@@ -3811,7 +3811,7 @@ export interface EmployerPreviousValuesSubscription
   slug: () => Promise<AsyncIterator<String>>;
   address: () => Promise<AsyncIterator<String>>;
   companyNumber: () => Promise<AsyncIterator<String>>;
-  maximumAmount: () => Promise<AsyncIterator<Float>>;
+  maximumAmount: () => Promise<AsyncIterator<Int>>;
   minimumServiceLength: () => Promise<AsyncIterator<Int>>;
   maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
   payrollEmail: () => Promise<AsyncIterator<String>>;
@@ -4428,9 +4428,9 @@ The `Boolean` scalar type represents `true` or `false`.
 export type Boolean = boolean;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 */
-export type Int = number;
+export type Float = number;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -4444,9 +4444,9 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
-export type Float = number;
+export type Int = number;
 
 /**
  * Model Metadata

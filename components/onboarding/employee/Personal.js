@@ -4,6 +4,8 @@ import moment from "moment"
 import Questions from "../Questions"
 import { TextInput, DateInput } from "../../Input"
 
+import zeroIndexMonth from "../../../utils/zeroIndexMonth"
+
 import progress3 from "../../../static/images/progress3.svg"
 
 const validation = Yup.object().shape({
@@ -18,7 +20,9 @@ const validation = Yup.object().shape({
 
 const validateDate = date => {
   const { day, month, year } = date
-  const dob = moment(date)
+
+  const dateMonthZeroIndexed = zeroIndexMonth(date)
+  const dob = moment(dateMonthZeroIndexed)
 
   const dateIsValid = dob.isValid()
   const futureDate = dob.isAfter(moment())
