@@ -70,7 +70,7 @@ const getValues = field => values => {
       return "Permanent role"
     case !value:
       return "N/A"
-    case field === "loanAmount":
+    case field === "loanAmount" || field === "annualSalary":
       return `£${value}`
     case field === "monthlyRepayment":
       return `£${values.loanAmount / values.loanTerms}`
@@ -147,7 +147,10 @@ const Summary = ({ values, setPage }) => {
               className: "",
               type: "checkbox",
               component: CheckboxInput,
-              link: { text: "I've got some questions", href: "faq" },
+              link: {
+                text: "I've got some questions",
+                href: "https://catapillr.com/faq/",
+              },
             },
             {
               text:
@@ -157,7 +160,10 @@ const Summary = ({ values, setPage }) => {
               className: "",
               type: "checkbox",
               component: CheckboxInput,
-              link: { text: "See privacy policy", href: "privacy" },
+              link: {
+                text: "See privacy policy",
+                href: "https://catapillr.com/data-privacy-policy/",
+              },
             },
           ]}
         />

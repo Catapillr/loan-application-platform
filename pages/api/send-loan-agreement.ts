@@ -3,8 +3,10 @@ import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 import * as R from "ramda"
 
+import zeroIndexMonth from "../../utils/zeroIndexMonth"
+import poundsToPennies from "../../utils/poundsToPennies"
+
 import { prisma } from "../../prisma/generated/ts"
-import { userInfo } from "os"
 import convertToPounds from "../../utils/convertToPounds"
 
 const helloSignClient = hellosign({
@@ -34,15 +36,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       lastName,
       email,
       phoneNumber,
-      dob: moment(dob).toDate(),
+      dob: moment(zeroIndexMonth(dob)).toDate(),
       nationality,
-      employmentStartDate: moment(employmentStartDate).toDate(),
+      employmentStartDate: moment(zeroIndexMonth(employmentStartDate)).toDate(),
       employeeID,
-      annualSalary: parseFloat(annualSalary),
+      annualSalary: poundsToPennies(parseFloat(annualSalary)),
       employer: { connect: { slug: employer.slug } },
       loan: {
         create: {
-          amount: loanAmount,
+          amount: poundsToPennies(loanAmount),
           terms: parseInt(loanTerms),
         },
       },
@@ -57,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     loanTerms: number,
     maximumTerms: number = 12
   ): { name: string; value: any }[] => {
-    const mapIndexed = R.addIndex(R.map)
+    const mapIndexed: any = R.addIndex(R.map)
 
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
     const remainder = loanAmount % loanTerms
@@ -78,7 +80,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     ]
 
-    const loanMonths = mapIndexed((_, index) => ({
+    const loanMonths = mapIndexed((_: any, index: any) => ({
       name: `loanMonth${index + 1}`,
       value: `${
         index + 1 === loanTerms
@@ -87,7 +89,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }`,
     }))([...Array(loanTerms)])
 
-    const defaultMonths = mapIndexed((_, index) => ({
+    const defaultMonths = mapIndexed((_: any, index: any) => ({
       name: `loanMonth${loanTerms + index + 1}`,
       value: "n/a",
     }))([...Array(maximumTerms - loanTerms)])

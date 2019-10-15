@@ -6,6 +6,7 @@ import axios from "axios"
 import Questions from "../Questions"
 import { TextInput, CheckboxInput, DateInput } from "../../Input"
 import { USER } from "../../../utils/constants"
+import zeroIndexMonth from "../../../utils/zeroIndexMonth"
 
 import progress1 from "../../../static/images/progress1.svg"
 
@@ -53,7 +54,7 @@ const validateEmail = async (emailSuffixes, value) => {
 
 const validateDate = (minimumServiceLength, date) => {
   const { day, month, year } = date
-  const dateMonthZeroIndexed = R.assoc("month", date.month - 1, date)
+  const dateMonthZeroIndexed = zeroIndexMonth(date)
   const employmentStartDate = moment(dateMonthZeroIndexed)
   const minimumServiceDate = moment().subtract(minimumServiceLength, "months")
 
@@ -74,47 +75,48 @@ const validateDate = (minimumServiceLength, date) => {
     return "That date is in the future!"
   }
   if (invalidStart) {
-    return "Sorry, but you haven't been working long enough to qualify for a loan :( Come back soon!"
+    return "Sorry, you haven't been working long enough to qualify for a loan."
   }
   if (ancientDate) {
     return "You selected a date over 170 years ago! Are you sure?"
   }
 }
 
-const Eligibility = ({
-  employer: { emailSuffix, minimumServiceLength },
-  values: { employmentStartDate },
-}) => (
-  <Questions
-    formWidth="70"
-    title="We need a few details from you to verify that you are eligible"
-    questions={[
-      {
-        text: "I confirm that my current role is permanent:",
-        name: "permanentRole",
-        className: "",
-        type: "checkbox",
-        component: CheckboxInput,
-      },
-      {
-        text: "When did you start working for your employer?",
-        name: "employmentStartDate",
-        component: DateInput,
-        custom: true,
-        validate: () => validateDate(minimumServiceLength, employmentStartDate),
-      },
-      {
-        text: "Please enter your work email:",
-        name: "email",
-        type: "email",
-        component: TextInput,
-        className: "",
-        validate: value => validateEmail(emailSuffix, value),
-        placeholder: "e.g. dan@example.com",
-      },
-    ]}
-  />
-)
+const Eligibility = ({ employer, values: { employmentStartDate } }) => {
+  const { emailSuffixes, minimumServiceLength } = employer
+  return (
+    <Questions
+      formWidth="70"
+      title="We need a few details from you to verify that you are eligible"
+      questions={[
+        {
+          text:
+            "The childcare cash advance scheme is currently only available for permanent employees. Please click the box below to confirm you are a permanent employee.",
+          name: "permanentRole",
+          className: "",
+          type: "checkbox",
+          component: CheckboxInput,
+        },
+        {
+          text: "When did you start working for your employer?",
+          date: true,
+          name: "employmentStartDate",
+          validate: () =>
+            validateDate(minimumServiceLength, employmentStartDate),
+        },
+        {
+          text: "Please enter your work email:",
+          name: "email",
+          type: "email",
+          component: TextInput,
+          className: "",
+          validate: value => validateEmail(emailSuffixes, value),
+          placeholder: "e.g. dan@example.com",
+        },
+      ]}
+    />
+  )
+}
 
 Eligibility.validationSchema = validation
 Eligibility.progressImg = progress1
