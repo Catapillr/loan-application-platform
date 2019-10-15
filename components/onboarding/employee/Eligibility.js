@@ -82,7 +82,7 @@ const validateDate = (minimumServiceLength, date) => {
 }
 
 const Eligibility = ({
-  employer: { emailSuffix, minimumServiceLength },
+  employer: { emailSuffixes, minimumServiceLength },
   values: { employmentStartDate },
 }) => (
   <Questions
@@ -109,7 +109,7 @@ const Eligibility = ({
         type: "email",
         component: TextInput,
         className: "",
-        validate: value => validateEmail(emailSuffix, value),
+        validate: value => validateEmail(emailSuffixes, value),
         placeholder: "e.g. dan@example.com",
       },
     ]}
