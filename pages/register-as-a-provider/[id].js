@@ -6,6 +6,7 @@ import * as R from "ramda"
 
 import * as Steps from "../../components/onboarding/register-as-a-provider/stepNames"
 import getLastPath from "../../utils/getLastPath"
+import createFormData from "../../utils/createFormData"
 
 import Welcome from "../../components/onboarding/register-as-a-provider/Welcome"
 import BusinessDetails from "../../components/onboarding/register-as-a-provider/BusinessDetails"
@@ -233,59 +234,16 @@ const onSubmit = ({
   childcareProviderEmail,
 }) => async values => {
   //eslint-disable-next-line no-console
-  console.log("employeeOnboarding form submitted")
+  console.log("Register-as-a-provider form submitted")
 
-  // TODO: Make form object -> formdata function into util
   try {
-    const form = new FormData()
+    const form = createFormData({
+      ...values,
+      childcareProviderEmail,
+    })
 
-    const normalFields = R.pipe(
-      R.map(val => (val instanceof File ? null : val)),
-      R.filter(el => !!el)
-    )(values)
+    axios.post("/api/register-provider", form)
 
-    const fileFields = R.pipe(
-      R.map(val => (val instanceof File ? val : null)),
-      R.filter(el => !!el)
-    )(values)
-
-    R.mapObjIndexed((val, key) => form.append(key, val))(values)
-
-    console.log("woooooooooooooooooooooo", normalFields)
-    console.log("woooooooooooooooooooooo file", fileFields)
-
-    const promise = (file, key) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onloadend = () => {
-          resolve({ [key]: reader.result })
-        }
-        return reader.readAsDataURL(file)
-      })
-    }
-
-    const files = await Promise.all(
-      R.pipe(R.mapObjIndexed((file, key) => promise(file, key)))(fileFields)
-    )
-
-    console.log("files: ", files)
-
-    // const promise = () =>
-    //   new Promise((resolve, reject) => {
-    //     R.mapObjIndexed((val, key) => {
-    //       if (val instanceof File) {
-    //         const reader = new FileReader()
-    //         reader.onloadend = () => {
-    //           form.append(key, reader.result)
-    //           resolve()
-    //         }
-    //         return reader.readAsDataURL(val)
-    //       }
-    //       return form.append(key, val)
-    //     })(values)
-    //   })
-    //
-    // axios.post("/api/register-provider", form)
     incrementPage()
   } catch (e) {
     // TODO: trigger submit error (maybe with toast error)
@@ -335,7 +293,6 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
           childcareProviderEmail: childcareProvider.email,
         }),
         enableReinitialize: false,
-        isInitialValid: true,
       }}
     >
       {({
@@ -347,7 +304,6 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
         setTouched,
         setFieldValue,
       }) => {
-        console.log(values)
         const debugging = false
 
         return (
