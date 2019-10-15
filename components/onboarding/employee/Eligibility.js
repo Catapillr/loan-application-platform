@@ -32,9 +32,14 @@ const doesEmailExist = async ({ email }) => {
   return doesEmailExist
 }
 
-const validateEmail = async (emailSuffix, value) => {
+const validateEmail = async (emailSuffixes, value) => {
   let error
-  if (!value.endsWith(emailSuffix)) {
+
+  const valueEndsWithEligibleSuffix = R.any(suffix =>
+    value.endsWith(suffix.domain)
+  )(emailSuffixes)
+
+  if (!valueEndsWithEligibleSuffix) {
     error = "Sorry! You need a work email address to sign up."
     return error
   }
