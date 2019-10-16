@@ -13,7 +13,7 @@ const seedDatabase = async () => {
     const yalla = await prisma.createEmployer({
       name: "yalla",
       slug: "yalla",
-      maximumAmount: 2000,
+      maximumAmount: 2000000,
       minimumServiceLength: 8,
       maxSalaryPercentage: 25,
       payrollEmail: "j@yallacooperative.com",
@@ -42,7 +42,7 @@ const seedDatabase = async () => {
     const infact = await prisma.createEmployer({
       name: "infact",
       slug: "infact",
-      maximumAmount: 3000,
+      maximumAmount: 3000000,
       minimumServiceLength: 6,
       maxSalaryPercentage: 20,
       payrollEmail: "hello@infactcoop.com",
