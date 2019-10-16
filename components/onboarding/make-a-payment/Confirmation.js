@@ -43,22 +43,37 @@ const validation = Yup.object().shape({
     .required("Required!"),
 })
 
-const Confirmation = ({ company, values: { providerEmail, amountToPay } }) => (
+const Confirmation = ({
+  company,
+  values: { providerEmail, amountToPay },
+  isProviderRegistered,
+}) => (
   <Container>
     <Icon />
-    <Copy>You sent a magic link to</Copy>
+    <Copy>
+      {isProviderRegistered
+        ? "You sent a payment to"
+        : "You sent a magic link to"}
+    </Copy>
     <Title>{company.company_name}</Title>
     <Link>{providerEmail}</Link>
-    <Copy>Your magic link contains the amount of</Copy>
+    <Copy>
+      {isProviderRegistered
+        ? "The payment amount was"
+        : "Your magic link contains the amount of"}
+    </Copy>
     <Copy className="font-subheader mb-6">{amountToPay}</Copy>
     <WhatHappensNext>
       <Copy className="font-bold w-11/12">
-        You will not be charged until your provider signs up to the Catapillr
-        scheme and reclaims their payment.
+        {isProviderRegistered
+          ? "The payment should arrive in their bank account within 24 hours."
+          : "You will not be charged until your provider signs up to the Catapillr scheme and reclaims their payment."}
       </Copy>
-      <Copy className="w-11/12">
-        You will hear from us as soon as that happens.
-      </Copy>
+      {!isProviderRegistered && (
+        <Copy className="w-11/12">
+          You will hear from us as soon as that happens.
+        </Copy>
+      )}
     </WhatHappensNext>
     <Next href="/dash">Return to dashboard</Next>
   </Container>

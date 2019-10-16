@@ -14,7 +14,7 @@ const validation = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
     .required("Required"),
-  employmentStartDate: Yup.object(),
+  employmentStartDate: Yup.object().required(),
   permanentRole: Yup.boolean().oneOf(
     [true],
     "Sorry, you must be in a permanent role to apply!"
@@ -61,6 +61,9 @@ const validateDate = (minimumServiceLength, date) => {
   const dateIsValid = employmentStartDate.isValid()
   const futureDate = employmentStartDate.isAfter(moment())
   const invalidStart = employmentStartDate.isAfter(minimumServiceDate)
+  const ancientDate = employmentStartDate.isBefore(
+    moment().subtract(170, "years")
+  )
 
   if (!day || !month || !year) {
     return "Please enter a whole date"
@@ -73,6 +76,9 @@ const validateDate = (minimumServiceLength, date) => {
   }
   if (invalidStart) {
     return "Sorry, you haven't been working long enough to qualify for a loan."
+  }
+  if (ancientDate) {
+    return "You selected a date over 170 years ago! Are you sure?"
   }
 }
 

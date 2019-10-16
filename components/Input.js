@@ -6,6 +6,8 @@ import * as R from "ramda"
 import slider from "../static/icons/slider.svg"
 import tick from "../static/icons/tick.svg"
 import dropdown from "../static/icons/dropdown.svg"
+import document from "../static/icons/document.svg"
+import upload from "../static/icons/upload.svg"
 
 const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (
@@ -40,6 +42,37 @@ const TextInput = styled.input.attrs(
     }
   }
 )``
+
+const _FileInput = styled.input.attrs({
+  type: "file",
+  className: "hidden",
+})``
+
+const _FileLabel = styled.label.attrs(
+  ({ field: { name }, width, form: { errors, touched } }) => ({
+    className: `w-${width ||
+      "full"} border-2 border-dashed rounded-11 flex flex-col justify-center py-11 ${
+      errors[name] && touched[name] ? "border-red" : "border-midgray"
+    }`,
+    htmlFor: name,
+    type: "file",
+  })
+)``
+
+const FileInput = attrs => {
+  const { file } = attrs
+
+  return (
+    <>
+      <_FileInput id={attrs.field.name} {...attrs} />
+      <_FileLabel {...attrs}>
+        <img src={file.name ? document : upload} className="mb-2"></img>
+        <div className="text-center">{file.name || "Browse files"}</div>
+      </_FileLabel>
+    </>
+  )
+}
+
 const TextAreaInput = styled(TextArea).attrs(({ field, disabled }) => {
   return {
     className: "border-0 w-full",
@@ -79,6 +112,41 @@ const CheckboxInput = ({
     </CheckboxContainer>
   )
 }
+
+const SortCodeInput = ({ text, name }) => (
+  <Container>
+    {text && <Label htmlFor={name}>{text}</Label>}
+
+    <div className="flex justify-between pr-10">
+      <Field
+        id={name}
+        name={`${name}.firstSection`}
+        component={NumberInput}
+        maxLength={2}
+        placeholder={"00"}
+      />
+      <Field
+        name={`${name}.secondSection`}
+        component={NumberInput}
+        maxLength={2}
+        placeholder={"00"}
+      />
+      <Field
+        name={`${name}.thirdSection`}
+        component={NumberInput}
+        maxLength={2}
+        placeholder={"00"}
+      />
+    </div>
+
+    <div className="relative">
+      <ErrorMessage
+        name={`${name}.firstSection`}
+        render={msg => <Error>{msg}</Error>}
+      ></ErrorMessage>
+    </div>
+  </Container>
+)
 
 const DateInput = ({ text, validate, name }) => (
   <Container>
@@ -156,6 +224,9 @@ const NumberInput = styled.input.attrs(
         "w-full"} border-solid border-2 border-${
         showErrors || showDateErrors ? "red" : "midgray"
       } rounded-full py-2d5 text-center mr-2`,
+      type: "text",
+
+      pattern: "\\d*",
       ...field,
     }
   }
@@ -335,8 +406,10 @@ const CheckboxContainer = styled.label.attrs({
 export {
   Input,
   DateInput,
+  SortCodeInput,
   TextInput,
   PriceInput,
+  FileInput,
   TextAreaInput,
   RangeInput,
   CheckboxInput,

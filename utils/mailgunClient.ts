@@ -1,6 +1,6 @@
 import * as mailgun from "mailgun.js"
 import R from "ramda"
-import convertToSterling from "../utils/convertToSterling"
+import convertToPounds from "../utils/convertToPounds"
 
 const mailgunClient = mailgun.client({
   username: "api",
@@ -62,11 +62,11 @@ const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
       "v:adminName": process.env.ADMIN_NAME,
       "v:userFirstName": user.firstName,
       "v:userLastName": user.lastName,
-      "v:loanAmount": convertToSterling(payment.loanAmount),
-      "v:payInAmount": convertToSterling(payment.payInAmount),
+      "v:loanAmount": convertToPounds(payment.loanAmount),
+      "v:payInAmount": convertToPounds(payment.payInAmount),
       "v:dateOfPayment": payment.dateOfPayment,
       "v:payInId": payment.payInId,
-      "v:discrepancy": convertToSterling(payment.discrepancy),
+      "v:discrepancy": convertToPounds(payment.discrepancy),
       "v:userId": user.id,
       "v:mangoWalletId": user.mangoWalletId,
       "v:employerId": employer.id,
@@ -83,12 +83,12 @@ const sendEmployerPaymentNotification = ({ payment, user, employer }) =>
     data: {
       "v:userFirstName": user.firstName,
       "v:userLastName": user.lastName,
-      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:loanAmount": convertToPounds(payment.loanAmount),
       "v:dateOfPayment": payment.dateOfPayment,
     },
   })
 
-const sendEmployeePaymentNotification = ({ payment, user }) =>
+const sendEmployeeLoanPaymentNotification = ({ payment, user }) =>
   mailgunEmailTemplate({
     email: user.email,
     subject: `Your Catapillr loan has been paid into your account!`,
@@ -96,7 +96,7 @@ const sendEmployeePaymentNotification = ({ payment, user }) =>
     template: "employee-payment-notification",
     data: {
       "v:userFirstName": user.firstName,
-      "v:loanAmount": convertToSterling(payment.loanAmount),
+      "v:loanAmount": convertToPounds(payment.loanAmount),
       "v:magicLink": "https://www.catapillr.com/", // TODO: Change this to magic link
     },
   })
@@ -124,6 +124,37 @@ const sendPaymentRequestDetails = ({ user, email, amountToPay, slug }) =>
     },
   })
 
+const sendProviderPaymentNotification = ({
+  email,
+  amountToPay,
+  employeeName,
+}) =>
+  mailgunEmailTemplate({
+    email,
+    subject: "Payment notification",
+    template: "provider-payment-notification",
+    data: {
+      "v:amountToPay": amountToPay,
+      "v:employeeName": employeeName,
+    },
+  })
+
+// TODO: add provider name to this template
+const sendEmployeeOutgoingPaymentNotification = ({
+  email,
+  amountToPay,
+  // providerName,
+}) =>
+  mailgunEmailTemplate({
+    email,
+    subject: "Outgoing payment",
+    template: "employee-outgoing-payment-notification",
+    data: {
+      "v:amountToPay": amountToPay,
+      // "v:providerName": providerName,
+    },
+  })
+
 export {
   mailgunEmailTemplate,
   sendEmployeeEmailVerification,
@@ -131,7 +162,9 @@ export {
   sendLoanTransferDetails,
   sendIncorrectPaymentNotification,
   sendEmployerPaymentNotification,
-  sendEmployeePaymentNotification,
+  sendEmployeeLoanPaymentNotification,
   sendPaymentRequestDetails,
   sendEmployeeApplicationCompleteConfirmation,
+  sendProviderPaymentNotification,
+  sendEmployeeOutgoingPaymentNotification,
 }

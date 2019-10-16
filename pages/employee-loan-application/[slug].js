@@ -385,6 +385,7 @@ const Container = styled.div.attrs({
   margin: 60px 0 60px 0;
   min-height: -webkit-fill-available;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
+  margin: 50px 0;
 `
 
 const Header = styled.div.attrs({
@@ -424,13 +425,11 @@ const ControlsSection = styled.section.attrs({
 
 EmployeeOnboarding.getInitialProps = async ({ req }) => {
   const slug = req.originalUrl.slice(27)
-  const res = await axios(
-    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
-  )
 
   const {
     data: { employer },
-  } = res
+  } = await axios(`${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`)
+
   return { employer }
 }
 

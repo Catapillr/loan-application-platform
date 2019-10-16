@@ -8,6 +8,7 @@ import * as R from "ramda"
 import styled from "styled-components"
 
 import restrictAccess from "../../utils/restrictAccess"
+import getLastPath from "../../utils/getLastPath"
 
 import * as Steps from "../../components/onboarding/make-a-payment/stepNames"
 import Email from "../../components/onboarding/make-a-payment/Email"
@@ -28,27 +29,39 @@ const initialValues = {
 const onSubmit = ({
   incrementPage,
   company,
-  user,
   setFormCompleted,
+  isProviderRegistered,
+  catapillrChildcareProvider,
 }) => async values => {
-  const requestBody = {
-    childcareProvider: {
-      providerEmail: values.providerEmail,
-      companyNumber: company.company_number,
-    },
-    paymentRequest: {
-      amountToPay: values.amountToPay,
-      consentToPay: values.consentToPay,
-      reference: values.reference,
-    },
-    user,
+  const childcareProvider = {
+    providerEmail: values.providerEmail,
+    companyNumber: company.company_number,
+  }
+  const paymentRequest = {
+    amountToPay: values.amountToPay,
+    consentToPay: isProviderRegistered ? true : values.consentToPay,
+    reference: values.reference,
+  }
+
+  const setupProviderAndSendPayment = () => {
+    return axios.post(`${process.env.HOST}/api/add-childcare-provider`, {
+      ...childcareProvider,
+      ...paymentRequest,
+    })
+  }
+
+  const sendPayment = () => {
+    return axios.post(`${process.env.HOST}/api/send-payment-request`, {
+      ...paymentRequest,
+      childcareProviderId: catapillrChildcareProvider.id,
+    })
   }
 
   try {
-    await axios.post(
-      `${process.env.HOST}/api/send-payment-request`,
-      requestBody
-    )
+    isProviderRegistered
+      ? await sendPayment()
+      : await setupProviderAndSendPayment()
+
     incrementPage()
     setFormCompleted(true)
   } catch (e) {
@@ -57,8 +70,18 @@ const onSubmit = ({
   }
 }
 
-const Wizard = ({ children, company, user }) => {
-  const [page, setPage] = useState(Steps.Email)
+const Wizard = ({
+  children,
+  company,
+  user,
+  catapillrChildcareProvider,
+  userWalletBalance,
+}) => {
+  const [isProviderRegistered] = useState(!!catapillrChildcareProvider)
+
+  const initialPage = isProviderRegistered ? Steps.Pay : Steps.Email
+  const [page, setPage] = useState(initialPage)
+
   const [formCompleted, setFormCompleted] = useState(false)
   const steps = React.Children.toArray(children)
 
@@ -102,6 +125,8 @@ const Wizard = ({ children, company, user }) => {
             company,
             user,
             setFormCompleted,
+            isProviderRegistered,
+            catapillrChildcareProvider,
           }),
           enableReinitialize: false,
         }}
@@ -142,6 +167,8 @@ const Wizard = ({ children, company, user }) => {
                         setFieldValue,
                         company,
                         Controls,
+                        isProviderRegistered,
+                        userWalletBalance,
                       }),
                     }}
                   ></RenderStep>
@@ -186,10 +213,17 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
   return <>{component}</>
 }
 
-const Onboarding = ({ company, user }) => {
-  if (company.catapillrID) {
+const MakeAPayment = ({
+  company,
+  user,
+  catapillrChildcareProvider,
+  userWalletBalance,
+}) => {
+  if (catapillrChildcareProvider) {
     return (
-      <Wizard {...{ company, user }}>
+      <Wizard
+        {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
+      >
         <Pay />
         <Summary />
         <Confirmation />
@@ -198,7 +232,9 @@ const Onboarding = ({ company, user }) => {
   }
 
   return (
-    <Wizard {...{ company, user }}>
+    <Wizard
+      {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
+    >
       <Email />
       <Pay />
       <Summary />
@@ -250,7 +286,7 @@ const PageCounter = styled.div.attrs({
   className: "",
 })``
 
-Onboarding.getInitialProps = async ctx => {
+MakeAPayment.getInitialProps = async ctx => {
   const { req } = ctx
   // makes sure session is authenticated and that page is server side rendered
   // (auth does not work at the moment without SSR)
@@ -267,26 +303,34 @@ Onboarding.getInitialProps = async ctx => {
   )(cookies)
 
   try {
-    const company_number = R.last(req.originalUrl.split("/"))
+    const company_number = getLastPath(req.originalUrl)
 
-    const res = await axios.get(
-      `${process.env.HOST}/api/get-company?company_number=${company_number}`,
+    const [
       {
+        data: { company, catapillrChildcareProvider },
+      },
+      {
+        data: { userWalletBalance },
+      },
+    ] = await Promise.all([
+      axios.get(
+        `${process.env.HOST}/api/get-company?company_number=${company_number}`,
+        {
+          headers: { Cookie: serializedCookies },
+        }
+      ),
+      axios.get(`${process.env.HOST}/api/private/get-user-wallet-balance`, {
         headers: { Cookie: serializedCookies },
-      }
-    )
-
-    const {
-      data: { company },
-    } = res
+      }),
+    ])
 
     const user = req.user
 
-    return { company, user }
+    return { company, user, catapillrChildcareProvider, userWalletBalance }
   } catch (err) {
     console.error("Error in [company_number] getInitProps: ", err) //eslint-disable-line
-    return {}
+    return { error: "Sorry, that company doesn't seem to exist!" }
   }
 }
 
-export default Onboarding
+export default MakeAPayment

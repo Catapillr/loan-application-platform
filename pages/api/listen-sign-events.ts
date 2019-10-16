@@ -1,9 +1,11 @@
+import mangopay from "mangopay2-nodejs-sdk"
 import formidable from "formidable"
 import gql from "graphql-tag"
-import mangopay from "mangopay2-nodejs-sdk"
 import moment from "moment"
 import { NextApiRequest, NextApiResponse } from "next"
 import R from "ramda"
+
+import mango from "../../lib/mango"
 
 import { prisma } from "../../prisma/generated/ts"
 import {
@@ -22,13 +24,6 @@ const Natural = "NATURAL"
 const GBP = "GBP"
 
 type Role = "Employer" | "Employee"
-
-const mango = new mangopay({
-  clientId: process.env.MANGO_CLIENT_ID,
-  clientApiKey: process.env.MANGO_KEY,
-  // Set the right production API url. If testing, omit the property since it defaults to sandbox URL
-  // baseUrl: "https://api.mangopay.com",
-})
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const form = new formidable.IncomingForm()
@@ -83,6 +78,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               amount
               agreementURL
             }
+            employer {
+              id
+              name
+            }
           }
         `)
 
@@ -102,7 +101,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Currency: GBP,
         })
 
-        const { WireReference, BankAccount } = await mango.PayIns.create({
+        const {
+          Id: payInId,
+          WireReference,
+          BankAccount,
+        } = await mango.PayIns.create({
           PaymentType: "BANK_WIRE",
           ExecutionType: "DIRECT",
           AuthorId: newMangoUserId,
@@ -120,14 +123,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         await prisma.updateUser({
           data: {
-            mangoWalletId: newWalletId as string,
-            mangoUserId: newMangoUserId as string,
+            mangoWalletId: newWalletId,
+            mangoUserId: newMangoUserId,
+            payIns: {
+              create: [
+                {
+                  employer: { connect: { id: employee.employer.id } },
+                  mangoPayInId: payInId,
+                },
+              ],
+            },
           },
           where: {
-            email: employeeEmail as string,
+            email: employee.email,
           },
         })
-
+        // TODO: break account details into proper format
+        // TODO: add loanAmount to this email
         sendLoanTransferDetails({
           email: employerEmail,
           BankDetails: JSON.stringify(BankAccount, undefined, 2),

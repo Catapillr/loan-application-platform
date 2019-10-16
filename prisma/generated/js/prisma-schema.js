@@ -15,6 +15,10 @@ type AggregateLoan {
   count: Int!
 }
 
+type AggregatePayIn {
+  count: Int!
+}
+
 type AggregatePaymentRequest {
   count: Int!
 }
@@ -40,6 +44,8 @@ type ChildcareProvider {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean!
   paymentRequests(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PaymentRequest!]
   expiresAt: DateTime
@@ -58,6 +64,8 @@ input ChildcareProviderCreateInput {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   paymentRequests: PaymentRequestCreateManyWithoutChildcareProviderInput
   expiresAt: DateTime
@@ -73,6 +81,8 @@ input ChildcareProviderCreateWithoutPaymentRequestsInput {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   expiresAt: DateTime
 }
@@ -91,6 +101,10 @@ enum ChildcareProviderOrderByInput {
   companyNumber_DESC
   mangoLegalUserID_ASC
   mangoLegalUserID_DESC
+  mangoBankAccountID_ASC
+  mangoBankAccountID_DESC
+  mangoWalletId_ASC
+  mangoWalletId_DESC
   approved_ASC
   approved_DESC
   expiresAt_ASC
@@ -106,6 +120,8 @@ type ChildcareProviderPreviousValues {
   email: String!
   companyNumber: String!
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean!
   expiresAt: DateTime
   updatedAt: DateTime!
@@ -134,6 +150,8 @@ input ChildcareProviderUpdateInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   paymentRequests: PaymentRequestUpdateManyWithoutChildcareProviderInput
   expiresAt: DateTime
@@ -143,6 +161,8 @@ input ChildcareProviderUpdateManyMutationInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   expiresAt: DateTime
 }
@@ -158,6 +178,8 @@ input ChildcareProviderUpdateWithoutPaymentRequestsDataInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
   approved: Boolean
   expiresAt: DateTime
 }
@@ -224,6 +246,34 @@ input ChildcareProviderWhereInput {
   mangoLegalUserID_not_starts_with: String
   mangoLegalUserID_ends_with: String
   mangoLegalUserID_not_ends_with: String
+  mangoBankAccountID: String
+  mangoBankAccountID_not: String
+  mangoBankAccountID_in: [String!]
+  mangoBankAccountID_not_in: [String!]
+  mangoBankAccountID_lt: String
+  mangoBankAccountID_lte: String
+  mangoBankAccountID_gt: String
+  mangoBankAccountID_gte: String
+  mangoBankAccountID_contains: String
+  mangoBankAccountID_not_contains: String
+  mangoBankAccountID_starts_with: String
+  mangoBankAccountID_not_starts_with: String
+  mangoBankAccountID_ends_with: String
+  mangoBankAccountID_not_ends_with: String
+  mangoWalletId: String
+  mangoWalletId_not: String
+  mangoWalletId_in: [String!]
+  mangoWalletId_not_in: [String!]
+  mangoWalletId_lt: String
+  mangoWalletId_lte: String
+  mangoWalletId_gt: String
+  mangoWalletId_gte: String
+  mangoWalletId_contains: String
+  mangoWalletId_not_contains: String
+  mangoWalletId_starts_with: String
+  mangoWalletId_not_starts_with: String
+  mangoWalletId_ends_with: String
+  mangoWalletId_not_ends_with: String
   approved: Boolean
   approved_not: Boolean
   paymentRequests_every: PaymentRequestWhereInput
@@ -263,6 +313,8 @@ input ChildcareProviderWhereUniqueInput {
   email: String
   companyNumber: String
   mangoLegalUserID: String
+  mangoBankAccountID: String
+  mangoWalletId: String
 }
 
 scalar DateTime
@@ -280,6 +332,7 @@ type Employer {
   maxSalaryPercentage: Float!
   payrollEmail: String!
   signerEmail: String!
+  payIns(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PayIn!]
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -303,10 +356,16 @@ input EmployerCreateInput {
   maxSalaryPercentage: Float!
   payrollEmail: String!
   signerEmail: String!
+  payIns: PayInCreateManyWithoutEmployerInput
 }
 
 input EmployerCreateOneWithoutEmailSuffixesInput {
   create: EmployerCreateWithoutEmailSuffixesInput
+  connect: EmployerWhereUniqueInput
+}
+
+input EmployerCreateOneWithoutPayInsInput {
+  create: EmployerCreateWithoutPayInsInput
   connect: EmployerWhereUniqueInput
 }
 
@@ -327,6 +386,22 @@ input EmployerCreateWithoutEmailSuffixesInput {
   maxSalaryPercentage: Float!
   payrollEmail: String!
   signerEmail: String!
+  payIns: PayInCreateManyWithoutEmployerInput
+}
+
+input EmployerCreateWithoutPayInsInput {
+  id: ID
+  name: String!
+  slug: String!
+  address: String!
+  companyNumber: String
+  user: UserCreateManyWithoutEmployerInput
+  emailSuffixes: SuffixCreateManyWithoutEmployerInput
+  maximumAmount: Int!
+  minimumServiceLength: Int!
+  maxSalaryPercentage: Float!
+  payrollEmail: String!
+  signerEmail: String!
 }
 
 input EmployerCreateWithoutUserInput {
@@ -341,6 +416,7 @@ input EmployerCreateWithoutUserInput {
   maxSalaryPercentage: Float!
   payrollEmail: String!
   signerEmail: String!
+  payIns: PayInCreateManyWithoutEmployerInput
 }
 
 type EmployerEdge {
@@ -420,6 +496,7 @@ input EmployerUpdateInput {
   maxSalaryPercentage: Float
   payrollEmail: String
   signerEmail: String
+  payIns: PayInUpdateManyWithoutEmployerInput
 }
 
 input EmployerUpdateManyMutationInput {
@@ -441,6 +518,13 @@ input EmployerUpdateOneRequiredWithoutEmailSuffixesInput {
   connect: EmployerWhereUniqueInput
 }
 
+input EmployerUpdateOneRequiredWithoutPayInsInput {
+  create: EmployerCreateWithoutPayInsInput
+  update: EmployerUpdateWithoutPayInsDataInput
+  upsert: EmployerUpsertWithoutPayInsInput
+  connect: EmployerWhereUniqueInput
+}
+
 input EmployerUpdateOneRequiredWithoutUserInput {
   create: EmployerCreateWithoutUserInput
   update: EmployerUpdateWithoutUserDataInput
@@ -459,6 +543,21 @@ input EmployerUpdateWithoutEmailSuffixesDataInput {
   maxSalaryPercentage: Float
   payrollEmail: String
   signerEmail: String
+  payIns: PayInUpdateManyWithoutEmployerInput
+}
+
+input EmployerUpdateWithoutPayInsDataInput {
+  name: String
+  slug: String
+  address: String
+  companyNumber: String
+  user: UserUpdateManyWithoutEmployerInput
+  emailSuffixes: SuffixUpdateManyWithoutEmployerInput
+  maximumAmount: Int
+  minimumServiceLength: Int
+  maxSalaryPercentage: Float
+  payrollEmail: String
+  signerEmail: String
 }
 
 input EmployerUpdateWithoutUserDataInput {
@@ -472,11 +571,17 @@ input EmployerUpdateWithoutUserDataInput {
   maxSalaryPercentage: Float
   payrollEmail: String
   signerEmail: String
+  payIns: PayInUpdateManyWithoutEmployerInput
 }
 
 input EmployerUpsertWithoutEmailSuffixesInput {
   update: EmployerUpdateWithoutEmailSuffixesDataInput!
   create: EmployerCreateWithoutEmailSuffixesInput!
+}
+
+input EmployerUpsertWithoutPayInsInput {
+  update: EmployerUpdateWithoutPayInsDataInput!
+  create: EmployerCreateWithoutPayInsInput!
 }
 
 input EmployerUpsertWithoutUserInput {
@@ -613,6 +718,9 @@ input EmployerWhereInput {
   signerEmail_not_starts_with: String
   signerEmail_ends_with: String
   signerEmail_not_ends_with: String
+  payIns_every: PayInWhereInput
+  payIns_some: PayInWhereInput
+  payIns_none: PayInWhereInput
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]
@@ -847,6 +955,12 @@ type Mutation {
   upsertLoan(where: LoanWhereUniqueInput!, create: LoanCreateInput!, update: LoanUpdateInput!): Loan!
   deleteLoan(where: LoanWhereUniqueInput!): Loan
   deleteManyLoans(where: LoanWhereInput): BatchPayload!
+  createPayIn(data: PayInCreateInput!): PayIn!
+  updatePayIn(data: PayInUpdateInput!, where: PayInWhereUniqueInput!): PayIn
+  updateManyPayIns(data: PayInUpdateManyMutationInput!, where: PayInWhereInput): BatchPayload!
+  upsertPayIn(where: PayInWhereUniqueInput!, create: PayInCreateInput!, update: PayInUpdateInput!): PayIn!
+  deletePayIn(where: PayInWhereUniqueInput!): PayIn
+  deleteManyPayIns(where: PayInWhereInput): BatchPayload!
   createPaymentRequest(data: PaymentRequestCreateInput!): PaymentRequest!
   updatePaymentRequest(data: PaymentRequestUpdateInput!, where: PaymentRequestWhereUniqueInput!): PaymentRequest
   updateManyPaymentRequests(data: PaymentRequestUpdateManyMutationInput!, where: PaymentRequestWhereInput): BatchPayload!
@@ -888,6 +1002,273 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
+}
+
+type PayIn {
+  id: ID!
+  user: User!
+  employer: Employer!
+  mangoPayInId: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type PayInConnection {
+  pageInfo: PageInfo!
+  edges: [PayInEdge]!
+  aggregate: AggregatePayIn!
+}
+
+input PayInCreateInput {
+  id: ID
+  user: UserCreateOneWithoutPayInsInput!
+  employer: EmployerCreateOneWithoutPayInsInput!
+  mangoPayInId: String!
+}
+
+input PayInCreateManyWithoutEmployerInput {
+  create: [PayInCreateWithoutEmployerInput!]
+  connect: [PayInWhereUniqueInput!]
+}
+
+input PayInCreateManyWithoutUserInput {
+  create: [PayInCreateWithoutUserInput!]
+  connect: [PayInWhereUniqueInput!]
+}
+
+input PayInCreateWithoutEmployerInput {
+  id: ID
+  user: UserCreateOneWithoutPayInsInput!
+  mangoPayInId: String!
+}
+
+input PayInCreateWithoutUserInput {
+  id: ID
+  employer: EmployerCreateOneWithoutPayInsInput!
+  mangoPayInId: String!
+}
+
+type PayInEdge {
+  node: PayIn!
+  cursor: String!
+}
+
+enum PayInOrderByInput {
+  id_ASC
+  id_DESC
+  mangoPayInId_ASC
+  mangoPayInId_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type PayInPreviousValues {
+  id: ID!
+  mangoPayInId: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+input PayInScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  mangoPayInId: String
+  mangoPayInId_not: String
+  mangoPayInId_in: [String!]
+  mangoPayInId_not_in: [String!]
+  mangoPayInId_lt: String
+  mangoPayInId_lte: String
+  mangoPayInId_gt: String
+  mangoPayInId_gte: String
+  mangoPayInId_contains: String
+  mangoPayInId_not_contains: String
+  mangoPayInId_starts_with: String
+  mangoPayInId_not_starts_with: String
+  mangoPayInId_ends_with: String
+  mangoPayInId_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [PayInScalarWhereInput!]
+  OR: [PayInScalarWhereInput!]
+  NOT: [PayInScalarWhereInput!]
+}
+
+type PayInSubscriptionPayload {
+  mutation: MutationType!
+  node: PayIn
+  updatedFields: [String!]
+  previousValues: PayInPreviousValues
+}
+
+input PayInSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PayInWhereInput
+  AND: [PayInSubscriptionWhereInput!]
+  OR: [PayInSubscriptionWhereInput!]
+  NOT: [PayInSubscriptionWhereInput!]
+}
+
+input PayInUpdateInput {
+  user: UserUpdateOneRequiredWithoutPayInsInput
+  employer: EmployerUpdateOneRequiredWithoutPayInsInput
+  mangoPayInId: String
+}
+
+input PayInUpdateManyDataInput {
+  mangoPayInId: String
+}
+
+input PayInUpdateManyMutationInput {
+  mangoPayInId: String
+}
+
+input PayInUpdateManyWithoutEmployerInput {
+  create: [PayInCreateWithoutEmployerInput!]
+  delete: [PayInWhereUniqueInput!]
+  connect: [PayInWhereUniqueInput!]
+  set: [PayInWhereUniqueInput!]
+  disconnect: [PayInWhereUniqueInput!]
+  update: [PayInUpdateWithWhereUniqueWithoutEmployerInput!]
+  upsert: [PayInUpsertWithWhereUniqueWithoutEmployerInput!]
+  deleteMany: [PayInScalarWhereInput!]
+  updateMany: [PayInUpdateManyWithWhereNestedInput!]
+}
+
+input PayInUpdateManyWithoutUserInput {
+  create: [PayInCreateWithoutUserInput!]
+  delete: [PayInWhereUniqueInput!]
+  connect: [PayInWhereUniqueInput!]
+  set: [PayInWhereUniqueInput!]
+  disconnect: [PayInWhereUniqueInput!]
+  update: [PayInUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [PayInUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [PayInScalarWhereInput!]
+  updateMany: [PayInUpdateManyWithWhereNestedInput!]
+}
+
+input PayInUpdateManyWithWhereNestedInput {
+  where: PayInScalarWhereInput!
+  data: PayInUpdateManyDataInput!
+}
+
+input PayInUpdateWithoutEmployerDataInput {
+  user: UserUpdateOneRequiredWithoutPayInsInput
+  mangoPayInId: String
+}
+
+input PayInUpdateWithoutUserDataInput {
+  employer: EmployerUpdateOneRequiredWithoutPayInsInput
+  mangoPayInId: String
+}
+
+input PayInUpdateWithWhereUniqueWithoutEmployerInput {
+  where: PayInWhereUniqueInput!
+  data: PayInUpdateWithoutEmployerDataInput!
+}
+
+input PayInUpdateWithWhereUniqueWithoutUserInput {
+  where: PayInWhereUniqueInput!
+  data: PayInUpdateWithoutUserDataInput!
+}
+
+input PayInUpsertWithWhereUniqueWithoutEmployerInput {
+  where: PayInWhereUniqueInput!
+  update: PayInUpdateWithoutEmployerDataInput!
+  create: PayInCreateWithoutEmployerInput!
+}
+
+input PayInUpsertWithWhereUniqueWithoutUserInput {
+  where: PayInWhereUniqueInput!
+  update: PayInUpdateWithoutUserDataInput!
+  create: PayInCreateWithoutUserInput!
+}
+
+input PayInWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  employer: EmployerWhereInput
+  mangoPayInId: String
+  mangoPayInId_not: String
+  mangoPayInId_in: [String!]
+  mangoPayInId_not_in: [String!]
+  mangoPayInId_lt: String
+  mangoPayInId_lte: String
+  mangoPayInId_gt: String
+  mangoPayInId_gte: String
+  mangoPayInId_contains: String
+  mangoPayInId_not_contains: String
+  mangoPayInId_starts_with: String
+  mangoPayInId_not_starts_with: String
+  mangoPayInId_ends_with: String
+  mangoPayInId_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [PayInWhereInput!]
+  OR: [PayInWhereInput!]
+  NOT: [PayInWhereInput!]
+}
+
+input PayInWhereUniqueInput {
+  id: ID
+  mangoPayInId: String
 }
 
 type PaymentRequest {
@@ -1279,6 +1660,9 @@ type Query {
   loan(where: LoanWhereUniqueInput!): Loan
   loans(where: LoanWhereInput, orderBy: LoanOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Loan]!
   loansConnection(where: LoanWhereInput, orderBy: LoanOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoanConnection!
+  payIn(where: PayInWhereUniqueInput!): PayIn
+  payIns(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PayIn]!
+  payInsConnection(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PayInConnection!
   paymentRequest(where: PaymentRequestWhereUniqueInput!): PaymentRequest
   paymentRequests(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PaymentRequest]!
   paymentRequestsConnection(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentRequestConnection!
@@ -1298,6 +1682,7 @@ type Subscription {
   childcareProvider(where: ChildcareProviderSubscriptionWhereInput): ChildcareProviderSubscriptionPayload
   employer(where: EmployerSubscriptionWhereInput): EmployerSubscriptionPayload
   loan(where: LoanSubscriptionWhereInput): LoanSubscriptionPayload
+  payIn(where: PayInSubscriptionWhereInput): PayInSubscriptionPayload
   paymentRequest(where: PaymentRequestSubscriptionWhereInput): PaymentRequestSubscriptionPayload
   suffix(where: SuffixSubscriptionWhereInput): SuffixSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -1505,6 +1890,7 @@ type User {
   mangoWalletId: String
   mangoUserId: String
   paymentRequests(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PaymentRequest!]
+  payIns(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PayIn!]
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -1534,11 +1920,17 @@ input UserCreateInput {
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
+  payIns: PayInCreateManyWithoutUserInput
 }
 
 input UserCreateManyWithoutEmployerInput {
   create: [UserCreateWithoutEmployerInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneWithoutPayInsInput {
+  create: UserCreateWithoutPayInsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutPaymentRequestsInput {
@@ -1548,6 +1940,28 @@ input UserCreateOneWithoutPaymentRequestsInput {
 
 input UserCreateWithoutEmployerInput {
   id: ID
+  firstName: String!
+  lastName: String!
+  email: String!
+  isVerified: Boolean
+  phoneNumber: String!
+  dob: DateTime!
+  nationality: String!
+  employmentStartDate: DateTime!
+  annualSalary: Int!
+  employeeID: String
+  verificationToken: VerificationTokenCreateOneInput
+  gdprConsent: Boolean!
+  loan: LoanCreateOneInput
+  mangoWalletId: String
+  mangoUserId: String
+  paymentRequests: PaymentRequestCreateManyWithoutUserInput
+  payIns: PayInCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutPayInsInput {
+  id: ID
+  employer: EmployerCreateOneWithoutUserInput!
   firstName: String!
   lastName: String!
   email: String!
@@ -1584,6 +1998,7 @@ input UserCreateWithoutPaymentRequestsInput {
   loan: LoanCreateOneInput
   mangoWalletId: String
   mangoUserId: String
+  payIns: PayInCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -1857,6 +2272,7 @@ input UserUpdateInput {
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
+  payIns: PayInUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyDataInput {
@@ -1908,6 +2324,13 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateOneRequiredWithoutPayInsInput {
+  create: UserCreateWithoutPayInsInput
+  update: UserUpdateWithoutPayInsDataInput
+  upsert: UserUpsertWithoutPayInsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneRequiredWithoutPaymentRequestsInput {
   create: UserCreateWithoutPaymentRequestsInput
   update: UserUpdateWithoutPaymentRequestsDataInput
@@ -1916,6 +2339,27 @@ input UserUpdateOneRequiredWithoutPaymentRequestsInput {
 }
 
 input UserUpdateWithoutEmployerDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  isVerified: Boolean
+  phoneNumber: String
+  dob: DateTime
+  nationality: String
+  employmentStartDate: DateTime
+  annualSalary: Int
+  employeeID: String
+  verificationToken: VerificationTokenUpdateOneInput
+  gdprConsent: Boolean
+  loan: LoanUpdateOneInput
+  mangoWalletId: String
+  mangoUserId: String
+  paymentRequests: PaymentRequestUpdateManyWithoutUserInput
+  payIns: PayInUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutPayInsDataInput {
+  employer: EmployerUpdateOneRequiredWithoutUserInput
   firstName: String
   lastName: String
   email: String
@@ -1951,11 +2395,17 @@ input UserUpdateWithoutPaymentRequestsDataInput {
   loan: LoanUpdateOneInput
   mangoWalletId: String
   mangoUserId: String
+  payIns: PayInUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithWhereUniqueWithoutEmployerInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutEmployerDataInput!
+}
+
+input UserUpsertWithoutPayInsInput {
+  update: UserUpdateWithoutPayInsDataInput!
+  create: UserCreateWithoutPayInsInput!
 }
 
 input UserUpsertWithoutPaymentRequestsInput {
@@ -2130,6 +2580,9 @@ input UserWhereInput {
   paymentRequests_every: PaymentRequestWhereInput
   paymentRequests_some: PaymentRequestWhereInput
   paymentRequests_none: PaymentRequestWhereInput
+  payIns_every: PayInWhereInput
+  payIns_some: PayInWhereInput
+  payIns_none: PayInWhereInput
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]

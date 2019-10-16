@@ -1,54 +1,72 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import moment from "moment"
-import * as crypto from "crypto"
+
+import mango from "../../lib/mango"
 
 import { prisma } from "../../prisma/generated/ts"
+import convertToPennies from "../../utils/convertToPennies"
 
-import { sendPaymentRequestDetails } from "../../utils/mailgunClient"
-const convertToPennies = amount => parseInt(amount.substring(1)) * 100
+import {
+  sendProviderPaymentNotification,
+  sendEmployeeOutgoingPaymentNotification,
+} from "../../utils/mailgunClient"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const {
-    childcareProvider: { providerEmail, companyNumber },
-    paymentRequest: { amountToPay, consentToPay, reference },
-    user,
-    expiryDays = 7,
-  } = req.body
+  // @ts-ignore
+  const user = req.user
+  const { childcareProviderId, amountToPay, reference } = req.body
 
-  const expiresAt = moment()
-    .add(expiryDays, "days")
-    .toDate()
+  try {
+    const childcareProvider = await prisma.childcareProvider({
+      id: childcareProviderId,
+    })
 
-  const newChildcareProvider = await prisma.createChildcareProvider({
-    email: providerEmail,
-    companyNumber,
-    expiresAt,
-    approved: false,
-  })
-
-  const paymentRequest = await prisma.createPaymentRequest({
-    user: {
-      connect: {
-        email: user.email,
+    await mango.Transfers.create({
+      AuthorId: user.mangoUserId,
+      DebitedFunds: {
+        Currency: "GBP",
+        Amount: convertToPennies(amountToPay),
       },
-    },
-    childcareProvider: {
-      connect: {
-        id: newChildcareProvider.id,
+      Fees: {
+        Currency: "GBP",
+        Amount: 0,
       },
-    },
-    amountToPay: convertToPennies(amountToPay),
-    consentToPay,
-    expiresAt,
-    reference,
-  })
+      DebitedWalletId: user.mangoWalletId,
+      CreditedWalletId: childcareProvider.mangoWalletId,
+    })
 
-  sendPaymentRequestDetails({
-    user,
-    email: providerEmail,
-    amountToPay,
-    slug: newChildcareProvider.id,
-  })
+    const bankAccount = await mango.Users.getBankAccount(
+      childcareProvider.mangoLegalUserID,
+      childcareProvider.mangoBankAccountID
+    )
 
-  res.status(200).json({ paymentRequest, newChildcareProvider })
+    // TODO: should we move this out to listen event?
+    await mango.PayOuts.create({
+      AuthorId: childcareProvider.mangoLegalUserID,
+      DebitedFunds: {
+        Currency: "GBP",
+        Amount: convertToPennies(amountToPay),
+      },
+      Fees: {
+        Currency: "GBP",
+        Amount: 0,
+      },
+      BankAccountId: bankAccount.Id,
+      DebitedWalletId: childcareProvider.mangoWalletId,
+      BankWireRef: reference,
+      // @ts-ignore
+      PaymentType: "BANK_WIRE",
+    })
+
+    sendProviderPaymentNotification({
+      email: childcareProvider.email,
+      amountToPay,
+      employeeName: `${user.firstName} ${user.lastName}`,
+    })
+
+    sendEmployeeOutgoingPaymentNotification({ email: user.email, amountToPay })
+    res.status(200).end()
+  } catch (err) {
+    console.error(err)
+    res.status(400).end()
+  }
 }

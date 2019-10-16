@@ -1,12 +1,16 @@
 import * as Yup from "yup"
+import currencyFormatter from "currency-formatter"
 import styled from "styled-components"
+
 import { Input, PriceInput, TextAreaInput } from "../../Input"
+
+import formatToCurrencyString from "../../../utils/formatToCurrencyString"
 
 import Pen from "../../../static/icons/pen.svg"
 import Nursery from "../../../static/icons/nursery.svg"
 
 const validation = Yup.object().shape({
-  amountToPay: Yup.string().required("Required!"),
+  amountToPay: Yup.string().required("Payment amount is required"),
   reference: Yup.string(),
 })
 
@@ -44,15 +48,16 @@ const Edit = styled.img.attrs({
   className: "mr-8",
 })``
 
-const formatToCurrency = amount => {
-  const sanitised = amount.replace(/[^0-9.]/g, "")
+const validateAmount = ({ userWalletBalance }) => value => {
+  const amount = currencyFormatter.unformat(value, { code: "GBP" }) * 100
 
-  const currency = new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: "GBP",
-  }).format(sanitised)
+  if (amount <= 0) {
+    return "Amount must be more than 0"
+  }
 
-  return currency !== "£NaN" ? currency : "£0.00"
+  if (amount > userWalletBalance) {
+    return "You do not have sufficient funds for that payment"
+  }
 }
 
 const Pay = ({
@@ -61,6 +66,9 @@ const Pay = ({
   company,
   values: { amountToPay },
   Controls,
+  isValid,
+  submitForm: showErrors,
+  userWalletBalance,
 }) => (
   <Container>
     <Controls />
@@ -70,12 +78,13 @@ const Pay = ({
     <Copy>How much would you like to pay?</Copy>
     <Input
       name="amountToPay"
-      onBlur={e =>
-        setFieldValue("amountToPay", formatToCurrency(e.target.value))
-      }
+      onBlur={e => {
+        setFieldValue("amountToPay", formatToCurrencyString(e.target.value))
+      }}
+      validate={validateAmount({ userWalletBalance })}
       component={PriceInput}
       size={amountToPay.length > 7 ? amountToPay.length : 7}
-      className="mb-6 text-center block m-auto"
+      className="text-center block m-auto"
       placeholder="£0.00"
     />
     <Reference>
@@ -87,7 +96,13 @@ const Pay = ({
         placeholder="What is this amount for?"
       />
     </Reference>
-    <Next onClick={incrementPage}>Next</Next>
+    <Next
+      onClick={() => {
+        isValid ? incrementPage() : showErrors()
+      }}
+    >
+      Next
+    </Next>
   </Container>
 )
 

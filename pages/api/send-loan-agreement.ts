@@ -5,10 +5,9 @@ import * as R from "ramda"
 
 import zeroIndexMonth from "../../utils/zeroIndexMonth"
 import poundsToPennies from "../../utils/poundsToPennies"
-import convertToSterling from "../../utils/convertToSterling"
 
 import { prisma } from "../../prisma/generated/ts"
-import { userInfo } from "os"
+import convertToPounds from "../../utils/convertToPounds"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
@@ -28,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     employeeID,
     phoneNumber,
     employer,
-    gdprConsent
+    gdprConsent,
   } = req.body
 
   prisma
@@ -49,14 +48,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           terms: parseInt(loanTerms),
         },
       },
-      gdprConsent
+      gdprConsent,
     })
     .catch(e => {
       console.error("Error creating prisma user: ", e) //eslint-disable-line no-console
     })
 
-  const loanOptions = (loanAmount: number, loanTerms: number, maximumTerms: number = 12): { name: string, value: any }[] => {
-    const mapIndexed = R.addIndex(R.map)
+  const loanOptions = (
+    loanAmount: number,
+    loanTerms: number,
+    maximumTerms: number = 12
+  ): { name: string; value: any }[] => {
+    const mapIndexed: any = R.addIndex(R.map)
 
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
     const remainder = loanAmount % loanTerms
@@ -73,28 +76,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "loanMonthlyRepayment",
-        value: convertToSterling(monthlyRepayment),
-      }]
+        value: convertToPounds(monthlyRepayment),
+      },
+    ]
 
-
-    const loanMonths = mapIndexed((_, index) => ({
+    const loanMonths = mapIndexed((_: any, index: any) => ({
       name: `loanMonth${index + 1}`,
       value: `${
         index + 1 === loanTerms
-          ? convertToSterling(lastMonth)
-          : convertToSterling(monthlyRepayment)
-        }`,
+          ? convertToPounds(lastMonth)
+          : convertToPounds(monthlyRepayment)
+      }`,
     }))([...Array(loanTerms)])
 
-    const defaultMonths = mapIndexed((_, index) => ({
+    const defaultMonths = mapIndexed((_: any, index: any) => ({
       name: `loanMonth${loanTerms + index + 1}`,
-      value: "n/a"
+      value: "n/a",
     }))([...Array(maximumTerms - loanTerms)])
 
     // @ts-ignore
     return [...loanDetails, ...loanMonths, ...defaultMonths]
   }
-
 
   const opts = {
     test_mode: 1 as hellosign.Flag,
@@ -138,11 +140,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ],
   }
 
-  console.log("opts", opts);
-
-
   helloSignClient.signatureRequest.sendWithTemplate(opts).catch(e => {
-
     console.error("Sending loan agreement Hellosign error: ", e) //eslint-disable-line no-console
   })
 

@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import moment from "moment"
 
 import Questions from "../Questions"
-import { TextInput } from "../../Input"
+import { TextInput, DateInput } from "../../Input"
 
 import zeroIndexMonth from "../../../utils/zeroIndexMonth"
 
@@ -63,8 +63,9 @@ const Personal = ({ values: { dob } }) => (
       },
       {
         text: "What is your date of birth?",
-        date: true,
         name: "dob",
+        component: DateInput,
+        custom: true,
         validate: () => validateDate(dob),
       },
     ]}

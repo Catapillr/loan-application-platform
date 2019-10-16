@@ -1,20 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import mangopay from "mangopay2-nodejs-sdk"
 import { prisma } from "../../prisma/generated/ts"
 import moment from "moment"
+
+import mango from "../../lib/mango"
 
 import {
   sendIncorrectPaymentNotification,
   sendEmployerPaymentNotification,
-  sendEmployeePaymentNotification,
+  sendEmployeeLoanPaymentNotification,
 } from "../../utils/mailgunClient"
-
-const mango = new mangopay({
-  clientId: process.env.MANGO_CLIENT_ID,
-  clientApiKey: process.env.MANGO_KEY,
-  // Set the right production API url. If testing, omit the property since it defaults to sandbox URL
-  // baseUrl: "https://api.mangopay.com",
-})
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -65,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         employer,
       })
 
-      await sendEmployeePaymentNotification({
+      await sendEmployeeLoanPaymentNotification({
         payment,
         user,
       })

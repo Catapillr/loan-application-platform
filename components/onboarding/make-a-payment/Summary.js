@@ -85,6 +85,7 @@ const Summary = ({
   Controls,
   isSubmitting,
   submitForm,
+  isProviderRegistered,
 }) => (
   <>
     {isSubmitting && <Overlay />}
@@ -109,17 +110,21 @@ const Summary = ({
           margin=""
           component={TextAreaInput}
           disabled
-          placeholder="What is this amount for?"
+          placeholder="No reference"
         />
       </Reference>
-      <Input
-        direction="flex-row-reverse"
-        name="consentToPay"
-        component={CheckboxInput}
-        type="checkbox"
-        text="By sending this link, you agree to send money to the above provider once they sign up to the Catapillr scheme."
-      />
-      <Submit {...{ isSubmitting, submitForm }}>Send magic link</Submit>
+      {!isProviderRegistered && (
+        <Input
+          direction="flex-row-reverse"
+          name="consentToPay"
+          component={CheckboxInput}
+          type="checkbox"
+          text="By sending this link, you agree to send money to the above provider once they sign up to the Catapillr scheme."
+        />
+      )}
+      <Submit {...{ isSubmitting, submitForm }}>
+        {isProviderRegistered ? "Confirm Payment" : "Send magic link"}
+      </Submit>
     </Container>
   </>
 )
