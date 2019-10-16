@@ -3,9 +3,12 @@ import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 import * as R from "ramda"
 
+import zeroIndexMonth from "../../utils/zeroIndexMonth"
+import poundsToPennies from "../../utils/poundsToPennies"
+import convertToPounds from "../../utils/convertToPounds"
+
 import { prisma } from "../../prisma/generated/ts"
 import { userInfo } from "os"
-import convertToPounds from "../../utils/convertToPounds"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
@@ -34,15 +37,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       lastName,
       email,
       phoneNumber,
-      dob: moment(dob).toDate(),
+      dob: moment(zeroIndexMonth(dob)).toDate(),
       nationality,
-      employmentStartDate: moment(employmentStartDate).toDate(),
+      employmentStartDate: moment(zeroIndexMonth(employmentStartDate)).toDate(),
       employeeID,
-      annualSalary: parseFloat(annualSalary),
+      annualSalary: poundsToPennies(parseFloat(annualSalary)),
       employer: { connect: { slug: employer.slug } },
       loan: {
         create: {
-          amount: loanAmount,
+          amount: poundsToPennies(loanAmount),
           terms: parseInt(loanTerms),
         },
       },
@@ -84,7 +87,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         index + 1 === loanTerms
           ? convertToPounds(lastMonth)
           : convertToPounds(monthlyRepayment)
-      }`,
+        }`,
     }))([...Array(loanTerms)])
 
     const defaultMonths = mapIndexed((_, index) => ({
@@ -95,6 +98,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // @ts-ignore
     return [...loanDetails, ...loanMonths, ...defaultMonths]
   }
+
 
   const opts = {
     test_mode: 1 as hellosign.Flag,
