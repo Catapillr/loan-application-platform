@@ -425,13 +425,11 @@ const ControlsSection = styled.section.attrs({
 
 EmployeeOnboarding.getInitialProps = async ({ req }) => {
   const slug = req.originalUrl.slice(27)
-  const res = await axios(
-    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
-  )
 
   const {
     data: { employer },
-  } = res
+  } = await axios(`${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`)
+
   return { employer }
 }
 

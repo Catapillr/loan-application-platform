@@ -1,12 +1,20 @@
-// import Link from "next/link"
 import styled from "styled-components"
+import restrictAccess from "../utils/restrictAccess"
+import axios from "axios"
+import nextCookies from "next-cookies"
+import * as R from "ramda"
+import * as moment from "moment"
+import currencyFormatter from "currency-formatter"
 
-import { NURSERY, CLUB } from "../utils/constants"
+// import { NURSERY, CLUB } from "../utils/constants"
 
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import Transaction from "../components/Transaction"
 import Payee from "../components/Payee"
+
+const Transfer = "TRANSFER"
+const PayIn = "PAYIN"
 
 const Container = styled.div.attrs({
   className: "w-full bg-lightgray min-h-screen flex flex-col justify-between",
@@ -51,7 +59,12 @@ const PayeesContainer = styled.section.attrs({
   grid-template-rows: auto;
 `
 
-const Dash = () => (
+const formatAmounts = R.pipe(
+  amount => amount / 100,
+  R.flip(currencyFormatter.format)({ code: "GBP" })
+)
+
+const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
   <Container>
     <Header activeHref="/dash" />
     <Contents>
@@ -59,36 +72,58 @@ const Dash = () => (
         <Title className="mb-12">My payments</Title>
         <Subtitle className="mb-10">Recent payees</Subtitle>
         <PayeesContainer>
-          <Payee name="True Colours Nursery" childcareType={NURSERY} slug="" />
-          <Payee name="Rocky Climbing Wall" childcareType={CLUB} slug="" />
-          <Payee name="Clapton FC" childcareType={CLUB} slug="" />
-          <Payee name="True Colours Nursery" childcareType={NURSERY} slug="" />
-          <Payee name="Rocky Climbing Wall" childcareType={CLUB} slug="" />
+          {R.values(recentPayeesByMangoId).map(payee => (
+            <Payee
+              name={payee.Name}
+              key={payee.Id}
+              slug={payee.CompanyNumber}
+            />
+          ))}
         </PayeesContainer>
       </Main>
       <Aside>
         <BalanceContainer>
           <Subtitle>Balance</Subtitle>
-          <Title>£1,700</Title>
+          <Title>{formatAmounts(userWalletBalance)}</Title>
         </BalanceContainer>
         <TransactionContainer>
           <Subtitle className="mb-10">My transactions</Subtitle>
-          <Transaction
-            name="True Colours Nursery"
-            amount="-£400"
-            date="12 July 2019"
-          />
-          <Transaction
-            name="Rocky Climbing Wall"
-            amount="-£200"
-            date="10 June 2019"
-          />
-          <Transaction name="Clapton FC" amount="-£500" date="1 May 2019" />
-          <Transaction
-            name="InFact Digital Co-op"
-            amount="+£3,000"
-            date="20 March 2019"
-          />
+
+          {//eslint-disable-next-line array-callback-return
+          transactions.map(transaction => {
+            switch (transaction.Type) {
+              case Transfer:
+                return (
+                  <Transaction
+                    key={transaction.Id}
+                    name={
+                      recentPayeesByMangoId[transaction.CreditedUserId].Name
+                    }
+                    amount={`-${formatAmounts(
+                      transaction.DebitedFunds.Amount
+                    )}`}
+                    date={moment
+                      .unix(transaction.ExecutionDate) //eslint-disable-line import/namespace
+                      .format("D MMMM YYYY")}
+                  />
+                )
+              case PayIn:
+                return (
+                  <Transaction
+                    key={transaction.Id}
+                    name={transaction.debitedUserName}
+                    amount={`+${formatAmounts(
+                      transaction.CreditedFunds.Amount
+                    )}`}
+                    date={moment
+                      .unix(transaction.ExecutionDate) //eslint-disable-line import/namespace
+                      .format("D MMMM YYYY")}
+                  />
+                )
+              default:
+                return <div></div>
+            }
+          })}
         </TransactionContainer>
       </Aside>
     </Contents>
@@ -98,15 +133,42 @@ const Dash = () => (
 
 Dash.getInitialProps = async ctx => {
   const { req } = ctx
-  // restrictAccess(ctx)
+  restrictAccess(ctx)
+
+  const cookies = nextCookies(ctx)
+  const serializedCookies = R.pipe(
+    R.mapObjIndexed((val, key) => `${key}=${val};`),
+    R.values,
+    R.join(" ")
+  )(cookies)
 
   try {
     const user = req.user
 
-    return { user }
+    const [
+      {
+        data: { transactions, recentPayeesByMangoId },
+      },
+
+      {
+        data: { userWalletBalance },
+      },
+    ] = await Promise.all([
+      axios.get(
+        `${process.env.HOST}/api/list-user-transactions?mangoId=${user.mangoUserId}`,
+        {
+          headers: { Cookie: serializedCookies },
+        }
+      ),
+      axios.get(`${process.env.HOST}/api/private/get-user-wallet-balance`, {
+        headers: { Cookie: serializedCookies },
+      }),
+    ])
+
+    return { user, transactions, userWalletBalance, recentPayeesByMangoId }
   } catch (err) {
     // eslint-disable-next-line
-    console.error("Error in make-a-payment getInitProps: ", err)
+    console.error("Error in dashboard getInitProps: ", err)
     return {}
   }
 }

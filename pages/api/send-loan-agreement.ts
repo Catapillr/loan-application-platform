@@ -8,7 +8,6 @@ import poundsToPennies from "../../utils/poundsToPennies"
 import convertToPounds from "../../utils/convertToPounds"
 
 import { prisma } from "../../prisma/generated/ts"
-import { userInfo } from "os"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
@@ -60,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     loanTerms: number,
     maximumTerms: number = 12
   ): { name: string; value: any }[] => {
-    const mapIndexed = R.addIndex(R.map)
+    const mapIndexed: any = R.addIndex(R.map)
 
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
     const remainder = loanAmount % loanTerms
@@ -81,16 +80,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     ]
 
-    const loanMonths = mapIndexed((_, index) => ({
+    const loanMonths = mapIndexed((_: any, index: any) => ({
       name: `loanMonth${index + 1}`,
       value: `${
         index + 1 === loanTerms
           ? convertToPounds(lastMonth)
           : convertToPounds(monthlyRepayment)
-        }`,
+      }`,
     }))([...Array(loanTerms)])
 
-    const defaultMonths = mapIndexed((_, index) => ({
+    const defaultMonths = mapIndexed((_: any, index: any) => ({
       name: `loanMonth${loanTerms + index + 1}`,
       value: "n/a",
     }))([...Array(maximumTerms - loanTerms)])
@@ -98,7 +97,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // @ts-ignore
     return [...loanDetails, ...loanMonths, ...defaultMonths]
   }
-
 
   const opts = {
     test_mode: 1 as hellosign.Flag,
