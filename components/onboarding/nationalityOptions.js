@@ -936,7 +936,7 @@ export default [
     value: "AE",
   },
   {
-    label: "United Kingdom of Great Britain and Northern Ireland",
+    label: "United Kingdom",
     value: "GB",
   },
   {

@@ -4,7 +4,7 @@ import * as R from "ramda"
 import axios from "axios"
 
 import Questions from "../Questions"
-import { TextInput, CheckboxInput, DateInput } from "../../Input"
+import { TextInput, CheckboxInput } from "../../Input"
 import { USER } from "../../../utils/constants"
 import zeroIndexMonth from "../../../utils/zeroIndexMonth"
 

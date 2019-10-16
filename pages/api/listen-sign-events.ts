@@ -78,6 +78,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               amount
               agreementURL
             }
+            employer {
+              id
+              name
+            }
           }
         `)
 
@@ -97,7 +101,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Currency: GBP,
         })
 
-        const { WireReference, BankAccount } = await mango.PayIns.create({
+        const {
+          Id: payInId,
+          WireReference,
+          BankAccount,
+        } = await mango.PayIns.create({
           PaymentType: "BANK_WIRE",
           ExecutionType: "DIRECT",
           AuthorId: newMangoUserId,
@@ -115,14 +123,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         await prisma.updateUser({
           data: {
-            mangoWalletId: newWalletId as string,
-            mangoUserId: newMangoUserId as string,
+            mangoWalletId: newWalletId,
+            mangoUserId: newMangoUserId,
+            payIns: {
+              create: [
+                {
+                  employer: { connect: { id: employee.employer.id } },
+                  mangoPayInId: payInId,
+                },
+              ],
+            },
           },
           where: {
-            email: employeeEmail as string,
+            email: employee.email,
           },
         })
-
+        // TODO: break account details into proper format
+        // TODO: add loanAmount to this email
         sendLoanTransferDetails({
           email: employerEmail,
           BankDetails: JSON.stringify(BankAccount, undefined, 2),
