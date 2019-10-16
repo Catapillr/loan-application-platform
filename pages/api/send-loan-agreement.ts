@@ -5,9 +5,9 @@ import * as R from "ramda"
 
 import zeroIndexMonth from "../../utils/zeroIndexMonth"
 import poundsToPennies from "../../utils/poundsToPennies"
+import convertToPounds from "../../utils/convertToPounds"
 
 import { prisma } from "../../prisma/generated/ts"
-import convertToPounds from "../../utils/convertToPounds"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,

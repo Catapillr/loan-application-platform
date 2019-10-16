@@ -102,6 +102,7 @@ const Search = () => {
       const {
         data: { companies },
       } = await axios(`${process.env.HOST}/api/get-companies?q=${searchTerm}`)
+
       setCompanies(companies)
     }
     getCompanies()
