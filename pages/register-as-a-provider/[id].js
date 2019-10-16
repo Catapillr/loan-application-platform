@@ -443,7 +443,7 @@ ProviderOnboarding.getInitialProps = async ctx => {
     const id = getLastPath(req.originalUrl)
 
     const res = await axios.get(
-      `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
+      `${process.env.HOST}/api/private/get-payment-request-from-id?id=${id}`
     )
 
     const {

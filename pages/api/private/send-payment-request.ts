@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import mango from "../../lib/mango"
+import mango from "../../../lib/mango"
 
-import { prisma } from "../../prisma/generated/ts"
-import convertToPennies from "../../utils/convertToPennies"
+import { prisma } from "../../../prisma/generated/ts"
+import convertToPennies from "../../../utils/convertToPennies"
 
 import {
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
-} from "../../utils/mailgunClient"
+} from "../../../utils/mailgunClient"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // @ts-ignore

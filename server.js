@@ -31,6 +31,15 @@ const handle = app.getRequestHandler()
 //   res.redirect("/login")
 // }
 
+const privateEndpoints = [
+  "/api/private/list-user-transactions",
+  "/api/private/get-employer-from-slug",
+  "/api/private/add-childcare-provider",
+  "/api/private/send-payment-request",
+  "/api/private/get-company",
+  "/api/private/get-payment-request-from-id",
+]
+
 const restrictAccessAPI = (req, res, next) => {
   if (req.isAuthenticated()) return next()
   res.sendStatus(401)
@@ -89,7 +98,11 @@ app.prepare().then(() => {
   server.use(authRoutes)
 
   // server.get("/test", restrictAccessPage)
-  server.get("/api/test", restrictAccessAPI)
+  // server.get("/api/test", restrictAccessAPI)
+
+  privateEndpoints.forEach(endpoint => {
+    server.get(endpoint, restrictAccessAPI)
+  })
 
   server.get("*", (req, res) => {
     return handle(req, res)

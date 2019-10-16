@@ -3,9 +3,9 @@ import moment from "moment"
 
 // import mango from "../../lib/mango"
 
-import { prisma } from "../../prisma/generated/ts"
-import { sendPaymentRequestDetails } from "../../utils/mailgunClient"
-import convertToPennies from "../../utils/convertToPennies"
+import { prisma } from "../../../prisma/generated/ts"
+import { sendPaymentRequestDetails } from "../../../utils/mailgunClient"
+import convertToPennies from "../../../utils/convertToPennies"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // @ts-ignore

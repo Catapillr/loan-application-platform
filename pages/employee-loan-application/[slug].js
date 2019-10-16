@@ -428,7 +428,7 @@ EmployeeOnboarding.getInitialProps = async ({ req }) => {
 
   const {
     data: { employer },
-  } = await axios(`${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`)
+  } = await axios(`${process.env.HOST}/api/private/get-employer-from-slug?slug=${slug}`)
 
   return { employer }
 }

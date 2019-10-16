@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "../../prisma/generated/ts"
+import { prisma } from "../../../prisma/generated/ts"
 import gql from "graphql-tag"
 
 const hydratePaymentRequest = gql`
