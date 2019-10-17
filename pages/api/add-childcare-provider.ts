@@ -5,7 +5,7 @@ import moment from "moment"
 
 import { prisma } from "../../prisma/generated/ts"
 import { sendPaymentRequestDetails } from "../../utils/mailgunClient"
-import convertToPennies from "../../utils/convertToPennies"
+import poundsToPennies from "../../utils/poundsToPennies"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // @ts-ignore
@@ -53,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         id: newChildcareProvider.id,
       },
     },
-    amountToPay: convertToPennies(amountToPay),
+    amountToPay: poundsToPennies(amountToPay),
     consentToPay,
     expiresAt,
     reference,
@@ -62,7 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   sendPaymentRequestDetails({
     user,
     email: newChildcareProvider.email,
-    amountToPay,
+    amountToPay: poundsToPennies(amountToPay),
     slug: newChildcareProvider.id,
   })
 

@@ -68,8 +68,6 @@ const getValues = field => values => {
       ).format("DD MMMM YYYY")
     case field === "permanentRole":
       return "Permanent role"
-    case !value:
-      return "N/A"
     case field === "loanAmount" || field === "annualSalary":
       return `£${value}`
     case field === "monthlyRepayment":
@@ -79,6 +77,8 @@ const getValues = field => values => {
         R.find(R.propEq("value", value)),
         R.prop("label")
       )(nationalities)
+    case !value:
+      return "N/A"
     default:
       return value
   }

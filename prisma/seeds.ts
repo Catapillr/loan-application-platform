@@ -107,7 +107,7 @@ const seedDatabase = async () => {
           expiresAt: "2019-11-22T13:57:31.123Z",
         },
       },
-      amountToPay: 123330,
+      amountToPay: 12300,
       consentToPay: true,
       reference: "Little ones after school club",
       expiresAt: "2019-11-22T13:57:31.123Z",

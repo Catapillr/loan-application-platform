@@ -138,6 +138,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             email: employee.email,
           },
         })
+
         // TODO: break account details into proper format
         // TODO: add loanAmount to this email
         sendLoanTransferDetails({

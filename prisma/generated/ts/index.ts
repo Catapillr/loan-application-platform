@@ -865,7 +865,7 @@ export interface PaymentRequestCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   mangoPaymentID?: Maybe<String>;
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
-  amountToPay: Float;
+  amountToPay: Int;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -1144,7 +1144,7 @@ export interface EmployerUpdateWithoutEmailSuffixesDataInput {
 export interface PaymentRequestUpdateWithoutChildcareProviderDataInput {
   mangoPaymentID?: Maybe<String>;
   user?: Maybe<UserUpdateOneRequiredWithoutPaymentRequestsInput>;
-  amountToPay?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -1211,7 +1211,7 @@ export interface EmployerUpdateOneRequiredWithoutUserInput {
 
 export interface PaymentRequestUpdateManyMutationInput {
   mangoPaymentID?: Maybe<String>;
-  amountToPay?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -1391,7 +1391,7 @@ export interface PaymentRequestCreateWithoutChildcareProviderInput {
   id?: Maybe<ID_Input>;
   mangoPaymentID?: Maybe<String>;
   user: UserCreateOneWithoutPaymentRequestsInput;
-  amountToPay: Float;
+  amountToPay: Int;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -1751,14 +1751,14 @@ export interface PaymentRequestWhereInput {
   mangoPaymentID_not_ends_with?: Maybe<String>;
   user?: Maybe<UserWhereInput>;
   childcareProvider?: Maybe<ChildcareProviderWhereInput>;
-  amountToPay?: Maybe<Float>;
-  amountToPay_not?: Maybe<Float>;
-  amountToPay_in?: Maybe<Float[] | Float>;
-  amountToPay_not_in?: Maybe<Float[] | Float>;
-  amountToPay_lt?: Maybe<Float>;
-  amountToPay_lte?: Maybe<Float>;
-  amountToPay_gt?: Maybe<Float>;
-  amountToPay_gte?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
+  amountToPay_not?: Maybe<Int>;
+  amountToPay_in?: Maybe<Int[] | Int>;
+  amountToPay_not_in?: Maybe<Int[] | Int>;
+  amountToPay_lt?: Maybe<Int>;
+  amountToPay_lte?: Maybe<Int>;
+  amountToPay_gt?: Maybe<Int>;
+  amountToPay_gte?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   consentToPay_not?: Maybe<Boolean>;
   reference?: Maybe<String>;
@@ -1818,7 +1818,7 @@ export interface PaymentRequestUpdateWithoutUserDataInput {
   childcareProvider?: Maybe<
     ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
   >;
-  amountToPay?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -1859,7 +1859,7 @@ export interface PaymentRequestUpdateInput {
   childcareProvider?: Maybe<
     ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
   >;
-  amountToPay?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -1918,14 +1918,14 @@ export interface PaymentRequestScalarWhereInput {
   mangoPaymentID_not_starts_with?: Maybe<String>;
   mangoPaymentID_ends_with?: Maybe<String>;
   mangoPaymentID_not_ends_with?: Maybe<String>;
-  amountToPay?: Maybe<Float>;
-  amountToPay_not?: Maybe<Float>;
-  amountToPay_in?: Maybe<Float[] | Float>;
-  amountToPay_not_in?: Maybe<Float[] | Float>;
-  amountToPay_lt?: Maybe<Float>;
-  amountToPay_lte?: Maybe<Float>;
-  amountToPay_gt?: Maybe<Float>;
-  amountToPay_gte?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
+  amountToPay_not?: Maybe<Int>;
+  amountToPay_in?: Maybe<Int[] | Int>;
+  amountToPay_not_in?: Maybe<Int[] | Int>;
+  amountToPay_lt?: Maybe<Int>;
+  amountToPay_lte?: Maybe<Int>;
+  amountToPay_gt?: Maybe<Int>;
+  amountToPay_gte?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   consentToPay_not?: Maybe<Boolean>;
   reference?: Maybe<String>;
@@ -2008,7 +2008,7 @@ export interface PaymentRequestCreateManyWithoutChildcareProviderInput {
 
 export interface PaymentRequestUpdateManyDataInput {
   mangoPaymentID?: Maybe<String>;
-  amountToPay?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -2362,7 +2362,7 @@ export interface PaymentRequestCreateInput {
   mangoPaymentID?: Maybe<String>;
   user: UserCreateOneWithoutPaymentRequestsInput;
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
-  amountToPay: Float;
+  amountToPay: Int;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -2903,7 +2903,7 @@ export interface EmployerConnectionSubscription
 export interface PaymentRequest {
   id: ID_Output;
   mangoPaymentID?: String;
-  amountToPay: Float;
+  amountToPay: Int;
   consentToPay: Boolean;
   reference?: String;
   expiresAt?: DateTimeOutput;
@@ -2918,7 +2918,7 @@ export interface PaymentRequestPromise
   mangoPaymentID: () => Promise<String>;
   user: <T = UserPromise>() => T;
   childcareProvider: <T = ChildcareProviderPromise>() => T;
-  amountToPay: () => Promise<Float>;
+  amountToPay: () => Promise<Int>;
   consentToPay: () => Promise<Boolean>;
   reference: () => Promise<String>;
   expiresAt: () => Promise<DateTimeOutput>;
@@ -2933,7 +2933,7 @@ export interface PaymentRequestSubscription
   mangoPaymentID: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   childcareProvider: <T = ChildcareProviderSubscription>() => T;
-  amountToPay: () => Promise<AsyncIterator<Float>>;
+  amountToPay: () => Promise<AsyncIterator<Int>>;
   consentToPay: () => Promise<AsyncIterator<Boolean>>;
   reference: () => Promise<AsyncIterator<String>>;
   expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -2948,7 +2948,7 @@ export interface PaymentRequestNullablePromise
   mangoPaymentID: () => Promise<String>;
   user: <T = UserPromise>() => T;
   childcareProvider: <T = ChildcareProviderPromise>() => T;
-  amountToPay: () => Promise<Float>;
+  amountToPay: () => Promise<Int>;
   consentToPay: () => Promise<Boolean>;
   reference: () => Promise<String>;
   expiresAt: () => Promise<DateTimeOutput>;
@@ -4276,7 +4276,7 @@ export interface SuffixNullablePromise
 export interface PaymentRequestPreviousValues {
   id: ID_Output;
   mangoPaymentID?: String;
-  amountToPay: Float;
+  amountToPay: Int;
   consentToPay: Boolean;
   reference?: String;
   expiresAt?: DateTimeOutput;
@@ -4289,7 +4289,7 @@ export interface PaymentRequestPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   mangoPaymentID: () => Promise<String>;
-  amountToPay: () => Promise<Float>;
+  amountToPay: () => Promise<Int>;
   consentToPay: () => Promise<Boolean>;
   reference: () => Promise<String>;
   expiresAt: () => Promise<DateTimeOutput>;
@@ -4302,7 +4302,7 @@ export interface PaymentRequestPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   mangoPaymentID: () => Promise<AsyncIterator<String>>;
-  amountToPay: () => Promise<AsyncIterator<Float>>;
+  amountToPay: () => Promise<AsyncIterator<Int>>;
   consentToPay: () => Promise<AsyncIterator<Boolean>>;
   reference: () => Promise<AsyncIterator<String>>;
   expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
