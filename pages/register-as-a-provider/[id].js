@@ -21,97 +21,95 @@ import { Button } from "../../components/onboarding/styles"
 
 import orangeLogo from "../../static/logo_orange.svg"
 
-const initialValues = {
-  businessName: "",
-  businessEmail: "",
-  companyNumber: "",
-  repFirstName: "",
-  repLastName: "",
-  repDob: { day: "", month: "", year: "" },
-  repCountryOfResidence: "GB",
-  repNationality: "GB",
-  repProofOfId: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
-  },
-  articlesOfAssociation: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
-  },
-  proofOfRegistration: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
-  },
-  bankName: "",
-  accountNumber: "",
-  sortCode: {
-    firstSection: "",
-    secondSection: "",
-    thirdSection: "",
-  },
-  AddressLine1: "",
-  AddressLine2: "",
-  City: "",
-  Region: "",
-  PostalCode: "",
-  Country: "",
-}
-
 // const initialValues = {
-//   businessName: "InFact",
-//   businessEmail: "hello@infactcoop.com",
-//   companyNumber: "11912270",
-//   repFirstName: "Maximus",
-//   repLastName: "Gerber",
-//   // TODO: do we need this field?
-//   repKeyContact: "Lucy",
-//   repDob: { day: "17", month: "03", year: "1992" },
+//   businessName: "",
+//   businessEmail: "",
+//   companyNumber: "",
+//   repFirstName: "",
+//   repLastName: "",
+//   repDob: { day: "", month: "", year: "" },
 //   repCountryOfResidence: "GB",
 //   repNationality: "GB",
-//   proofOfId: {
-//     // lastModified: 1570704053202,
-//     // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-//     // name: "Screenshot 2019-10-10 at 11.40.47.png",
-//     // size: 948892,
-//     // type: "image/png",
-//     // webkitRelativePath: "",
+//   repProofOfId: {
+//     name: "",
+//     lastModified: "",
+//     lastModifiedDate: "",
+//     webkitRelativePath: "",
 //   },
 //   articlesOfAssociation: {
-//     // lastModified: 1570704053202,
-//     // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-//     // name: "Screenshot 2019-10-10 at 11.40.47.png",
-//     // size: 948892,
-//     // type: "image/png",
-//     // webkitRelativePath: "",
+//     name: "",
+//     lastModified: "",
+//     lastModifiedDate: "",
+//     webkitRelativePath: "",
 //   },
 //   proofOfRegistration: {
-//     // lastModified: 1570704053202,
-//     // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-//     // name: "Screenshot 2019-10-10 at 11.40.47.png",
-//     // size: 948892,
-//     // type: "image/png",
-//     // webkitRelativePath: "",
+//     name: "",
+//     lastModified: "",
+//     lastModifiedDate: "",
+//     webkitRelativePath: "",
 //   },
-//   bankName: "Monzo",
-//   accountNumber: "17918586",
+//   bankName: "",
+//   accountNumber: "",
 //   sortCode: {
-//     firstSection: "23",
-//     secondSection: "69",
-//     thirdSection: "72",
+//     firstSection: "",
+//     secondSection: "",
+//     thirdSection: "",
 //   },
-//   AddressLine1: "Space 4",
-//   AddressLine2: "149 Fonthill Road",
-//   City: "London",
-//   Region: "London",
-//   PostalCode: "N4 3HF",
-//   Country: "GB",
+//   AddressLine1: "",
+//   AddressLine2: "",
+//   City: "",
+//   Region: "",
+//   PostalCode: "",
+//   Country: "",
 // }
+
+const initialValues = {
+  businessName: "InFact",
+  businessEmail: "hello@infactcoop.com",
+  companyNumber: "11912270",
+  repFirstName: "Maximus",
+  repLastName: "Gerber",
+  repDob: { day: "17", month: "03", year: "1992" },
+  repCountryOfResidence: "GB",
+  repNationality: "GB",
+  proofOfId: {
+    // lastModified: 1570704053202,
+    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+    // name: "Screenshot 2019-10-10 at 11.40.47.png",
+    // size: 948892,
+    // type: "image/png",
+    // webkitRelativePath: "",
+  },
+  articlesOfAssociation: {
+    // lastModified: 1570704053202,
+    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+    // name: "Screenshot 2019-10-10 at 11.40.47.png",
+    // size: 948892,
+    // type: "image/png",
+    // webkitRelativePath: "",
+  },
+  proofOfRegistration: {
+    // lastModified: 1570704053202,
+    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+    // name: "Screenshot 2019-10-10 at 11.40.47.png",
+    // size: 948892,
+    // type: "image/png",
+    // webkitRelativePath: "",
+  },
+  bankName: "Monzo",
+  accountNumber: "17918586",
+  sortCode: {
+    firstSection: "23",
+    secondSection: "69",
+    thirdSection: "72",
+  },
+  AddressLine1: "Space 4",
+  AddressLine2: "149 Fonthill Road",
+  City: "London",
+  Region: "London",
+  PostalCode: "N4 3HF",
+  Country: "GB",
+}
 
 const Previous = ({ decrementPage, hidePrevious }) => (
   <div className="w-40">
@@ -252,6 +250,7 @@ const Wizard = ({
   const pages = steps.map(step => step.type.componentName)
   const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
 
+  // console.log("Company", company)
   const {
     validationSchema,
     hideNext,
@@ -294,6 +293,7 @@ const Wizard = ({
         setTouched,
         setFieldValue,
       }) => {
+        console.log("Values", values)
         const debugging = false
 
         return (
@@ -383,10 +383,10 @@ const ProviderOnboarding = ({
   return (
     <Wizard {...{ paymentRequest, childcareProvider, user, company }}>
       <Welcome />
-      <BusinessDetails />
-      {/* <UBOs /> */}
+      {/* <BusinessDetails /> */}
+      <UBOs />
       <Documents />
-      <BankDetails />
+      {/* <BankDetails /> */}
       <Summary />
       <Confirmation />
     </Wizard>

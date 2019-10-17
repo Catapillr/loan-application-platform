@@ -117,6 +117,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     )
 
     // 3. Create and submit UBO declaration
+
+    const uboDeclaration = await mango.Users.createUboDeclaration(
+      providerLegalUser.Id,
+      {}
+    )
+    console.log("uboDeclaration", uboDeclaration)
     // 4. Create a mango wallet for that user
     // 5. Check whether we can create bank account straight away, if not listen for validation hook and create one then
     // 6. Update prisma with childcare provider

@@ -154,6 +154,7 @@ const DateInput = ({ text, validate, name }) => (
         name={`${name}.day`}
         component={NumberInput}
         placeholder={"DD"}
+        validate={validate}
         type="number"
       />
       <Field
@@ -166,7 +167,6 @@ const DateInput = ({ text, validate, name }) => (
         name={`${name}.year`}
         component={NumberInput}
         placeholder={"YYYY"}
-        validate={validate}
         type="number"
       />
     </div>
