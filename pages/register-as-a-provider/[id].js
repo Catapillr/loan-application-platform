@@ -442,14 +442,13 @@ ProviderOnboarding.getInitialProps = async ctx => {
   try {
     const id = getLastPath(req.originalUrl)
 
-    const res = await axios.get(
-      `${process.env.HOST}/api/private/get-payment-request-from-id?id=${id}`
-    )
-
     const {
       data: { paymentRequest, childcareProvider, user },
-    } = res
+    } = await axios.get(
+      `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
+    )
 
+    // TODO: Do we need this await?
     // const company =
     await axios.get(
       `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`

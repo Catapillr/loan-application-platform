@@ -37,7 +37,6 @@ const privateEndpoints = [
   "/api/private/add-childcare-provider",
   "/api/private/send-payment-request",
   "/api/private/get-company",
-  "/api/private/get-payment-request-from-id",
 ]
 
 const restrictAccessAPI = (req, res, next) => {

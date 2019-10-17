@@ -34,7 +34,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       })
       .$fragment(hydratePaymentRequest)
 
-    // res.status(200).end()
     return res.status(200).json({
       childcareProvider,
       user,
