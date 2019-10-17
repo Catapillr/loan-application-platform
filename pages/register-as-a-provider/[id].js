@@ -10,6 +10,7 @@ import createFormData from "../../utils/createFormData"
 
 import Welcome from "../../components/onboarding/register-as-a-provider/Welcome"
 import BusinessDetails from "../../components/onboarding/register-as-a-provider/BusinessDetails"
+import UBOs from "../../components/onboarding/register-as-a-provider/UBOs"
 import BankDetails from "../../components/onboarding/register-as-a-provider/BankDetails"
 import Documents from "../../components/onboarding/register-as-a-provider/Documents"
 import Summary from "../../components/onboarding/register-as-a-provider/Summary"
@@ -399,6 +400,7 @@ const ProviderOnboarding = ({
     <Wizard {...{ paymentRequest, childcareProvider, user, company }}>
       <Welcome />
       <BusinessDetails />
+      {/* <UBOs /> */}
       <Documents />
       <BankDetails />
       <Summary />
