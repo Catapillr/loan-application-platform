@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           token: random,
         })
 
-    await sendEmployeeEmailVerification({ email, random })
+    sendEmployeeEmailVerification({ email, random })
 
     return res.status(200).json({ token })
   } catch (e) {

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import axios from "axios"
 import * as R from "ramda"
-import { validSicCodes } from "../../utils/constants"
+// import { validSicCodes } from "../../utils/constants"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -50,7 +50,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     //   })
     //   .catch(e => console.log("error getting company SIC codes", e));
-
   } catch (e) {
     console.log("There was an error retrieving Companies House data: ", e) //eslint-disable-line no-console
   }
