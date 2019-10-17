@@ -76,7 +76,7 @@ const Confirmation = ({
         </Copy>
       )}
     </WhatHappensNext>
-    <Next href="/dash">Return to dashboard</Next>
+    <Next href="/dashboard">Return to dashboard</Next>
   </Container>
 )
 
