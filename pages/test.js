@@ -7,6 +7,8 @@ import * as R from "ramda"
 
 import restrictAccess from "../utils/restrictAccess"
 
+// TODO: delete this page
+
 const Container = styled.div``
 
 const Test = ({ user, allEmployers }) => (
