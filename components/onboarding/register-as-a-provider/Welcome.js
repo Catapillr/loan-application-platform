@@ -3,8 +3,9 @@ import { Heading, Copy, Button } from "../styles"
 import progress1 from "../../../static/images/progress1.svg"
 import styled from "styled-components"
 
-import formatToCurrencyString from "../../../utils/formatToCurrencyString"
-import { PENNIES } from "../../../utils/constants"
+import currencyFormatter from "currency-formatter"
+
+import penniesToPounds from "../../../utils/penniesToPounds"
 
 const Link = styled.a.attrs({
   className: "mb-5d5 text-center text-teal font-bold",
@@ -15,9 +16,9 @@ const Welcome = ({ user, paymentRequest, incrementPage }) => (
     <Heading className="mb-6 self-start">
       {`Great news! ${user.firstName} ${
         user.lastName
-      } would like to pay you ${formatToCurrencyString(
-        paymentRequest.amountToPay,
-        PENNIES
+      } would like to pay you ${currencyFormatter.format(
+        penniesToPounds(paymentRequest.amountToPay),
+        { code: "GBP" }
       )}! 🎉
       `}
     </Heading>

@@ -5,7 +5,7 @@ import * as R from "ramda"
 
 import zeroIndexMonth from "../../utils/zeroIndexMonth"
 import poundsToPennies from "../../utils/poundsToPennies"
-import convertToPounds from "../../utils/convertToPounds"
+import currencyFormatter from "currency-formatter"
 
 import { prisma } from "../../prisma/generated/ts"
 
@@ -68,7 +68,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const loanDetails = [
       {
         name: "loanAmount",
-        value: loanAmount,
+        value: currencyFormatter.format(loanAmount, ({ code: "GBP" })),
       },
       {
         name: "loanTerms",
@@ -76,7 +76,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "loanMonthlyRepayment",
-        value: convertToPounds(monthlyRepayment),
+        value: currencyFormatter.format(monthlyRepayment, ({ code: "GBP" })),
       },
     ]
 
@@ -84,9 +84,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       name: `loanMonth${index + 1}`,
       value: `${
         index + 1 === loanTerms
-          ? convertToPounds(lastMonth)
-          : convertToPounds(monthlyRepayment)
-      }`,
+          ? `${currencyFormatter.format(lastMonth, ({ code: "GBP" }))}`
+          : `${currencyFormatter.format(monthlyRepayment, ({ code: "GBP" }))}`
+        }`,
     }))([...Array(loanTerms)])
 
     const defaultMonths = mapIndexed((_: any, index: any) => ({
@@ -98,6 +98,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return [...loanDetails, ...loanMonths, ...defaultMonths]
   }
 
+
   const opts = {
     test_mode: 1 as hellosign.Flag,
     template_id: "f7d22e065f90856421dc4d0f4b0257783a22c356",
@@ -106,7 +107,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     signers: [
       {
         email_address: email,
-        name: `${firstName} ${lastName}`,
+        name: `${firstName} ${lastName} `,
         role: "Employee",
       },
       {
@@ -130,11 +131,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "userName",
-        value: `${firstName} ${lastName}`,
+        value: `${firstName} ${lastName} `,
       },
       {
         name: "userEmployeeID",
-        value: `${employeeID && employeeID !== "" ? employeeID : "n/a"}`,
+        value: `${employeeID && employeeID !== "" ? employeeID : "n/a"} `,
       },
       ...loanOptions(parseInt(loanAmount), parseInt(loanTerms)),
     ],

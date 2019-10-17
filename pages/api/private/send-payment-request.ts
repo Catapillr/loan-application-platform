@@ -3,12 +3,12 @@ import { NextApiRequest, NextApiResponse } from "next"
 import mango from "../../../lib/mango"
 
 import { prisma } from "../../../prisma/generated/ts"
-import convertToPennies from "../../../utils/convertToPennies"
 
 import {
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
 } from "../../../utils/mailgunClient"
+import poundsToPennies from "../../../utils/poundsToPennies"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // @ts-ignore
@@ -24,7 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       AuthorId: user.mangoUserId,
       DebitedFunds: {
         Currency: "GBP",
-        Amount: convertToPennies(amountToPay),
+        Amount: poundsToPennies(amountToPay),
       },
       Fees: {
         Currency: "GBP",
@@ -44,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       AuthorId: childcareProvider.mangoLegalUserID,
       DebitedFunds: {
         Currency: "GBP",
-        Amount: convertToPennies(amountToPay),
+        Amount: poundsToPennies(amountToPay),
       },
       Fees: {
         Currency: "GBP",
@@ -59,11 +59,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     sendProviderPaymentNotification({
       email: childcareProvider.email,
-      amountToPay,
+      amountToPay: poundsToPennies(amountToPay),
       employeeName: `${user.firstName} ${user.lastName}`,
     })
 
-    sendEmployeeOutgoingPaymentNotification({ email: user.email, amountToPay })
+    sendEmployeeOutgoingPaymentNotification({
+      email: user.email,
+      amountToPay: poundsToPennies(amountToPay),
+    })
     res.status(200).end()
   } catch (err) {
     console.error(err)

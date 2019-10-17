@@ -4,7 +4,7 @@ import * as R from "ramda"
 import axios from "axios"
 
 import Questions from "../Questions"
-import { TextInput, CheckboxInput } from "../../Input"
+import { TextInput, CheckboxInput, DateInput } from "../../Input"
 import { USER } from "../../../utils/constants"
 import zeroIndexMonth from "../../../utils/zeroIndexMonth"
 
@@ -99,7 +99,8 @@ const Eligibility = ({ employer, values: { employmentStartDate } }) => {
         },
         {
           text: "When did you start working for your employer?",
-          date: true,
+          custom: true,
+          component: DateInput,
           name: "employmentStartDate",
           validate: () =>
             validateDate(minimumServiceLength, employmentStartDate),
