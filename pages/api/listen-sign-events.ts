@@ -139,12 +139,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })
 
-        // TODO: break account details into proper format
-        // TODO: add loanAmount to this email
+        const [sortCode, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
+
+        // TODO: check this in production to see if it's being split properly
         sendLoanTransferDetails({
           email: employerEmail,
-          BankDetails: JSON.stringify(BankAccount, undefined, 2),
+          sortCode,
+          accountNumber,
+          bankOwnerName: BankAccount.OwnerName,
           WireReference,
+          loanAmount: employee.loan.amount,
+          employeeName: `${employee.firstName} ${employee.lastName}`,
         })
 
         return res.status(200).send("Hello API Event Received")
