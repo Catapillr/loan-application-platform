@@ -155,7 +155,7 @@ Dash.getInitialProps = async ctx => {
       },
     ] = await Promise.all([
       axios.get(
-        `${process.env.HOST}/api/list-user-transactions?mangoId=${user.mangoUserId}`,
+        `${process.env.HOST}/api/private/list-user-transactions?mangoId=${user.mangoUserId}`,
         {
           headers: { Cookie: serializedCookies },
         }
