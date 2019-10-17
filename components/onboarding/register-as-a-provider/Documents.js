@@ -9,11 +9,11 @@ import progress4 from "../../../static/images/progress4.svg"
 import checkFileType from "../../../utils/checkFileType"
 
 const validation = Yup.object().shape({
-  proofOfId: Yup.mixed()
+  repProofOfId: Yup.mixed()
     .test(
       "Check file exists",
       "You need to upload a Proof of ID for us to be able to continue",
-      value => !!value.name
+      value => (value ? !!value.name : true)
     )
     .test(
       "Check file format is supported",
@@ -23,18 +23,18 @@ const validation = Yup.object().shape({
     .test(
       "Check file format is large enough",
       "Please upload a file larger than 1Kb!",
-      value => value.size > 1000
+      value => (value ? value.size > 1000 : true)
     )
     .test(
       "Check file format isn't too big",
       "That file is too big! Please upload a file smaller than 7Mb!",
-      value => value.size < 7000000
+      value => (value ? value.size < 7000000 : true)
     ),
   articlesOfAssociation: Yup.mixed()
     .test(
       "Check file exists",
       "You need to upload your Articles of Association for us to be able to continue",
-      value => !!value.name
+      value => (value ? !!value.name : true)
     )
     .test(
       "Check file format is supported",
@@ -44,18 +44,18 @@ const validation = Yup.object().shape({
     .test(
       "Check file format is large enough",
       "Please upload a file larger than 1Kb!",
-      value => value.size > 1000
+      value => (value ? value.size > 1000 : true)
     )
     .test(
       "Check file format isn't too big",
       "That file is too big! Please upload a file smaller than 7Mb!",
-      value => value.size < 7000000
+      value => (value ? value.size < 7000000 : true)
     ),
   proofOfRegistration: Yup.mixed()
     .test(
       "Check file exists",
       "You need to upload a Proof of Registration for us to be able to continue",
-      value => !!value.name
+      value => (value ? !!value.name : true)
     )
     .test(
       "Check file format is supported",
@@ -65,12 +65,12 @@ const validation = Yup.object().shape({
     .test(
       "Check file format is large enough",
       "Please upload a file larger than 1Kb!",
-      value => value.size > 1000
+      value => (value ? value.size > 1000 : true)
     )
     .test(
       "Check file format isn't too big",
       "That file is too big! Please upload a file smaller than 7Mb!",
-      value => value.size < 7000000
+      value => (value ? value.size < 7000000 : true)
     ),
 })
 
@@ -81,7 +81,7 @@ const Container = styled.main.attrs({
 `
 const Documents = ({
   setFieldValue,
-  values: { proofOfId, articlesOfAssociation, proofOfRegistration },
+  values: { repProofOfId, articlesOfAssociation, proofOfRegistration },
 }) => {
   return (
     <Container>
@@ -107,10 +107,11 @@ const Documents = ({
         questions={[
           {
             text: "Proof of Identity (Passport or Driving license)",
-            name: "proofOfId",
+            name: "repProofOfId",
             component: FileInput,
-            file: proofOfId,
-            onChange: e => setFieldValue("proofOfId", e.currentTarget.files[0]),
+            file: repProofOfId,
+            onChange: e =>
+              setFieldValue("repProofOfId", e.currentTarget.files[0]),
           },
           {
             text: "Articles of Association",

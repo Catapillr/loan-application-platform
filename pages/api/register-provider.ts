@@ -39,7 +39,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       Region,
       PostalCode,
       Country,
+      ...rest
     } = fields
+
+    const filesOnServer: { [key: string]: any } = R.pipe(
+      R.map((file: string) => JSON.parse(file)),
+      R.filter((item: any) => item.fileOnServer)
+      // @ts-ignore
+    )(rest)
 
     // @ts-ignore
     const LegalRepresentativeBirthday = moment(JSON.parse(repDob)).unix()
@@ -102,10 +109,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
 
-    createDocumentWithPages(files.proofOfId, "IDENTITY_PROOF")
+    createDocumentWithPages(files.repProofOfId, "IDENTITY_PROOF")
     createDocumentWithPages(files.proofOfRegistration, "REGISTRATION_PROOF")
     createDocumentWithPages(
-      files.articlesOfAssociation,
+      filesOnServer.articlesOfAssociation || files.articlesOfAssociation,
       "ARTICLES_OF_ASSOCIATION"
     )
 

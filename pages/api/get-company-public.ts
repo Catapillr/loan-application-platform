@@ -35,18 +35,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {
       data: { items: filing_data },
     } = await axios(
-      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation%2Cresolution%2Cmiscellaneous`,
+      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation`,
       authentication
     )
-    console.log("Filing data", filing_data)
-    const new_id = R.pipe(
-      R.filter((file: any) => file.category === "resolution"),
-      R.head,
-      file => file
-      // file => getLastPath(file.links.document_metadata)
-    )(filing_data)
-
-    console.log("new_id", new_id)
 
     const transaction_id = R.pipe(
       R.filter((file: any) => file.category === "incorporation"),
@@ -59,12 +50,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       { headers: { Accept: "application/pdf" }, ...authentication }
     )
 
-    // const { data: registers } = await axios.get(
-    //   `https://api.companieshouse.gov.uk/company/${company_number}/registers`,
-    //   authentication
-    // )
-
-    // console.log("registers", registers)
     const { data: incorporationDocument } = await axios.get(
       articles.request.res.responseUrl,
       {
@@ -111,6 +96,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       Country: countryToISO(company_data.registered_office_address.country),
       companyCodes: company_data.sic_codes,
       ubos,
+      articlesOfAssociation: {
+        name: "CH_incorporation.pdf",
+        type: "application/pdf",
+        size: 300000,
+        fileOnServer: true,
+        path,
+        webkitRelativePath: path,
+      },
     }
 
     res.json({ company })

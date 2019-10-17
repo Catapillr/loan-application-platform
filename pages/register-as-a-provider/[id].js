@@ -160,37 +160,13 @@ const Next = ({
   </div>
 )
 
-// const createNewToken = async ({ email }) => {
-//   const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
-//     email,
-//   })
-
-//   const {
-//     data: { token },
-//   } = res
-
-//   return { token }
-// }
-
-// const isTokenValid = async ({ email, token }) => {
-//   const res = await axios(
-//     `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`
-//   )
-
-//   const {
-//     data: { isTokenValid },
-//   } = res
-
-//   return { isTokenValid }
-// }
-
 const Controls = ({
   page,
   isValid,
   isSubmitting,
   // values,
   formCompleted,
-  // setFormCompleted,
+  setFormCompleted,
   submitForm,
   // setEmailVerificationError,
   hideNext,
@@ -202,6 +178,11 @@ const Controls = ({
 }) => {
   const nextClick = () => {
     switch (page) {
+      case Steps.BankDetails:
+        return () => {
+          setFormCompleted(true)
+          incrementPage()
+        }
       default:
         return formCompleted ? goToSummaryPage : incrementPage
     }
@@ -232,11 +213,14 @@ const Controls = ({
 const onSubmit = ({
   incrementPage,
   childcareProviderEmail,
+  formCompleted,
 }) => async values => {
-  //eslint-disable-next-line no-console
-  console.log("Register-as-a-provider form submitted")
-
   try {
+    //eslint-disable-next-line no-console
+    console.log("Register-as-a-provider form submitted")
+
+    if (!formCompleted) incrementPage()
+
     const form = createFormData({
       ...values,
       childcareProviderEmail,
