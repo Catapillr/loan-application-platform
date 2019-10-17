@@ -66,7 +66,7 @@ const formatAmounts = R.pipe(
 
 const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
   <Container>
-    <Header activeHref="/dash" />
+    <Header activeHref="/dashboard" />
     <Contents>
       <Main>
         <Title className="mb-12">My payments</Title>
