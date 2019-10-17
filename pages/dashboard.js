@@ -12,6 +12,7 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import Transaction from "../components/Transaction"
 import Payee from "../components/Payee"
+import penniesToPounds from "../utils/penniesToPounds"
 
 const Transfer = "TRANSFER"
 const PayIn = "PAYIN"
@@ -60,7 +61,7 @@ const PayeesContainer = styled.section.attrs({
 `
 
 const formatAmounts = R.pipe(
-  amount => amount / 100,
+  penniesToPounds,
   R.flip(currencyFormatter.format)({ code: "GBP" })
 )
 
@@ -155,7 +156,7 @@ Dash.getInitialProps = async ctx => {
       },
     ] = await Promise.all([
       axios.get(
-        `${process.env.HOST}/api/list-user-transactions?mangoId=${user.mangoUserId}`,
+        `${process.env.HOST}/api/private/list-user-transactions?mangoId=${user.mangoUserId}`,
         {
           headers: { Cookie: serializedCookies },
         }

@@ -44,14 +44,14 @@ const onSubmit = ({
   }
 
   const setupProviderAndSendPayment = () => {
-    return axios.post(`${process.env.HOST}/api/add-childcare-provider`, {
+    return axios.post(`${process.env.HOST}/api/private/add-childcare-provider`, {
       ...childcareProvider,
       ...paymentRequest,
     })
   }
 
   const sendPayment = () => {
-    return axios.post(`${process.env.HOST}/api/send-payment-request`, {
+    return axios.post(`${process.env.HOST}/api/private/send-payment-request`, {
       ...paymentRequest,
       childcareProviderId: catapillrChildcareProvider.id,
     })
@@ -314,7 +314,7 @@ MakeAPayment.getInitialProps = async ctx => {
       },
     ] = await Promise.all([
       axios.get(
-        `${process.env.HOST}/api/get-company?company_number=${company_number}`,
+        `${process.env.HOST}/api/private/get-company?company_number=${company_number}`,
         {
           headers: { Cookie: serializedCookies },
         }

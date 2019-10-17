@@ -1,6 +1,12 @@
 import * as mailgun from "mailgun.js"
 import R from "ramda"
-import convertToPounds from "../utils/convertToPounds"
+import currencyFormatter from "currency-formatter"
+import penniesToPounds from "./penniesToPounds"
+
+
+// all financial amounts should come into this file as pennies and be converted 
+// to pounds before sending
+
 
 const mailgunClient = mailgun.client({
   username: "api",
@@ -62,11 +68,11 @@ const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
       "v:adminName": process.env.ADMIN_NAME,
       "v:userFirstName": user.firstName,
       "v:userLastName": user.lastName,
-      "v:loanAmount": convertToPounds(payment.loanAmount),
-      "v:payInAmount": convertToPounds(payment.payInAmount),
+      "v:loanAmount": currencyFormatter.format(penniesToPounds(payment.loanAmount), ({ code: "GBP" })),
+      "v:payInAmount": currencyFormatter.format(penniesToPounds(payment.payInAmount), ({ code: "GBP" })),
       "v:dateOfPayment": payment.dateOfPayment,
       "v:payInId": payment.payInId,
-      "v:discrepancy": convertToPounds(payment.discrepancy),
+      "v:discrepancy": currencyFormatter.format(penniesToPounds(payment.discrepancy), ({ code: "GBP" })),
       "v:userId": user.id,
       "v:mangoWalletId": user.mangoWalletId,
       "v:employerId": employer.id,
@@ -83,7 +89,7 @@ const sendEmployerPaymentNotification = ({ payment, user, employer }) =>
     data: {
       "v:userFirstName": user.firstName,
       "v:userLastName": user.lastName,
-      "v:loanAmount": convertToPounds(payment.loanAmount),
+      "v:loanAmount": currencyFormatter.format(penniesToPounds(payment.loanAmount), ({ code: "GBP" })),
       "v:dateOfPayment": payment.dateOfPayment,
     },
   })
@@ -96,10 +102,11 @@ const sendEmployeeLoanPaymentNotification = ({ payment, user }) =>
     template: "employee-payment-notification",
     data: {
       "v:userFirstName": user.firstName,
-      "v:loanAmount": convertToPounds(payment.loanAmount),
+      "v:loanAmount": currencyFormatter.format(penniesToPounds(payment.loanAmount), ({ code: "GBP" })),
       "v:magicLink": "https://www.catapillr.com/", // TODO: Change this to magic link
     },
   })
+  
 const sendLoanTransferDetails = ({ email, BankDetails, WireReference }) =>
   mailgunEmailTemplate({
     email,
@@ -114,13 +121,13 @@ const sendLoanTransferDetails = ({ email, BankDetails, WireReference }) =>
 const sendPaymentRequestDetails = ({ user, email, amountToPay, slug }) =>
   mailgunEmailTemplate({
     email,
-    subject: `${user.firstName} ${user.lastName} wants to pay you ${amountToPay}`,
+    subject: `${user.firstName} ${user.lastName} wants to pay you ${currencyFormatter.format(penniesToPounds(amountToPay), ({ code: "GBP" }))}`,
     template: "payment-request-details",
     data: {
       "v:slug": slug,
       "v:userFirstName": user.firstName,
       "v:userLastName": user.lastName,
-      "v:amountToPay": amountToPay,
+      "v:amountToPay": currencyFormatter.format(penniesToPounds(amountToPay), ({ code: "GBP" })),
     },
   })
 
@@ -134,7 +141,7 @@ const sendProviderPaymentNotification = ({
     subject: "Payment notification",
     template: "provider-payment-notification",
     data: {
-      "v:amountToPay": amountToPay,
+      "v:amountToPay": currencyFormatter.format(penniesToPounds(amountToPay), ({ code: "GBP" })),
       "v:employeeName": employeeName,
     },
   })
@@ -150,7 +157,7 @@ const sendEmployeeOutgoingPaymentNotification = ({
     subject: "Outgoing payment",
     template: "employee-outgoing-payment-notification",
     data: {
-      "v:amountToPay": amountToPay,
+      "v:amountToPay": currencyFormatter.format(penniesToPounds(amountToPay), ({ code: "GBP" })),
       // "v:providerName": providerName,
     },
   })

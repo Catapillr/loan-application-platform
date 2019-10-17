@@ -10,6 +10,7 @@ import {
   sendEmployeeLoanPaymentNotification,
 } from "../../utils/mailgunClient"
 
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { EventType, RessourceId } = req.query

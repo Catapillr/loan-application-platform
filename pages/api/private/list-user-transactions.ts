@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import R from "ramda"
 
-import mango from "../../lib/mango"
-import { prisma } from "../../prisma/generated/ts"
+import mango from "../../../lib/mango"
+import { prisma } from "../../../prisma/generated/ts"
 import gql from "graphql-tag"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

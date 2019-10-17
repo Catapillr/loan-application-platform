@@ -4,8 +4,6 @@ import styled from "styled-components"
 
 import { Input, PriceInput, TextAreaInput } from "../../Input"
 
-import formatToCurrencyString from "../../../utils/formatToCurrencyString"
-
 import Pen from "../../../static/icons/pen.svg"
 import Nursery from "../../../static/icons/nursery.svg"
 
@@ -79,7 +77,10 @@ const Pay = ({
     <Input
       name="amountToPay"
       onBlur={e => {
-        setFieldValue("amountToPay", formatToCurrencyString(e.target.value))
+        setFieldValue(
+          "amountToPay",
+          currencyFormatter.format(e.target.value, { code: "GBP" })
+        )
       }}
       validate={validateAmount({ userWalletBalance })}
       component={PriceInput}

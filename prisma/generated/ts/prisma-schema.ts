@@ -1275,7 +1275,7 @@ type PaymentRequest {
   mangoPaymentID: String
   user: User!
   childcareProvider: ChildcareProvider!
-  amountToPay: Float!
+  amountToPay: Int!
   consentToPay: Boolean!
   reference: String
   expiresAt: DateTime
@@ -1294,7 +1294,7 @@ input PaymentRequestCreateInput {
   mangoPaymentID: String
   user: UserCreateOneWithoutPaymentRequestsInput!
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput!
-  amountToPay: Float!
+  amountToPay: Int!
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1314,7 +1314,7 @@ input PaymentRequestCreateWithoutChildcareProviderInput {
   id: ID
   mangoPaymentID: String
   user: UserCreateOneWithoutPaymentRequestsInput!
-  amountToPay: Float!
+  amountToPay: Int!
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1324,7 +1324,7 @@ input PaymentRequestCreateWithoutUserInput {
   id: ID
   mangoPaymentID: String
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput!
-  amountToPay: Float!
+  amountToPay: Int!
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1357,7 +1357,7 @@ enum PaymentRequestOrderByInput {
 type PaymentRequestPreviousValues {
   id: ID!
   mangoPaymentID: String
-  amountToPay: Float!
+  amountToPay: Int!
   consentToPay: Boolean!
   reference: String
   expiresAt: DateTime
@@ -1394,14 +1394,14 @@ input PaymentRequestScalarWhereInput {
   mangoPaymentID_not_starts_with: String
   mangoPaymentID_ends_with: String
   mangoPaymentID_not_ends_with: String
-  amountToPay: Float
-  amountToPay_not: Float
-  amountToPay_in: [Float!]
-  amountToPay_not_in: [Float!]
-  amountToPay_lt: Float
-  amountToPay_lte: Float
-  amountToPay_gt: Float
-  amountToPay_gte: Float
+  amountToPay: Int
+  amountToPay_not: Int
+  amountToPay_in: [Int!]
+  amountToPay_not_in: [Int!]
+  amountToPay_lt: Int
+  amountToPay_lte: Int
+  amountToPay_gt: Int
+  amountToPay_gte: Int
   consentToPay: Boolean
   consentToPay_not: Boolean
   reference: String
@@ -1469,7 +1469,7 @@ input PaymentRequestUpdateInput {
   mangoPaymentID: String
   user: UserUpdateOneRequiredWithoutPaymentRequestsInput
   childcareProvider: ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
-  amountToPay: Float
+  amountToPay: Int
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1477,7 +1477,7 @@ input PaymentRequestUpdateInput {
 
 input PaymentRequestUpdateManyDataInput {
   mangoPaymentID: String
-  amountToPay: Float
+  amountToPay: Int
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1485,7 +1485,7 @@ input PaymentRequestUpdateManyDataInput {
 
 input PaymentRequestUpdateManyMutationInput {
   mangoPaymentID: String
-  amountToPay: Float
+  amountToPay: Int
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1523,7 +1523,7 @@ input PaymentRequestUpdateManyWithWhereNestedInput {
 input PaymentRequestUpdateWithoutChildcareProviderDataInput {
   mangoPaymentID: String
   user: UserUpdateOneRequiredWithoutPaymentRequestsInput
-  amountToPay: Float
+  amountToPay: Int
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1532,7 +1532,7 @@ input PaymentRequestUpdateWithoutChildcareProviderDataInput {
 input PaymentRequestUpdateWithoutUserDataInput {
   mangoPaymentID: String
   childcareProvider: ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
-  amountToPay: Float
+  amountToPay: Int
   consentToPay: Boolean
   reference: String
   expiresAt: DateTime
@@ -1591,14 +1591,14 @@ input PaymentRequestWhereInput {
   mangoPaymentID_not_ends_with: String
   user: UserWhereInput
   childcareProvider: ChildcareProviderWhereInput
-  amountToPay: Float
-  amountToPay_not: Float
-  amountToPay_in: [Float!]
-  amountToPay_not_in: [Float!]
-  amountToPay_lt: Float
-  amountToPay_lte: Float
-  amountToPay_gt: Float
-  amountToPay_gte: Float
+  amountToPay: Int
+  amountToPay_not: Int
+  amountToPay_in: [Int!]
+  amountToPay_not_in: [Int!]
+  amountToPay_lt: Int
+  amountToPay_lte: Int
+  amountToPay_gt: Int
+  amountToPay_gte: Int
   consentToPay: Boolean
   consentToPay_not: Boolean
   reference: String
