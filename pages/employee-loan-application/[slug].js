@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik"
 import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
+import nextCookies from "next-cookies"
 
 import * as Steps from "../../components/onboarding/employee/stepNames"
 
@@ -423,12 +424,25 @@ const ControlsSection = styled.section.attrs({
   transform: rotate(180deg);
 `
 
-EmployeeOnboarding.getInitialProps = async ({ req }) => {
+EmployeeOnboarding.getInitialProps = async ctx => {
+  const { req } = ctx
   const slug = req.originalUrl.slice(27)
+
+  const cookies = nextCookies(ctx)
+  const serializedCookies = R.pipe(
+    R.mapObjIndexed((val, key) => `${key}=${val};`),
+    R.values,
+    R.join(" ")
+  )(cookies)
 
   const {
     data: { employer },
-  } = await axios(`${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`)
+  } = await axios.get(
+    `${process.env.HOST}/api/private/get-employer-from-slug?slug=${slug}`,
+    {
+      headers: { Cookie: serializedCookies },
+    }
+  )
 
   return { employer }
 }
