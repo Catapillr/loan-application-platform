@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import gql from "graphql-tag"
-import { prisma } from "../../../prisma/generated/ts"
+import { prisma } from "../../prisma/generated/ts"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const slug = req.query.slug as string
