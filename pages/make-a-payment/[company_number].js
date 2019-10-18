@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import nextCookies from "next-cookies"
+import Link from "next/link"
 
 import { Formik, Form } from "formik"
 
@@ -44,10 +45,13 @@ const onSubmit = ({
   }
 
   const setupProviderAndSendPayment = () => {
-    return axios.post(`${process.env.HOST}/api/private/add-childcare-provider`, {
-      ...childcareProvider,
-      ...paymentRequest,
-    })
+    return axios.post(
+      `${process.env.HOST}/api/private/add-childcare-provider`,
+      {
+        ...childcareProvider,
+        ...paymentRequest,
+      }
+    )
   }
 
   const sendPayment = () => {
@@ -151,30 +155,42 @@ const Wizard = ({
                   {formCompleted ? "Thank you!" : "Make a payment"}
                 </Title>
 
-                <Form>
-                  <RenderStep
-                    {...{
-                      validateForm,
-                      page,
-                      setTouched,
-                      component: React.cloneElement(activePage, {
-                        setPage,
-                        values,
-                        incrementPage,
-                        submitForm,
-                        isValid,
-                        isSubmitting,
-                        setFieldValue,
-                        company,
-                        Controls,
-                        isProviderRegistered,
-                        userWalletBalance,
-                      }),
-                    }}
-                  ></RenderStep>
-                </Form>
+                {!company ? (
+                  <ErrorBox>
+                    That's not a valid company number, sorry! Try{" "}
+                    <Link href="/make-a-payment">
+                      <span className="underline text-teal cursor-pointer">
+                        searching again
+                      </span>
+                    </Link>
+                    .
+                  </ErrorBox>
+                ) : (
+                  <Form>
+                    <RenderStep
+                      {...{
+                        validateForm,
+                        page,
+                        setTouched,
+                        component: React.cloneElement(activePage, {
+                          setPage,
+                          values,
+                          incrementPage,
+                          submitForm,
+                          isValid,
+                          isSubmitting,
+                          setFieldValue,
+                          company,
+                          Controls,
+                          isProviderRegistered,
+                          userWalletBalance,
+                        }),
+                      }}
+                    ></RenderStep>
+                  </Form>
+                )}
               </Main>
-              {!formCompleted && (
+              {!formCompleted && company && (
                 <Aside>
                   <Tip>
                     <h2 className="font-bold mb-6">How does this work?</h2>
@@ -264,6 +280,11 @@ const Tip = styled.aside.attrs({
 })`
   height: fit-content;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
+`
+const ErrorBox = styled.div.attrs({
+  className: "w-full block bg-white px-10 pb-10 pt-6",
+})`
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
 `
 
 const Title = styled.h1.attrs({

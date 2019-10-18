@@ -6,6 +6,7 @@ import { prisma } from "../../../prisma/generated/ts"
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { company_number } = req.query
+
     const { data: company } = await axios(
       `https://api.companieshouse.gov.uk/company/${company_number}`,
       {
@@ -21,7 +22,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
 
     res.json({ company, catapillrChildcareProvider })
+
   } catch (e) {
-    console.log("There was an error retrieving Companies House data: ", e) //eslint-disable-line no-console
+    res.status(404)
+    res.end()
+    console.log("There was an error retrieving Companies House data:", e) //eslint-disable-line no-console
   }
 }

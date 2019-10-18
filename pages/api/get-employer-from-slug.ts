@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import gql from "graphql-tag"
-import { prisma } from "../../../prisma/generated/ts"
+import { prisma } from "../../prisma/generated/ts"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const slug = req.query.slug as string
+
   const employer = await prisma.employer({ slug }).$fragment(gql`
     fragment EmployerWithEmails on Employer {
       name
