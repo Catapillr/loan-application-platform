@@ -133,6 +133,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               ],
             },
+            loan: {
+              update: {
+                agreementURL: signEvent.signature_request.files_url,
+              },
+            },
           },
           where: {
             email: employee.email,
