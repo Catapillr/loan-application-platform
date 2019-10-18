@@ -130,6 +130,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         value: employer.address,
       },
       {
+        name: "employerMinimumService",
+        value: employer.minimumServiceLength
+      },
+      {
         name: "userName",
         value: `${firstName} ${lastName} `,
       },
