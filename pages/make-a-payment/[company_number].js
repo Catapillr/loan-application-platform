@@ -183,12 +183,12 @@ const Wizard = ({
                     <h2 className="font-bold mb-6">How does this work?</h2>
                     <p className="mb-6">
                       {isProviderRegistered
-                        ? "Enter the amount you wold like to pay for the service you are interested in."
+                        ? "Enter the amount you would like to pay for the service you are interested in."
                         : "Unfortunately, the childcare provider you selected is not yet on our database."}
                     </p>
                     <p className="mb-6">
                       {isProviderRegistered
-                        ? "Tell us what is the amount going towards."
+                        ? "Tell us what the amount is going towards."
                         : "The good news is that we can send them an email invite with a magic link containing the amount you would like to pay."}
                     </p>
 
