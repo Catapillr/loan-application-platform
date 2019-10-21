@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import axios from "axios"
 import fs from "fs"
+import { join } from "path"
 import { file } from "tmp-promise"
 import * as R from "ramda"
 
@@ -57,7 +58,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     )
 
-    const { fd, path, cleanup } = await file({ postfix: ".pdf" })
+    const { fd, path, cleanup } = await file({
+      postfix: ".pdf",
+    })
     console.log("path", path)
     incorporationDocument.pipe(fs.createWriteStream(path))
 
@@ -115,46 +118,3 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("There was an error retrieving Companies House data: ", e) //eslint-disable-line no-console
   }
 }
-
-// const initialValues = {
-//   businessName: "",
-//   businessEmail: "",
-//   companyNumber: "",
-//   repFirstName: "",
-//   repLastName: "",
-//   repKeyContact: "",
-//   repDob: { day: "", month: "", year: "" },
-//   repCountryOfResidence: "",
-//   repNationality: "",
-//   proofOfId: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   articlesOfAssociation: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   proofOfRegistration: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   bankName: "",
-//   accountNumber: "",
-//   sortCode: {
-//     firstSection: "",
-//     secondSection: "",
-//     thirdSection: "",
-//   },
-//   AddressLine1: "",
-//   AddressLine2: "",
-//   City: "",
-//   Region: "",
-//   PostalCode: "",
-//   Country: "",
-// }

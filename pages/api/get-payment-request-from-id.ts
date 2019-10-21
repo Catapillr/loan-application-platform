@@ -12,7 +12,7 @@ const hydratePaymentRequest = gql`
     childcareProvider {
       email
       companyNumber
-      mangoLegalUserID
+      mangoLegalUserId
       approved
       expiresAt
     }

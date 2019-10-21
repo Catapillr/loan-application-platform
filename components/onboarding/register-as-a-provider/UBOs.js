@@ -43,6 +43,7 @@ const validateDate = date => {
 
 const UBOQuestion = (ubo, index) => (
   <Questions
+    key={`ubo${index + 1}`}
     formWidth="100"
     className="mb-10"
     title={`2.${index + 1} Ultimate beneficial owner ${index + 1}: ${
