@@ -61,7 +61,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { fd, path, cleanup } = await file({
       postfix: ".pdf",
     })
-    console.log("path", path)
     incorporationDocument.pipe(fs.createWriteStream(path))
 
     const ubos = R.addIndex(R.reduce)((acc: any, ubo: any, index: number) => {
