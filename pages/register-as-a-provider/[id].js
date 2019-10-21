@@ -357,7 +357,7 @@ const ProviderOnboarding = ({
   error,
 }) => {
   if (error) {
-    return <div>{error}</div>
+    return <ErrorDiv>{error}</ErrorDiv>
   }
 
   return (
@@ -403,6 +403,12 @@ const Logo = styled.img.attrs({
   src: orangeLogo,
 })``
 
+const ErrorDiv = styled.div.attrs({
+  className: "w-auto block bg-white px-10 pb-10 pt-6",
+})`
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
+`
+
 const ControlsSection = styled.section.attrs({
   className: `flex w-full justify-between items-center px-10 py-6`,
 })`
@@ -414,13 +420,11 @@ ProviderOnboarding.getInitialProps = async ctx => {
   try {
     const id = getLastPath(req.originalUrl)
 
-    const res = await axios.get(
-      `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
-    )
-
     const {
       data: { paymentRequest, childcareProvider, user },
-    } = res
+    } = await axios.get(
+      `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
+    )
 
     const {
       data: { company },

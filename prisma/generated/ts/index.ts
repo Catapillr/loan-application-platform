@@ -19,6 +19,7 @@ export interface Exists {
   childcareProvider: (where?: ChildcareProviderWhereInput) => Promise<boolean>;
   employer: (where?: EmployerWhereInput) => Promise<boolean>;
   loan: (where?: LoanWhereInput) => Promise<boolean>;
+  payIn: (where?: PayInWhereInput) => Promise<boolean>;
   paymentRequest: (where?: PaymentRequestWhereInput) => Promise<boolean>;
   suffix: (where?: SuffixWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -103,6 +104,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => LoanConnectionPromise;
+  payIn: (where: PayInWhereUniqueInput) => PayInNullablePromise;
+  payIns: (args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<PayIn>;
+  payInsConnection: (args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => PayInConnectionPromise;
   paymentRequest: (
     where: PaymentRequestWhereUniqueInput
   ) => PaymentRequestNullablePromise;
@@ -243,6 +263,22 @@ export interface Prisma {
   }) => LoanPromise;
   deleteLoan: (where: LoanWhereUniqueInput) => LoanPromise;
   deleteManyLoans: (where?: LoanWhereInput) => BatchPayloadPromise;
+  createPayIn: (data: PayInCreateInput) => PayInPromise;
+  updatePayIn: (args: {
+    data: PayInUpdateInput;
+    where: PayInWhereUniqueInput;
+  }) => PayInPromise;
+  updateManyPayIns: (args: {
+    data: PayInUpdateManyMutationInput;
+    where?: PayInWhereInput;
+  }) => BatchPayloadPromise;
+  upsertPayIn: (args: {
+    where: PayInWhereUniqueInput;
+    create: PayInCreateInput;
+    update: PayInUpdateInput;
+  }) => PayInPromise;
+  deletePayIn: (where: PayInWhereUniqueInput) => PayInPromise;
+  deleteManyPayIns: (where?: PayInWhereInput) => BatchPayloadPromise;
   createPaymentRequest: (
     data: PaymentRequestCreateInput
   ) => PaymentRequestPromise;
@@ -337,6 +373,9 @@ export interface Subscription {
   loan: (
     where?: LoanSubscriptionWhereInput
   ) => LoanSubscriptionPayloadSubscription;
+  payIn: (
+    where?: PayInSubscriptionWhereInput
+  ) => PayInSubscriptionPayloadSubscription;
   paymentRequest: (
     where?: PaymentRequestSubscriptionWhereInput
   ) => PaymentRequestSubscriptionPayloadSubscription;
@@ -416,6 +455,16 @@ export type SuffixOrderByInput =
   | "id_DESC"
   | "domain_ASC"
   | "domain_DESC";
+
+export type PayInOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "mangoPayInId_ASC"
+  | "mangoPayInId_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type ChildcareProviderOrderByInput =
   | "id_ASC"
@@ -497,10 +546,9 @@ export type VerificationTokenOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface SuffixUpsertWithWhereUniqueWithoutEmployerInput {
+export interface SuffixUpdateWithWhereUniqueWithoutEmployerInput {
   where: SuffixWhereUniqueInput;
-  update: SuffixUpdateWithoutEmployerDataInput;
-  create: SuffixCreateWithoutEmployerInput;
+  data: SuffixUpdateWithoutEmployerDataInput;
 }
 
 export type ChildcareProviderWhereUniqueInput = AtLeastOne<{
@@ -512,47 +560,29 @@ export type ChildcareProviderWhereUniqueInput = AtLeastOne<{
   mangoWalletId?: Maybe<String>;
 }>;
 
-export interface EmployerCreateOneWithoutUserInput {
-  create?: Maybe<EmployerCreateWithoutUserInput>;
-  connect?: Maybe<EmployerWhereUniqueInput>;
-}
-
-export interface PaymentRequestUpdateWithWhereUniqueWithoutUserInput {
-  where: PaymentRequestWhereUniqueInput;
-  data: PaymentRequestUpdateWithoutUserDataInput;
-}
-
-export interface EmployerCreateWithoutUserInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  slug: String;
-  address: String;
-  companyNumber?: Maybe<String>;
-  emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
-  minimumServiceLength: Int;
-  maxSalaryPercentage: Float;
-  payrollEmail: String;
-  signerEmail: String;
-}
-
-export interface VerificationTokenUpdateOneInput {
-  create?: Maybe<VerificationTokenCreateInput>;
-  update?: Maybe<VerificationTokenUpdateDataInput>;
-  upsert?: Maybe<VerificationTokenUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<VerificationTokenWhereUniqueInput>;
-}
-
-export interface SuffixCreateManyWithoutEmployerInput {
+export interface PayInUpdateManyWithoutEmployerInput {
   create?: Maybe<
-    SuffixCreateWithoutEmployerInput[] | SuffixCreateWithoutEmployerInput
+    PayInCreateWithoutEmployerInput[] | PayInCreateWithoutEmployerInput
   >;
-  connect?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
+  delete?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  connect?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  set?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  disconnect?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  update?: Maybe<
+    | PayInUpdateWithWhereUniqueWithoutEmployerInput[]
+    | PayInUpdateWithWhereUniqueWithoutEmployerInput
+  >;
+  upsert?: Maybe<
+    | PayInUpsertWithWhereUniqueWithoutEmployerInput[]
+    | PayInUpsertWithWhereUniqueWithoutEmployerInput
+  >;
+  deleteMany?: Maybe<PayInScalarWhereInput[] | PayInScalarWhereInput>;
+  updateMany?: Maybe<
+    PayInUpdateManyWithWhereNestedInput[] | PayInUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface LoanWhereInput {
+export interface PayInWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -567,38 +597,22 @@ export interface LoanWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  amount?: Maybe<Float>;
-  amount_not?: Maybe<Float>;
-  amount_in?: Maybe<Float[] | Float>;
-  amount_not_in?: Maybe<Float[] | Float>;
-  amount_lt?: Maybe<Float>;
-  amount_lte?: Maybe<Float>;
-  amount_gt?: Maybe<Float>;
-  amount_gte?: Maybe<Float>;
-  terms?: Maybe<Int>;
-  terms_not?: Maybe<Int>;
-  terms_in?: Maybe<Int[] | Int>;
-  terms_not_in?: Maybe<Int[] | Int>;
-  terms_lt?: Maybe<Int>;
-  terms_lte?: Maybe<Int>;
-  terms_gt?: Maybe<Int>;
-  terms_gte?: Maybe<Int>;
-  approved?: Maybe<Boolean>;
-  approved_not?: Maybe<Boolean>;
-  agreementURL?: Maybe<String>;
-  agreementURL_not?: Maybe<String>;
-  agreementURL_in?: Maybe<String[] | String>;
-  agreementURL_not_in?: Maybe<String[] | String>;
-  agreementURL_lt?: Maybe<String>;
-  agreementURL_lte?: Maybe<String>;
-  agreementURL_gt?: Maybe<String>;
-  agreementURL_gte?: Maybe<String>;
-  agreementURL_contains?: Maybe<String>;
-  agreementURL_not_contains?: Maybe<String>;
-  agreementURL_starts_with?: Maybe<String>;
-  agreementURL_not_starts_with?: Maybe<String>;
-  agreementURL_ends_with?: Maybe<String>;
-  agreementURL_not_ends_with?: Maybe<String>;
+  user?: Maybe<UserWhereInput>;
+  employer?: Maybe<EmployerWhereInput>;
+  mangoPayInId?: Maybe<String>;
+  mangoPayInId_not?: Maybe<String>;
+  mangoPayInId_in?: Maybe<String[] | String>;
+  mangoPayInId_not_in?: Maybe<String[] | String>;
+  mangoPayInId_lt?: Maybe<String>;
+  mangoPayInId_lte?: Maybe<String>;
+  mangoPayInId_gt?: Maybe<String>;
+  mangoPayInId_gte?: Maybe<String>;
+  mangoPayInId_contains?: Maybe<String>;
+  mangoPayInId_not_contains?: Maybe<String>;
+  mangoPayInId_starts_with?: Maybe<String>;
+  mangoPayInId_not_starts_with?: Maybe<String>;
+  mangoPayInId_ends_with?: Maybe<String>;
+  mangoPayInId_not_ends_with?: Maybe<String>;
   updatedAt?: Maybe<DateTimeInput>;
   updatedAt_not?: Maybe<DateTimeInput>;
   updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -615,60 +629,17 @@ export interface LoanWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<LoanWhereInput[] | LoanWhereInput>;
-  OR?: Maybe<LoanWhereInput[] | LoanWhereInput>;
-  NOT?: Maybe<LoanWhereInput[] | LoanWhereInput>;
+  AND?: Maybe<PayInWhereInput[] | PayInWhereInput>;
+  OR?: Maybe<PayInWhereInput[] | PayInWhereInput>;
+  NOT?: Maybe<PayInWhereInput[] | PayInWhereInput>;
 }
 
-export interface SuffixCreateWithoutEmployerInput {
-  id?: Maybe<ID_Input>;
-  domain: String;
+export interface PayInUpdateWithWhereUniqueWithoutEmployerInput {
+  where: PayInWhereUniqueInput;
+  data: PayInUpdateWithoutEmployerDataInput;
 }
 
-export interface VerificationTokenSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<VerificationTokenWhereInput>;
-  AND?: Maybe<
-    | VerificationTokenSubscriptionWhereInput[]
-    | VerificationTokenSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    | VerificationTokenSubscriptionWhereInput[]
-    | VerificationTokenSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    | VerificationTokenSubscriptionWhereInput[]
-    | VerificationTokenSubscriptionWhereInput
-  >;
-}
-
-export interface VerificationTokenCreateOneInput {
-  create?: Maybe<VerificationTokenCreateInput>;
-  connect?: Maybe<VerificationTokenWhereUniqueInput>;
-}
-
-export interface SuffixSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<SuffixWhereInput>;
-  AND?: Maybe<SuffixSubscriptionWhereInput[] | SuffixSubscriptionWhereInput>;
-  OR?: Maybe<SuffixSubscriptionWhereInput[] | SuffixSubscriptionWhereInput>;
-  NOT?: Maybe<SuffixSubscriptionWhereInput[] | SuffixSubscriptionWhereInput>;
-}
-
-export interface VerificationTokenCreateInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  token: String;
-  expiresAt: DateTimeInput;
-}
-
-export interface SuffixWhereInput {
+export interface VerificationTokenWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -683,425 +654,6 @@ export interface SuffixWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  domain?: Maybe<String>;
-  domain_not?: Maybe<String>;
-  domain_in?: Maybe<String[] | String>;
-  domain_not_in?: Maybe<String[] | String>;
-  domain_lt?: Maybe<String>;
-  domain_lte?: Maybe<String>;
-  domain_gt?: Maybe<String>;
-  domain_gte?: Maybe<String>;
-  domain_contains?: Maybe<String>;
-  domain_not_contains?: Maybe<String>;
-  domain_starts_with?: Maybe<String>;
-  domain_not_starts_with?: Maybe<String>;
-  domain_ends_with?: Maybe<String>;
-  domain_not_ends_with?: Maybe<String>;
-  employer?: Maybe<EmployerWhereInput>;
-  AND?: Maybe<SuffixWhereInput[] | SuffixWhereInput>;
-  OR?: Maybe<SuffixWhereInput[] | SuffixWhereInput>;
-  NOT?: Maybe<SuffixWhereInput[] | SuffixWhereInput>;
-}
-
-export interface LoanCreateOneInput {
-  create?: Maybe<LoanCreateInput>;
-  connect?: Maybe<LoanWhereUniqueInput>;
-}
-
-export interface LoanSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LoanWhereInput>;
-  AND?: Maybe<LoanSubscriptionWhereInput[] | LoanSubscriptionWhereInput>;
-  OR?: Maybe<LoanSubscriptionWhereInput[] | LoanSubscriptionWhereInput>;
-  NOT?: Maybe<LoanSubscriptionWhereInput[] | LoanSubscriptionWhereInput>;
-}
-
-export interface LoanCreateInput {
-  id?: Maybe<ID_Input>;
-  amount: Float;
-  terms: Int;
-  approved?: Maybe<Boolean>;
-  agreementURL?: Maybe<String>;
-}
-
-export interface ChildcareProviderSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ChildcareProviderWhereInput>;
-  AND?: Maybe<
-    | ChildcareProviderSubscriptionWhereInput[]
-    | ChildcareProviderSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    | ChildcareProviderSubscriptionWhereInput[]
-    | ChildcareProviderSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    | ChildcareProviderSubscriptionWhereInput[]
-    | ChildcareProviderSubscriptionWhereInput
-  >;
-}
-
-export interface ChildcareProviderUpdateInput {
-  email?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  mangoLegalUserId?: Maybe<String>;
-  mangoBankAccountId?: Maybe<String>;
-  mangoWalletId?: Maybe<String>;
-  approved?: Maybe<Boolean>;
-  paymentRequests?: Maybe<
-    PaymentRequestUpdateManyWithoutChildcareProviderInput
-  >;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface VerificationTokenUpdateManyMutationInput {
-  email?: Maybe<String>;
-  token?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface PaymentRequestUpdateManyWithoutChildcareProviderInput {
-  create?: Maybe<
-    | PaymentRequestCreateWithoutChildcareProviderInput[]
-    | PaymentRequestCreateWithoutChildcareProviderInput
-  >;
-  delete?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  connect?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  set?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  disconnect?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  update?: Maybe<
-    | PaymentRequestUpdateWithWhereUniqueWithoutChildcareProviderInput[]
-    | PaymentRequestUpdateWithWhereUniqueWithoutChildcareProviderInput
-  >;
-  upsert?: Maybe<
-    | PaymentRequestUpsertWithWhereUniqueWithoutChildcareProviderInput[]
-    | PaymentRequestUpsertWithWhereUniqueWithoutChildcareProviderInput
-  >;
-  deleteMany?: Maybe<
-    PaymentRequestScalarWhereInput[] | PaymentRequestScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | PaymentRequestUpdateManyWithWhereNestedInput[]
-    | PaymentRequestUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface UserUpdateManyMutationInput {
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  isVerified?: Maybe<Boolean>;
-  phoneNumber?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  nationality?: Maybe<String>;
-  employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  employeeID?: Maybe<String>;
-  gdprConsent?: Maybe<Boolean>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-}
-
-export interface PaymentRequestUpdateWithWhereUniqueWithoutChildcareProviderInput {
-  where: PaymentRequestWhereUniqueInput;
-  data: PaymentRequestUpdateWithoutChildcareProviderDataInput;
-}
-
-export type EmployerWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  slug?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-}>;
-
-export interface PaymentRequestUpdateWithoutChildcareProviderDataInput {
-  mangoPaymentID?: Maybe<String>;
-  user?: Maybe<UserUpdateOneRequiredWithoutPaymentRequestsInput>;
-  amountToPay?: Maybe<Float>;
-  consentToPay?: Maybe<Boolean>;
-  reference?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  employer: EmployerCreateOneWithoutUserInput;
-  firstName: String;
-  lastName: String;
-  email: String;
-  isVerified?: Maybe<Boolean>;
-  phoneNumber: String;
-  dob: DateTimeInput;
-  nationality: String;
-  employmentStartDate: DateTimeInput;
-  annualSalary: Float;
-  employeeID?: Maybe<String>;
-  verificationToken?: Maybe<VerificationTokenCreateOneInput>;
-  gdprConsent: Boolean;
-  loan?: Maybe<LoanCreateOneInput>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-  paymentRequests?: Maybe<PaymentRequestCreateManyWithoutUserInput>;
-}
-
-export interface UserUpdateOneRequiredWithoutPaymentRequestsInput {
-  create?: Maybe<UserCreateWithoutPaymentRequestsInput>;
-  update?: Maybe<UserUpdateWithoutPaymentRequestsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutPaymentRequestsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface EmployerUpsertWithoutEmailSuffixesInput {
-  update: EmployerUpdateWithoutEmailSuffixesDataInput;
-  create: EmployerCreateWithoutEmailSuffixesInput;
-}
-
-export interface UserUpdateWithoutPaymentRequestsDataInput {
-  employer?: Maybe<EmployerUpdateOneRequiredWithoutUserInput>;
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  isVerified?: Maybe<Boolean>;
-  phoneNumber?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  nationality?: Maybe<String>;
-  employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  employeeID?: Maybe<String>;
-  verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
-  gdprConsent?: Maybe<Boolean>;
-  loan?: Maybe<LoanUpdateOneInput>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-}
-
-export interface EmployerUpdateWithoutEmailSuffixesDataInput {
-  name?: Maybe<String>;
-  slug?: Maybe<String>;
-  address?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  user?: Maybe<UserUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
-  minimumServiceLength?: Maybe<Int>;
-  maxSalaryPercentage?: Maybe<Float>;
-  payrollEmail?: Maybe<String>;
-  signerEmail?: Maybe<String>;
-}
-
-export interface EmployerUpdateOneRequiredWithoutUserInput {
-  create?: Maybe<EmployerCreateWithoutUserInput>;
-  update?: Maybe<EmployerUpdateWithoutUserDataInput>;
-  upsert?: Maybe<EmployerUpsertWithoutUserInput>;
-  connect?: Maybe<EmployerWhereUniqueInput>;
-}
-
-export interface SuffixUpdateInput {
-  domain?: Maybe<String>;
-  employer?: Maybe<EmployerUpdateOneRequiredWithoutEmailSuffixesInput>;
-}
-
-export interface EmployerUpdateWithoutUserDataInput {
-  name?: Maybe<String>;
-  slug?: Maybe<String>;
-  address?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
-  minimumServiceLength?: Maybe<Int>;
-  maxSalaryPercentage?: Maybe<Float>;
-  payrollEmail?: Maybe<String>;
-  signerEmail?: Maybe<String>;
-}
-
-export type PaymentRequestWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
-}>;
-
-export interface SuffixUpdateManyWithoutEmployerInput {
-  create?: Maybe<
-    SuffixCreateWithoutEmployerInput[] | SuffixCreateWithoutEmployerInput
-  >;
-  delete?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
-  connect?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
-  set?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
-  disconnect?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
-  update?: Maybe<
-    | SuffixUpdateWithWhereUniqueWithoutEmployerInput[]
-    | SuffixUpdateWithWhereUniqueWithoutEmployerInput
-  >;
-  upsert?: Maybe<
-    | SuffixUpsertWithWhereUniqueWithoutEmployerInput[]
-    | SuffixUpsertWithWhereUniqueWithoutEmployerInput
-  >;
-  deleteMany?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
-  updateMany?: Maybe<
-    | SuffixUpdateManyWithWhereNestedInput[]
-    | SuffixUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface SuffixCreateInput {
-  id?: Maybe<ID_Input>;
-  domain: String;
-  employer: EmployerCreateOneWithoutEmailSuffixesInput;
-}
-
-export interface SuffixUpdateWithWhereUniqueWithoutEmployerInput {
-  where: SuffixWhereUniqueInput;
-  data: SuffixUpdateWithoutEmployerDataInput;
-}
-
-export type SuffixWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  domain?: Maybe<String>;
-}>;
-
-export interface SuffixUpdateWithoutEmployerDataInput {
-  domain?: Maybe<String>;
-}
-
-export interface PaymentRequestCreateInput {
-  id?: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
-  user: UserCreateOneWithoutPaymentRequestsInput;
-  childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
-  amountToPay: Float;
-  consentToPay?: Maybe<Boolean>;
-  reference?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface ChildcareProviderUpsertWithoutPaymentRequestsInput {
-  update: ChildcareProviderUpdateWithoutPaymentRequestsDataInput;
-  create: ChildcareProviderCreateWithoutPaymentRequestsInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  phoneNumber?: Maybe<String>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-}>;
-
-export interface SuffixScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  domain?: Maybe<String>;
-  domain_not?: Maybe<String>;
-  domain_in?: Maybe<String[] | String>;
-  domain_not_in?: Maybe<String[] | String>;
-  domain_lt?: Maybe<String>;
-  domain_lte?: Maybe<String>;
-  domain_gt?: Maybe<String>;
-  domain_gte?: Maybe<String>;
-  domain_contains?: Maybe<String>;
-  domain_not_contains?: Maybe<String>;
-  domain_starts_with?: Maybe<String>;
-  domain_not_starts_with?: Maybe<String>;
-  domain_ends_with?: Maybe<String>;
-  domain_not_ends_with?: Maybe<String>;
-  AND?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
-  OR?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
-  NOT?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
-}
-
-export interface EmployerUpdateManyMutationInput {
-  name?: Maybe<String>;
-  slug?: Maybe<String>;
-  address?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  maximumAmount?: Maybe<Float>;
-  minimumServiceLength?: Maybe<Int>;
-  maxSalaryPercentage?: Maybe<Float>;
-  payrollEmail?: Maybe<String>;
-  signerEmail?: Maybe<String>;
-}
-
-export interface SuffixUpdateManyWithWhereNestedInput {
-  where: SuffixScalarWhereInput;
-  data: SuffixUpdateManyDataInput;
-}
-
-export type VerificationTokenWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  token?: Maybe<String>;
-}>;
-
-export interface SuffixUpdateManyDataInput {
-  domain?: Maybe<String>;
-}
-
-export interface UserScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  firstName?: Maybe<String>;
-  firstName_not?: Maybe<String>;
-  firstName_in?: Maybe<String[] | String>;
-  firstName_not_in?: Maybe<String[] | String>;
-  firstName_lt?: Maybe<String>;
-  firstName_lte?: Maybe<String>;
-  firstName_gt?: Maybe<String>;
-  firstName_gte?: Maybe<String>;
-  firstName_contains?: Maybe<String>;
-  firstName_not_contains?: Maybe<String>;
-  firstName_starts_with?: Maybe<String>;
-  firstName_not_starts_with?: Maybe<String>;
-  firstName_ends_with?: Maybe<String>;
-  firstName_not_ends_with?: Maybe<String>;
-  lastName?: Maybe<String>;
-  lastName_not?: Maybe<String>;
-  lastName_in?: Maybe<String[] | String>;
-  lastName_not_in?: Maybe<String[] | String>;
-  lastName_lt?: Maybe<String>;
-  lastName_lte?: Maybe<String>;
-  lastName_gt?: Maybe<String>;
-  lastName_gte?: Maybe<String>;
-  lastName_contains?: Maybe<String>;
-  lastName_not_contains?: Maybe<String>;
-  lastName_starts_with?: Maybe<String>;
-  lastName_not_starts_with?: Maybe<String>;
-  lastName_ends_with?: Maybe<String>;
-  lastName_not_ends_with?: Maybe<String>;
   email?: Maybe<String>;
   email_not?: Maybe<String>;
   email_in?: Maybe<String[] | String>;
@@ -1116,104 +668,28 @@ export interface UserScalarWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
-  isVerified?: Maybe<Boolean>;
-  isVerified_not?: Maybe<Boolean>;
-  phoneNumber?: Maybe<String>;
-  phoneNumber_not?: Maybe<String>;
-  phoneNumber_in?: Maybe<String[] | String>;
-  phoneNumber_not_in?: Maybe<String[] | String>;
-  phoneNumber_lt?: Maybe<String>;
-  phoneNumber_lte?: Maybe<String>;
-  phoneNumber_gt?: Maybe<String>;
-  phoneNumber_gte?: Maybe<String>;
-  phoneNumber_contains?: Maybe<String>;
-  phoneNumber_not_contains?: Maybe<String>;
-  phoneNumber_starts_with?: Maybe<String>;
-  phoneNumber_not_starts_with?: Maybe<String>;
-  phoneNumber_ends_with?: Maybe<String>;
-  phoneNumber_not_ends_with?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  dob_not?: Maybe<DateTimeInput>;
-  dob_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  dob_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  dob_lt?: Maybe<DateTimeInput>;
-  dob_lte?: Maybe<DateTimeInput>;
-  dob_gt?: Maybe<DateTimeInput>;
-  dob_gte?: Maybe<DateTimeInput>;
-  nationality?: Maybe<String>;
-  nationality_not?: Maybe<String>;
-  nationality_in?: Maybe<String[] | String>;
-  nationality_not_in?: Maybe<String[] | String>;
-  nationality_lt?: Maybe<String>;
-  nationality_lte?: Maybe<String>;
-  nationality_gt?: Maybe<String>;
-  nationality_gte?: Maybe<String>;
-  nationality_contains?: Maybe<String>;
-  nationality_not_contains?: Maybe<String>;
-  nationality_starts_with?: Maybe<String>;
-  nationality_not_starts_with?: Maybe<String>;
-  nationality_ends_with?: Maybe<String>;
-  nationality_not_ends_with?: Maybe<String>;
-  employmentStartDate?: Maybe<DateTimeInput>;
-  employmentStartDate_not?: Maybe<DateTimeInput>;
-  employmentStartDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  employmentStartDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  employmentStartDate_lt?: Maybe<DateTimeInput>;
-  employmentStartDate_lte?: Maybe<DateTimeInput>;
-  employmentStartDate_gt?: Maybe<DateTimeInput>;
-  employmentStartDate_gte?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  annualSalary_not?: Maybe<Float>;
-  annualSalary_in?: Maybe<Float[] | Float>;
-  annualSalary_not_in?: Maybe<Float[] | Float>;
-  annualSalary_lt?: Maybe<Float>;
-  annualSalary_lte?: Maybe<Float>;
-  annualSalary_gt?: Maybe<Float>;
-  annualSalary_gte?: Maybe<Float>;
-  employeeID?: Maybe<String>;
-  employeeID_not?: Maybe<String>;
-  employeeID_in?: Maybe<String[] | String>;
-  employeeID_not_in?: Maybe<String[] | String>;
-  employeeID_lt?: Maybe<String>;
-  employeeID_lte?: Maybe<String>;
-  employeeID_gt?: Maybe<String>;
-  employeeID_gte?: Maybe<String>;
-  employeeID_contains?: Maybe<String>;
-  employeeID_not_contains?: Maybe<String>;
-  employeeID_starts_with?: Maybe<String>;
-  employeeID_not_starts_with?: Maybe<String>;
-  employeeID_ends_with?: Maybe<String>;
-  employeeID_not_ends_with?: Maybe<String>;
-  gdprConsent?: Maybe<Boolean>;
-  gdprConsent_not?: Maybe<Boolean>;
-  mangoWalletId?: Maybe<String>;
-  mangoWalletId_not?: Maybe<String>;
-  mangoWalletId_in?: Maybe<String[] | String>;
-  mangoWalletId_not_in?: Maybe<String[] | String>;
-  mangoWalletId_lt?: Maybe<String>;
-  mangoWalletId_lte?: Maybe<String>;
-  mangoWalletId_gt?: Maybe<String>;
-  mangoWalletId_gte?: Maybe<String>;
-  mangoWalletId_contains?: Maybe<String>;
-  mangoWalletId_not_contains?: Maybe<String>;
-  mangoWalletId_starts_with?: Maybe<String>;
-  mangoWalletId_not_starts_with?: Maybe<String>;
-  mangoWalletId_ends_with?: Maybe<String>;
-  mangoWalletId_not_ends_with?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-  mangoUserId_not?: Maybe<String>;
-  mangoUserId_in?: Maybe<String[] | String>;
-  mangoUserId_not_in?: Maybe<String[] | String>;
-  mangoUserId_lt?: Maybe<String>;
-  mangoUserId_lte?: Maybe<String>;
-  mangoUserId_gt?: Maybe<String>;
-  mangoUserId_gte?: Maybe<String>;
-  mangoUserId_contains?: Maybe<String>;
-  mangoUserId_not_contains?: Maybe<String>;
-  mangoUserId_starts_with?: Maybe<String>;
-  mangoUserId_not_starts_with?: Maybe<String>;
-  mangoUserId_ends_with?: Maybe<String>;
-  mangoUserId_not_ends_with?: Maybe<String>;
+  token?: Maybe<String>;
+  token_not?: Maybe<String>;
+  token_in?: Maybe<String[] | String>;
+  token_not_in?: Maybe<String[] | String>;
+  token_lt?: Maybe<String>;
+  token_lte?: Maybe<String>;
+  token_gt?: Maybe<String>;
+  token_gte?: Maybe<String>;
+  token_contains?: Maybe<String>;
+  token_not_contains?: Maybe<String>;
+  token_starts_with?: Maybe<String>;
+  token_not_starts_with?: Maybe<String>;
+  token_ends_with?: Maybe<String>;
+  token_not_ends_with?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+  expiresAt_not?: Maybe<DateTimeInput>;
+  expiresAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expiresAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expiresAt_lt?: Maybe<DateTimeInput>;
+  expiresAt_lte?: Maybe<DateTimeInput>;
+  expiresAt_gt?: Maybe<DateTimeInput>;
+  expiresAt_gte?: Maybe<DateTimeInput>;
   updatedAt?: Maybe<DateTimeInput>;
   updatedAt_not?: Maybe<DateTimeInput>;
   updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1230,94 +706,14 @@ export interface UserScalarWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  AND?: Maybe<VerificationTokenWhereInput[] | VerificationTokenWhereInput>;
+  OR?: Maybe<VerificationTokenWhereInput[] | VerificationTokenWhereInput>;
+  NOT?: Maybe<VerificationTokenWhereInput[] | VerificationTokenWhereInput>;
 }
 
-export interface EmployerUpsertWithoutUserInput {
-  update: EmployerUpdateWithoutUserDataInput;
-  create: EmployerCreateWithoutUserInput;
-}
-
-export interface PaymentRequestUpsertWithWhereUniqueWithoutUserInput {
-  where: PaymentRequestWhereUniqueInput;
-  update: PaymentRequestUpdateWithoutUserDataInput;
-  create: PaymentRequestCreateWithoutUserInput;
-}
-
-export interface ChildcareProviderUpdateWithoutPaymentRequestsDataInput {
-  email?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  mangoLegalUserId?: Maybe<String>;
-  mangoBankAccountId?: Maybe<String>;
-  mangoWalletId?: Maybe<String>;
-  approved?: Maybe<Boolean>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface ChildcareProviderCreateInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  companyNumber: String;
-  mangoLegalUserId?: Maybe<String>;
-  mangoBankAccountId?: Maybe<String>;
-  mangoWalletId?: Maybe<String>;
-  approved?: Maybe<Boolean>;
-  paymentRequests?: Maybe<
-    PaymentRequestCreateManyWithoutChildcareProviderInput
-  >;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface VerificationTokenUpdateDataInput {
-  email?: Maybe<String>;
-  token?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface PaymentRequestCreateWithoutChildcareProviderInput {
-  id?: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
-  user: UserCreateOneWithoutPaymentRequestsInput;
-  amountToPay: Float;
-  consentToPay?: Maybe<Boolean>;
-  reference?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface VerificationTokenUpsertNestedInput {
-  update: VerificationTokenUpdateDataInput;
-  create: VerificationTokenCreateInput;
-}
-
-export interface UserCreateWithoutPaymentRequestsInput {
-  id?: Maybe<ID_Input>;
-  employer: EmployerCreateOneWithoutUserInput;
-  firstName: String;
-  lastName: String;
-  email: String;
-  isVerified?: Maybe<Boolean>;
-  phoneNumber: String;
-  dob: DateTimeInput;
-  nationality: String;
-  employmentStartDate: DateTimeInput;
-  annualSalary: Float;
-  employeeID?: Maybe<String>;
-  verificationToken?: Maybe<VerificationTokenCreateOneInput>;
-  gdprConsent: Boolean;
-  loan?: Maybe<LoanCreateOneInput>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-}
-
-export interface LoanUpdateOneInput {
-  create?: Maybe<LoanCreateInput>;
-  update?: Maybe<LoanUpdateDataInput>;
-  upsert?: Maybe<LoanUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<LoanWhereUniqueInput>;
+export interface PayInUpdateWithoutEmployerDataInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutPayInsInput>;
+  mangoPayInId?: Maybe<String>;
 }
 
 export interface ChildcareProviderWhereInput {
@@ -1439,11 +835,90 @@ export interface ChildcareProviderWhereInput {
   NOT?: Maybe<ChildcareProviderWhereInput[] | ChildcareProviderWhereInput>;
 }
 
-export interface LoanUpdateDataInput {
-  amount?: Maybe<Float>;
-  terms?: Maybe<Int>;
+export interface PaymentRequestCreateManyWithoutUserInput {
+  create?: Maybe<
+    | PaymentRequestCreateWithoutUserInput[]
+    | PaymentRequestCreateWithoutUserInput
+  >;
+  connect?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+}
+
+export interface UserUpdateManyDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  nationality?: Maybe<String>;
+  employmentStartDate?: Maybe<DateTimeInput>;
+  annualSalary?: Maybe<Int>;
+  employeeID?: Maybe<String>;
+  gdprConsent?: Maybe<Boolean>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+}
+
+export interface PaymentRequestCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  mangoPaymentID?: Maybe<String>;
+  childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
+  amountToPay: Int;
+  consentToPay?: Maybe<Boolean>;
+  reference?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutPayInsInput {
+  create?: Maybe<UserCreateWithoutPayInsInput>;
+  update?: Maybe<UserUpdateWithoutPayInsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPayInsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface ChildcareProviderCreateOneWithoutPaymentRequestsInput {
+  create?: Maybe<ChildcareProviderCreateWithoutPaymentRequestsInput>;
+  connect?: Maybe<ChildcareProviderWhereUniqueInput>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface ChildcareProviderCreateWithoutPaymentRequestsInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  companyNumber: String;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
-  agreementURL?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface SuffixSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SuffixWhereInput>;
+  AND?: Maybe<SuffixSubscriptionWhereInput[] | SuffixSubscriptionWhereInput>;
+  OR?: Maybe<SuffixSubscriptionWhereInput[] | SuffixSubscriptionWhereInput>;
+  NOT?: Maybe<SuffixSubscriptionWhereInput[] | SuffixSubscriptionWhereInput>;
+}
+
+export interface PayInCreateManyWithoutUserInput {
+  create?: Maybe<PayInCreateWithoutUserInput[] | PayInCreateWithoutUserInput>;
+  connect?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
 }
 
 export interface PaymentRequestSubscriptionWhereInput {
@@ -1466,9 +941,26 @@ export interface PaymentRequestSubscriptionWhereInput {
   >;
 }
 
-export interface LoanUpsertNestedInput {
-  update: LoanUpdateDataInput;
-  create: LoanCreateInput;
+export interface PayInCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  employer: EmployerCreateOneWithoutPayInsInput;
+  mangoPayInId: String;
+}
+
+export interface LoanSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LoanWhereInput>;
+  AND?: Maybe<LoanSubscriptionWhereInput[] | LoanSubscriptionWhereInput>;
+  OR?: Maybe<LoanSubscriptionWhereInput[] | LoanSubscriptionWhereInput>;
+  NOT?: Maybe<LoanSubscriptionWhereInput[] | LoanSubscriptionWhereInput>;
+}
+
+export interface EmployerCreateOneWithoutPayInsInput {
+  create?: Maybe<EmployerCreateWithoutPayInsInput>;
+  connect?: Maybe<EmployerWhereUniqueInput>;
 }
 
 export interface EmployerSubscriptionWhereInput {
@@ -1486,21 +978,746 @@ export interface EmployerSubscriptionWhereInput {
   >;
 }
 
-export interface UserUpsertWithoutPaymentRequestsInput {
-  update: UserUpdateWithoutPaymentRequestsDataInput;
-  create: UserCreateWithoutPaymentRequestsInput;
+export interface EmployerCreateWithoutPayInsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  slug: String;
+  address: String;
+  companyNumber?: Maybe<String>;
+  user?: Maybe<UserCreateManyWithoutEmployerInput>;
+  emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
+  maximumAmount: Int;
+  minimumServiceLength: Int;
+  maxSalaryPercentage: Float;
+  payrollEmail: String;
+  signerEmail: String;
 }
 
-export interface VerificationTokenUpdateInput {
+export interface VerificationTokenUpdateManyMutationInput {
   email?: Maybe<String>;
   token?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface UserCreateManyWithoutEmployerInput {
+  create?: Maybe<
+    UserCreateWithoutEmployerInput[] | UserCreateWithoutEmployerInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export type EmployerWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  slug?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+}>;
+
+export interface UserCreateWithoutEmployerInput {
+  id?: Maybe<ID_Input>;
+  firstName: String;
+  lastName: String;
+  email: String;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber: String;
+  dob: DateTimeInput;
+  nationality: String;
+  employmentStartDate: DateTimeInput;
+  annualSalary: Int;
+  employeeID?: Maybe<String>;
+  verificationToken?: Maybe<VerificationTokenCreateOneInput>;
+  gdprConsent: Boolean;
+  loan?: Maybe<LoanCreateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  paymentRequests?: Maybe<PaymentRequestCreateManyWithoutUserInput>;
+  payIns?: Maybe<PayInCreateManyWithoutUserInput>;
+}
+
+export interface UserUpdateManyMutationInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  nationality?: Maybe<String>;
+  employmentStartDate?: Maybe<DateTimeInput>;
+  annualSalary?: Maybe<Int>;
+  employeeID?: Maybe<String>;
+  gdprConsent?: Maybe<Boolean>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+}
+
+export interface ChildcareProviderUpdateInput {
+  email?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  paymentRequests?: Maybe<
+    PaymentRequestUpdateManyWithoutChildcareProviderInput
+  >;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  employer: EmployerCreateOneWithoutUserInput;
+  firstName: String;
+  lastName: String;
+  email: String;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber: String;
+  dob: DateTimeInput;
+  nationality: String;
+  employmentStartDate: DateTimeInput;
+  annualSalary: Int;
+  employeeID?: Maybe<String>;
+  verificationToken?: Maybe<VerificationTokenCreateOneInput>;
+  gdprConsent: Boolean;
+  loan?: Maybe<LoanCreateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  paymentRequests?: Maybe<PaymentRequestCreateManyWithoutUserInput>;
+  payIns?: Maybe<PayInCreateManyWithoutUserInput>;
+}
+
+export interface PaymentRequestUpdateManyWithoutChildcareProviderInput {
+  create?: Maybe<
+    | PaymentRequestCreateWithoutChildcareProviderInput[]
+    | PaymentRequestCreateWithoutChildcareProviderInput
+  >;
+  delete?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  connect?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  set?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  update?: Maybe<
+    | PaymentRequestUpdateWithWhereUniqueWithoutChildcareProviderInput[]
+    | PaymentRequestUpdateWithWhereUniqueWithoutChildcareProviderInput
+  >;
+  upsert?: Maybe<
+    | PaymentRequestUpsertWithWhereUniqueWithoutChildcareProviderInput[]
+    | PaymentRequestUpsertWithWhereUniqueWithoutChildcareProviderInput
+  >;
+  deleteMany?: Maybe<
+    PaymentRequestScalarWhereInput[] | PaymentRequestScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | PaymentRequestUpdateManyWithWhereNestedInput[]
+    | PaymentRequestUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface SuffixUpdateManyMutationInput {
+  domain?: Maybe<String>;
+}
+
+export interface PaymentRequestUpdateWithWhereUniqueWithoutChildcareProviderInput {
+  where: PaymentRequestWhereUniqueInput;
+  data: PaymentRequestUpdateWithoutChildcareProviderDataInput;
+}
+
+export interface EmployerUpdateWithoutEmailSuffixesDataInput {
+  name?: Maybe<String>;
+  slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  user?: Maybe<UserUpdateManyWithoutEmployerInput>;
+  maximumAmount?: Maybe<Int>;
+  minimumServiceLength?: Maybe<Int>;
+  maxSalaryPercentage?: Maybe<Float>;
+  payrollEmail?: Maybe<String>;
+  signerEmail?: Maybe<String>;
+  payIns?: Maybe<PayInUpdateManyWithoutEmployerInput>;
+}
+
+export interface PaymentRequestUpdateWithoutChildcareProviderDataInput {
+  mangoPaymentID?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutPaymentRequestsInput>;
+  amountToPay?: Maybe<Int>;
+  consentToPay?: Maybe<Boolean>;
+  reference?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export type PayInWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  mangoPayInId?: Maybe<String>;
+}>;
+
+export interface UserUpdateOneRequiredWithoutPaymentRequestsInput {
+  create?: Maybe<UserCreateWithoutPaymentRequestsInput>;
+  update?: Maybe<UserUpdateWithoutPaymentRequestsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPaymentRequestsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface EmployerCreateWithoutEmailSuffixesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  slug: String;
+  address: String;
+  companyNumber?: Maybe<String>;
+  user?: Maybe<UserCreateManyWithoutEmployerInput>;
+  maximumAmount: Int;
+  minimumServiceLength: Int;
+  maxSalaryPercentage: Float;
+  payrollEmail: String;
+  signerEmail: String;
+  payIns?: Maybe<PayInCreateManyWithoutEmployerInput>;
+}
+
+export interface UserUpdateWithoutPaymentRequestsDataInput {
+  employer?: Maybe<EmployerUpdateOneRequiredWithoutUserInput>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  nationality?: Maybe<String>;
+  employmentStartDate?: Maybe<DateTimeInput>;
+  annualSalary?: Maybe<Int>;
+  employeeID?: Maybe<String>;
+  verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
+  gdprConsent?: Maybe<Boolean>;
+  loan?: Maybe<LoanUpdateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  payIns?: Maybe<PayInUpdateManyWithoutUserInput>;
+}
+
+export type PaymentRequestWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  mangoPaymentID?: Maybe<String>;
+}>;
+
+export interface EmployerUpdateOneRequiredWithoutUserInput {
+  create?: Maybe<EmployerCreateWithoutUserInput>;
+  update?: Maybe<EmployerUpdateWithoutUserDataInput>;
+  upsert?: Maybe<EmployerUpsertWithoutUserInput>;
+  connect?: Maybe<EmployerWhereUniqueInput>;
+}
+
+export interface PaymentRequestUpdateManyMutationInput {
+  mangoPaymentID?: Maybe<String>;
+  amountToPay?: Maybe<Int>;
+  consentToPay?: Maybe<Boolean>;
+  reference?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface EmployerUpdateWithoutUserDataInput {
+  name?: Maybe<String>;
+  slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
+  maximumAmount?: Maybe<Int>;
+  minimumServiceLength?: Maybe<Int>;
+  maxSalaryPercentage?: Maybe<Float>;
+  payrollEmail?: Maybe<String>;
+  signerEmail?: Maybe<String>;
+  payIns?: Maybe<PayInUpdateManyWithoutEmployerInput>;
+}
+
+export type SuffixWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  domain?: Maybe<String>;
+}>;
+
+export interface SuffixUpdateManyWithoutEmployerInput {
+  create?: Maybe<
+    SuffixCreateWithoutEmployerInput[] | SuffixCreateWithoutEmployerInput
+  >;
+  delete?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
+  connect?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
+  set?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
+  disconnect?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
+  update?: Maybe<
+    | SuffixUpdateWithWhereUniqueWithoutEmployerInput[]
+    | SuffixUpdateWithWhereUniqueWithoutEmployerInput
+  >;
+  upsert?: Maybe<
+    | SuffixUpsertWithWhereUniqueWithoutEmployerInput[]
+    | SuffixUpsertWithWhereUniqueWithoutEmployerInput
+  >;
+  deleteMany?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
+  updateMany?: Maybe<
+    | SuffixUpdateManyWithWhereNestedInput[]
+    | SuffixUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PayInUpdateManyMutationInput {
+  mangoPayInId?: Maybe<String>;
 }
 
 export interface PaymentRequestUpsertWithWhereUniqueWithoutChildcareProviderInput {
   where: PaymentRequestWhereUniqueInput;
   update: PaymentRequestUpdateWithoutChildcareProviderDataInput;
   create: PaymentRequestCreateWithoutChildcareProviderInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  phoneNumber?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+}>;
+
+export interface SuffixUpdateWithoutEmployerDataInput {
+  domain?: Maybe<String>;
+}
+
+export interface LoanUpdateManyMutationInput {
+  amount?: Maybe<Int>;
+  terms?: Maybe<Int>;
+  approved?: Maybe<Boolean>;
+  agreementURL?: Maybe<String>;
+}
+
+export interface SuffixUpsertWithWhereUniqueWithoutEmployerInput {
+  where: SuffixWhereUniqueInput;
+  update: SuffixUpdateWithoutEmployerDataInput;
+  create: SuffixCreateWithoutEmployerInput;
+}
+
+export type VerificationTokenWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  token?: Maybe<String>;
+}>;
+
+export interface SuffixScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  domain?: Maybe<String>;
+  domain_not?: Maybe<String>;
+  domain_in?: Maybe<String[] | String>;
+  domain_not_in?: Maybe<String[] | String>;
+  domain_lt?: Maybe<String>;
+  domain_lte?: Maybe<String>;
+  domain_gt?: Maybe<String>;
+  domain_gte?: Maybe<String>;
+  domain_contains?: Maybe<String>;
+  domain_not_contains?: Maybe<String>;
+  domain_starts_with?: Maybe<String>;
+  domain_not_starts_with?: Maybe<String>;
+  domain_ends_with?: Maybe<String>;
+  domain_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
+  OR?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
+  NOT?: Maybe<SuffixScalarWhereInput[] | SuffixScalarWhereInput>;
+}
+
+export interface EmployerUpdateInput {
+  name?: Maybe<String>;
+  slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  user?: Maybe<UserUpdateManyWithoutEmployerInput>;
+  emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
+  maximumAmount?: Maybe<Int>;
+  minimumServiceLength?: Maybe<Int>;
+  maxSalaryPercentage?: Maybe<Float>;
+  payrollEmail?: Maybe<String>;
+  signerEmail?: Maybe<String>;
+  payIns?: Maybe<PayInUpdateManyWithoutEmployerInput>;
+}
+
+export interface SuffixUpdateManyWithWhereNestedInput {
+  where: SuffixScalarWhereInput;
+  data: SuffixUpdateManyDataInput;
+}
+
+export interface ChildcareProviderUpdateManyMutationInput {
+  email?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface SuffixUpdateManyDataInput {
+  domain?: Maybe<String>;
+}
+
+export interface ChildcareProviderCreateInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  companyNumber: String;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  paymentRequests?: Maybe<
+    PaymentRequestCreateManyWithoutChildcareProviderInput
+  >;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface UserUpsertWithoutPaymentRequestsInput {
+  update: UserUpdateWithoutPaymentRequestsDataInput;
+  create: UserCreateWithoutPaymentRequestsInput;
+}
+
+export interface PaymentRequestCreateWithoutChildcareProviderInput {
+  id?: Maybe<ID_Input>;
+  mangoPaymentID?: Maybe<String>;
+  user: UserCreateOneWithoutPaymentRequestsInput;
+  amountToPay: Int;
+  consentToPay?: Maybe<Boolean>;
+  reference?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface LoanWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  amount?: Maybe<Int>;
+  amount_not?: Maybe<Int>;
+  amount_in?: Maybe<Int[] | Int>;
+  amount_not_in?: Maybe<Int[] | Int>;
+  amount_lt?: Maybe<Int>;
+  amount_lte?: Maybe<Int>;
+  amount_gt?: Maybe<Int>;
+  amount_gte?: Maybe<Int>;
+  terms?: Maybe<Int>;
+  terms_not?: Maybe<Int>;
+  terms_in?: Maybe<Int[] | Int>;
+  terms_not_in?: Maybe<Int[] | Int>;
+  terms_lt?: Maybe<Int>;
+  terms_lte?: Maybe<Int>;
+  terms_gt?: Maybe<Int>;
+  terms_gte?: Maybe<Int>;
+  approved?: Maybe<Boolean>;
+  approved_not?: Maybe<Boolean>;
+  agreementURL?: Maybe<String>;
+  agreementURL_not?: Maybe<String>;
+  agreementURL_in?: Maybe<String[] | String>;
+  agreementURL_not_in?: Maybe<String[] | String>;
+  agreementURL_lt?: Maybe<String>;
+  agreementURL_lte?: Maybe<String>;
+  agreementURL_gt?: Maybe<String>;
+  agreementURL_gte?: Maybe<String>;
+  agreementURL_contains?: Maybe<String>;
+  agreementURL_not_contains?: Maybe<String>;
+  agreementURL_starts_with?: Maybe<String>;
+  agreementURL_not_starts_with?: Maybe<String>;
+  agreementURL_ends_with?: Maybe<String>;
+  agreementURL_not_ends_with?: Maybe<String>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<LoanWhereInput[] | LoanWhereInput>;
+  OR?: Maybe<LoanWhereInput[] | LoanWhereInput>;
+  NOT?: Maybe<LoanWhereInput[] | LoanWhereInput>;
+}
+
+export interface UserCreateWithoutPaymentRequestsInput {
+  id?: Maybe<ID_Input>;
+  employer: EmployerCreateOneWithoutUserInput;
+  firstName: String;
+  lastName: String;
+  email: String;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber: String;
+  dob: DateTimeInput;
+  nationality: String;
+  employmentStartDate: DateTimeInput;
+  annualSalary: Int;
+  employeeID?: Maybe<String>;
+  verificationToken?: Maybe<VerificationTokenCreateOneInput>;
+  gdprConsent: Boolean;
+  loan?: Maybe<LoanCreateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  payIns?: Maybe<PayInCreateManyWithoutUserInput>;
+}
+
+export interface PayInUpsertWithWhereUniqueWithoutUserInput {
+  where: PayInWhereUniqueInput;
+  update: PayInUpdateWithoutUserDataInput;
+  create: PayInCreateWithoutUserInput;
+}
+
+export interface EmployerCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  slug: String;
+  address: String;
+  companyNumber?: Maybe<String>;
+  emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
+  maximumAmount: Int;
+  minimumServiceLength: Int;
+  maxSalaryPercentage: Float;
+  payrollEmail: String;
+  signerEmail: String;
+  payIns?: Maybe<PayInCreateManyWithoutEmployerInput>;
+}
+
+export interface EmployerUpsertWithoutPayInsInput {
+  update: EmployerUpdateWithoutPayInsDataInput;
+  create: EmployerCreateWithoutPayInsInput;
+}
+
+export interface SuffixCreateWithoutEmployerInput {
+  id?: Maybe<ID_Input>;
+  domain: String;
+}
+
+export interface UserUpdateWithoutPayInsDataInput {
+  employer?: Maybe<EmployerUpdateOneRequiredWithoutUserInput>;
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  nationality?: Maybe<String>;
+  employmentStartDate?: Maybe<DateTimeInput>;
+  annualSalary?: Maybe<Int>;
+  employeeID?: Maybe<String>;
+  verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
+  gdprConsent?: Maybe<Boolean>;
+  loan?: Maybe<LoanUpdateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  paymentRequests?: Maybe<PaymentRequestUpdateManyWithoutUserInput>;
+}
+
+export interface PayInCreateWithoutEmployerInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutPayInsInput;
+  mangoPayInId: String;
+}
+
+export interface VerificationTokenUpdateOneInput {
+  create?: Maybe<VerificationTokenCreateInput>;
+  update?: Maybe<VerificationTokenUpdateDataInput>;
+  upsert?: Maybe<VerificationTokenUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<VerificationTokenWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutPayInsInput {
+  id?: Maybe<ID_Input>;
+  employer: EmployerCreateOneWithoutUserInput;
+  firstName: String;
+  lastName: String;
+  email: String;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber: String;
+  dob: DateTimeInput;
+  nationality: String;
+  employmentStartDate: DateTimeInput;
+  annualSalary: Int;
+  employeeID?: Maybe<String>;
+  verificationToken?: Maybe<VerificationTokenCreateOneInput>;
+  gdprConsent: Boolean;
+  loan?: Maybe<LoanCreateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  paymentRequests?: Maybe<PaymentRequestCreateManyWithoutUserInput>;
+}
+
+export interface VerificationTokenUpdateDataInput {
+  email?: Maybe<String>;
+  token?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface VerificationTokenCreateInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  token: String;
+  expiresAt: DateTimeInput;
+}
+
+export interface VerificationTokenUpsertNestedInput {
+  update: VerificationTokenUpdateDataInput;
+  create: VerificationTokenCreateInput;
+}
+
+export interface LoanCreateInput {
+  id?: Maybe<ID_Input>;
+  amount: Int;
+  terms: Int;
+  approved?: Maybe<Boolean>;
+  agreementURL?: Maybe<String>;
+}
+
+export interface LoanUpdateOneInput {
+  create?: Maybe<LoanCreateInput>;
+  update?: Maybe<LoanUpdateDataInput>;
+  upsert?: Maybe<LoanUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<LoanWhereUniqueInput>;
+}
+
+export interface SuffixWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  domain?: Maybe<String>;
+  domain_not?: Maybe<String>;
+  domain_in?: Maybe<String[] | String>;
+  domain_not_in?: Maybe<String[] | String>;
+  domain_lt?: Maybe<String>;
+  domain_lte?: Maybe<String>;
+  domain_gt?: Maybe<String>;
+  domain_gte?: Maybe<String>;
+  domain_contains?: Maybe<String>;
+  domain_not_contains?: Maybe<String>;
+  domain_starts_with?: Maybe<String>;
+  domain_not_starts_with?: Maybe<String>;
+  domain_ends_with?: Maybe<String>;
+  domain_not_ends_with?: Maybe<String>;
+  employer?: Maybe<EmployerWhereInput>;
+  AND?: Maybe<SuffixWhereInput[] | SuffixWhereInput>;
+  OR?: Maybe<SuffixWhereInput[] | SuffixWhereInput>;
+  NOT?: Maybe<SuffixWhereInput[] | SuffixWhereInput>;
+}
+
+export interface LoanUpdateDataInput {
+  amount?: Maybe<Int>;
+  terms?: Maybe<Int>;
+  approved?: Maybe<Boolean>;
+  agreementURL?: Maybe<String>;
+}
+
+export interface PayInSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PayInWhereInput>;
+  AND?: Maybe<PayInSubscriptionWhereInput[] | PayInSubscriptionWhereInput>;
+  OR?: Maybe<PayInSubscriptionWhereInput[] | PayInSubscriptionWhereInput>;
+  NOT?: Maybe<PayInSubscriptionWhereInput[] | PayInSubscriptionWhereInput>;
+}
+
+export interface LoanUpsertNestedInput {
+  update: LoanUpdateDataInput;
+  create: LoanCreateInput;
+}
+
+export interface ChildcareProviderSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ChildcareProviderWhereInput>;
+  AND?: Maybe<
+    | ChildcareProviderSubscriptionWhereInput[]
+    | ChildcareProviderSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | ChildcareProviderSubscriptionWhereInput[]
+    | ChildcareProviderSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | ChildcareProviderSubscriptionWhereInput[]
+    | ChildcareProviderSubscriptionWhereInput
+  >;
+}
+
+export interface PaymentRequestUpdateManyWithoutUserInput {
+  create?: Maybe<
+    | PaymentRequestCreateWithoutUserInput[]
+    | PaymentRequestCreateWithoutUserInput
+  >;
+  delete?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  connect?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  set?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
+  >;
+  update?: Maybe<
+    | PaymentRequestUpdateWithWhereUniqueWithoutUserInput[]
+    | PaymentRequestUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | PaymentRequestUpsertWithWhereUniqueWithoutUserInput[]
+    | PaymentRequestUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    PaymentRequestScalarWhereInput[] | PaymentRequestScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | PaymentRequestUpdateManyWithWhereNestedInput[]
+    | PaymentRequestUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface PaymentRequestWhereInput {
@@ -1534,14 +1751,14 @@ export interface PaymentRequestWhereInput {
   mangoPaymentID_not_ends_with?: Maybe<String>;
   user?: Maybe<UserWhereInput>;
   childcareProvider?: Maybe<ChildcareProviderWhereInput>;
-  amountToPay?: Maybe<Float>;
-  amountToPay_not?: Maybe<Float>;
-  amountToPay_in?: Maybe<Float[] | Float>;
-  amountToPay_not_in?: Maybe<Float[] | Float>;
-  amountToPay_lt?: Maybe<Float>;
-  amountToPay_lte?: Maybe<Float>;
-  amountToPay_gt?: Maybe<Float>;
-  amountToPay_gte?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
+  amountToPay_not?: Maybe<Int>;
+  amountToPay_in?: Maybe<Int[] | Int>;
+  amountToPay_not_in?: Maybe<Int[] | Int>;
+  amountToPay_lt?: Maybe<Int>;
+  amountToPay_lte?: Maybe<Int>;
+  amountToPay_gt?: Maybe<Int>;
+  amountToPay_gte?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   consentToPay_not?: Maybe<Boolean>;
   reference?: Maybe<String>;
@@ -1587,6 +1804,91 @@ export interface PaymentRequestWhereInput {
   NOT?: Maybe<PaymentRequestWhereInput[] | PaymentRequestWhereInput>;
 }
 
+export interface PaymentRequestUpdateWithWhereUniqueWithoutUserInput {
+  where: PaymentRequestWhereUniqueInput;
+  data: PaymentRequestUpdateWithoutUserDataInput;
+}
+
+export type LoanWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface PaymentRequestUpdateWithoutUserDataInput {
+  mangoPaymentID?: Maybe<String>;
+  childcareProvider?: Maybe<
+    ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
+  >;
+  amountToPay?: Maybe<Int>;
+  consentToPay?: Maybe<Boolean>;
+  reference?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface EmployerUpdateOneRequiredWithoutEmailSuffixesInput {
+  create?: Maybe<EmployerCreateWithoutEmailSuffixesInput>;
+  update?: Maybe<EmployerUpdateWithoutEmailSuffixesDataInput>;
+  upsert?: Maybe<EmployerUpsertWithoutEmailSuffixesInput>;
+  connect?: Maybe<EmployerWhereUniqueInput>;
+}
+
+export interface ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput {
+  create?: Maybe<ChildcareProviderCreateWithoutPaymentRequestsInput>;
+  update?: Maybe<ChildcareProviderUpdateWithoutPaymentRequestsDataInput>;
+  upsert?: Maybe<ChildcareProviderUpsertWithoutPaymentRequestsInput>;
+  connect?: Maybe<ChildcareProviderWhereUniqueInput>;
+}
+
+export interface EmployerCreateOneWithoutEmailSuffixesInput {
+  create?: Maybe<EmployerCreateWithoutEmailSuffixesInput>;
+  connect?: Maybe<EmployerWhereUniqueInput>;
+}
+
+export interface ChildcareProviderUpdateWithoutPaymentRequestsDataInput {
+  email?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
+  mangoWalletId?: Maybe<String>;
+  approved?: Maybe<Boolean>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface PaymentRequestUpdateInput {
+  mangoPaymentID?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutPaymentRequestsInput>;
+  childcareProvider?: Maybe<
+    ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
+  >;
+  amountToPay?: Maybe<Int>;
+  consentToPay?: Maybe<Boolean>;
+  reference?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface ChildcareProviderUpsertWithoutPaymentRequestsInput {
+  update: ChildcareProviderUpdateWithoutPaymentRequestsDataInput;
+  create: ChildcareProviderCreateWithoutPaymentRequestsInput;
+}
+
+export interface PayInUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutPayInsInput>;
+  employer?: Maybe<EmployerUpdateOneRequiredWithoutPayInsInput>;
+  mangoPayInId?: Maybe<String>;
+}
+
+export interface PaymentRequestUpsertWithWhereUniqueWithoutUserInput {
+  where: PaymentRequestWhereUniqueInput;
+  update: PaymentRequestUpdateWithoutUserDataInput;
+  create: PaymentRequestCreateWithoutUserInput;
+}
+
+export interface LoanUpdateInput {
+  amount?: Maybe<Int>;
+  terms?: Maybe<Int>;
+  approved?: Maybe<Boolean>;
+  agreementURL?: Maybe<String>;
+}
+
 export interface PaymentRequestScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
@@ -1616,14 +1918,14 @@ export interface PaymentRequestScalarWhereInput {
   mangoPaymentID_not_starts_with?: Maybe<String>;
   mangoPaymentID_ends_with?: Maybe<String>;
   mangoPaymentID_not_ends_with?: Maybe<String>;
-  amountToPay?: Maybe<Float>;
-  amountToPay_not?: Maybe<Float>;
-  amountToPay_in?: Maybe<Float[] | Float>;
-  amountToPay_not_in?: Maybe<Float[] | Float>;
-  amountToPay_lt?: Maybe<Float>;
-  amountToPay_lte?: Maybe<Float>;
-  amountToPay_gt?: Maybe<Float>;
-  amountToPay_gte?: Maybe<Float>;
+  amountToPay?: Maybe<Int>;
+  amountToPay_not?: Maybe<Int>;
+  amountToPay_in?: Maybe<Int[] | Int>;
+  amountToPay_not_in?: Maybe<Int[] | Int>;
+  amountToPay_lt?: Maybe<Int>;
+  amountToPay_lte?: Maybe<Int>;
+  amountToPay_gt?: Maybe<Int>;
+  amountToPay_gte?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   consentToPay_not?: Maybe<Boolean>;
   reference?: Maybe<String>;
@@ -1673,102 +1975,6 @@ export interface PaymentRequestScalarWhereInput {
   >;
 }
 
-export type LoanWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface PaymentRequestUpdateManyWithWhereNestedInput {
-  where: PaymentRequestScalarWhereInput;
-  data: PaymentRequestUpdateManyDataInput;
-}
-
-export interface EmployerCreateWithoutEmailSuffixesInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  slug: String;
-  address: String;
-  companyNumber?: Maybe<String>;
-  user?: Maybe<UserCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
-  minimumServiceLength: Int;
-  maxSalaryPercentage: Float;
-  payrollEmail: String;
-  signerEmail: String;
-}
-
-export interface PaymentRequestUpdateManyDataInput {
-  mangoPaymentID?: Maybe<String>;
-  amountToPay?: Maybe<Float>;
-  consentToPay?: Maybe<Boolean>;
-  reference?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface PaymentRequestUpdateManyMutationInput {
-  mangoPaymentID?: Maybe<String>;
-  amountToPay?: Maybe<Float>;
-  consentToPay?: Maybe<Boolean>;
-  reference?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface ChildcareProviderUpdateManyMutationInput {
-  email?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  mangoLegalUserId?: Maybe<String>;
-  mangoBankAccountId?: Maybe<String>;
-  mangoWalletId?: Maybe<String>;
-  approved?: Maybe<Boolean>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface LoanUpdateManyMutationInput {
-  amount?: Maybe<Float>;
-  terms?: Maybe<Int>;
-  approved?: Maybe<Boolean>;
-  agreementURL?: Maybe<String>;
-}
-
-export interface ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput {
-  create?: Maybe<ChildcareProviderCreateWithoutPaymentRequestsInput>;
-  update?: Maybe<ChildcareProviderUpdateWithoutPaymentRequestsDataInput>;
-  upsert?: Maybe<ChildcareProviderUpsertWithoutPaymentRequestsInput>;
-  connect?: Maybe<ChildcareProviderWhereUniqueInput>;
-}
-
-export interface UserUpdateManyDataInput {
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  isVerified?: Maybe<Boolean>;
-  phoneNumber?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  nationality?: Maybe<String>;
-  employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  employeeID?: Maybe<String>;
-  gdprConsent?: Maybe<Boolean>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-}
-
-export interface PaymentRequestUpdateWithoutUserDataInput {
-  mangoPaymentID?: Maybe<String>;
-  childcareProvider?: Maybe<
-    ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
-  >;
-  amountToPay?: Maybe<Float>;
-  consentToPay?: Maybe<Boolean>;
-  reference?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutEmployerInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutEmployerDataInput;
-  create: UserCreateWithoutEmployerInput;
-}
-
 export interface EmployerCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
@@ -1777,11 +1983,17 @@ export interface EmployerCreateInput {
   companyNumber?: Maybe<String>;
   user?: Maybe<UserCreateManyWithoutEmployerInput>;
   emailSuffixes?: Maybe<SuffixCreateManyWithoutEmployerInput>;
-  maximumAmount: Float;
+  maximumAmount: Int;
   minimumServiceLength: Int;
   maxSalaryPercentage: Float;
   payrollEmail: String;
   signerEmail: String;
+  payIns?: Maybe<PayInCreateManyWithoutEmployerInput>;
+}
+
+export interface PaymentRequestUpdateManyWithWhereNestedInput {
+  where: PaymentRequestScalarWhereInput;
+  data: PaymentRequestUpdateManyDataInput;
 }
 
 export interface PaymentRequestCreateManyWithoutChildcareProviderInput {
@@ -1794,352 +2006,115 @@ export interface PaymentRequestCreateManyWithoutChildcareProviderInput {
   >;
 }
 
-export interface UserCreateManyWithoutEmployerInput {
-  create?: Maybe<
-    UserCreateWithoutEmployerInput[] | UserCreateWithoutEmployerInput
-  >;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export interface VerificationTokenWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  token?: Maybe<String>;
-  token_not?: Maybe<String>;
-  token_in?: Maybe<String[] | String>;
-  token_not_in?: Maybe<String[] | String>;
-  token_lt?: Maybe<String>;
-  token_lte?: Maybe<String>;
-  token_gt?: Maybe<String>;
-  token_gte?: Maybe<String>;
-  token_contains?: Maybe<String>;
-  token_not_contains?: Maybe<String>;
-  token_starts_with?: Maybe<String>;
-  token_not_starts_with?: Maybe<String>;
-  token_ends_with?: Maybe<String>;
-  token_not_ends_with?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
-  expiresAt_not?: Maybe<DateTimeInput>;
-  expiresAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  expiresAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  expiresAt_lt?: Maybe<DateTimeInput>;
-  expiresAt_lte?: Maybe<DateTimeInput>;
-  expiresAt_gt?: Maybe<DateTimeInput>;
-  expiresAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<VerificationTokenWhereInput[] | VerificationTokenWhereInput>;
-  OR?: Maybe<VerificationTokenWhereInput[] | VerificationTokenWhereInput>;
-  NOT?: Maybe<VerificationTokenWhereInput[] | VerificationTokenWhereInput>;
-}
-
-export interface UserCreateWithoutEmployerInput {
-  id?: Maybe<ID_Input>;
-  firstName: String;
-  lastName: String;
-  email: String;
-  isVerified?: Maybe<Boolean>;
-  phoneNumber: String;
-  dob: DateTimeInput;
-  nationality: String;
-  employmentStartDate: DateTimeInput;
-  annualSalary: Float;
-  employeeID?: Maybe<String>;
-  verificationToken?: Maybe<VerificationTokenCreateOneInput>;
-  gdprConsent: Boolean;
-  loan?: Maybe<LoanCreateOneInput>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-  paymentRequests?: Maybe<PaymentRequestCreateManyWithoutUserInput>;
-}
-
-export interface EmployerWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  slug?: Maybe<String>;
-  slug_not?: Maybe<String>;
-  slug_in?: Maybe<String[] | String>;
-  slug_not_in?: Maybe<String[] | String>;
-  slug_lt?: Maybe<String>;
-  slug_lte?: Maybe<String>;
-  slug_gt?: Maybe<String>;
-  slug_gte?: Maybe<String>;
-  slug_contains?: Maybe<String>;
-  slug_not_contains?: Maybe<String>;
-  slug_starts_with?: Maybe<String>;
-  slug_not_starts_with?: Maybe<String>;
-  slug_ends_with?: Maybe<String>;
-  slug_not_ends_with?: Maybe<String>;
-  address?: Maybe<String>;
-  address_not?: Maybe<String>;
-  address_in?: Maybe<String[] | String>;
-  address_not_in?: Maybe<String[] | String>;
-  address_lt?: Maybe<String>;
-  address_lte?: Maybe<String>;
-  address_gt?: Maybe<String>;
-  address_gte?: Maybe<String>;
-  address_contains?: Maybe<String>;
-  address_not_contains?: Maybe<String>;
-  address_starts_with?: Maybe<String>;
-  address_not_starts_with?: Maybe<String>;
-  address_ends_with?: Maybe<String>;
-  address_not_ends_with?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  companyNumber_not?: Maybe<String>;
-  companyNumber_in?: Maybe<String[] | String>;
-  companyNumber_not_in?: Maybe<String[] | String>;
-  companyNumber_lt?: Maybe<String>;
-  companyNumber_lte?: Maybe<String>;
-  companyNumber_gt?: Maybe<String>;
-  companyNumber_gte?: Maybe<String>;
-  companyNumber_contains?: Maybe<String>;
-  companyNumber_not_contains?: Maybe<String>;
-  companyNumber_starts_with?: Maybe<String>;
-  companyNumber_not_starts_with?: Maybe<String>;
-  companyNumber_ends_with?: Maybe<String>;
-  companyNumber_not_ends_with?: Maybe<String>;
-  user_every?: Maybe<UserWhereInput>;
-  user_some?: Maybe<UserWhereInput>;
-  user_none?: Maybe<UserWhereInput>;
-  emailSuffixes_every?: Maybe<SuffixWhereInput>;
-  emailSuffixes_some?: Maybe<SuffixWhereInput>;
-  emailSuffixes_none?: Maybe<SuffixWhereInput>;
-  maximumAmount?: Maybe<Float>;
-  maximumAmount_not?: Maybe<Float>;
-  maximumAmount_in?: Maybe<Float[] | Float>;
-  maximumAmount_not_in?: Maybe<Float[] | Float>;
-  maximumAmount_lt?: Maybe<Float>;
-  maximumAmount_lte?: Maybe<Float>;
-  maximumAmount_gt?: Maybe<Float>;
-  maximumAmount_gte?: Maybe<Float>;
-  minimumServiceLength?: Maybe<Int>;
-  minimumServiceLength_not?: Maybe<Int>;
-  minimumServiceLength_in?: Maybe<Int[] | Int>;
-  minimumServiceLength_not_in?: Maybe<Int[] | Int>;
-  minimumServiceLength_lt?: Maybe<Int>;
-  minimumServiceLength_lte?: Maybe<Int>;
-  minimumServiceLength_gt?: Maybe<Int>;
-  minimumServiceLength_gte?: Maybe<Int>;
-  maxSalaryPercentage?: Maybe<Float>;
-  maxSalaryPercentage_not?: Maybe<Float>;
-  maxSalaryPercentage_in?: Maybe<Float[] | Float>;
-  maxSalaryPercentage_not_in?: Maybe<Float[] | Float>;
-  maxSalaryPercentage_lt?: Maybe<Float>;
-  maxSalaryPercentage_lte?: Maybe<Float>;
-  maxSalaryPercentage_gt?: Maybe<Float>;
-  maxSalaryPercentage_gte?: Maybe<Float>;
-  payrollEmail?: Maybe<String>;
-  payrollEmail_not?: Maybe<String>;
-  payrollEmail_in?: Maybe<String[] | String>;
-  payrollEmail_not_in?: Maybe<String[] | String>;
-  payrollEmail_lt?: Maybe<String>;
-  payrollEmail_lte?: Maybe<String>;
-  payrollEmail_gt?: Maybe<String>;
-  payrollEmail_gte?: Maybe<String>;
-  payrollEmail_contains?: Maybe<String>;
-  payrollEmail_not_contains?: Maybe<String>;
-  payrollEmail_starts_with?: Maybe<String>;
-  payrollEmail_not_starts_with?: Maybe<String>;
-  payrollEmail_ends_with?: Maybe<String>;
-  payrollEmail_not_ends_with?: Maybe<String>;
-  signerEmail?: Maybe<String>;
-  signerEmail_not?: Maybe<String>;
-  signerEmail_in?: Maybe<String[] | String>;
-  signerEmail_not_in?: Maybe<String[] | String>;
-  signerEmail_lt?: Maybe<String>;
-  signerEmail_lte?: Maybe<String>;
-  signerEmail_gt?: Maybe<String>;
-  signerEmail_gte?: Maybe<String>;
-  signerEmail_contains?: Maybe<String>;
-  signerEmail_not_contains?: Maybe<String>;
-  signerEmail_starts_with?: Maybe<String>;
-  signerEmail_not_starts_with?: Maybe<String>;
-  signerEmail_ends_with?: Maybe<String>;
-  signerEmail_not_ends_with?: Maybe<String>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<EmployerWhereInput[] | EmployerWhereInput>;
-  OR?: Maybe<EmployerWhereInput[] | EmployerWhereInput>;
-  NOT?: Maybe<EmployerWhereInput[] | EmployerWhereInput>;
-}
-
-export interface PaymentRequestCreateManyWithoutUserInput {
-  create?: Maybe<
-    | PaymentRequestCreateWithoutUserInput[]
-    | PaymentRequestCreateWithoutUserInput
-  >;
-  connect?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-}
-
-export interface UserUpdateInput {
-  employer?: Maybe<EmployerUpdateOneRequiredWithoutUserInput>;
-  firstName?: Maybe<String>;
-  lastName?: Maybe<String>;
-  email?: Maybe<String>;
-  isVerified?: Maybe<Boolean>;
-  phoneNumber?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  nationality?: Maybe<String>;
-  employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  employeeID?: Maybe<String>;
-  verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
-  gdprConsent?: Maybe<Boolean>;
-  loan?: Maybe<LoanUpdateOneInput>;
-  mangoWalletId?: Maybe<String>;
-  mangoUserId?: Maybe<String>;
-  paymentRequests?: Maybe<PaymentRequestUpdateManyWithoutUserInput>;
-}
-
-export interface PaymentRequestCreateWithoutUserInput {
-  id?: Maybe<ID_Input>;
+export interface PaymentRequestUpdateManyDataInput {
   mangoPaymentID?: Maybe<String>;
-  childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
-  amountToPay: Float;
+  amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
   expiresAt?: Maybe<DateTimeInput>;
 }
 
-export interface EmployerUpdateOneRequiredWithoutEmailSuffixesInput {
-  create?: Maybe<EmployerCreateWithoutEmailSuffixesInput>;
-  update?: Maybe<EmployerUpdateWithoutEmailSuffixesDataInput>;
-  upsert?: Maybe<EmployerUpsertWithoutEmailSuffixesInput>;
+export interface EmployerCreateOneWithoutUserInput {
+  create?: Maybe<EmployerCreateWithoutUserInput>;
   connect?: Maybe<EmployerWhereUniqueInput>;
 }
 
-export interface ChildcareProviderCreateOneWithoutPaymentRequestsInput {
-  create?: Maybe<ChildcareProviderCreateWithoutPaymentRequestsInput>;
-  connect?: Maybe<ChildcareProviderWhereUniqueInput>;
+export interface UserUpsertWithoutPayInsInput {
+  update: UserUpdateWithoutPayInsDataInput;
+  create: UserCreateWithoutPayInsInput;
 }
 
-export interface PaymentRequestUpdateInput {
-  mangoPaymentID?: Maybe<String>;
-  user?: Maybe<UserUpdateOneRequiredWithoutPaymentRequestsInput>;
-  childcareProvider?: Maybe<
-    ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
+export interface PayInCreateManyWithoutEmployerInput {
+  create?: Maybe<
+    PayInCreateWithoutEmployerInput[] | PayInCreateWithoutEmployerInput
   >;
-  amountToPay?: Maybe<Float>;
-  consentToPay?: Maybe<Boolean>;
-  reference?: Maybe<String>;
-  expiresAt?: Maybe<DateTimeInput>;
+  connect?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
 }
 
-export interface ChildcareProviderCreateWithoutPaymentRequestsInput {
+export interface PayInUpsertWithWhereUniqueWithoutEmployerInput {
+  where: PayInWhereUniqueInput;
+  update: PayInUpdateWithoutEmployerDataInput;
+  create: PayInCreateWithoutEmployerInput;
+}
+
+export interface VerificationTokenCreateOneInput {
+  create?: Maybe<VerificationTokenCreateInput>;
+  connect?: Maybe<VerificationTokenWhereUniqueInput>;
+}
+
+export interface PayInScalarWhereInput {
   id?: Maybe<ID_Input>;
-  email: String;
-  companyNumber: String;
-  mangoLegalUserId?: Maybe<String>;
-  mangoBankAccountId?: Maybe<String>;
-  mangoWalletId?: Maybe<String>;
-  approved?: Maybe<Boolean>;
-  expiresAt?: Maybe<DateTimeInput>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  mangoPayInId?: Maybe<String>;
+  mangoPayInId_not?: Maybe<String>;
+  mangoPayInId_in?: Maybe<String[] | String>;
+  mangoPayInId_not_in?: Maybe<String[] | String>;
+  mangoPayInId_lt?: Maybe<String>;
+  mangoPayInId_lte?: Maybe<String>;
+  mangoPayInId_gt?: Maybe<String>;
+  mangoPayInId_gte?: Maybe<String>;
+  mangoPayInId_contains?: Maybe<String>;
+  mangoPayInId_not_contains?: Maybe<String>;
+  mangoPayInId_starts_with?: Maybe<String>;
+  mangoPayInId_not_starts_with?: Maybe<String>;
+  mangoPayInId_ends_with?: Maybe<String>;
+  mangoPayInId_not_ends_with?: Maybe<String>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<PayInScalarWhereInput[] | PayInScalarWhereInput>;
+  OR?: Maybe<PayInScalarWhereInput[] | PayInScalarWhereInput>;
+  NOT?: Maybe<PayInScalarWhereInput[] | PayInScalarWhereInput>;
 }
 
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
+export interface VerificationTokenSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<VerificationTokenWhereInput>;
+  AND?: Maybe<
+    | VerificationTokenSubscriptionWhereInput[]
+    | VerificationTokenSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | VerificationTokenSubscriptionWhereInput[]
+    | VerificationTokenSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | VerificationTokenSubscriptionWhereInput[]
+    | VerificationTokenSubscriptionWhereInput
+  >;
 }
 
-export interface EmployerUpdateInput {
-  name?: Maybe<String>;
-  slug?: Maybe<String>;
-  address?: Maybe<String>;
-  companyNumber?: Maybe<String>;
-  user?: Maybe<UserUpdateManyWithoutEmployerInput>;
-  emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
-  maximumAmount?: Maybe<Float>;
-  minimumServiceLength?: Maybe<Int>;
-  maxSalaryPercentage?: Maybe<Float>;
-  payrollEmail?: Maybe<String>;
-  signerEmail?: Maybe<String>;
-}
-
-export interface UserCreateOneWithoutPaymentRequestsInput {
-  create?: Maybe<UserCreateWithoutPaymentRequestsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface PayInUpdateManyWithWhereNestedInput {
+  where: PayInScalarWhereInput;
+  data: PayInUpdateManyDataInput;
 }
 
 export interface UserWhereInput {
@@ -2246,14 +2221,14 @@ export interface UserWhereInput {
   employmentStartDate_lte?: Maybe<DateTimeInput>;
   employmentStartDate_gt?: Maybe<DateTimeInput>;
   employmentStartDate_gte?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
-  annualSalary_not?: Maybe<Float>;
-  annualSalary_in?: Maybe<Float[] | Float>;
-  annualSalary_not_in?: Maybe<Float[] | Float>;
-  annualSalary_lt?: Maybe<Float>;
-  annualSalary_lte?: Maybe<Float>;
-  annualSalary_gt?: Maybe<Float>;
-  annualSalary_gte?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
+  annualSalary_not?: Maybe<Int>;
+  annualSalary_in?: Maybe<Int[] | Int>;
+  annualSalary_not_in?: Maybe<Int[] | Int>;
+  annualSalary_lt?: Maybe<Int>;
+  annualSalary_lte?: Maybe<Int>;
+  annualSalary_gt?: Maybe<Int>;
+  annualSalary_gte?: Maybe<Int>;
   employeeID?: Maybe<String>;
   employeeID_not?: Maybe<String>;
   employeeID_in?: Maybe<String[] | String>;
@@ -2303,6 +2278,9 @@ export interface UserWhereInput {
   paymentRequests_every?: Maybe<PaymentRequestWhereInput>;
   paymentRequests_some?: Maybe<PaymentRequestWhereInput>;
   paymentRequests_none?: Maybe<PaymentRequestWhereInput>;
+  payIns_every?: Maybe<PayInWhereInput>;
+  payIns_some?: Maybe<PayInWhereInput>;
+  payIns_none?: Maybe<PayInWhereInput>;
   updatedAt?: Maybe<DateTimeInput>;
   updatedAt_not?: Maybe<DateTimeInput>;
   updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2324,41 +2302,12 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface PaymentRequestUpdateManyWithoutUserInput {
-  create?: Maybe<
-    | PaymentRequestCreateWithoutUserInput[]
-    | PaymentRequestCreateWithoutUserInput
-  >;
-  delete?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  connect?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  set?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  disconnect?: Maybe<
-    PaymentRequestWhereUniqueInput[] | PaymentRequestWhereUniqueInput
-  >;
-  update?: Maybe<
-    | PaymentRequestUpdateWithWhereUniqueWithoutUserInput[]
-    | PaymentRequestUpdateWithWhereUniqueWithoutUserInput
-  >;
-  upsert?: Maybe<
-    | PaymentRequestUpsertWithWhereUniqueWithoutUserInput[]
-    | PaymentRequestUpsertWithWhereUniqueWithoutUserInput
-  >;
-  deleteMany?: Maybe<
-    PaymentRequestScalarWhereInput[] | PaymentRequestScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | PaymentRequestUpdateManyWithWhereNestedInput[]
-    | PaymentRequestUpdateManyWithWhereNestedInput
-  >;
+export interface PayInUpdateManyDataInput {
+  mangoPayInId?: Maybe<String>;
 }
 
-export interface UserUpdateWithoutEmployerDataInput {
+export interface UserUpdateInput {
+  employer?: Maybe<EmployerUpdateOneRequiredWithoutUserInput>;
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
@@ -2367,7 +2316,7 @@ export interface UserUpdateWithoutEmployerDataInput {
   dob?: Maybe<DateTimeInput>;
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
-  annualSalary?: Maybe<Float>;
+  annualSalary?: Maybe<Int>;
   employeeID?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
@@ -2375,11 +2324,254 @@ export interface UserUpdateWithoutEmployerDataInput {
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
   paymentRequests?: Maybe<PaymentRequestUpdateManyWithoutUserInput>;
+  payIns?: Maybe<PayInUpdateManyWithoutUserInput>;
 }
 
-export interface UserUpdateWithWhereUniqueWithoutEmployerInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutEmployerDataInput;
+export interface EmployerUpsertWithoutUserInput {
+  update: EmployerUpdateWithoutUserDataInput;
+  create: EmployerCreateWithoutUserInput;
+}
+
+export interface SuffixUpdateInput {
+  domain?: Maybe<String>;
+  employer?: Maybe<EmployerUpdateOneRequiredWithoutEmailSuffixesInput>;
+}
+
+export interface PayInUpdateManyWithoutUserInput {
+  create?: Maybe<PayInCreateWithoutUserInput[] | PayInCreateWithoutUserInput>;
+  delete?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  connect?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  set?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  disconnect?: Maybe<PayInWhereUniqueInput[] | PayInWhereUniqueInput>;
+  update?: Maybe<
+    | PayInUpdateWithWhereUniqueWithoutUserInput[]
+    | PayInUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | PayInUpsertWithWhereUniqueWithoutUserInput[]
+    | PayInUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<PayInScalarWhereInput[] | PayInScalarWhereInput>;
+  updateMany?: Maybe<
+    PayInUpdateManyWithWhereNestedInput[] | PayInUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PaymentRequestCreateInput {
+  id?: Maybe<ID_Input>;
+  mangoPaymentID?: Maybe<String>;
+  user: UserCreateOneWithoutPaymentRequestsInput;
+  childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
+  amountToPay: Int;
+  consentToPay?: Maybe<Boolean>;
+  reference?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
+}
+
+export interface PayInUpdateWithWhereUniqueWithoutUserInput {
+  where: PayInWhereUniqueInput;
+  data: PayInUpdateWithoutUserDataInput;
+}
+
+export interface EmployerUpdateManyMutationInput {
+  name?: Maybe<String>;
+  slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  maximumAmount?: Maybe<Int>;
+  minimumServiceLength?: Maybe<Int>;
+  maxSalaryPercentage?: Maybe<Float>;
+  payrollEmail?: Maybe<String>;
+  signerEmail?: Maybe<String>;
+}
+
+export interface PayInUpdateWithoutUserDataInput {
+  employer?: Maybe<EmployerUpdateOneRequiredWithoutPayInsInput>;
+  mangoPayInId?: Maybe<String>;
+}
+
+export interface UserCreateOneWithoutPaymentRequestsInput {
+  create?: Maybe<UserCreateWithoutPaymentRequestsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface EmployerUpdateOneRequiredWithoutPayInsInput {
+  create?: Maybe<EmployerCreateWithoutPayInsInput>;
+  update?: Maybe<EmployerUpdateWithoutPayInsDataInput>;
+  upsert?: Maybe<EmployerUpsertWithoutPayInsInput>;
+  connect?: Maybe<EmployerWhereUniqueInput>;
+}
+
+export interface UserCreateOneWithoutPayInsInput {
+  create?: Maybe<UserCreateWithoutPayInsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface EmployerUpdateWithoutPayInsDataInput {
+  name?: Maybe<String>;
+  slug?: Maybe<String>;
+  address?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  user?: Maybe<UserUpdateManyWithoutEmployerInput>;
+  emailSuffixes?: Maybe<SuffixUpdateManyWithoutEmployerInput>;
+  maximumAmount?: Maybe<Int>;
+  minimumServiceLength?: Maybe<Int>;
+  maxSalaryPercentage?: Maybe<Float>;
+  payrollEmail?: Maybe<String>;
+  signerEmail?: Maybe<String>;
+}
+
+export interface EmployerWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  slug?: Maybe<String>;
+  slug_not?: Maybe<String>;
+  slug_in?: Maybe<String[] | String>;
+  slug_not_in?: Maybe<String[] | String>;
+  slug_lt?: Maybe<String>;
+  slug_lte?: Maybe<String>;
+  slug_gt?: Maybe<String>;
+  slug_gte?: Maybe<String>;
+  slug_contains?: Maybe<String>;
+  slug_not_contains?: Maybe<String>;
+  slug_starts_with?: Maybe<String>;
+  slug_not_starts_with?: Maybe<String>;
+  slug_ends_with?: Maybe<String>;
+  slug_not_ends_with?: Maybe<String>;
+  address?: Maybe<String>;
+  address_not?: Maybe<String>;
+  address_in?: Maybe<String[] | String>;
+  address_not_in?: Maybe<String[] | String>;
+  address_lt?: Maybe<String>;
+  address_lte?: Maybe<String>;
+  address_gt?: Maybe<String>;
+  address_gte?: Maybe<String>;
+  address_contains?: Maybe<String>;
+  address_not_contains?: Maybe<String>;
+  address_starts_with?: Maybe<String>;
+  address_not_starts_with?: Maybe<String>;
+  address_ends_with?: Maybe<String>;
+  address_not_ends_with?: Maybe<String>;
+  companyNumber?: Maybe<String>;
+  companyNumber_not?: Maybe<String>;
+  companyNumber_in?: Maybe<String[] | String>;
+  companyNumber_not_in?: Maybe<String[] | String>;
+  companyNumber_lt?: Maybe<String>;
+  companyNumber_lte?: Maybe<String>;
+  companyNumber_gt?: Maybe<String>;
+  companyNumber_gte?: Maybe<String>;
+  companyNumber_contains?: Maybe<String>;
+  companyNumber_not_contains?: Maybe<String>;
+  companyNumber_starts_with?: Maybe<String>;
+  companyNumber_not_starts_with?: Maybe<String>;
+  companyNumber_ends_with?: Maybe<String>;
+  companyNumber_not_ends_with?: Maybe<String>;
+  user_every?: Maybe<UserWhereInput>;
+  user_some?: Maybe<UserWhereInput>;
+  user_none?: Maybe<UserWhereInput>;
+  emailSuffixes_every?: Maybe<SuffixWhereInput>;
+  emailSuffixes_some?: Maybe<SuffixWhereInput>;
+  emailSuffixes_none?: Maybe<SuffixWhereInput>;
+  maximumAmount?: Maybe<Int>;
+  maximumAmount_not?: Maybe<Int>;
+  maximumAmount_in?: Maybe<Int[] | Int>;
+  maximumAmount_not_in?: Maybe<Int[] | Int>;
+  maximumAmount_lt?: Maybe<Int>;
+  maximumAmount_lte?: Maybe<Int>;
+  maximumAmount_gt?: Maybe<Int>;
+  maximumAmount_gte?: Maybe<Int>;
+  minimumServiceLength?: Maybe<Int>;
+  minimumServiceLength_not?: Maybe<Int>;
+  minimumServiceLength_in?: Maybe<Int[] | Int>;
+  minimumServiceLength_not_in?: Maybe<Int[] | Int>;
+  minimumServiceLength_lt?: Maybe<Int>;
+  minimumServiceLength_lte?: Maybe<Int>;
+  minimumServiceLength_gt?: Maybe<Int>;
+  minimumServiceLength_gte?: Maybe<Int>;
+  maxSalaryPercentage?: Maybe<Float>;
+  maxSalaryPercentage_not?: Maybe<Float>;
+  maxSalaryPercentage_in?: Maybe<Float[] | Float>;
+  maxSalaryPercentage_not_in?: Maybe<Float[] | Float>;
+  maxSalaryPercentage_lt?: Maybe<Float>;
+  maxSalaryPercentage_lte?: Maybe<Float>;
+  maxSalaryPercentage_gt?: Maybe<Float>;
+  maxSalaryPercentage_gte?: Maybe<Float>;
+  payrollEmail?: Maybe<String>;
+  payrollEmail_not?: Maybe<String>;
+  payrollEmail_in?: Maybe<String[] | String>;
+  payrollEmail_not_in?: Maybe<String[] | String>;
+  payrollEmail_lt?: Maybe<String>;
+  payrollEmail_lte?: Maybe<String>;
+  payrollEmail_gt?: Maybe<String>;
+  payrollEmail_gte?: Maybe<String>;
+  payrollEmail_contains?: Maybe<String>;
+  payrollEmail_not_contains?: Maybe<String>;
+  payrollEmail_starts_with?: Maybe<String>;
+  payrollEmail_not_starts_with?: Maybe<String>;
+  payrollEmail_ends_with?: Maybe<String>;
+  payrollEmail_not_ends_with?: Maybe<String>;
+  signerEmail?: Maybe<String>;
+  signerEmail_not?: Maybe<String>;
+  signerEmail_in?: Maybe<String[] | String>;
+  signerEmail_not_in?: Maybe<String[] | String>;
+  signerEmail_lt?: Maybe<String>;
+  signerEmail_lte?: Maybe<String>;
+  signerEmail_gt?: Maybe<String>;
+  signerEmail_gte?: Maybe<String>;
+  signerEmail_contains?: Maybe<String>;
+  signerEmail_not_contains?: Maybe<String>;
+  signerEmail_starts_with?: Maybe<String>;
+  signerEmail_not_starts_with?: Maybe<String>;
+  signerEmail_ends_with?: Maybe<String>;
+  signerEmail_not_ends_with?: Maybe<String>;
+  payIns_every?: Maybe<PayInWhereInput>;
+  payIns_some?: Maybe<PayInWhereInput>;
+  payIns_none?: Maybe<PayInWhereInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<EmployerWhereInput[] | EmployerWhereInput>;
+  OR?: Maybe<EmployerWhereInput[] | EmployerWhereInput>;
+  NOT?: Maybe<EmployerWhereInput[] | EmployerWhereInput>;
 }
 
 export interface UserUpdateManyWithoutEmployerInput {
@@ -2404,31 +2596,252 @@ export interface UserUpdateManyWithoutEmployerInput {
   >;
 }
 
-export interface SuffixUpdateManyMutationInput {
-  domain?: Maybe<String>;
+export interface EmployerUpsertWithoutEmailSuffixesInput {
+  update: EmployerUpdateWithoutEmailSuffixesDataInput;
+  create: EmployerCreateWithoutEmailSuffixesInput;
 }
 
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+export interface UserUpdateWithWhereUniqueWithoutEmployerInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutEmployerDataInput;
 }
 
-export interface LoanUpdateInput {
-  amount?: Maybe<Float>;
-  terms?: Maybe<Int>;
-  approved?: Maybe<Boolean>;
-  agreementURL?: Maybe<String>;
+export interface PayInCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutPayInsInput;
+  employer: EmployerCreateOneWithoutPayInsInput;
+  mangoPayInId: String;
 }
 
-export interface EmployerCreateOneWithoutEmailSuffixesInput {
-  create?: Maybe<EmployerCreateWithoutEmailSuffixesInput>;
-  connect?: Maybe<EmployerWhereUniqueInput>;
+export interface SuffixCreateManyWithoutEmployerInput {
+  create?: Maybe<
+    SuffixCreateWithoutEmployerInput[] | SuffixCreateWithoutEmployerInput
+  >;
+  connect?: Maybe<SuffixWhereUniqueInput[] | SuffixWhereUniqueInput>;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  firstName?: Maybe<String>;
+  firstName_not?: Maybe<String>;
+  firstName_in?: Maybe<String[] | String>;
+  firstName_not_in?: Maybe<String[] | String>;
+  firstName_lt?: Maybe<String>;
+  firstName_lte?: Maybe<String>;
+  firstName_gt?: Maybe<String>;
+  firstName_gte?: Maybe<String>;
+  firstName_contains?: Maybe<String>;
+  firstName_not_contains?: Maybe<String>;
+  firstName_starts_with?: Maybe<String>;
+  firstName_not_starts_with?: Maybe<String>;
+  firstName_ends_with?: Maybe<String>;
+  firstName_not_ends_with?: Maybe<String>;
+  lastName?: Maybe<String>;
+  lastName_not?: Maybe<String>;
+  lastName_in?: Maybe<String[] | String>;
+  lastName_not_in?: Maybe<String[] | String>;
+  lastName_lt?: Maybe<String>;
+  lastName_lte?: Maybe<String>;
+  lastName_gt?: Maybe<String>;
+  lastName_gte?: Maybe<String>;
+  lastName_contains?: Maybe<String>;
+  lastName_not_contains?: Maybe<String>;
+  lastName_starts_with?: Maybe<String>;
+  lastName_not_starts_with?: Maybe<String>;
+  lastName_ends_with?: Maybe<String>;
+  lastName_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  isVerified_not?: Maybe<Boolean>;
+  phoneNumber?: Maybe<String>;
+  phoneNumber_not?: Maybe<String>;
+  phoneNumber_in?: Maybe<String[] | String>;
+  phoneNumber_not_in?: Maybe<String[] | String>;
+  phoneNumber_lt?: Maybe<String>;
+  phoneNumber_lte?: Maybe<String>;
+  phoneNumber_gt?: Maybe<String>;
+  phoneNumber_gte?: Maybe<String>;
+  phoneNumber_contains?: Maybe<String>;
+  phoneNumber_not_contains?: Maybe<String>;
+  phoneNumber_starts_with?: Maybe<String>;
+  phoneNumber_not_starts_with?: Maybe<String>;
+  phoneNumber_ends_with?: Maybe<String>;
+  phoneNumber_not_ends_with?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  dob_not?: Maybe<DateTimeInput>;
+  dob_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dob_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dob_lt?: Maybe<DateTimeInput>;
+  dob_lte?: Maybe<DateTimeInput>;
+  dob_gt?: Maybe<DateTimeInput>;
+  dob_gte?: Maybe<DateTimeInput>;
+  nationality?: Maybe<String>;
+  nationality_not?: Maybe<String>;
+  nationality_in?: Maybe<String[] | String>;
+  nationality_not_in?: Maybe<String[] | String>;
+  nationality_lt?: Maybe<String>;
+  nationality_lte?: Maybe<String>;
+  nationality_gt?: Maybe<String>;
+  nationality_gte?: Maybe<String>;
+  nationality_contains?: Maybe<String>;
+  nationality_not_contains?: Maybe<String>;
+  nationality_starts_with?: Maybe<String>;
+  nationality_not_starts_with?: Maybe<String>;
+  nationality_ends_with?: Maybe<String>;
+  nationality_not_ends_with?: Maybe<String>;
+  employmentStartDate?: Maybe<DateTimeInput>;
+  employmentStartDate_not?: Maybe<DateTimeInput>;
+  employmentStartDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  employmentStartDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  employmentStartDate_lt?: Maybe<DateTimeInput>;
+  employmentStartDate_lte?: Maybe<DateTimeInput>;
+  employmentStartDate_gt?: Maybe<DateTimeInput>;
+  employmentStartDate_gte?: Maybe<DateTimeInput>;
+  annualSalary?: Maybe<Int>;
+  annualSalary_not?: Maybe<Int>;
+  annualSalary_in?: Maybe<Int[] | Int>;
+  annualSalary_not_in?: Maybe<Int[] | Int>;
+  annualSalary_lt?: Maybe<Int>;
+  annualSalary_lte?: Maybe<Int>;
+  annualSalary_gt?: Maybe<Int>;
+  annualSalary_gte?: Maybe<Int>;
+  employeeID?: Maybe<String>;
+  employeeID_not?: Maybe<String>;
+  employeeID_in?: Maybe<String[] | String>;
+  employeeID_not_in?: Maybe<String[] | String>;
+  employeeID_lt?: Maybe<String>;
+  employeeID_lte?: Maybe<String>;
+  employeeID_gt?: Maybe<String>;
+  employeeID_gte?: Maybe<String>;
+  employeeID_contains?: Maybe<String>;
+  employeeID_not_contains?: Maybe<String>;
+  employeeID_starts_with?: Maybe<String>;
+  employeeID_not_starts_with?: Maybe<String>;
+  employeeID_ends_with?: Maybe<String>;
+  employeeID_not_ends_with?: Maybe<String>;
+  gdprConsent?: Maybe<Boolean>;
+  gdprConsent_not?: Maybe<Boolean>;
+  mangoWalletId?: Maybe<String>;
+  mangoWalletId_not?: Maybe<String>;
+  mangoWalletId_in?: Maybe<String[] | String>;
+  mangoWalletId_not_in?: Maybe<String[] | String>;
+  mangoWalletId_lt?: Maybe<String>;
+  mangoWalletId_lte?: Maybe<String>;
+  mangoWalletId_gt?: Maybe<String>;
+  mangoWalletId_gte?: Maybe<String>;
+  mangoWalletId_contains?: Maybe<String>;
+  mangoWalletId_not_contains?: Maybe<String>;
+  mangoWalletId_starts_with?: Maybe<String>;
+  mangoWalletId_not_starts_with?: Maybe<String>;
+  mangoWalletId_ends_with?: Maybe<String>;
+  mangoWalletId_not_ends_with?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  mangoUserId_not?: Maybe<String>;
+  mangoUserId_in?: Maybe<String[] | String>;
+  mangoUserId_not_in?: Maybe<String[] | String>;
+  mangoUserId_lt?: Maybe<String>;
+  mangoUserId_lte?: Maybe<String>;
+  mangoUserId_gt?: Maybe<String>;
+  mangoUserId_gte?: Maybe<String>;
+  mangoUserId_contains?: Maybe<String>;
+  mangoUserId_not_contains?: Maybe<String>;
+  mangoUserId_starts_with?: Maybe<String>;
+  mangoUserId_not_starts_with?: Maybe<String>;
+  mangoUserId_ends_with?: Maybe<String>;
+  mangoUserId_not_ends_with?: Maybe<String>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutEmployerInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutEmployerDataInput;
+  create: UserCreateWithoutEmployerInput;
+}
+
+export interface UserUpdateWithoutEmployerDataInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  isVerified?: Maybe<Boolean>;
+  phoneNumber?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  nationality?: Maybe<String>;
+  employmentStartDate?: Maybe<DateTimeInput>;
+  annualSalary?: Maybe<Int>;
+  employeeID?: Maybe<String>;
+  verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
+  gdprConsent?: Maybe<Boolean>;
+  loan?: Maybe<LoanUpdateOneInput>;
+  mangoWalletId?: Maybe<String>;
+  mangoUserId?: Maybe<String>;
+  paymentRequests?: Maybe<PaymentRequestUpdateManyWithoutUserInput>;
+  payIns?: Maybe<PayInUpdateManyWithoutUserInput>;
+}
+
+export interface LoanCreateOneInput {
+  create?: Maybe<LoanCreateInput>;
+  connect?: Maybe<LoanWhereUniqueInput>;
+}
+
+export interface SuffixCreateInput {
+  id?: Maybe<ID_Input>;
+  domain: String;
+  employer: EmployerCreateOneWithoutEmailSuffixesInput;
+}
+
+export interface VerificationTokenUpdateInput {
+  email?: Maybe<String>;
+  token?: Maybe<String>;
+  expiresAt?: Maybe<DateTimeInput>;
 }
 
 export interface NodeNode {
@@ -2466,44 +2879,6 @@ export interface VerificationTokenPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface EmployerEdge {
-  node: Employer;
-  cursor: String;
-}
-
-export interface EmployerEdgePromise
-  extends Promise<EmployerEdge>,
-    Fragmentable {
-  node: <T = EmployerPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface EmployerEdgeSubscription
-  extends Promise<AsyncIterator<EmployerEdge>>,
-    Fragmentable {
-  node: <T = EmployerSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface SuffixPreviousValues {
-  id: ID_Output;
-  domain: String;
-}
-
-export interface SuffixPreviousValuesPromise
-  extends Promise<SuffixPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  domain: () => Promise<String>;
-}
-
-export interface SuffixPreviousValuesSubscription
-  extends Promise<AsyncIterator<SuffixPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  domain: () => Promise<AsyncIterator<String>>;
-}
-
 export interface EmployerConnection {
   pageInfo: PageInfo;
   edges: EmployerEdge[];
@@ -2525,6 +2900,223 @@ export interface EmployerConnectionSubscription
   aggregate: <T = AggregateEmployerSubscription>() => T;
 }
 
+export interface PaymentRequest {
+  id: ID_Output;
+  mangoPaymentID?: String;
+  amountToPay: Int;
+  consentToPay: Boolean;
+  reference?: String;
+  expiresAt?: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface PaymentRequestPromise
+  extends Promise<PaymentRequest>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  mangoPaymentID: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  childcareProvider: <T = ChildcareProviderPromise>() => T;
+  amountToPay: () => Promise<Int>;
+  consentToPay: () => Promise<Boolean>;
+  reference: () => Promise<String>;
+  expiresAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PaymentRequestSubscription
+  extends Promise<AsyncIterator<PaymentRequest>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  mangoPaymentID: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  childcareProvider: <T = ChildcareProviderSubscription>() => T;
+  amountToPay: () => Promise<AsyncIterator<Int>>;
+  consentToPay: () => Promise<AsyncIterator<Boolean>>;
+  reference: () => Promise<AsyncIterator<String>>;
+  expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PaymentRequestNullablePromise
+  extends Promise<PaymentRequest | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  mangoPaymentID: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  childcareProvider: <T = ChildcareProviderPromise>() => T;
+  amountToPay: () => Promise<Int>;
+  consentToPay: () => Promise<Boolean>;
+  reference: () => Promise<String>;
+  expiresAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AggregateChildcareProvider {
+  count: Int;
+}
+
+export interface AggregateChildcareProviderPromise
+  extends Promise<AggregateChildcareProvider>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateChildcareProviderSubscription
+  extends Promise<AsyncIterator<AggregateChildcareProvider>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface User {
+  id: ID_Output;
+  firstName: String;
+  lastName: String;
+  email: String;
+  isVerified: Boolean;
+  phoneNumber: String;
+  dob: DateTimeOutput;
+  nationality: String;
+  employmentStartDate: DateTimeOutput;
+  annualSalary: Int;
+  employeeID?: String;
+  gdprConsent: Boolean;
+  mangoWalletId?: String;
+  mangoUserId?: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  employer: <T = EmployerPromise>() => T;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  isVerified: () => Promise<Boolean>;
+  phoneNumber: () => Promise<String>;
+  dob: () => Promise<DateTimeOutput>;
+  nationality: () => Promise<String>;
+  employmentStartDate: () => Promise<DateTimeOutput>;
+  annualSalary: () => Promise<Int>;
+  employeeID: () => Promise<String>;
+  verificationToken: <T = VerificationTokenPromise>() => T;
+  gdprConsent: () => Promise<Boolean>;
+  loan: <T = LoanPromise>() => T;
+  mangoWalletId: () => Promise<String>;
+  mangoUserId: () => Promise<String>;
+  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
+    where?: PaymentRequestWhereInput;
+    orderBy?: PaymentRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  payIns: <T = FragmentableArray<PayIn>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  employer: <T = EmployerSubscription>() => T;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  isVerified: () => Promise<AsyncIterator<Boolean>>;
+  phoneNumber: () => Promise<AsyncIterator<String>>;
+  dob: () => Promise<AsyncIterator<DateTimeOutput>>;
+  nationality: () => Promise<AsyncIterator<String>>;
+  employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  annualSalary: () => Promise<AsyncIterator<Int>>;
+  employeeID: () => Promise<AsyncIterator<String>>;
+  verificationToken: <T = VerificationTokenSubscription>() => T;
+  gdprConsent: () => Promise<AsyncIterator<Boolean>>;
+  loan: <T = LoanSubscription>() => T;
+  mangoWalletId: () => Promise<AsyncIterator<String>>;
+  mangoUserId: () => Promise<AsyncIterator<String>>;
+  paymentRequests: <
+    T = Promise<AsyncIterator<PaymentRequestSubscription>>
+  >(args?: {
+    where?: PaymentRequestWhereInput;
+    orderBy?: PaymentRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  payIns: <T = Promise<AsyncIterator<PayInSubscription>>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  employer: <T = EmployerPromise>() => T;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  isVerified: () => Promise<Boolean>;
+  phoneNumber: () => Promise<String>;
+  dob: () => Promise<DateTimeOutput>;
+  nationality: () => Promise<String>;
+  employmentStartDate: () => Promise<DateTimeOutput>;
+  annualSalary: () => Promise<Int>;
+  employeeID: () => Promise<String>;
+  verificationToken: <T = VerificationTokenPromise>() => T;
+  gdprConsent: () => Promise<Boolean>;
+  loan: <T = LoanPromise>() => T;
+  mangoWalletId: () => Promise<String>;
+  mangoUserId: () => Promise<String>;
+  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
+    where?: PaymentRequestWhereInput;
+    orderBy?: PaymentRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  payIns: <T = FragmentableArray<PayIn>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
 export interface ChildcareProviderEdge {
   node: ChildcareProvider;
   cursor: String;
@@ -2544,20 +3136,184 @@ export interface ChildcareProviderEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateChildcareProvider {
+export interface AggregateVerificationToken {
   count: Int;
 }
 
-export interface AggregateChildcareProviderPromise
-  extends Promise<AggregateChildcareProvider>,
+export interface AggregateVerificationTokenPromise
+  extends Promise<AggregateVerificationToken>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateChildcareProviderSubscription
-  extends Promise<AsyncIterator<AggregateChildcareProvider>>,
+export interface AggregateVerificationTokenSubscription
+  extends Promise<AsyncIterator<AggregateVerificationToken>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Employer {
+  id: ID_Output;
+  name: String;
+  slug: String;
+  address: String;
+  companyNumber?: String;
+  maximumAmount: Int;
+  minimumServiceLength: Int;
+  maxSalaryPercentage: Float;
+  payrollEmail: String;
+  signerEmail: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface EmployerPromise extends Promise<Employer>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  slug: () => Promise<String>;
+  address: () => Promise<String>;
+  companyNumber: () => Promise<String>;
+  user: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  emailSuffixes: <T = FragmentableArray<Suffix>>(args?: {
+    where?: SuffixWhereInput;
+    orderBy?: SuffixOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  maximumAmount: () => Promise<Int>;
+  minimumServiceLength: () => Promise<Int>;
+  maxSalaryPercentage: () => Promise<Float>;
+  payrollEmail: () => Promise<String>;
+  signerEmail: () => Promise<String>;
+  payIns: <T = FragmentableArray<PayIn>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface EmployerSubscription
+  extends Promise<AsyncIterator<Employer>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  slug: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
+  companyNumber: () => Promise<AsyncIterator<String>>;
+  user: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  emailSuffixes: <T = Promise<AsyncIterator<SuffixSubscription>>>(args?: {
+    where?: SuffixWhereInput;
+    orderBy?: SuffixOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  maximumAmount: () => Promise<AsyncIterator<Int>>;
+  minimumServiceLength: () => Promise<AsyncIterator<Int>>;
+  maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
+  payrollEmail: () => Promise<AsyncIterator<String>>;
+  signerEmail: () => Promise<AsyncIterator<String>>;
+  payIns: <T = Promise<AsyncIterator<PayInSubscription>>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface EmployerNullablePromise
+  extends Promise<Employer | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  slug: () => Promise<String>;
+  address: () => Promise<String>;
+  companyNumber: () => Promise<String>;
+  user: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  emailSuffixes: <T = FragmentableArray<Suffix>>(args?: {
+    where?: SuffixWhereInput;
+    orderBy?: SuffixOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  maximumAmount: () => Promise<Int>;
+  minimumServiceLength: () => Promise<Int>;
+  maxSalaryPercentage: () => Promise<Float>;
+  payrollEmail: () => Promise<String>;
+  signerEmail: () => Promise<String>;
+  payIns: <T = FragmentableArray<PayIn>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface SuffixPreviousValues {
+  id: ID_Output;
+  domain: String;
+}
+
+export interface SuffixPreviousValuesPromise
+  extends Promise<SuffixPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  domain: () => Promise<String>;
+}
+
+export interface SuffixPreviousValuesSubscription
+  extends Promise<AsyncIterator<SuffixPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  domain: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserPreviousValues {
@@ -2570,7 +3326,7 @@ export interface UserPreviousValues {
   dob: DateTimeOutput;
   nationality: String;
   employmentStartDate: DateTimeOutput;
-  annualSalary: Float;
+  annualSalary: Int;
   employeeID?: String;
   gdprConsent: Boolean;
   mangoWalletId?: String;
@@ -2591,7 +3347,7 @@ export interface UserPreviousValuesPromise
   dob: () => Promise<DateTimeOutput>;
   nationality: () => Promise<String>;
   employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Float>;
+  annualSalary: () => Promise<Int>;
   employeeID: () => Promise<String>;
   gdprConsent: () => Promise<Boolean>;
   mangoWalletId: () => Promise<String>;
@@ -2612,48 +3368,13 @@ export interface UserPreviousValuesSubscription
   dob: () => Promise<AsyncIterator<DateTimeOutput>>;
   nationality: () => Promise<AsyncIterator<String>>;
   employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  annualSalary: () => Promise<AsyncIterator<Float>>;
+  annualSalary: () => Promise<AsyncIterator<Int>>;
   employeeID: () => Promise<AsyncIterator<String>>;
   gdprConsent: () => Promise<AsyncIterator<Boolean>>;
   mangoWalletId: () => Promise<AsyncIterator<String>>;
   mangoUserId: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface VerificationTokenEdge {
-  node: VerificationToken;
-  cursor: String;
-}
-
-export interface VerificationTokenEdgePromise
-  extends Promise<VerificationTokenEdge>,
-    Fragmentable {
-  node: <T = VerificationTokenPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface VerificationTokenEdgeSubscription
-  extends Promise<AsyncIterator<VerificationTokenEdge>>,
-    Fragmentable {
-  node: <T = VerificationTokenSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PageInfo {
@@ -2677,6 +3398,22 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface ChildcareProvider {
@@ -2766,25 +3503,23 @@ export interface ChildcareProviderNullablePromise
   createdAt: () => Promise<DateTimeOutput>;
 }
 
-export interface ChildcareProviderConnection {
-  pageInfo: PageInfo;
-  edges: ChildcareProviderEdge[];
+export interface VerificationTokenEdge {
+  node: VerificationToken;
+  cursor: String;
 }
 
-export interface ChildcareProviderConnectionPromise
-  extends Promise<ChildcareProviderConnection>,
+export interface VerificationTokenEdgePromise
+  extends Promise<VerificationTokenEdge>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ChildcareProviderEdge>>() => T;
-  aggregate: <T = AggregateChildcareProviderPromise>() => T;
+  node: <T = VerificationTokenPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface ChildcareProviderConnectionSubscription
-  extends Promise<AsyncIterator<ChildcareProviderConnection>>,
+export interface VerificationTokenEdgeSubscription
+  extends Promise<AsyncIterator<VerificationTokenEdge>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ChildcareProviderEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateChildcareProviderSubscription>() => T;
+  node: <T = VerificationTokenSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserEdge {
@@ -2804,48 +3539,29 @@ export interface UserEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface Loan {
-  id: ID_Output;
-  amount: Float;
-  terms: Int;
-  approved: Boolean;
-  agreementURL?: String;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
 }
 
-export interface LoanPromise extends Promise<Loan>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<Float>;
-  terms: () => Promise<Int>;
-  approved: () => Promise<Boolean>;
-  agreementURL: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface LoanSubscription
-  extends Promise<AsyncIterator<Loan>>,
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<Float>>;
-  terms: () => Promise<AsyncIterator<Int>>;
-  approved: () => Promise<AsyncIterator<Boolean>>;
-  agreementURL: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
 }
 
-export interface LoanNullablePromise
-  extends Promise<Loan | null>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<Float>;
-  terms: () => Promise<Int>;
-  approved: () => Promise<Boolean>;
-  agreementURL: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface AggregateSuffix {
@@ -2862,83 +3578,6 @@ export interface AggregateSuffixSubscription
   extends Promise<AsyncIterator<AggregateSuffix>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PaymentRequest {
-  id: ID_Output;
-  mangoPaymentID?: String;
-  amountToPay: Float;
-  consentToPay: Boolean;
-  reference?: String;
-  expiresAt?: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
-}
-
-export interface PaymentRequestPromise
-  extends Promise<PaymentRequest>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  mangoPaymentID: () => Promise<String>;
-  user: <T = UserPromise>() => T;
-  childcareProvider: <T = ChildcareProviderPromise>() => T;
-  amountToPay: () => Promise<Float>;
-  consentToPay: () => Promise<Boolean>;
-  reference: () => Promise<String>;
-  expiresAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PaymentRequestSubscription
-  extends Promise<AsyncIterator<PaymentRequest>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  mangoPaymentID: () => Promise<AsyncIterator<String>>;
-  user: <T = UserSubscription>() => T;
-  childcareProvider: <T = ChildcareProviderSubscription>() => T;
-  amountToPay: () => Promise<AsyncIterator<Float>>;
-  consentToPay: () => Promise<AsyncIterator<Boolean>>;
-  reference: () => Promise<AsyncIterator<String>>;
-  expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PaymentRequestNullablePromise
-  extends Promise<PaymentRequest | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  mangoPaymentID: () => Promise<String>;
-  user: <T = UserPromise>() => T;
-  childcareProvider: <T = ChildcareProviderPromise>() => T;
-  amountToPay: () => Promise<Float>;
-  consentToPay: () => Promise<Boolean>;
-  reference: () => Promise<String>;
-  expiresAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface SuffixConnection {
-  pageInfo: PageInfo;
-  edges: SuffixEdge[];
-}
-
-export interface SuffixConnectionPromise
-  extends Promise<SuffixConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SuffixEdge>>() => T;
-  aggregate: <T = AggregateSuffixPromise>() => T;
-}
-
-export interface SuffixConnectionSubscription
-  extends Promise<AsyncIterator<SuffixConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SuffixEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSuffixSubscription>() => T;
 }
 
 export interface ChildcareProviderSubscriptionPayload {
@@ -2966,23 +3605,25 @@ export interface ChildcareProviderSubscriptionPayloadSubscription
   previousValues: <T = ChildcareProviderPreviousValuesSubscription>() => T;
 }
 
-export interface PaymentRequestEdge {
-  node: PaymentRequest;
-  cursor: String;
+export interface SuffixConnection {
+  pageInfo: PageInfo;
+  edges: SuffixEdge[];
 }
 
-export interface PaymentRequestEdgePromise
-  extends Promise<PaymentRequestEdge>,
+export interface SuffixConnectionPromise
+  extends Promise<SuffixConnection>,
     Fragmentable {
-  node: <T = PaymentRequestPromise>() => T;
-  cursor: () => Promise<String>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SuffixEdge>>() => T;
+  aggregate: <T = AggregateSuffixPromise>() => T;
 }
 
-export interface PaymentRequestEdgeSubscription
-  extends Promise<AsyncIterator<PaymentRequestEdge>>,
+export interface SuffixConnectionSubscription
+  extends Promise<AsyncIterator<SuffixConnection>>,
     Fragmentable {
-  node: <T = PaymentRequestSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SuffixEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSuffixSubscription>() => T;
 }
 
 export interface ChildcareProviderPreviousValues {
@@ -3028,18 +3669,333 @@ export interface ChildcareProviderPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface AggregateLoan {
+export interface PaymentRequestEdge {
+  node: PaymentRequest;
+  cursor: String;
+}
+
+export interface PaymentRequestEdgePromise
+  extends Promise<PaymentRequestEdge>,
+    Fragmentable {
+  node: <T = PaymentRequestPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PaymentRequestEdgeSubscription
+  extends Promise<AsyncIterator<PaymentRequestEdge>>,
+    Fragmentable {
+  node: <T = PaymentRequestSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ChildcareProviderConnection {
+  pageInfo: PageInfo;
+  edges: ChildcareProviderEdge[];
+}
+
+export interface ChildcareProviderConnectionPromise
+  extends Promise<ChildcareProviderConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ChildcareProviderEdge>>() => T;
+  aggregate: <T = AggregateChildcareProviderPromise>() => T;
+}
+
+export interface ChildcareProviderConnectionSubscription
+  extends Promise<AsyncIterator<ChildcareProviderConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ChildcareProviderEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateChildcareProviderSubscription>() => T;
+}
+
+export interface AggregatePayIn {
   count: Int;
 }
 
-export interface AggregateLoanPromise
-  extends Promise<AggregateLoan>,
+export interface AggregatePayInPromise
+  extends Promise<AggregatePayIn>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateLoanSubscription
-  extends Promise<AsyncIterator<AggregateLoan>>,
+export interface AggregatePayInSubscription
+  extends Promise<AsyncIterator<AggregatePayIn>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface EmployerSubscriptionPayload {
+  mutation: MutationType;
+  node: Employer;
+  updatedFields: String[];
+  previousValues: EmployerPreviousValues;
+}
+
+export interface EmployerSubscriptionPayloadPromise
+  extends Promise<EmployerSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = EmployerPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = EmployerPreviousValuesPromise>() => T;
+}
+
+export interface EmployerSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EmployerSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = EmployerSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = EmployerPreviousValuesSubscription>() => T;
+}
+
+export interface PayInConnection {
+  pageInfo: PageInfo;
+  edges: PayInEdge[];
+}
+
+export interface PayInConnectionPromise
+  extends Promise<PayInConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PayInEdge>>() => T;
+  aggregate: <T = AggregatePayInPromise>() => T;
+}
+
+export interface PayInConnectionSubscription
+  extends Promise<AsyncIterator<PayInConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PayInEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePayInSubscription>() => T;
+}
+
+export interface EmployerPreviousValues {
+  id: ID_Output;
+  name: String;
+  slug: String;
+  address: String;
+  companyNumber?: String;
+  maximumAmount: Int;
+  minimumServiceLength: Int;
+  maxSalaryPercentage: Float;
+  payrollEmail: String;
+  signerEmail: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface EmployerPreviousValuesPromise
+  extends Promise<EmployerPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  slug: () => Promise<String>;
+  address: () => Promise<String>;
+  companyNumber: () => Promise<String>;
+  maximumAmount: () => Promise<Int>;
+  minimumServiceLength: () => Promise<Int>;
+  maxSalaryPercentage: () => Promise<Float>;
+  payrollEmail: () => Promise<String>;
+  signerEmail: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface EmployerPreviousValuesSubscription
+  extends Promise<AsyncIterator<EmployerPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  slug: () => Promise<AsyncIterator<String>>;
+  address: () => Promise<AsyncIterator<String>>;
+  companyNumber: () => Promise<AsyncIterator<String>>;
+  maximumAmount: () => Promise<AsyncIterator<Int>>;
+  minimumServiceLength: () => Promise<AsyncIterator<Int>>;
+  maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
+  payrollEmail: () => Promise<AsyncIterator<String>>;
+  signerEmail: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LoanEdge {
+  node: Loan;
+  cursor: String;
+}
+
+export interface LoanEdgePromise extends Promise<LoanEdge>, Fragmentable {
+  node: <T = LoanPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LoanEdgeSubscription
+  extends Promise<AsyncIterator<LoanEdge>>,
+    Fragmentable {
+  node: <T = LoanSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Loan {
+  id: ID_Output;
+  amount: Int;
+  terms: Int;
+  approved: Boolean;
+  agreementURL?: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface LoanPromise extends Promise<Loan>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Int>;
+  terms: () => Promise<Int>;
+  approved: () => Promise<Boolean>;
+  agreementURL: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LoanSubscription
+  extends Promise<AsyncIterator<Loan>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<Int>>;
+  terms: () => Promise<AsyncIterator<Int>>;
+  approved: () => Promise<AsyncIterator<Boolean>>;
+  agreementURL: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LoanNullablePromise
+  extends Promise<Loan | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Int>;
+  terms: () => Promise<Int>;
+  approved: () => Promise<Boolean>;
+  agreementURL: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface VerificationTokenSubscriptionPayload {
+  mutation: MutationType;
+  node: VerificationToken;
+  updatedFields: String[];
+  previousValues: VerificationTokenPreviousValues;
+}
+
+export interface VerificationTokenSubscriptionPayloadPromise
+  extends Promise<VerificationTokenSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = VerificationTokenPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = VerificationTokenPreviousValuesPromise>() => T;
+}
+
+export interface VerificationTokenSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<VerificationTokenSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = VerificationTokenSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = VerificationTokenPreviousValuesSubscription>() => T;
+}
+
+export interface LoanSubscriptionPayload {
+  mutation: MutationType;
+  node: Loan;
+  updatedFields: String[];
+  previousValues: LoanPreviousValues;
+}
+
+export interface LoanSubscriptionPayloadPromise
+  extends Promise<LoanSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = LoanPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LoanPreviousValuesPromise>() => T;
+}
+
+export interface LoanSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LoanSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LoanSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LoanPreviousValuesSubscription>() => T;
+}
+
+export interface EmployerEdge {
+  node: Employer;
+  cursor: String;
+}
+
+export interface EmployerEdgePromise
+  extends Promise<EmployerEdge>,
+    Fragmentable {
+  node: <T = EmployerPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface EmployerEdgeSubscription
+  extends Promise<AsyncIterator<EmployerEdge>>,
+    Fragmentable {
+  node: <T = EmployerSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface LoanPreviousValues {
+  id: ID_Output;
+  amount: Int;
+  terms: Int;
+  approved: Boolean;
+  agreementURL?: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface LoanPreviousValuesPromise
+  extends Promise<LoanPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  amount: () => Promise<Int>;
+  terms: () => Promise<Int>;
+  approved: () => Promise<Boolean>;
+  agreementURL: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LoanPreviousValuesSubscription
+  extends Promise<AsyncIterator<LoanPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  amount: () => Promise<AsyncIterator<Int>>;
+  terms: () => Promise<AsyncIterator<Int>>;
+  approved: () => Promise<AsyncIterator<Boolean>>;
+  agreementURL: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -3086,50 +4042,146 @@ export interface VerificationTokenNullablePromise
   createdAt: () => Promise<DateTimeOutput>;
 }
 
-export interface LoanConnection {
-  pageInfo: PageInfo;
-  edges: LoanEdge[];
+export interface SuffixEdge {
+  node: Suffix;
+  cursor: String;
 }
 
-export interface LoanConnectionPromise
-  extends Promise<LoanConnection>,
+export interface SuffixEdgePromise extends Promise<SuffixEdge>, Fragmentable {
+  node: <T = SuffixPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SuffixEdgeSubscription
+  extends Promise<AsyncIterator<SuffixEdge>>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<LoanEdge>>() => T;
-  aggregate: <T = AggregateLoanPromise>() => T;
+  node: <T = SuffixSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface LoanConnectionSubscription
-  extends Promise<AsyncIterator<LoanConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<LoanEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateLoanSubscription>() => T;
-}
-
-export interface EmployerSubscriptionPayload {
+export interface PayInSubscriptionPayload {
   mutation: MutationType;
-  node: Employer;
+  node: PayIn;
   updatedFields: String[];
-  previousValues: EmployerPreviousValues;
+  previousValues: PayInPreviousValues;
 }
 
-export interface EmployerSubscriptionPayloadPromise
-  extends Promise<EmployerSubscriptionPayload>,
+export interface PayInSubscriptionPayloadPromise
+  extends Promise<PayInSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = EmployerPromise>() => T;
+  node: <T = PayInPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = EmployerPreviousValuesPromise>() => T;
+  previousValues: <T = PayInPreviousValuesPromise>() => T;
 }
 
-export interface EmployerSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<EmployerSubscriptionPayload>>,
+export interface PayInSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PayInSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = EmployerSubscription>() => T;
+  node: <T = PayInSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = EmployerPreviousValuesSubscription>() => T;
+  previousValues: <T = PayInPreviousValuesSubscription>() => T;
+}
+
+export interface PaymentRequestConnection {
+  pageInfo: PageInfo;
+  edges: PaymentRequestEdge[];
+}
+
+export interface PaymentRequestConnectionPromise
+  extends Promise<PaymentRequestConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PaymentRequestEdge>>() => T;
+  aggregate: <T = AggregatePaymentRequestPromise>() => T;
+}
+
+export interface PaymentRequestConnectionSubscription
+  extends Promise<AsyncIterator<PaymentRequestConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PaymentRequestEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePaymentRequestSubscription>() => T;
+}
+
+export interface PayInPreviousValues {
+  id: ID_Output;
+  mangoPayInId: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface PayInPreviousValuesPromise
+  extends Promise<PayInPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  mangoPayInId: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PayInPreviousValuesSubscription
+  extends Promise<AsyncIterator<PayInPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  mangoPayInId: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AggregateLoan {
+  count: Int;
+}
+
+export interface AggregateLoanPromise
+  extends Promise<AggregateLoan>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLoanSubscription
+  extends Promise<AsyncIterator<AggregateLoan>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PayIn {
+  id: ID_Output;
+  mangoPayInId: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface PayInPromise extends Promise<PayIn>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  employer: <T = EmployerPromise>() => T;
+  mangoPayInId: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PayInSubscription
+  extends Promise<AsyncIterator<PayIn>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  employer: <T = EmployerSubscription>() => T;
+  mangoPayInId: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PayInNullablePromise
+  extends Promise<PayIn | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  employer: <T = EmployerPromise>() => T;
+  mangoPayInId: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface AggregateEmployer {
@@ -3148,69 +4200,50 @@ export interface AggregateEmployerSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface EmployerPreviousValues {
-  id: ID_Output;
-  name: String;
-  slug: String;
-  address: String;
-  companyNumber?: String;
-  maximumAmount: Float;
-  minimumServiceLength: Int;
-  maxSalaryPercentage: Float;
-  payrollEmail: String;
-  signerEmail: String;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
 }
 
-export interface EmployerPreviousValuesPromise
-  extends Promise<EmployerPreviousValues>,
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  slug: () => Promise<String>;
-  address: () => Promise<String>;
-  companyNumber: () => Promise<String>;
-  maximumAmount: () => Promise<Float>;
-  minimumServiceLength: () => Promise<Int>;
-  maxSalaryPercentage: () => Promise<Float>;
-  payrollEmail: () => Promise<String>;
-  signerEmail: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
 }
 
-export interface EmployerPreviousValuesSubscription
-  extends Promise<AsyncIterator<EmployerPreviousValues>>,
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  slug: () => Promise<AsyncIterator<String>>;
-  address: () => Promise<AsyncIterator<String>>;
-  companyNumber: () => Promise<AsyncIterator<String>>;
-  maximumAmount: () => Promise<AsyncIterator<Float>>;
-  minimumServiceLength: () => Promise<AsyncIterator<Int>>;
-  maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
-  payrollEmail: () => Promise<AsyncIterator<String>>;
-  signerEmail: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface AggregateVerificationToken {
-  count: Int;
+export interface SuffixSubscriptionPayload {
+  mutation: MutationType;
+  node: Suffix;
+  updatedFields: String[];
+  previousValues: SuffixPreviousValues;
 }
 
-export interface AggregateVerificationTokenPromise
-  extends Promise<AggregateVerificationToken>,
+export interface SuffixSubscriptionPayloadPromise
+  extends Promise<SuffixSubscriptionPayload>,
     Fragmentable {
-  count: () => Promise<Int>;
+  mutation: () => Promise<MutationType>;
+  node: <T = SuffixPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SuffixPreviousValuesPromise>() => T;
 }
 
-export interface AggregateVerificationTokenSubscription
-  extends Promise<AsyncIterator<AggregateVerificationToken>>,
+export interface SuffixSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SuffixSubscriptionPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SuffixSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SuffixPreviousValuesSubscription>() => T;
 }
 
 export interface Suffix {
@@ -3240,430 +4273,10 @@ export interface SuffixNullablePromise
   employer: <T = EmployerPromise>() => T;
 }
 
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface LoanSubscriptionPayload {
-  mutation: MutationType;
-  node: Loan;
-  updatedFields: String[];
-  previousValues: LoanPreviousValues;
-}
-
-export interface LoanSubscriptionPayloadPromise
-  extends Promise<LoanSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = LoanPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = LoanPreviousValuesPromise>() => T;
-}
-
-export interface LoanSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<LoanSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = LoanSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = LoanPreviousValuesSubscription>() => T;
-}
-
-export interface SuffixEdge {
-  node: Suffix;
-  cursor: String;
-}
-
-export interface SuffixEdgePromise extends Promise<SuffixEdge>, Fragmentable {
-  node: <T = SuffixPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface SuffixEdgeSubscription
-  extends Promise<AsyncIterator<SuffixEdge>>,
-    Fragmentable {
-  node: <T = SuffixSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface LoanPreviousValues {
-  id: ID_Output;
-  amount: Float;
-  terms: Int;
-  approved: Boolean;
-  agreementURL?: String;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
-}
-
-export interface LoanPreviousValuesPromise
-  extends Promise<LoanPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  amount: () => Promise<Float>;
-  terms: () => Promise<Int>;
-  approved: () => Promise<Boolean>;
-  agreementURL: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface LoanPreviousValuesSubscription
-  extends Promise<AsyncIterator<LoanPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  amount: () => Promise<AsyncIterator<Float>>;
-  terms: () => Promise<AsyncIterator<Int>>;
-  approved: () => Promise<AsyncIterator<Boolean>>;
-  agreementURL: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PaymentRequestConnection {
-  pageInfo: PageInfo;
-  edges: PaymentRequestEdge[];
-}
-
-export interface PaymentRequestConnectionPromise
-  extends Promise<PaymentRequestConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PaymentRequestEdge>>() => T;
-  aggregate: <T = AggregatePaymentRequestPromise>() => T;
-}
-
-export interface PaymentRequestConnectionSubscription
-  extends Promise<AsyncIterator<PaymentRequestConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PaymentRequestEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePaymentRequestSubscription>() => T;
-}
-
-export interface Employer {
-  id: ID_Output;
-  name: String;
-  slug: String;
-  address: String;
-  companyNumber?: String;
-  maximumAmount: Float;
-  minimumServiceLength: Int;
-  maxSalaryPercentage: Float;
-  payrollEmail: String;
-  signerEmail: String;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
-}
-
-export interface EmployerPromise extends Promise<Employer>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  slug: () => Promise<String>;
-  address: () => Promise<String>;
-  companyNumber: () => Promise<String>;
-  user: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  emailSuffixes: <T = FragmentableArray<Suffix>>(args?: {
-    where?: SuffixWhereInput;
-    orderBy?: SuffixOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  maximumAmount: () => Promise<Float>;
-  minimumServiceLength: () => Promise<Int>;
-  maxSalaryPercentage: () => Promise<Float>;
-  payrollEmail: () => Promise<String>;
-  signerEmail: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface EmployerSubscription
-  extends Promise<AsyncIterator<Employer>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  slug: () => Promise<AsyncIterator<String>>;
-  address: () => Promise<AsyncIterator<String>>;
-  companyNumber: () => Promise<AsyncIterator<String>>;
-  user: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  emailSuffixes: <T = Promise<AsyncIterator<SuffixSubscription>>>(args?: {
-    where?: SuffixWhereInput;
-    orderBy?: SuffixOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  maximumAmount: () => Promise<AsyncIterator<Float>>;
-  minimumServiceLength: () => Promise<AsyncIterator<Int>>;
-  maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
-  payrollEmail: () => Promise<AsyncIterator<String>>;
-  signerEmail: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface EmployerNullablePromise
-  extends Promise<Employer | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  slug: () => Promise<String>;
-  address: () => Promise<String>;
-  companyNumber: () => Promise<String>;
-  user: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  emailSuffixes: <T = FragmentableArray<Suffix>>(args?: {
-    where?: SuffixWhereInput;
-    orderBy?: SuffixOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  maximumAmount: () => Promise<Float>;
-  minimumServiceLength: () => Promise<Int>;
-  maxSalaryPercentage: () => Promise<Float>;
-  payrollEmail: () => Promise<String>;
-  signerEmail: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface VerificationTokenConnection {
-  pageInfo: PageInfo;
-  edges: VerificationTokenEdge[];
-}
-
-export interface VerificationTokenConnectionPromise
-  extends Promise<VerificationTokenConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<VerificationTokenEdge>>() => T;
-  aggregate: <T = AggregateVerificationTokenPromise>() => T;
-}
-
-export interface VerificationTokenConnectionSubscription
-  extends Promise<AsyncIterator<VerificationTokenConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<VerificationTokenEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateVerificationTokenSubscription>() => T;
-}
-
-export interface SuffixSubscriptionPayload {
-  mutation: MutationType;
-  node: Suffix;
-  updatedFields: String[];
-  previousValues: SuffixPreviousValues;
-}
-
-export interface SuffixSubscriptionPayloadPromise
-  extends Promise<SuffixSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = SuffixPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = SuffixPreviousValuesPromise>() => T;
-}
-
-export interface SuffixSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<SuffixSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = SuffixSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = SuffixPreviousValuesSubscription>() => T;
-}
-
-export interface User {
-  id: ID_Output;
-  firstName: String;
-  lastName: String;
-  email: String;
-  isVerified: Boolean;
-  phoneNumber: String;
-  dob: DateTimeOutput;
-  nationality: String;
-  employmentStartDate: DateTimeOutput;
-  annualSalary: Float;
-  employeeID?: String;
-  gdprConsent: Boolean;
-  mangoWalletId?: String;
-  mangoUserId?: String;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  employer: <T = EmployerPromise>() => T;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  isVerified: () => Promise<Boolean>;
-  phoneNumber: () => Promise<String>;
-  dob: () => Promise<DateTimeOutput>;
-  nationality: () => Promise<String>;
-  employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Float>;
-  employeeID: () => Promise<String>;
-  verificationToken: <T = VerificationTokenPromise>() => T;
-  gdprConsent: () => Promise<Boolean>;
-  loan: <T = LoanPromise>() => T;
-  mangoWalletId: () => Promise<String>;
-  mangoUserId: () => Promise<String>;
-  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
-    where?: PaymentRequestWhereInput;
-    orderBy?: PaymentRequestOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  employer: <T = EmployerSubscription>() => T;
-  firstName: () => Promise<AsyncIterator<String>>;
-  lastName: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  isVerified: () => Promise<AsyncIterator<Boolean>>;
-  phoneNumber: () => Promise<AsyncIterator<String>>;
-  dob: () => Promise<AsyncIterator<DateTimeOutput>>;
-  nationality: () => Promise<AsyncIterator<String>>;
-  employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  annualSalary: () => Promise<AsyncIterator<Float>>;
-  employeeID: () => Promise<AsyncIterator<String>>;
-  verificationToken: <T = VerificationTokenSubscription>() => T;
-  gdprConsent: () => Promise<AsyncIterator<Boolean>>;
-  loan: <T = LoanSubscription>() => T;
-  mangoWalletId: () => Promise<AsyncIterator<String>>;
-  mangoUserId: () => Promise<AsyncIterator<String>>;
-  paymentRequests: <
-    T = Promise<AsyncIterator<PaymentRequestSubscription>>
-  >(args?: {
-    where?: PaymentRequestWhereInput;
-    orderBy?: PaymentRequestOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  employer: <T = EmployerPromise>() => T;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  isVerified: () => Promise<Boolean>;
-  phoneNumber: () => Promise<String>;
-  dob: () => Promise<DateTimeOutput>;
-  nationality: () => Promise<String>;
-  employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Float>;
-  employeeID: () => Promise<String>;
-  verificationToken: <T = VerificationTokenPromise>() => T;
-  gdprConsent: () => Promise<Boolean>;
-  loan: <T = LoanPromise>() => T;
-  mangoWalletId: () => Promise<String>;
-  mangoUserId: () => Promise<String>;
-  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
-    where?: PaymentRequestWhereInput;
-    orderBy?: PaymentRequestOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
 export interface PaymentRequestPreviousValues {
   id: ID_Output;
   mangoPaymentID?: String;
-  amountToPay: Float;
+  amountToPay: Int;
   consentToPay: Boolean;
   reference?: String;
   expiresAt?: DateTimeOutput;
@@ -3676,7 +4289,7 @@ export interface PaymentRequestPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   mangoPaymentID: () => Promise<String>;
-  amountToPay: () => Promise<Float>;
+  amountToPay: () => Promise<Int>;
   consentToPay: () => Promise<Boolean>;
   reference: () => Promise<String>;
   expiresAt: () => Promise<DateTimeOutput>;
@@ -3689,7 +4302,7 @@ export interface PaymentRequestPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   mangoPaymentID: () => Promise<AsyncIterator<String>>;
-  amountToPay: () => Promise<AsyncIterator<Float>>;
+  amountToPay: () => Promise<AsyncIterator<Int>>;
   consentToPay: () => Promise<AsyncIterator<Boolean>>;
   reference: () => Promise<AsyncIterator<String>>;
   expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -3722,69 +4335,6 @@ export interface PaymentRequestSubscriptionPayloadSubscription
   previousValues: <T = PaymentRequestPreviousValuesSubscription>() => T;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface VerificationTokenSubscriptionPayload {
-  mutation: MutationType;
-  node: VerificationToken;
-  updatedFields: String[];
-  previousValues: VerificationTokenPreviousValues;
-}
-
-export interface VerificationTokenSubscriptionPayloadPromise
-  extends Promise<VerificationTokenSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = VerificationTokenPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = VerificationTokenPreviousValuesPromise>() => T;
-}
-
-export interface VerificationTokenSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<VerificationTokenSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = VerificationTokenSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = VerificationTokenPreviousValuesSubscription>() => T;
-}
-
-export interface LoanEdge {
-  node: Loan;
-  cursor: String;
-}
-
-export interface LoanEdgePromise extends Promise<LoanEdge>, Fragmentable {
-  node: <T = LoanPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface LoanEdgeSubscription
-  extends Promise<AsyncIterator<LoanEdge>>,
-    Fragmentable {
-  node: <T = LoanSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
 export interface AggregatePaymentRequest {
   count: Int;
 }
@@ -3801,12 +4351,64 @@ export interface AggregatePaymentRequestSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
+export interface VerificationTokenConnection {
+  pageInfo: PageInfo;
+  edges: VerificationTokenEdge[];
+}
 
-export type Long = string;
+export interface VerificationTokenConnectionPromise
+  extends Promise<VerificationTokenConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<VerificationTokenEdge>>() => T;
+  aggregate: <T = AggregateVerificationTokenPromise>() => T;
+}
+
+export interface VerificationTokenConnectionSubscription
+  extends Promise<AsyncIterator<VerificationTokenConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<VerificationTokenEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateVerificationTokenSubscription>() => T;
+}
+
+export interface LoanConnection {
+  pageInfo: PageInfo;
+  edges: LoanEdge[];
+}
+
+export interface LoanConnectionPromise
+  extends Promise<LoanConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<LoanEdge>>() => T;
+  aggregate: <T = AggregateLoanPromise>() => T;
+}
+
+export interface LoanConnectionSubscription
+  extends Promise<AsyncIterator<LoanConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LoanEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLoanSubscription>() => T;
+}
+
+export interface PayInEdge {
+  node: PayIn;
+  cursor: String;
+}
+
+export interface PayInEdgePromise extends Promise<PayInEdge>, Fragmentable {
+  node: <T = PayInPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PayInEdgeSubscription
+  extends Promise<AsyncIterator<PayInEdge>>,
+    Fragmentable {
+  node: <T = PayInSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
 
 /*
 DateTime scalar input type, allowing Date
@@ -3817,6 +4419,13 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+export type Long = string;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 /*
 The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
@@ -3830,14 +4439,14 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 /**
  * Model Metadata
@@ -3870,6 +4479,10 @@ export const models: Model[] = [
   },
   {
     name: "ChildcareProvider",
+    embedded: false
+  },
+  {
+    name: "PayIn",
     embedded: false
   }
 ];

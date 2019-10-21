@@ -102,6 +102,7 @@ const Search = () => {
       const {
         data: { companies },
       } = await axios(`${process.env.HOST}/api/get-companies?q=${searchTerm}`)
+
       setCompanies(companies)
     }
     getCompanies()
@@ -153,10 +154,21 @@ const MakeAPayment = () => (
             Search for your childcare provider by entering their name or company
             number into the search bar (left).
           </p>
-          <p>
+          <p className="mb-6">
             Select the provider from the list. In case your provider doesnt show
             up, add them by sending them an email letting know that you would
             like to use their services through the catapillr scheme.
+          </p>
+          <p>
+            Can't find who you want to pay?{" "}
+            <a
+              className="text-teal underline"
+              href="https://catapillr.com/contact-us/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Send us an email now.
+            </a>
           </p>
         </Tip>
       </Aside>

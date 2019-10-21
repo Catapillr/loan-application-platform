@@ -78,6 +78,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               amount
               agreementURL
             }
+            employer {
+              id
+              name
+            }
           }
         `)
 
@@ -97,7 +101,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Currency: GBP,
         })
 
-        const { WireReference, BankAccount } = await mango.PayIns.create({
+        const {
+          Id: payInId,
+          WireReference,
+          BankAccount,
+        } = await mango.PayIns.create({
           PaymentType: "BANK_WIRE",
           ExecutionType: "DIRECT",
           AuthorId: newMangoUserId,
@@ -115,18 +123,38 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         await prisma.updateUser({
           data: {
-            mangoWalletId: newWalletId as string,
-            mangoUserId: newMangoUserId as string,
+            mangoWalletId: newWalletId,
+            mangoUserId: newMangoUserId,
+            payIns: {
+              create: [
+                {
+                  employer: { connect: { id: employee.employer.id } },
+                  mangoPayInId: payInId,
+                },
+              ],
+            },
+            loan: {
+              update: {
+                agreementURL: signEvent.signature_request.files_url,
+              },
+            },
           },
           where: {
-            email: employeeEmail as string,
+            email: employee.email,
           },
         })
 
+        const [sortCode, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
+
+        // TODO: check this in production to see if it's being split properly
         sendLoanTransferDetails({
           email: employerEmail,
-          BankDetails: JSON.stringify(BankAccount, undefined, 2),
+          sortCode,
+          accountNumber,
+          bankOwnerName: BankAccount.OwnerName,
           WireReference,
+          loanAmount: employee.loan.amount,
+          employeeName: `${employee.firstName} ${employee.lastName}`,
         })
 
         return res.status(200).send("Hello API Event Received")
