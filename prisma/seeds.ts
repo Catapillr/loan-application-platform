@@ -13,7 +13,7 @@ const seedDatabase = async () => {
     const yalla = await prisma.createEmployer({
       name: "yalla",
       slug: "yalla",
-      maximumAmount: 2000,
+      maximumAmount: 2000000,
       minimumServiceLength: 8,
       maxSalaryPercentage: 25,
       payrollEmail: "j@yallacooperative.com",
@@ -21,28 +21,28 @@ const seedDatabase = async () => {
       address: "149 Fonthill Road, London, N4 3HF",
     })
 
-    const yallaSuffix = await prisma.createSuffix({
+    await prisma.createSuffix({
       domain: "@yallacooperative.com",
       employer: {
         connect: {
           slug: "yalla",
         },
-      }
+      },
     })
 
-    const yallaSuffix2 = await prisma.createSuffix({
+    await prisma.createSuffix({
       domain: "@yalla.com",
       employer: {
         connect: {
           slug: "yalla",
         },
-      }
+      },
     })
 
     const infact = await prisma.createEmployer({
       name: "infact",
       slug: "infact",
-      maximumAmount: 3000,
+      maximumAmount: 3000000,
       minimumServiceLength: 6,
       maxSalaryPercentage: 20,
       payrollEmail: "hello@infactcoop.com",
@@ -52,23 +52,22 @@ const seedDatabase = async () => {
       emailSuffixes: null,
     })
 
-
-    const infactSuffix = await prisma.createSuffix({
+    await prisma.createSuffix({
       domain: "@infactcoop.com",
       employer: {
         connect: {
           slug: "infact",
         },
-      }
+      },
     })
 
-    const infactSuffix2 = await prisma.createSuffix({
+    await prisma.createSuffix({
       domain: "@infact.com",
       employer: {
         connect: {
           slug: "infact",
         },
-      }
+      },
     })
 
     const ivan = await prisma.createUser({
@@ -90,7 +89,7 @@ const seedDatabase = async () => {
           approved: true,
         },
       },
-      gdprConsent: true
+      gdprConsent: true,
     })
 
     const ivanLittleOnes = await prisma.createPaymentRequest({
@@ -107,7 +106,7 @@ const seedDatabase = async () => {
           expiresAt: "2019-11-22T13:57:31.123Z",
         },
       },
-      amountToPay: 123330,
+      amountToPay: 12300,
       consentToPay: true,
       reference: "Little ones after school club",
       expiresAt: "2019-11-22T13:57:31.123Z",

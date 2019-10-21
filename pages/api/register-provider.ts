@@ -155,7 +155,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     //       id: newChildcareProvider.id,
     //     },
     //   },
-    //   amountToPay: convertToPennies(amountToPay),
+    //   amountToPay: poundsToPennies(amountToPay),
     //   consentToPay,
     //   expiresAt,
     //   reference,

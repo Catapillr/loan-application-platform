@@ -1,6 +1,10 @@
 {
+  "exclude": ["./generated/js/"],
   "compilerOptions": {
     "module": "commonjs",
-    "allowJs": true
+    "lib": ["ES2015"],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "noEmit": true
   }
 }

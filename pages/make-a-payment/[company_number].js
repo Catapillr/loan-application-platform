@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import nextCookies from "next-cookies"
+import Link from "next/link"
 
 import { Formik, Form } from "formik"
 
@@ -44,14 +45,17 @@ const onSubmit = ({
   }
 
   const setupProviderAndSendPayment = () => {
-    return axios.post(`${process.env.HOST}/api/add-childcare-provider`, {
-      ...childcareProvider,
-      ...paymentRequest,
-    })
+    return axios.post(
+      `${process.env.HOST}/api/private/add-childcare-provider`,
+      {
+        ...childcareProvider,
+        ...paymentRequest,
+      }
+    )
   }
 
   const sendPayment = () => {
-    return axios.post(`${process.env.HOST}/api/send-payment-request`, {
+    return axios.post(`${process.env.HOST}/api/private/send-payment-request`, {
       ...paymentRequest,
       childcareProviderId: catapillrChildcareProvider.id,
     })
@@ -151,46 +155,64 @@ const Wizard = ({
                   {formCompleted ? "Thank you!" : "Make a payment"}
                 </Title>
 
-                <Form>
-                  <RenderStep
-                    {...{
-                      validateForm,
-                      page,
-                      setTouched,
-                      component: React.cloneElement(activePage, {
-                        setPage,
-                        values,
-                        incrementPage,
-                        submitForm,
-                        isValid,
-                        isSubmitting,
-                        setFieldValue,
-                        company,
-                        Controls,
-                        isProviderRegistered,
-                        userWalletBalance,
-                      }),
-                    }}
-                  ></RenderStep>
-                </Form>
+                {!company ? (
+                  <ErrorBox>
+                    That's not a valid company number, sorry! Try{" "}
+                    <Link href="/make-a-payment">
+                      <span className="underline text-teal cursor-pointer">
+                        searching again
+                      </span>
+                    </Link>
+                    .
+                  </ErrorBox>
+                ) : (
+                  <Form>
+                    <RenderStep
+                      {...{
+                        validateForm,
+                        page,
+                        setTouched,
+                        component: React.cloneElement(activePage, {
+                          setPage,
+                          values,
+                          incrementPage,
+                          submitForm,
+                          isValid,
+                          isSubmitting,
+                          setFieldValue,
+                          company,
+                          Controls,
+                          isProviderRegistered,
+                          userWalletBalance,
+                        }),
+                      }}
+                    ></RenderStep>
+                  </Form>
+                )}
               </Main>
-              {!formCompleted && (
+              {!formCompleted && company && (
                 <Aside>
                   <Tip>
                     <h2 className="font-bold mb-6">How does this work?</h2>
                     <p className="mb-6">
-                      Unfortunately, the childcare provider you selected is not
-                      yet on our database.
+                      {isProviderRegistered
+                        ? "Enter the amount you would like to pay for the service you are interested in."
+                        : "Unfortunately, the childcare provider you selected is not yet on our database."}
                     </p>
                     <p className="mb-6">
-                      The good news is that we can send them an email invite
-                      with a magic link containing the amount you would like to
-                      pay.
+                      {isProviderRegistered
+                        ? "Tell us what the amount is going towards."
+                        : "The good news is that we can send them an email invite with a magic link containing the amount you would like to pay."}
                     </p>
 
+                    {isProviderRegistered && (
+                      <p className="mb-6">Send the payment and that’s it!</p>
+                    )}
+
                     <p className="mb-6">
-                      As soon as they sign up, they will be able to easily claim
-                      the amount, and you will be notified!
+                      {isProviderRegistered
+                        ? "You will be notified as soon as the provider accepts the payment and claims the amount."
+                        : "As soon as they sign up, they will be able to easily claim the amount, and you will be notified!"}
                     </p>
                   </Tip>
                 </Aside>
@@ -265,6 +287,11 @@ const Tip = styled.aside.attrs({
   height: fit-content;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
+const ErrorBox = styled.div.attrs({
+  className: "w-full block bg-white px-10 pb-10 pt-6",
+})`
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
+`
 
 const Title = styled.h1.attrs({
   className: "font-bold font-3xl",
@@ -314,7 +341,7 @@ MakeAPayment.getInitialProps = async ctx => {
       },
     ] = await Promise.all([
       axios.get(
-        `${process.env.HOST}/api/get-company?company_number=${company_number}`,
+        `${process.env.HOST}/api/private/get-company?company_number=${company_number}`,
         {
           headers: { Cookie: serializedCookies },
         }

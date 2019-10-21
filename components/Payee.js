@@ -44,7 +44,7 @@ const Payee = ({ name, childcareType, slug }) => (
   <_Payee>
     <Icon src={childcareToIcon(childcareType)} />
     <Name>{name}</Name>
-    <Button href={`${process.env.HOST}/pay/${slug}`}>Pay</Button>
+    <Button href={`${process.env.HOST}/make-a-payment/${slug}`}>Pay</Button>
   </_Payee>
 )
 

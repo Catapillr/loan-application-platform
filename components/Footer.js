@@ -25,10 +25,41 @@ const Footer = () => (
   <Container>
     <Nav>
       <Links>
-        <FooterLink>Help</FooterLink>
-        <FooterLink>Contact us</FooterLink>
-        <FooterLink>About</FooterLink>
-        <FooterLink>T&C</FooterLink>
+        <FooterLink
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://catapillr.com/faq/"
+        >
+          Help
+        </FooterLink>
+        <FooterLink
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://catapillr.com/contact-us/"
+        >
+          Contact us
+        </FooterLink>
+        <FooterLink
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://catapillr.com/about/"
+        >
+          About
+        </FooterLink>
+        <FooterLink
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://catapillr.com/data-privacy-policy/"
+        >
+          Privacy
+        </FooterLink>{" "}
+        <FooterLink
+          target="_blank"
+          rel="noopener noreferrer"
+          href="../static/C-CAS T&CS.pdf"
+        >
+          T&C
+        </FooterLink>
       </Links>
       <Rights>Catapillr. All rights reserved.</Rights>
     </Nav>

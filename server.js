@@ -89,7 +89,9 @@ app.prepare().then(() => {
   server.use(authRoutes)
 
   // server.get("/test", restrictAccessPage)
-  server.get("/api/test", restrictAccessAPI)
+  // server.get("/api/test", restrictAccessAPI)
+
+  server.get("/api/private/*", restrictAccessAPI)
 
   server.get("*", (req, res) => {
     return handle(req, res)
