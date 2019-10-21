@@ -72,30 +72,12 @@ const initialValues = {
   repDob: { day: "17", month: "03", year: "1992" },
   repCountryOfResidence: "GB",
   repNationality: "GB",
-  proofOfId: {
-    // lastModified: 1570704053202,
-    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-    // name: "Screenshot 2019-10-10 at 11.40.47.png",
-    // size: 948892,
-    // type: "image/png",
-    // webkitRelativePath: "",
-  },
-  articlesOfAssociation: {
-    // lastModified: 1570704053202,
-    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-    // name: "Screenshot 2019-10-10 at 11.40.47.png",
-    // size: 948892,
-    // type: "image/png",
-    // webkitRelativePath: "",
-  },
-  proofOfRegistration: {
-    // lastModified: 1570704053202,
-    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-    // name: "Screenshot 2019-10-10 at 11.40.47.png",
-    // size: 948892,
-    // type: "image/png",
-    // webkitRelativePath: "",
-  },
+  repProofOfId: {},
+  articlesOfAssociation: {},
+  proofOfRegistration: {},
+  repProofOfIdURI: "",
+  articlesOfAssociationURI: "",
+  proofOfRegistrationURI: "",
   bankName: "Monzo",
   accountNumber: "17918586",
   sortCode: {
@@ -103,7 +85,7 @@ const initialValues = {
     secondSection: "69",
     thirdSection: "72",
   },
-  AddressLine1: "Space 4",
+  AddressLine1: "Space4",
   AddressLine2: "149 Fonthill Road",
   City: "London",
   Region: "London",
@@ -250,7 +232,6 @@ const Wizard = ({
   const pages = steps.map(step => step.type.componentName)
   const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
 
-  // console.log("Company", company)
   const {
     validationSchema,
     hideNext,
@@ -293,7 +274,6 @@ const Wizard = ({
         setTouched,
         setFieldValue,
       }) => {
-        console.log("Values", values)
         const debugging = false
 
         return (
@@ -383,10 +363,10 @@ const ProviderOnboarding = ({
   return (
     <Wizard {...{ paymentRequest, childcareProvider, user, company }}>
       <Welcome />
-      {/* <BusinessDetails /> */}
+      <BusinessDetails />
       <UBOs />
       <Documents />
-      {/* <BankDetails /> */}
+      <BankDetails />
       <Summary />
       <Confirmation />
     </Wizard>
