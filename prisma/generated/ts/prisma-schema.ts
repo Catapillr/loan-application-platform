@@ -749,6 +749,7 @@ input EmployerWhereUniqueInput {
 
 type Loan {
   id: ID!
+  user: User!
   amount: Int!
   terms: Int!
   approved: Boolean!
@@ -765,15 +766,24 @@ type LoanConnection {
 
 input LoanCreateInput {
   id: ID
+  user: UserCreateOneWithoutLoanInput!
   amount: Int!
   terms: Int!
   approved: Boolean
   agreementURL: String
 }
 
-input LoanCreateOneInput {
-  create: LoanCreateInput
+input LoanCreateOneWithoutUserInput {
+  create: LoanCreateWithoutUserInput
   connect: LoanWhereUniqueInput
+}
+
+input LoanCreateWithoutUserInput {
+  id: ID
+  amount: Int!
+  terms: Int!
+  approved: Boolean
+  agreementURL: String
 }
 
 type LoanEdge {
@@ -826,14 +836,8 @@ input LoanSubscriptionWhereInput {
   NOT: [LoanSubscriptionWhereInput!]
 }
 
-input LoanUpdateDataInput {
-  amount: Int
-  terms: Int
-  approved: Boolean
-  agreementURL: String
-}
-
 input LoanUpdateInput {
+  user: UserUpdateOneRequiredWithoutLoanInput
   amount: Int
   terms: Int
   approved: Boolean
@@ -847,18 +851,25 @@ input LoanUpdateManyMutationInput {
   agreementURL: String
 }
 
-input LoanUpdateOneInput {
-  create: LoanCreateInput
-  update: LoanUpdateDataInput
-  upsert: LoanUpsertNestedInput
+input LoanUpdateOneWithoutUserInput {
+  create: LoanCreateWithoutUserInput
+  update: LoanUpdateWithoutUserDataInput
+  upsert: LoanUpsertWithoutUserInput
   delete: Boolean
   disconnect: Boolean
   connect: LoanWhereUniqueInput
 }
 
-input LoanUpsertNestedInput {
-  update: LoanUpdateDataInput!
-  create: LoanCreateInput!
+input LoanUpdateWithoutUserDataInput {
+  amount: Int
+  terms: Int
+  approved: Boolean
+  agreementURL: String
+}
+
+input LoanUpsertWithoutUserInput {
+  update: LoanUpdateWithoutUserDataInput!
+  create: LoanCreateWithoutUserInput!
 }
 
 input LoanWhereInput {
@@ -876,6 +887,7 @@ input LoanWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  user: UserWhereInput
   amount: Int
   amount_not: Int
   amount_in: [Int!]
@@ -1915,7 +1927,7 @@ input UserCreateInput {
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
-  loan: LoanCreateOneInput
+  loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
@@ -1925,6 +1937,11 @@ input UserCreateInput {
 input UserCreateManyWithoutEmployerInput {
   create: [UserCreateWithoutEmployerInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneWithoutLoanInput {
+  create: UserCreateWithoutLoanInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutPayInsInput {
@@ -1951,7 +1968,28 @@ input UserCreateWithoutEmployerInput {
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
-  loan: LoanCreateOneInput
+  loan: LoanCreateOneWithoutUserInput
+  mangoWalletId: String
+  mangoUserId: String
+  paymentRequests: PaymentRequestCreateManyWithoutUserInput
+  payIns: PayInCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutLoanInput {
+  id: ID
+  employer: EmployerCreateOneWithoutUserInput!
+  firstName: String!
+  lastName: String!
+  email: String!
+  isVerified: Boolean
+  phoneNumber: String!
+  dob: DateTime!
+  nationality: String!
+  employmentStartDate: DateTime!
+  annualSalary: Int!
+  employeeID: String
+  verificationToken: VerificationTokenCreateOneInput
+  gdprConsent: Boolean!
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
@@ -1973,7 +2011,7 @@ input UserCreateWithoutPayInsInput {
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
-  loan: LoanCreateOneInput
+  loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
@@ -1994,7 +2032,7 @@ input UserCreateWithoutPaymentRequestsInput {
   employeeID: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
-  loan: LoanCreateOneInput
+  loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
   mangoUserId: String
   payIns: PayInCreateManyWithoutUserInput
@@ -2267,7 +2305,7 @@ input UserUpdateInput {
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
-  loan: LoanUpdateOneInput
+  loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
@@ -2323,6 +2361,13 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateOneRequiredWithoutLoanInput {
+  create: UserCreateWithoutLoanInput
+  update: UserUpdateWithoutLoanDataInput
+  upsert: UserUpsertWithoutLoanInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneRequiredWithoutPayInsInput {
   create: UserCreateWithoutPayInsInput
   update: UserUpdateWithoutPayInsDataInput
@@ -2350,7 +2395,27 @@ input UserUpdateWithoutEmployerDataInput {
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
-  loan: LoanUpdateOneInput
+  loan: LoanUpdateOneWithoutUserInput
+  mangoWalletId: String
+  mangoUserId: String
+  paymentRequests: PaymentRequestUpdateManyWithoutUserInput
+  payIns: PayInUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutLoanDataInput {
+  employer: EmployerUpdateOneRequiredWithoutUserInput
+  firstName: String
+  lastName: String
+  email: String
+  isVerified: Boolean
+  phoneNumber: String
+  dob: DateTime
+  nationality: String
+  employmentStartDate: DateTime
+  annualSalary: Int
+  employeeID: String
+  verificationToken: VerificationTokenUpdateOneInput
+  gdprConsent: Boolean
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
@@ -2371,7 +2436,7 @@ input UserUpdateWithoutPayInsDataInput {
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
-  loan: LoanUpdateOneInput
+  loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
@@ -2391,7 +2456,7 @@ input UserUpdateWithoutPaymentRequestsDataInput {
   employeeID: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
-  loan: LoanUpdateOneInput
+  loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
   mangoUserId: String
   payIns: PayInUpdateManyWithoutUserInput
@@ -2400,6 +2465,11 @@ input UserUpdateWithoutPaymentRequestsDataInput {
 input UserUpdateWithWhereUniqueWithoutEmployerInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutEmployerDataInput!
+}
+
+input UserUpsertWithoutLoanInput {
+  update: UserUpdateWithoutLoanDataInput!
+  create: UserCreateWithoutLoanInput!
 }
 
 input UserUpsertWithoutPayInsInput {
