@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     approved: false,
   })
 
-  await prisma.createPaymentRequest({
+  const newPaymentRequest = await prisma.createPaymentRequest({
     user: {
       connect: {
         email: user.email,
@@ -63,7 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     user,
     email: newChildcareProvider.email,
     amountToPay: poundsToPennies(amountToPay),
-    slug: newChildcareProvider.id,
+    slug: newPaymentRequest.id,
   })
 
   res.status(200).json({ childcareProviderId: newChildcareProvider.id })
