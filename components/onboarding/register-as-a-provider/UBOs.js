@@ -90,16 +90,8 @@ const UBOs = ({ values: { ubo1, ubo2, ubo3, ubo4 } }) => (
       See our FAQs if you want ot find out more.
     </Copy>
     {UBOList([ubo1, ubo2, ubo3, ubo4])}
-    {/* {JSON.stringify(ubo4)} */}
   </Container>
 )
-
-// "AddressLine1": "1 Mangopay Street",
-// "AddressLine2": "The Loop",
-// "City": "Paris",
-// "Region": "Ile de France",
-// "PostalCode": "75001",
-// "Country": "FR"
 
 UBOs.validationSchema = validation
 UBOs.progressImg = progress3
