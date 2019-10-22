@@ -5,6 +5,7 @@ const passport = require("passport")
 const Auth0Strategy = require("passport-auth0")
 const redis = require("redis")
 const connectRedis = require("connect-redis")
+const enforce = require("express-sslify")
 
 const { prisma } = require("./prisma/generated/js")
 
@@ -58,7 +59,13 @@ app.prepare().then(() => {
     sess.store = new RedisStore({ client })
   }
 
-  server.use(session(sess))
+  server
+    .use(session(sess))
+    .use(
+      dev
+        ? (req, res, next) => next()
+        : enforce.HTTPS({ trustProtoHeader: true })
+    )
 
   const strategy = new Auth0Strategy(
     {
