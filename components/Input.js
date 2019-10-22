@@ -115,7 +115,13 @@ const CheckboxInput = ({
   )
 }
 
-const SortCodeInput = ({ text, name }) => (
+const SortCodeInput = ({
+  text,
+  name,
+  validate,
+  className,
+  keepFieldCleanOnChange,
+}) => (
   <Container>
     {text && <Label htmlFor={name}>{text}</Label>}
 
@@ -126,18 +132,26 @@ const SortCodeInput = ({ text, name }) => (
         component={NumberInput}
         maxLength={2}
         placeholder={"00"}
+        onChange={keepFieldCleanOnChange(`${name}.firstSection`)}
+        {...{ className, validate }}
+        className={className}
+        validate={validate}
       />
       <Field
         name={`${name}.secondSection`}
         component={NumberInput}
         maxLength={2}
         placeholder={"00"}
+        onChange={keepFieldCleanOnChange(`${name}.secondSection`)}
+        {...{ className, validate }}
       />
       <Field
         name={`${name}.thirdSection`}
         component={NumberInput}
         maxLength={2}
         placeholder={"00"}
+        onChange={keepFieldCleanOnChange(`${name}.thirdSection`)}
+        {...{ className, validate }}
       />
     </div>
 

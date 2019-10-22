@@ -273,6 +273,7 @@ const Wizard = ({
         submitForm,
         setTouched,
         setFieldValue,
+        errors,
       }) => {
         const debugging = false
 
@@ -296,6 +297,7 @@ const Wizard = ({
                     emailVerificationError,
                     incrementPage,
                     setFieldValue,
+                    errors,
                   }),
                 }}
               ></RenderStep>
