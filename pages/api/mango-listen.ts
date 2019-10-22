@@ -11,7 +11,10 @@ import {
   sendEmployerPaymentNotification,
   sendIncorrectPaymentNotification,
   sendKYCorUBOFailure,
+  sendProviderPaymentNotification,
+  sendEmployeeOutgoingPaymentNotification,
 } from "../../utils/mailgunClient"
+import poundsToPennies from "../../utils/poundsToPennies"
 
 const PAYIN_SUCCEEDED = "PAYIN_NORMAL_SUCCEEDED"
 const KYC_SUCCEEDED = "KYC_SUCCEEDED"
@@ -27,7 +30,6 @@ const UBO_DECLARATION_INCOMPLETE = "UBO_DECLARATION_INCOMPLETE"
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { EventType, RessourceId } = req.query
-    console.log("woooooooooooooo", req.query)
 
     const handleEvents: any = (() => {
       switch (EventType) {
@@ -83,7 +85,6 @@ const handleUBO = (res: NextApiResponse) => async ({
 
     if (mangoLegalUser.KYCLevel === "REGULAR") {
       await processPaymentRequest(mangoLegalUser.Id)
-      // return res.status(200).end()
     }
 
     res.status(200).end()
@@ -109,7 +110,6 @@ const handleKYC = (res: NextApiResponse) => async ({
 
     if (mangoLegalUser.KYCLevel === "REGULAR") {
       await processPaymentRequest(mangoLegalUser.Id)
-      // return res.status(200).end()
     }
 
     res.status(200).end()
@@ -136,6 +136,8 @@ const processPaymentRequest = async (mangoLegalUserID: string) => {
       user {
         mangoUserId
         mangoWalletId
+        firstName
+        lastName
       }
     }
   `)
@@ -172,8 +174,18 @@ const processPaymentRequest = async (mangoLegalUserID: string) => {
       PaymentType: "BANK_WIRE",
     })
 
+    sendProviderPaymentNotification({
+      email: provider.email,
+      amountToPay: poundsToPennies(paymentRequest.amountToPay),
+      employeeName: `${paymentRequest.user.firstName} ${paymentRequest.user.lastName}`,
+    })
+
+    sendEmployeeOutgoingPaymentNotification({
+      email: paymentRequest.user.email,
+      amountToPay: poundsToPennies(paymentRequest.amountToPay),
+    })
+
     await prisma.deletePaymentRequest({ id: paymentRequest.id })
-    // TODO: send out emails saying payment succesful
   }
 
   return await Promise.all(R.map(processPayout)(paymentRequests))
