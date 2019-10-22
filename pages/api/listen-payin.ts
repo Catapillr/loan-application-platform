@@ -10,6 +10,7 @@ import {
   sendEmployeeLoanPaymentNotification,
   sendEmployerPaymentNotification,
   sendIncorrectPaymentNotification,
+  sendKYCorUBOFailure,
 } from "../../utils/mailgunClient"
 
 const PAYIN_SUCCEEDED = "PAYIN_NORMAL_SUCCEEDED"
@@ -33,29 +34,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         case PAYIN_SUCCEEDED:
           return handleSuccesfulPayIn
         case KYC_SUCCEEDED:
-          return handleSuccesfulKYC
+          return handleKYC
         case KYC_FAILED:
-          return
-        case UBO_DECLARATION_REFUSED:
-          return
+          return handleKYC
         case UBO_DECLARATION_VALIDATED:
-          return handleSuccesfulUBO
+          return handleUBO
+        case UBO_DECLARATION_REFUSED:
+          return handleUBO
         case UBO_DECLARATION_INCOMPLETE:
-          return
+          return handleUBO
         default:
           return res.status(200).end()
       }
     })()
 
-    handleEvents(RessourceId as string)(res)
+    handleEvents(res)({ RessourceId, EventType })
   } catch (err) {
     console.error("Mango listen hook error: ", err)
   }
 }
 
-const handleSuccesfulUBO = (RessourceId: string) => async (
-  res: NextApiResponse
-) => {
+const handleUBO = (res: NextApiResponse) => async ({
+  RessourceId,
+  EventType,
+}) => {
   try {
     const { data: resource } = await axios.get(
       `https://api.sandbox.mangopay.com/v2.01/${process.env.MANGO_CLIENT_ID}/kyc/ubodeclarations/${RessourceId}`,
@@ -68,29 +70,46 @@ const handleSuccesfulUBO = (RessourceId: string) => async (
         },
       }
     )
+
+    if (
+      EventType === UBO_DECLARATION_REFUSED ||
+      EventType === UBO_DECLARATION_INCOMPLETE
+    ) {
+      sendKYCorUBOFailure(resource)
+      return res.status(200).end()
+    }
+
     const mangoLegalUser = await mango.Users.get(resource.UserId)
 
     if (mangoLegalUser.KYCLevel === "REGULAR") {
       await processPaymentRequest(mangoLegalUser.Id)
-      return res.status(200).end()
+      // return res.status(200).end()
     }
 
     res.status(200).end()
   } catch (err) {
     console.error("Error with UBO hook: ", err)
+    // TODO: take out
+    res.status(200).end()
   }
 }
 
-const handleSuccesfulKYC = (RessourceId: string) => async (
-  res: NextApiResponse
-) => {
+const handleKYC = (res: NextApiResponse) => async ({
+  RessourceId,
+  EventType,
+}) => {
   try {
-    const resource = await mango.KycDocuments.get(RessourceId as string)
+    const resource = await mango.KycDocuments.get(RessourceId)
+    if (EventType === KYC_FAILED) {
+      sendKYCorUBOFailure(resource)
+      return res.status(200).end()
+    }
+
     const mangoLegalUser = await mango.Users.get(resource.UserId)
 
     if (mangoLegalUser.KYCLevel === "REGULAR") {
       await processPaymentRequest(mangoLegalUser.Id)
-      return res.status(200).end()
+      // return res.status(200).end()
     }
 
     res.status(200).end()
@@ -154,16 +173,15 @@ const processPaymentRequest = async (mangoLegalUserID: string) => {
     })
 
     await prisma.deletePaymentRequest({ id: paymentRequest.id })
-
     // TODO: send out emails saying payment succesful
   }
 
   return await Promise.all(R.map(processPayout)(paymentRequests))
 }
 
-const handleSuccesfulPayIn = (RessourceId: string) => async (
-  res: NextApiResponse
-) => {
+const handleSuccesfulPayIn = (res: NextApiResponse) => async ({
+  RessourceId,
+}) => {
   try {
     const {
       DebitedFunds,
