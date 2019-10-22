@@ -1,5 +1,9 @@
 export default [
   {
+    label: "United Kingdom",
+    value: "GB",
+  },
+  {
     label: "Afghanistan",
     value: "AF",
   },
@@ -268,6 +272,10 @@ export default [
     value: "SV",
   },
   {
+    label: "England",
+    value: "GB",
+  },
+  {
     label: "Equatorial Guinea",
     value: "GQ",
   },
@@ -342,6 +350,10 @@ export default [
   {
     label: "Gibraltar",
     value: "GI",
+  },
+  {
+    label: "Great Britain",
+    value: "GB",
   },
   {
     label: "Greece",
@@ -660,6 +672,10 @@ export default [
     value: "MK",
   },
   {
+    label: "Northern Ireland",
+    value: "GB",
+  },
+  {
     label: "Northern Mariana Islands",
     value: "MP",
   },
@@ -782,6 +798,10 @@ export default [
   {
     label: "Saudi Arabia",
     value: "SA",
+  },
+  {
+    label: "Scotland",
+    value: "GB",
   },
   {
     label: "Senegal",
@@ -936,10 +956,6 @@ export default [
     value: "AE",
   },
   {
-    label: "United Kingdom",
-    value: "GB",
-  },
-  {
     label: "United States of America",
     value: "US",
   },
@@ -974,6 +990,10 @@ export default [
   {
     label: "Virgin Islands (U.S.)",
     value: "VI",
+  },
+  {
+    label: "Wales",
+    value: "GB",
   },
   {
     label: "Wallis and Futuna",
