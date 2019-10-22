@@ -10,6 +10,7 @@ import createFormData from "../../utils/createFormData"
 
 import Welcome from "../../components/onboarding/register-as-a-provider/Welcome"
 import BusinessDetails from "../../components/onboarding/register-as-a-provider/BusinessDetails"
+import UBOs from "../../components/onboarding/register-as-a-provider/UBOs"
 import BankDetails from "../../components/onboarding/register-as-a-provider/BankDetails"
 import Documents from "../../components/onboarding/register-as-a-provider/Documents"
 import Summary from "../../components/onboarding/register-as-a-provider/Summary"
@@ -20,98 +21,97 @@ import { Button } from "../../components/onboarding/styles"
 
 import orangeLogo from "../../static/logo_orange.svg"
 
-// const initialValues = {
-//   businessName: "",
-//   businessEmail: "",
-//   companyNumber: "",
-//   ownerFirstName: "",
-//   ownerLastName: "",
-//   ownerKeyContact: "",
-//   ownerDob: { day: "", month: "", year: "" },
-//   ownerCountryOfResidence: "",
-//   ownerNationality: "",
-//   proofOfId: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   articlesOfAssociation: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   proofOfRegistration: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   bankName: "",
-//   accountNumber: "",
-//   sortCode: {
-//     firstSection: "",
-//     secondSection: "",
-//     thirdSection: "",
-//   },
-//   AddressLine1: "",
-//   AddressLine2: "",
-//   City: "",
-//   Region: "",
-//   PostalCode: "",
-//   Country: "",
-// }
-
 const initialValues = {
-  businessName: "InFact",
-  businessEmail: "hello@infactcoop.com",
-  companyNumber: "11912270",
-  ownerFirstName: "Maximus",
-  ownerLastName: "Gerber",
-  // TODO: do we need this field?
-  ownerKeyContact: "Lucy",
-  ownerDob: { day: "17", month: "03", year: "1992" },
-  ownerCountryOfResidence: "GB",
-  ownerNationality: "GB",
-  proofOfId: {
-    // lastModified: 1570704053202,
-    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-    // name: "Screenshot 2019-10-10 at 11.40.47.png",
-    // size: 948892,
-    // type: "image/png",
-    // webkitRelativePath: "",
+  businessName: "",
+  businessEmail: "",
+  companyNumber: "",
+  repFirstName: "",
+  repLastName: "",
+  repDob: { day: "", month: "", year: "" },
+  repCountryOfResidence: "GB",
+  repNationality: "GB",
+  repProofOfId: {
+    name: "",
+    lastModified: "",
+    lastModifiedDate: "",
+    webkitRelativePath: "",
   },
   articlesOfAssociation: {
-    // lastModified: 1570704053202,
-    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-    // name: "Screenshot 2019-10-10 at 11.40.47.png",
-    // size: 948892,
-    // type: "image/png",
-    // webkitRelativePath: "",
+    name: "",
+    lastModified: "",
+    lastModifiedDate: "",
+    webkitRelativePath: "",
   },
   proofOfRegistration: {
-    // lastModified: 1570704053202,
-    // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
-    // name: "Screenshot 2019-10-10 at 11.40.47.png",
-    // size: 948892,
-    // type: "image/png",
-    // webkitRelativePath: "",
+    name: "",
+    lastModified: "",
+    lastModifiedDate: "",
+    webkitRelativePath: "",
   },
-  bankName: "Monzo",
-  accountNumber: "17918586",
+  bankName: "",
+  accountNumber: "",
   sortCode: {
-    firstSection: "23",
-    secondSection: "69",
-    thirdSection: "72",
+    firstSection: "",
+    secondSection: "",
+    thirdSection: "",
   },
-  AddressLine1: "Space 4",
-  AddressLine2: "149 Fonthill Road",
-  City: "London",
-  Region: "London",
-  PostalCode: "N4 3HF",
-  Country: "GB",
+  AddressLine1: "",
+  AddressLine2: "",
+  City: "",
+  Region: "",
+  PostalCode: "",
+  Country: "",
 }
+
+// const initialValues = {
+//   businessName: "InFact",
+//   businessEmail: "hello@infactcoop.com",
+//   companyNumber: "11912270",
+//   repFirstName: "Maximus",
+//   repLastName: "Gerber",
+//   // TODO: do we need this field?
+//   repKeyContact: "Lucy",
+//   repDob: { day: "17", month: "03", year: "1992" },
+//   repCountryOfResidence: "GB",
+//   repNationality: "GB",
+//   proofOfId: {
+//     // lastModified: 1570704053202,
+//     // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+//     // name: "Screenshot 2019-10-10 at 11.40.47.png",
+//     // size: 948892,
+//     // type: "image/png",
+//     // webkitRelativePath: "",
+//   },
+//   articlesOfAssociation: {
+//     // lastModified: 1570704053202,
+//     // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+//     // name: "Screenshot 2019-10-10 at 11.40.47.png",
+//     // size: 948892,
+//     // type: "image/png",
+//     // webkitRelativePath: "",
+//   },
+//   proofOfRegistration: {
+//     // lastModified: 1570704053202,
+//     // lastModifiedDate: "Thu Oct 10 2019 11:40:53 GMT+0100 (British Summer Time)",
+//     // name: "Screenshot 2019-10-10 at 11.40.47.png",
+//     // size: 948892,
+//     // type: "image/png",
+//     // webkitRelativePath: "",
+//   },
+//   bankName: "Monzo",
+//   accountNumber: "17918586",
+//   sortCode: {
+//     firstSection: "23",
+//     secondSection: "69",
+//     thirdSection: "72",
+//   },
+//   AddressLine1: "Space 4",
+//   AddressLine2: "149 Fonthill Road",
+//   City: "London",
+//   Region: "London",
+//   PostalCode: "N4 3HF",
+//   Country: "GB",
+// }
 
 const Previous = ({ decrementPage, hidePrevious }) => (
   <div className="w-40">
@@ -160,37 +160,13 @@ const Next = ({
   </div>
 )
 
-// const createNewToken = async ({ email }) => {
-//   const res = await axios.post(`${process.env.HOST}/api/create-new-token`, {
-//     email,
-//   })
-
-//   const {
-//     data: { token },
-//   } = res
-
-//   return { token }
-// }
-
-// const isTokenValid = async ({ email, token }) => {
-//   const res = await axios(
-//     `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`
-//   )
-
-//   const {
-//     data: { isTokenValid },
-//   } = res
-
-//   return { isTokenValid }
-// }
-
 const Controls = ({
   page,
   isValid,
   isSubmitting,
   // values,
   formCompleted,
-  // setFormCompleted,
+  setFormCompleted,
   submitForm,
   // setEmailVerificationError,
   hideNext,
@@ -202,6 +178,11 @@ const Controls = ({
 }) => {
   const nextClick = () => {
     switch (page) {
+      case Steps.BankDetails:
+        return () => {
+          setFormCompleted(true)
+          incrementPage()
+        }
       default:
         return formCompleted ? goToSummaryPage : incrementPage
     }
@@ -232,11 +213,14 @@ const Controls = ({
 const onSubmit = ({
   incrementPage,
   childcareProviderEmail,
+  formCompleted,
 }) => async values => {
-  //eslint-disable-next-line no-console
-  console.log("Register-as-a-provider form submitted")
-
   try {
+    //eslint-disable-next-line no-console
+    console.log("Register-as-a-provider form submitted")
+
+    if (!formCompleted) incrementPage()
+
     const form = createFormData({
       ...values,
       childcareProviderEmail,
@@ -253,8 +237,14 @@ const onSubmit = ({
   }
 }
 
-const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
-  const [page, setPage] = useState(Steps.Documents)
+const Wizard = ({
+  children,
+  paymentRequest,
+  childcareProvider,
+  user,
+  company,
+}) => {
+  const [page, setPage] = useState(Steps.Welcome)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
@@ -285,7 +275,7 @@ const Wizard = ({ children, paymentRequest, childcareProvider, user }) => {
   return (
     <Formik
       {...{
-        initialValues,
+        initialValues: { ...initialValues, ...company },
         validationSchema,
         onSubmit: onSubmit({
           incrementPage,
@@ -383,6 +373,7 @@ const ProviderOnboarding = ({
   paymentRequest,
   childcareProvider,
   user,
+  company,
   error,
 }) => {
   if (error) {
@@ -390,9 +381,10 @@ const ProviderOnboarding = ({
   }
 
   return (
-    <Wizard {...{ paymentRequest, childcareProvider, user }}>
+    <Wizard {...{ paymentRequest, childcareProvider, user, company }}>
       <Welcome />
       <BusinessDetails />
+      <UBOs />
       <Documents />
       <BankDetails />
       <Summary />
@@ -454,13 +446,13 @@ ProviderOnboarding.getInitialProps = async ctx => {
       `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
     )
 
-    // TODO: Do we need this await?
-    // const company =
-    await axios.get(
+    const {
+      data: { company },
+    } = await axios.get(
       `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`
     )
 
-    return { paymentRequest, childcareProvider, user }
+    return { paymentRequest, childcareProvider, user, company }
   } catch (error) {
     console.error("Error in [id] getInitProps: ", error) //eslint-disable-line
     return {
