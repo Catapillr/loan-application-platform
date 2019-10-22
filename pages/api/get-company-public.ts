@@ -1,16 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import axios from "axios"
 import fs from "fs"
-import { join } from "path"
 import { file } from "tmp-promise"
 import * as R from "ramda"
 
 import countryToISO from "../../utils/countryToISO"
 import nationalityToISO from "../../utils/nationalityToISO"
 import getLastPath from "../../utils/getLastPath"
-import moment from "moment"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
     const authentication = {
       auth: {
@@ -58,11 +56,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     )
 
-    const { fd, path, cleanup } = await file({
+    const { path } = await file({
       postfix: ".pdf",
     })
     incorporationDocument.pipe(fs.createWriteStream(path))
 
+    // @ts-ignore
     const ubos = R.addIndex(R.reduce)((acc: any, ubo: any, index: number) => {
       return {
         ...acc,

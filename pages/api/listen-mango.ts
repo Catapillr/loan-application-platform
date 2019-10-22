@@ -90,8 +90,6 @@ const handleUBO = (res: NextApiResponse) => async ({
     res.status(200).end()
   } catch (err) {
     console.error("Error with UBO hook: ", err)
-    // TODO: take out
-    res.status(200).end()
   }
 }
 
@@ -118,9 +116,9 @@ const handleKYC = (res: NextApiResponse) => async ({
   }
 }
 
-const processPaymentRequest = async (mangoLegalUserID: string) => {
+const processPaymentRequest = async (mangoLegalUserId: string) => {
   const provider = await prisma.childcareProvider({
-    mangoLegalUserID,
+    mangoLegalUserId,
   })
 
   const paymentRequests: any = await prisma
@@ -158,7 +156,7 @@ const processPaymentRequest = async (mangoLegalUserID: string) => {
     })
 
     await mango.PayOuts.create({
-      AuthorId: provider.mangoLegalUserID,
+      AuthorId: provider.mangoLegalUserId,
       DebitedFunds: {
         Currency: "GBP",
         Amount: paymentRequest.amountToPay,
@@ -167,7 +165,7 @@ const processPaymentRequest = async (mangoLegalUserID: string) => {
         Currency: "GBP",
         Amount: 0,
       },
-      BankAccountId: provider.mangoBankAccountID,
+      BankAccountId: provider.mangoBankAccountId,
       DebitedWalletId: provider.mangoWalletId,
       BankWireRef: paymentRequest.reference,
       // @ts-ignore
