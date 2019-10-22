@@ -57,7 +57,7 @@
     "next-images": "^1.1.2",
     "passport": "^0.4.0",
     "passport-auth0": "^1.2.1",
-    "prisma": "^1.34.6",
+    "prisma": "^1.34.10",
     "ramda": "^0.26.1",
     "react": "16.9.0",
     "react-autosize-textarea": "^7.0.0",
