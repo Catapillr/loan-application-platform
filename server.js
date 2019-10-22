@@ -5,6 +5,7 @@ const passport = require("passport")
 const Auth0Strategy = require("passport-auth0")
 const redis = require("redis")
 const connectRedis = require("connect-redis")
+const enforce = require("express-sslify")
 
 const { prisma } = require("./prisma/generated/js")
 
@@ -51,6 +52,7 @@ app.prepare().then(() => {
   if (dev) {
     server.use(require("cors")())
   } else {
+    server.use(enforce.HTTPS())
     const client = redis.createClient(process.env.REDIS_URL)
     const RedisStore = connectRedis(session)
 
