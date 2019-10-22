@@ -52,7 +52,6 @@ app.prepare().then(() => {
   if (dev) {
     server.use(require("cors")())
   } else {
-    server.use(enforce.HTTPS())
     const client = redis.createClient(process.env.REDIS_URL)
     const RedisStore = connectRedis(session)
 
@@ -60,7 +59,13 @@ app.prepare().then(() => {
     sess.store = new RedisStore({ client })
   }
 
-  server.use(session(sess))
+  server
+    .use(session(sess))
+    .use(
+      dev
+        ? (req, res, next) => next()
+        : enforce.HTTPS({ trustProtoHeader: true })
+    )
 
   const strategy = new Auth0Strategy(
     {
