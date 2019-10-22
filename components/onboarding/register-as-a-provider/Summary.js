@@ -6,73 +6,105 @@ import { Heading } from "../styles"
 
 import tealTick from "../../../static/icons/teal-tick.svg"
 import progress4 from "../../../static/images/progress4.svg"
-import { BusinessDetails, Documents, BankDetails } from "./stepNames"
+import { BusinessDetails, UBOs, Documents, BankDetails } from "./stepNames"
 
 import nationalities from "../nationalityOptions"
 
-const sections = [
+const FileLink = styled.a.attrs({
+  className: "text-teal underline",
+  target: "_blank",
+})``
+
+const sections = uboSections => [
   {
-    heading: "Business Details",
+    heading: "1.1 Business Details",
     fields: [
-      { title: "Business name", Field: "businessName", page: BusinessDetails },
+      { title: "Business Name", field: "businessName", page: BusinessDetails },
       {
-        title: "Generic business email",
-        Field: "businessEmail",
+        title: "Company Number",
+        field: "companyNumber",
         page: BusinessDetails,
       },
       {
-        title: "Company Number",
-        Field: "companyNumber",
+        title: "Generic business email",
+        field: "businessEmail",
         page: BusinessDetails,
       },
     ],
   },
   {
-    heading: "Details of the Legal Representative",
+    heading: "1.2 Registered Company Address",
+    fields: [
+      { title: "Address Line 1", field: "AddressLine1", page: BusinessDetails },
+      {
+        title: "Address Line 2",
+        field: "AddressLine2",
+        page: BusinessDetails,
+      },
+      {
+        title: "City",
+        field: "City",
+        page: BusinessDetails,
+      },
+      {
+        title: "Post code",
+        field: "PostalCode",
+        page: BusinessDetails,
+      },
+      {
+        title: "Country",
+        field: "Country",
+        page: BusinessDetails,
+      },
+    ],
+  },
+  {
+    heading: "1.3 Details of the Legal Representative",
     fields: [
       {
         title: "First name",
-        Field: "repFirstName",
+        field: "repFirstName",
         page: BusinessDetails,
       },
       {
         title: "Last name",
-        Field: "repLastName",
+        field: "repLastName",
         page: BusinessDetails,
       },
       {
-        title: "Key contact",
-        Field: "repKeyContact",
+        title: "Date of birth",
+        field: "repDob",
         page: BusinessDetails,
       },
       {
         title: "Country of residence",
-        Field: "repCountryOfResidence",
+        field: "repCountryOfResidence",
         page: BusinessDetails,
       },
       {
         title: "Nationality",
-        Field: "repNationality",
+        field: "repNationality",
         page: BusinessDetails,
       },
     ],
   },
+  ...uboSections,
   {
     heading: "Documents",
     fields: [
       {
         title: "Proof of ID",
-        Field: "proofOfId",
+        field: "repProofOfId",
         page: Documents,
       },
       {
         title: "Articles of Association",
-        Field: "articlesOfAssociation",
+        field: "articlesOfAssociation",
         page: Documents,
       },
       {
         title: "Proof of Registration",
-        Field: "proofOfRegistration",
+        field: "proofOfRegistration",
         page: Documents,
       },
     ],
@@ -82,44 +114,63 @@ const sections = [
     fields: [
       {
         title: "Bank or Building Society Name",
-        Field: "bankName",
+        field: "bankName",
         page: BankDetails,
       },
       {
         title: "Account Number",
-        Field: "accountNumber",
+        field: "accountNumber",
         page: BankDetails,
       },
       {
         title: "Sort Code",
-        Field: "sortCode",
+        field: "sortCode",
         page: BankDetails,
       },
     ],
   },
 ]
 
-const getValues = (field, date) => values => {
-  const value = values[field]
+const getValues = field => values => {
+  const lensToValue = R.lensPath(field.split("."))
+  const value = R.view(lensToValue)(values)
   switch (true) {
-    case date:
+    case field === "sortCode":
+      return `${value.firstSection}-${value.secondSection}-${value.thirdSection}`
+    case !!value.year && !!value.month && !!value.day:
       return moment(
         `${value.month} ${value.day} ${value.year}`,
         "MM-DD-YYYY"
       ).format("DD MMMM YYYY")
     case field === "permanentRole":
       return "Permanent role"
-    case !value:
-      return "N/A"
     case field === "loanAmount":
       return `£${value}`
     case field === "monthlyRepayment":
       return `£${values.loanAmount / values.loanTerms}`
-    case field === "nationality":
+    case field === "repNationality" ||
+      field === "repCountryOfResidence" ||
+      field === "Country":
       return R.pipe(
         R.find(R.propEq("value", value)),
         R.prop("label")
       )(nationalities)
+    case value && value instanceof File:
+      return <FileLink href={values[`${field}URI`]}>{value.name}</FileLink>
+    case value && value.fileOnServer:
+      return (
+        <FileLink
+          href={`${
+            process.env.HOST
+          }/api/download-file?${value.webkitRelativePath || value.path}`}
+        >
+          {value.name}
+        </FileLink>
+      )
+    case !value:
+      return "N/A"
+    case typeof value === "object":
+      return JSON.stringify(value)
     default:
       return value
   }
@@ -138,7 +189,7 @@ const SummarySection = ({ heading, fields, values, setPage }) => {
           <p className="w-2/5 font-bold">{title}</p>
           <p className="w-2/5">{getValues(field, date)(values)}</p>
           <a
-            className="w-1/5 text-right text-teal underline"
+            className="w-1/5 text-right text-teal underline cursor-pointer"
             onClick={page ? () => setPage(page) : null}
           >
             {page && "Change"}
@@ -159,14 +210,41 @@ const Divider = styled.div.attrs({
 `
 
 const Summary = ({ values, setPage }) => {
+  const uboSections = R.pipe(
+    R.filter(ubo => !!ubo),
+    R.addIndex(R.map)((ubo, index) => ({
+      heading: `2.${index + 1} UBO ${index + 1}: ${ubo.FirstName} ${
+        ubo.LastName
+      }`,
+      fields: [
+        {
+          title: "Birthday",
+          field: `ubo${index + 1}.Birthday`,
+          page: UBOs,
+        },
+
+        {
+          title: "City of Birth",
+          field: `ubo${index + 1}.Birthplace.City`,
+          page: UBOs,
+        },
+        {
+          title: "Country of Birth",
+          field: `ubo${index + 1}.Birthplace.Country`,
+          page: UBOs,
+        },
+      ],
+    }))
+  )([values.ubo1, values.ubo2, values.ubo3, values.ubo4])
+
   return (
     <main className="flex justify-center items-start flex-col m-auto font-base">
-      <Heading className="mb-2">Thanks {values.firstName}</Heading>
-      <Heading className="">
+      <Heading className="mb-2">Thanks {values.repFirstName}</Heading>
+      <Heading>
         Please check your answers before we create your loan agreement
       </Heading>
       <SummaryContainer className="border border-midgray p-8 mt-10 w-full">
-        {sections.map(section => {
+        {sections(uboSections).map(section => {
           return (
             <SummarySection
               key={section.heading}

@@ -80,8 +80,8 @@ const seedDatabase = async () => {
       employmentStartDate: new Date().toISOString(),
       annualSalary: 28392382,
       employer: { connect: { id: infact.id } },
-      mangoUserId: "68516446",
-      mangoWalletId: "68516447",
+      mangoUserId: "70443751",
+      mangoWalletId: "70449806",
       loan: {
         create: {
           amount: 200000,
@@ -90,6 +90,18 @@ const seedDatabase = async () => {
         },
       },
       gdprConsent: true,
+      payIns: {
+        create: [
+          {
+            mangoPayInId: "70294171",
+            employer: {
+              connect: {
+                slug: "infact",
+              },
+            },
+          },
+        ],
+      },
     })
 
     const ivanLittleOnes = await prisma.createPaymentRequest({
@@ -112,7 +124,7 @@ const seedDatabase = async () => {
       expiresAt: "2019-11-22T13:57:31.123Z",
     })
 
-    console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console
+    const ivanPayIn = console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(infact, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(ivan, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(ivanLittleOnes, undefined, 2)) //eslint-disable-line no-console
