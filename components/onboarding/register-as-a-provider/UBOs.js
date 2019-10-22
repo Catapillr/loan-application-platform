@@ -9,7 +9,7 @@ import { Heading, Copy } from "../styles"
 import { TextInput, SelectInput, DateInput } from "../../Input"
 import nationalityOptions from "../nationalityOptions"
 
-import progress3 from "../../../static/images/progress3.svg"
+import providerProgress2 from "../../../static/images/providerProgress2.svg"
 
 const Container = styled.main.attrs({
   className: "flex flex-col",
@@ -94,7 +94,7 @@ const UBOs = ({ values: { ubo1, ubo2, ubo3, ubo4 } }) => (
 )
 
 UBOs.validationSchema = validation
-UBOs.progressImg = progress3
+UBOs.progressImg = providerProgress2
 UBOs.componentName = "UBOs"
 
 export default UBOs

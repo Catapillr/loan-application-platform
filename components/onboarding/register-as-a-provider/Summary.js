@@ -5,7 +5,7 @@ import * as R from "ramda"
 import { Heading } from "../styles"
 
 import tealTick from "../../../static/icons/teal-tick.svg"
-import progress4 from "../../../static/images/progress4.svg"
+import providerProgress5 from "../../../static/images/providerProgress5.svg"
 import { BusinessDetails, UBOs, Documents, BankDetails } from "./stepNames"
 
 import nationalities from "../nationalityOptions"
@@ -270,7 +270,7 @@ const Summary = ({ values, setPage }) => {
   )
 }
 
-Summary.progressImg = progress4
+Summary.progressImg = providerProgress5
 Summary.componentName = "Summary"
 
 export default Summary

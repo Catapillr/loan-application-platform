@@ -9,7 +9,7 @@ import { TextInput, SortCodeInput, NumberInput } from "../../Input"
 
 import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 
-import progress4 from "../../../static/images/progress4.svg"
+import providerProgress4 from "../../../static/images/providerProgress4.svg"
 
 const validation = Yup.object().shape({
   bankName: Yup.string().required(),
@@ -97,7 +97,7 @@ const BankDetails = ({
 )
 
 BankDetails.validationSchema = validation
-BankDetails.progressImg = progress4
+BankDetails.progressImg = providerProgress4
 BankDetails.componentName = "BankDetails"
 
 export default BankDetails

@@ -5,7 +5,7 @@ import { Heading, Copy } from "../styles"
 import Questions from "../Questions"
 import { FileInput } from "../../Input"
 
-import progress4 from "../../../static/images/progress4.svg"
+import providerProgress3 from "../../../static/images/providerProgress3.svg"
 import checkFileType from "../../../utils/checkFileType"
 
 const validation = Yup.object().shape({
@@ -151,7 +151,7 @@ const Documents = ({
 }
 
 Documents.validationSchema = validation
-Documents.progressImg = progress4
+Documents.progressImg = providerProgress3
 Documents.componentName = "Documents"
 
 export default Documents
