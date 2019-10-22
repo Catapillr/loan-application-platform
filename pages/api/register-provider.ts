@@ -24,12 +24,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       businessEmail,
       childcareProviderEmail,
       companyNumber,
-      ownerFirstName,
-      ownerLastName,
-      ownerKeyContact,
-      ownerDob,
-      ownerCountryOfResidence,
-      ownerNationality,
+      repFirstName,
+      repLastName,
+      repKeyContact,
+      repDob,
+      repCountryOfResidence,
+      repNationality,
       bankName,
       accountNumber,
       sortCode,
@@ -39,10 +39,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       Region,
       PostalCode,
       Country,
+      ...rest
     } = fields
 
+    const filesOnServer: { [key: string]: any } = R.pipe(
+      R.map((file: string) => JSON.parse(file)),
+      R.filter((item: any) => item.fileOnServer)
+      // @ts-ignore
+    )(rest)
+
     // @ts-ignore
-    const LegalRepresentativeBirthday = moment(JSON.parse(ownerDob)).unix()
+    const LegalRepresentativeBirthday = moment(JSON.parse(repDob)).unix()
 
     // @ts-ignore
     const providerLegalUser = await mango.Users.create({
@@ -59,11 +66,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         Country,
       },
       LegalRepresentativeBirthday,
-      LegalRepresentativeCountryOfResidence: ownerCountryOfResidence,
-      LegalRepresentativeNationality: ownerNationality,
+      LegalRepresentativeCountryOfResidence: repCountryOfResidence,
+      LegalRepresentativeNationality: repNationality,
       LegalRepresentativeEmail: businessEmail,
-      LegalRepresentativeFirstName: ownerFirstName,
-      LegalRepresentativeLastName: ownerLastName,
+      LegalRepresentativeFirstName: repFirstName,
+      LegalRepresentativeLastName: repLastName,
       CompanyNumber: companyNumber,
     })
 
@@ -102,10 +109,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
 
-    createDocumentWithPages(files.proofOfId, "IDENTITY_PROOF")
+    createDocumentWithPages(files.repProofOfId, "IDENTITY_PROOF")
     createDocumentWithPages(files.proofOfRegistration, "REGISTRATION_PROOF")
     createDocumentWithPages(
-      files.articlesOfAssociation,
+      filesOnServer.articlesOfAssociation || files.articlesOfAssociation,
       "ARTICLES_OF_ASSOCIATION"
     )
 

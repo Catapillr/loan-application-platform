@@ -32,27 +32,27 @@ const sections = [
     fields: [
       {
         title: "First name",
-        Field: "ownerFirstName",
+        Field: "repFirstName",
         page: BusinessDetails,
       },
       {
         title: "Last name",
-        Field: "ownerLastName",
+        Field: "repLastName",
         page: BusinessDetails,
       },
       {
         title: "Key contact",
-        Field: "ownerKeyContact",
+        Field: "repKeyContact",
         page: BusinessDetails,
       },
       {
         title: "Country of residence",
-        Field: "ownerCountryOfResidence",
+        Field: "repCountryOfResidence",
         page: BusinessDetails,
       },
       {
         title: "Nationality",
-        Field: "ownerNationality",
+        Field: "repNationality",
         page: BusinessDetails,
       },
     ],

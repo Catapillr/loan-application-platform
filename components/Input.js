@@ -66,8 +66,10 @@ const FileInput = attrs => {
     <>
       <_FileInput id={attrs.field.name} {...attrs} />
       <_FileLabel {...attrs}>
-        <img src={file.name ? document : upload} className="mb-2"></img>
-        <div className="text-center">{file.name || "Browse files"}</div>
+        <img src={file && file.name ? document : upload} className="mb-2"></img>
+        <div className="text-center">
+          {(file && file.name) || "Browse files"}
+        </div>
       </_FileLabel>
     </>
   )
