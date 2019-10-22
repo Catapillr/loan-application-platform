@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
+import nextCookies from "next-cookies"
 import styled from "styled-components"
 import * as R from "ramda"
 import axios from "axios"
 
 import { NURSERY, CLUB } from "../../utils/constants"
+import restrictAccess from "../../utils/restrictAccess"
 
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
@@ -127,7 +129,7 @@ const Search = () => {
   )
 }
 
-const MakeAPayment = () => (
+const MakeAPayment = ({ recentPayeesByMangoId }) => (
   <Container>
     <Header activeHref="/make-a-payment" />
     <Contents>
@@ -140,11 +142,13 @@ const MakeAPayment = () => (
         </SearchContainer>
         <Subtitle className="mb-10">Recent payees</Subtitle>
         <PayeesContainer>
-          <Payee name="True Colours Nursery" childcareType={NURSERY} slug="" />
-          <Payee name="Rocky Climbing Wall" childcareType={CLUB} slug="" />
-          <Payee name="Clapton FC" childcareType={CLUB} slug="" />
-          <Payee name="True Colours Nursery" childcareType={NURSERY} slug="" />
-          <Payee name="Rocky Climbing Wall" childcareType={CLUB} slug="" />
+          {R.values(recentPayeesByMangoId).map(payee => (
+            <Payee
+              name={payee.Name}
+              key={payee.Id}
+              slug={payee.CompanyNumber}
+            />
+          ))}
         </PayeesContainer>
       </Main>
       <Aside>
@@ -179,12 +183,27 @@ const MakeAPayment = () => (
 
 MakeAPayment.getInitialProps = async ctx => {
   const { req } = ctx
-  // restrictAccess(ctx)
+  restrictAccess(ctx)
+
+  const cookies = nextCookies(ctx)
+  const serializedCookies = R.pipe(
+    R.mapObjIndexed((val, key) => `${key}=${val};`),
+    R.values,
+    R.join(" ")
+  )(cookies)
 
   try {
     const user = req.user
 
-    return { user }
+    const {
+      data: { recentPayeesByMangoId },
+    } = await axios(
+      `${process.env.HOST}/api/private/list-user-transactions?mangoId=${user.mangoUserId}`,
+      {
+        headers: { Cookie: serializedCookies },
+      }
+    )
+    return { user, recentPayeesByMangoId }
   } catch (err) {
     // eslint-disable-next-line
     console.error("Error in make-a-payment getInitProps: ", err)

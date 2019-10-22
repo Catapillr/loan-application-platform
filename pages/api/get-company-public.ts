@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import axios from "axios"
 import fs from "fs"
+import { join } from "path"
 import { file } from "tmp-promise"
 import * as R from "ramda"
 
@@ -57,33 +58,38 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     )
 
-    const { fd, path, cleanup } = await file({ postfix: ".pdf" })
-    console.log("path", path)
+    const { fd, path, cleanup } = await file({
+      postfix: ".pdf",
+    })
     incorporationDocument.pipe(fs.createWriteStream(path))
 
-    const ubos = R.map((ubo: any) => ({
-      FirstName: ubo.name_elements.forename,
-      LastName: ubo.name_elements.surname,
-      Address: {
-        AddressLine1: ubo.address.address_line_1,
-        AddressLine2: ubo.address.address_line_2,
-        City: ubo.address.locality,
-        Region: ubo.address.locality,
-        PostalCode: ubo.address.postal_code,
-        Country: countryToISO(ubo.address.country),
-      },
-      Nationality: nationalityToISO(ubo.nationality),
-      // TODO: Change from hard-coded
-      Birthplace: {
-        City: "London",
-        Country: "GB",
-      },
-      // TODO: Change from hard-coded
-      Birthday: moment(
-        `${ubo.date_of_birth.year}-${ubo.date_of_birth.month}-${ubo
-          .date_of_birth.day || "01"}`
-      ).unix(),
-    }))(ubo_data)
+    const ubos = R.addIndex(R.reduce)((acc: any, ubo: any, index: number) => {
+      return {
+        ...acc,
+        [`ubo${index + 1}`]: {
+          FirstName: ubo.name_elements.forename,
+          LastName: ubo.name_elements.surname,
+          Address: {
+            AddressLine1: ubo.address.address_line_1,
+            AddressLine2: ubo.address.address_line_2,
+            City: ubo.address.locality,
+            Region: ubo.address.locality,
+            PostalCode: ubo.address.postal_code,
+            Country: countryToISO(ubo.address.country),
+          },
+          Nationality: nationalityToISO(ubo.nationality),
+          Birthplace: {
+            City: "",
+            Country: "",
+          },
+          Birthday: {
+            year: ubo.date_of_birth.year,
+            month: ubo.date_of_birth.month,
+            day: "",
+          },
+        },
+      }
+    }, {})(ubo_data)
 
     const company = {
       businessName: company_data.company_name,
@@ -95,7 +101,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       PostalCode: company_data.registered_office_address.postal_code,
       Country: countryToISO(company_data.registered_office_address.country),
       companyCodes: company_data.sic_codes,
-      ubos,
       articlesOfAssociation: {
         name: "CH_incorporation.pdf",
         type: "application/pdf",
@@ -104,6 +109,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         path,
         webkitRelativePath: path,
       },
+      ...ubos,
     }
 
     res.json({ company })
@@ -111,46 +117,3 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("There was an error retrieving Companies House data: ", e) //eslint-disable-line no-console
   }
 }
-
-// const initialValues = {
-//   businessName: "",
-//   businessEmail: "",
-//   companyNumber: "",
-//   repFirstName: "",
-//   repLastName: "",
-//   repKeyContact: "",
-//   repDob: { day: "", month: "", year: "" },
-//   repCountryOfResidence: "",
-//   repNationality: "",
-//   proofOfId: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   articlesOfAssociation: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   proofOfRegistration: {
-//     name: "",
-//     lastModified: "",
-//     lastModifiedDate: "",
-//     webkitRelativePath: "",
-//   },
-//   bankName: "",
-//   accountNumber: "",
-//   sortCode: {
-//     firstSection: "",
-//     secondSection: "",
-//     thirdSection: "",
-//   },
-//   AddressLine1: "",
-//   AddressLine2: "",
-//   City: "",
-//   Region: "",
-//   PostalCode: "",
-//   Country: "",
-// }

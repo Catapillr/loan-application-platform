@@ -165,6 +165,14 @@ const sendPaymentRequestDetails = ({ user, email, amountToPay, slug }) =>
     },
   })
 
+const sendProviderApplicationCompleteConfirmation = ({ email }) =>
+  mailgunEmailTemplate({
+    email,
+    subject: "We have successfully received your payment details!",
+    template: "provider-application-complete",
+    data: {},
+  })
+
 const sendProviderPaymentNotification = ({
   email,
   amountToPay,
@@ -212,4 +220,5 @@ export {
   sendEmployeeApplicationCompleteConfirmation,
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
+  sendProviderApplicationCompleteConfirmation,
 }
