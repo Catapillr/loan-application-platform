@@ -165,6 +165,14 @@ const sendPaymentRequestDetails = ({ user, email, amountToPay, slug }) =>
     },
   })
 
+const sendProviderApplicationCompleteConfirmation = ({ email }) =>
+  mailgunEmailTemplate({
+    email,
+    subject: "We have successfully received your payment details!",
+    template: "provider-application-complete",
+    data: {},
+  })
+
 const sendProviderPaymentNotification = ({
   email,
   amountToPay,
@@ -200,6 +208,16 @@ const sendEmployeeOutgoingPaymentNotification = ({
     },
   })
 
+const sendKYCorUBOFailure = (failureReasons: any) =>
+  mailgunEmailTemplate({
+    email: process.env.ADMIN_EMAIL,
+    subject: "There was an error with childcare provider registration",
+    template: "send-kyc-or-ubo-failure",
+    data: {
+      "v:failureReasons": JSON.stringify(failureReasons, undefined, 2),
+    },
+  })
+
 export {
   mailgunEmailTemplate,
   sendEmployeeEmailVerification,
@@ -212,4 +230,6 @@ export {
   sendEmployeeApplicationCompleteConfirmation,
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
+  sendKYCorUBOFailure,
+  sendProviderApplicationCompleteConfirmation,
 }

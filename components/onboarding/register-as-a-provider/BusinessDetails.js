@@ -9,7 +9,7 @@ import { Heading, Copy } from "../styles"
 import { TextInput, SelectInput, DateInput } from "../../Input"
 import nationalityOptions from "../nationalityOptions"
 
-import progress3 from "../../../static/images/progress3.svg"
+import providerProgress1 from "../../../static/images/providerProgress1.svg"
 
 const Container = styled.main.attrs({
   className: "flex flex-col",
@@ -200,7 +200,7 @@ const BusinessDetails = ({ values: { repDob } }) => (
 // "Country": "FR"
 
 BusinessDetails.validationSchema = validation
-BusinessDetails.progressImg = progress3
+BusinessDetails.progressImg = providerProgress1
 BusinessDetails.componentName = "BusinessDetails"
 
 export default BusinessDetails

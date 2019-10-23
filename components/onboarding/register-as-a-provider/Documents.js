@@ -5,7 +5,7 @@ import { Heading, Copy } from "../styles"
 import Questions from "../Questions"
 import { FileInput } from "../../Input"
 
-import progress4 from "../../../static/images/progress4.svg"
+import providerProgress3 from "../../../static/images/providerProgress3.svg"
 import checkFileType from "../../../utils/checkFileType"
 
 const validation = Yup.object().shape({
@@ -110,24 +110,39 @@ const Documents = ({
             name: "repProofOfId",
             component: FileInput,
             file: repProofOfId,
-            onChange: e =>
-              setFieldValue("repProofOfId", e.currentTarget.files[0]),
+            onChange: e => {
+              setFieldValue(
+                "repProofOfIdURI",
+                URL.createObjectURL(e.currentTarget.files[0])
+              )
+              setFieldValue("repProofOfId", e.currentTarget.files[0])
+            },
           },
           {
             text: "Articles of Association",
             name: "articlesOfAssociation",
             component: FileInput,
             file: articlesOfAssociation,
-            onChange: e =>
-              setFieldValue("articlesOfAssociation", e.currentTarget.files[0]),
+            onChange: e => {
+              setFieldValue(
+                "articlesOfAssociationURI",
+                URL.createObjectURL(e.currentTarget.files[0])
+              )
+              setFieldValue("articlesOfAssociation", e.currentTarget.files[0])
+            },
           },
           {
             text: "Proof of Registration",
             name: "proofOfRegistration",
             component: FileInput,
             file: proofOfRegistration,
-            onChange: e =>
-              setFieldValue("proofOfRegistration", e.currentTarget.files[0]),
+            onChange: e => {
+              setFieldValue(
+                "proofOfRegistrationURI",
+                URL.createObjectURL(e.currentTarget.files[0])
+              )
+              setFieldValue("proofOfRegistration", e.currentTarget.files[0])
+            },
           },
         ]}
       />
@@ -136,7 +151,7 @@ const Documents = ({
 }
 
 Documents.validationSchema = validation
-Documents.progressImg = progress4
+Documents.progressImg = providerProgress3
 Documents.componentName = "Documents"
 
 export default Documents

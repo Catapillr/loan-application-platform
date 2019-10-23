@@ -83,8 +83,8 @@ type ChildcareProvider {
   id: ID! @id
   email: String! @unique
   companyNumber: String! @unique
-  mangoLegalUserID: String @unique
-  mangoBankAccountID: String @unique
+  mangoLegalUserId: String @unique
+  mangoBankAccountId: String @unique
   mangoWalletId: String @unique
   approved: Boolean! @default(value: false)
   paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)

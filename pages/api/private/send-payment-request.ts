@@ -35,13 +35,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
 
     const bankAccount = await mango.Users.getBankAccount(
-      childcareProvider.mangoLegalUserID,
-      childcareProvider.mangoBankAccountID
+      childcareProvider.mangoLegalUserId,
+      childcareProvider.mangoBankAccountId
     )
 
     // TODO: should we move this out to listen event?
     await mango.PayOuts.create({
-      AuthorId: childcareProvider.mangoLegalUserID,
+      AuthorId: childcareProvider.mangoLegalUserId,
       DebitedFunds: {
         Currency: "GBP",
         Amount: poundsToPennies(amountToPay),

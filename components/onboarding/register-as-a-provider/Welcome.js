@@ -1,6 +1,6 @@
 import { Heading, Copy, Button } from "../styles"
 
-import progress1 from "../../../static/images/progress1.svg"
+import providerProgress1 from "../../../static/images/providerProgress1.svg"
 import styled from "styled-components"
 
 import currencyFormatter from "currency-formatter"
@@ -40,7 +40,7 @@ const Welcome = ({ user, paymentRequest, incrementPage }) => (
 )
 
 Welcome.hideControls = true
-Welcome.progressImg = progress1
+Welcome.progressImg = providerProgress1
 Welcome.componentName = "Welcome"
 
 export default Welcome

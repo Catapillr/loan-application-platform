@@ -1,176 +1,232 @@
+// @ts-nocheck
 import { NextApiRequest, NextApiResponse } from "next"
 import * as R from "ramda"
 import moment from "moment"
 import formidable from "formidable"
 
 import mango from "../../lib/mango"
-
 import { prisma } from "../../prisma/generated/ts"
+import { sendProviderApplicationCompleteConfirmation } from "../../utils/mailgunClient"
+
+const GBP = "GBP"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  // @ts-ignore
-  const user = req.user
+  try {
+    const form = new formidable.IncomingForm()
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        return console.error("Listen for signEvent error", err) //eslint-disable-line no-console
+      }
 
-  const form = new formidable.IncomingForm()
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-      return console.error("Listen for signEvent error", err) //eslint-disable-line no-console
-    }
-
-    // 1. Create legal user
-
-    const {
-      businessName,
-      businessEmail,
-      childcareProviderEmail,
-      companyNumber,
-      repFirstName,
-      repLastName,
-      repKeyContact,
-      repDob,
-      repCountryOfResidence,
-      repNationality,
-      bankName,
-      accountNumber,
-      sortCode,
-      AddressLine1,
-      AddressLine2,
-      City,
-      Region,
-      PostalCode,
-      Country,
-      ...rest
-    } = fields
-
-    const filesOnServer: { [key: string]: any } = R.pipe(
-      R.map((file: string) => JSON.parse(file)),
-      R.filter((item: any) => item.fileOnServer)
-      // @ts-ignore
-    )(rest)
-
-    // @ts-ignore
-    const LegalRepresentativeBirthday = moment(JSON.parse(repDob)).unix()
-
-    // @ts-ignore
-    const providerLegalUser = await mango.Users.create({
-      PersonType: "LEGAL",
-      LegalPersonType: "BUSINESS",
-      Name: businessName,
-      Email: childcareProviderEmail,
-      HeadquartersAddress: {
+      const {
+        businessName,
+        businessEmail,
+        childcareProviderEmail,
+        companyNumber,
+        repFirstName,
+        repLastName,
+        repKeyContact,
+        repDob,
+        repCountryOfResidence,
+        repNationality,
+        bankName,
+        accountNumber,
+        sortCode,
         AddressLine1,
         AddressLine2,
         City,
         Region,
         PostalCode,
         Country,
-      },
-      LegalRepresentativeBirthday,
-      LegalRepresentativeCountryOfResidence: repCountryOfResidence,
-      LegalRepresentativeNationality: repNationality,
-      LegalRepresentativeEmail: businessEmail,
-      LegalRepresentativeFirstName: repFirstName,
-      LegalRepresentativeLastName: repLastName,
-      CompanyNumber: companyNumber,
-    })
+        ubo1,
+        ubo2,
+        ubo3,
+        ubo4,
+        ...rest
+      } = fields
 
-    type KycDocument =
-      | "IDENTITY_PROOF"
-      | "REGISTRATION_PROOF"
-      | "ARTICLES_OF_ASSOCIATION"
+      // 1. Create legal user
 
-    const createDocumentWithPages = async (file: any, Type: KycDocument) => {
-      try {
-        const document = await mango.Users.createKycDocument(
-          providerLegalUser.Id,
-          {
-            Type,
-          }
-        )
+      // @ts-ignore
+      const LegalRepresentativeBirthday = moment(JSON.parse(repDob)).unix()
 
-        await mango.Users.createKycPageFromFile(
-          providerLegalUser.Id,
-          document.Id,
-          file.path
-        )
+      // @ts-ignore
+      const providerLegalUser = await mango.Users.create({
+        PersonType: "LEGAL",
+        LegalPersonType: "BUSINESS",
+        Name: businessName,
+        Email: childcareProviderEmail,
+        HeadquartersAddress: {
+          AddressLine1,
+          AddressLine2,
+          City,
+          Region,
+          PostalCode,
+          Country,
+        },
+        LegalRepresentativeBirthday,
+        LegalRepresentativeCountryOfResidence: repCountryOfResidence,
+        LegalRepresentativeNationality: repNationality,
+        LegalRepresentativeEmail: businessEmail,
+        LegalRepresentativeFirstName: repFirstName,
+        LegalRepresentativeLastName: repLastName,
+        CompanyNumber: companyNumber,
+      })
 
-        const updateDocument = await mango.Users.updateKycDocument(
-          providerLegalUser.Id,
-          {
-            Status: "VALIDATION_ASKED",
-            // @ts-ignore
-            Id: document.Id,
-          }
-        )
+      // 2. Upload KYC Documents
 
-        return updateDocument
-      } catch (e) {
-        console.error(`There has been an issue creating document ${Type}: `, e)
+      type KycDocument =
+        | "IDENTITY_PROOF"
+        | "REGISTRATION_PROOF"
+        | "ARTICLES_OF_ASSOCIATION"
+
+      const filesOnServer: { [key: string]: any } = R.pipe(
+        R.filter((item: any) => item.fileOnServer),
+        R.map((file: string) => JSON.parse(file))
+        // @ts-ignore
+      )(rest)
+
+      const createDocumentWithPages = async (file: any, Type: KycDocument) => {
+        try {
+          const document = await mango.Users.createKycDocument(
+            providerLegalUser.Id,
+            {
+              Type,
+            }
+          )
+
+          await mango.Users.createKycPageFromFile(
+            providerLegalUser.Id,
+            document.Id,
+            file.path
+          )
+
+          const updateDocument = await mango.Users.updateKycDocument(
+            providerLegalUser.Id,
+            {
+              Status: "VALIDATION_ASKED",
+              // @ts-ignore
+              Id: document.Id,
+            }
+          )
+
+          return updateDocument
+        } catch (e) {
+          console.error(
+            `There has been an issue creating document ${Type}: `,
+            e
+          )
+        }
       }
-    }
 
-    createDocumentWithPages(files.repProofOfId, "IDENTITY_PROOF")
-    createDocumentWithPages(files.proofOfRegistration, "REGISTRATION_PROOF")
-    createDocumentWithPages(
-      filesOnServer.articlesOfAssociation || files.articlesOfAssociation,
-      "ARTICLES_OF_ASSOCIATION"
-    )
+      createDocumentWithPages(
+        filesOnServer.repProofOfId || files.repProofOfId,
+        "IDENTITY_PROOF"
+      )
+      createDocumentWithPages(
+        filesOnServer.proofOfRegistration || files.proofOfRegistration,
+        "REGISTRATION_PROOF"
+      )
+      createDocumentWithPages(
+        filesOnServer.articlesOfAssociation || files.articlesOfAssociation,
+        "ARTICLES_OF_ASSOCIATION"
+      )
 
-    // 3. Create and submit UBO declaration
-    // 4. Create a mango wallet for that user
-    // 5. Check whether we can create bank account straight away, if not listen for validation hook and create one then
-    // 6. Update prisma with childcare provider
+      // 3. Create and submit UBO declaration
+      //@ts-ignore
+      const uboDeclaration = await mango.UboDeclarations.create(
+        providerLegalUser.Id
+      )
 
-    // const expiresAt = moment()
-    //   .add(expiryDays, "days")
-    //   .toDate()
+      const uboPromises: any[] = R.pipe(
+        //@ts-ignore
+        R.filter(ubo => !!ubo),
+        R.map((ubo: string) => JSON.parse(ubo)),
+        // @ts-ignore
+        R.map(async (ubo: any) => {
+          // @ts-ignore
+          return await mango.UboDeclarations.createUbo(
+            providerLegalUser.Id,
+            uboDeclaration.Id,
+            {
+              FirstName: ubo.FirstName,
+              LastName: ubo.LastName,
+              Nationality: ubo.Nationality,
+              Birthday: moment(ubo.Birthday).unix(),
+              Address: ubo.Address,
+              Birthplace: ubo.Birthplace,
+            }
+          )
+        })
+      )([ubo1, ubo2, ubo3, ubo4])
 
-    // const { Id: newWalletId } = await mango.Wallets.create({
-    //   Owners: [newMangoUserId],
-    //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
-    //   Currency: GBP,
-    // })
-    //
-    // const { Id: newWalletId } = await mango.Wallets.create({
-    //   Owners: [newMangoUserId],
-    //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
-    //   Currency: GBP,
-    // })
+      const Ubos = await Promise.all(uboPromises)
 
-    // const newChildcareProvider = await prisma.createChildcareProvider({
-    //   email: providerEmail,
-    //   companyNumber,
-    //   expiresAt,
-    //   approved: false,
-    // })
-    //
-    // await prisma.createPaymentRequest({
-    //   user: {
-    //     connect: {
-    //       email: user.email,
-    //     },
-    //   },
-    //   childcareProvider: {
-    //     connect: {
-    //       id: newChildcareProvider.id,
-    //     },
-    //   },
-    //   amountToPay: poundsToPennies(amountToPay),
-    //   consentToPay,
-    //   expiresAt,
-    //   reference,
-    // })
-    //
-    // sendPaymentRequestDetails({
-    //   user,
-    //   email: newChildcareProvider.email,
-    //   amountToPay,
-    //   slug: newChildcareProvider.id,
-    // })
-    //
-    // res.status(200).json({ childcareProviderId: newChildcareProvider.id })
-    res.status(200).end()
-  })
+      await mango.UboDeclarations.update(providerLegalUser.Id, {
+        //@ts-ignore
+        Id: uboDeclaration.Id,
+        Ubos,
+        Status: "VALIDATION_ASKED",
+      })
+
+      // 4. Create a mango wallet for that user
+      const providerWallet = await mango.Wallets.create({
+        Owners: [providerLegalUser.Id],
+        Description: `Provider wallet - ${repFirstName} ${repLastName} - mangoID: ${providerLegalUser.Id}`,
+        Currency: GBP,
+      })
+
+      // 5. Create a bank account for that user
+      const sortCodeString = R.pipe(
+        JSON.parse,
+        ({ firstSection, secondSection, thirdSection }) =>
+          `${firstSection}${secondSection}${thirdSection}`
+        // @ts-ignore
+      )(sortCode)
+
+      const providerBankAccount = await mango.Users.createBankAccount(
+        providerLegalUser.Id,
+        {
+          // @ts-ignore
+          Type: "GB",
+          // @ts-ignore
+          OwnerName: businessName,
+          // @ts-ignore
+          OwnerAddress: {
+            AddressLine1,
+            AddressLine2,
+            City,
+            Region,
+            PostalCode,
+            Country,
+          },
+          SortCode: sortCodeString,
+          // @ts-ignore
+          AccountNumber: accountNumber,
+        }
+      )
+
+      // 6. Update prisma with childcare provider
+      const updateChildcareProvider = await prisma.updateChildcareProvider({
+        data: {
+          mangoLegalUserId: providerLegalUser.Id,
+          mangoBankAccountId: providerBankAccount.Id,
+          mangoWalletId: providerWallet.Id,
+          expiresAt: null,
+        },
+        where: { email: childcareProviderEmail as string },
+      })
+
+      // 7. Send email notification to childcare provider
+      sendProviderApplicationCompleteConfirmation({
+        email: childcareProviderEmail,
+      })
+
+      res.status(200).json({ childcareProviderId: updateChildcareProvider.id })
+    })
+  } catch (e) {
+    console.log("There was an error registering this childcare provider: ", e) //eslint-disable-line no-console
+  }
 }
 
 export const config = {

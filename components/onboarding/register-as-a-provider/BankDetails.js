@@ -1,11 +1,15 @@
 import * as Yup from "yup"
+import * as R from "ramda"
 import styled from "styled-components"
+import UkModulusChecking from "uk-modulus-checking"
 
 import { Heading, Copy } from "../styles"
 import Questions from "../Questions"
 import { TextInput, SortCodeInput, NumberInput } from "../../Input"
 
-import progress4 from "../../../static/images/progress4.svg"
+import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
+
+import providerProgress4 from "../../../static/images/providerProgress4.svg"
 
 const validation = Yup.object().shape({
   bankName: Yup.string().required(),
@@ -19,7 +23,28 @@ const Container = styled.main.attrs({
   width: 65%;
 `
 
-const BankDetails = () => (
+const validateUKBankAccount = (
+  accountNumber,
+  { firstSection, secondSection, thirdSection }
+) => {
+  let error
+  const isValid = new UkModulusChecking({
+    accountNumber,
+    sortCode: `${firstSection}${secondSection}${thirdSection}`,
+  }).isValid()
+
+  if (!isValid) {
+    error =
+      "Your UK bank account details are invalid. Please double-check them!"
+  }
+  return error
+}
+
+const BankDetails = ({
+  values: { accountNumber, sortCode },
+  errors,
+  setFieldValue,
+}) => (
   <Container>
     <Heading className="mb-5">
       We need a few details from you to verify you as an eligible provider.
@@ -29,7 +54,7 @@ const BankDetails = () => (
     </Copy>
     <Questions
       formWidth="100"
-      title="3.1 Bank Details"
+      title="3 Bank Details"
       questions={[
         {
           text: "UK Bank or Building Society Name",
@@ -43,40 +68,28 @@ const BankDetails = () => (
           name: "accountNumber",
           component: NumberInput,
           maxLength: 8,
+          onChange: keepFieldCleanOnChange(
+            setFieldValue,
+            "accountNumber",
+            /^[0-9\b]+$/
+          ),
           width: "1/2",
+          className: `${errors.sortCode && "border-red"}`,
         },
         {
           text: "Sort Code",
           component: SortCodeInput,
           custom: true,
           name: "sortCode",
+          keepFieldCleanOnChange: keepFieldCleanOnChange(
+            setFieldValue,
+            R.__,
+            /^[0-9\b]+$/
+          ),
+          className: `${errors.sortCode && "border-red"}`,
           width: "full",
-        },
-      ]}
-    />
-    <Questions
-      formWidth="100"
-      title="3.2 Address"
-      questions={[
-        {
-          text: "UK Bank or Building Society Name",
-          name: "bankName",
-          component: TextInput,
-          width: "full",
-          placeholder: "e.g. Triodos Bank...",
-        },
-        {
-          text: "Account Number",
-          name: "accountNumber",
-          maxLength: 8,
-          width: "1/2",
-        },
-        {
-          text: "Sort Code",
-          component: SortCodeInput,
-          custom: true,
-          name: "sortCode",
-          width: "full",
+          validate: () =>
+            validateUKBankAccount(accountNumber, sortCode, errors),
         },
       ]}
     />
@@ -84,7 +97,7 @@ const BankDetails = () => (
 )
 
 BankDetails.validationSchema = validation
-BankDetails.progressImg = progress4
+BankDetails.progressImg = providerProgress4
 BankDetails.componentName = "BankDetails"
 
 export default BankDetails
