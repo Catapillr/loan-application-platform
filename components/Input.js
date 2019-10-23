@@ -193,7 +193,7 @@ const DateInput = ({ text, validate, name }) => (
 
     <div className="relative">
       <ErrorMessage
-        name={`${name}.year`}
+        name={`${name}.day`}
         render={msg => <Error>{msg}</Error>}
       ></ErrorMessage>
     </div>
@@ -226,8 +226,8 @@ const NumberInput = styled.input.attrs(
       R.path(pathToField, errors) && R.path(pathToField, touched)
 
     const showDateErrors = (() => {
-      if ([".day", ".month"].some(suffix => name.includes(suffix))) {
-        const pathToYearSubField = [rootField, "year"]
+      if ([".day", ".month", ".year"].some(suffix => name.includes(suffix))) {
+        const pathToYearSubField = [rootField, "day"]
         return (
           R.path(pathToYearSubField, errors) &&
           R.path(pathToYearSubField, touched)
