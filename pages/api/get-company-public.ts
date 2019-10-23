@@ -3,6 +3,7 @@ import axios from "axios"
 import fs from "fs"
 import { file } from "tmp-promise"
 import * as R from "ramda"
+import R_ from "../../utils/R_"
 
 import countryToISO from "../../utils/countryToISO"
 import nationalityToISO from "../../utils/nationalityToISO"
@@ -62,7 +63,7 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
     incorporationDocument.pipe(fs.createWriteStream(path))
 
     // @ts-ignore
-    const ubos = R.addIndex(R.reduce)((acc: any, ubo: any, index: number) => {
+    const ubos = R_.reduceIndexed((acc: any, ubo: any, index: number) => {
       return {
         ...acc,
         [`ubo${index + 1}`]: {
