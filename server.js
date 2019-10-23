@@ -109,7 +109,7 @@ app.prepare().then(() => {
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
 
-  cron.schedule("* 15 * * *", () => {
+  cron.schedule("* * * * *", () => {
     cleanUpChildcareProviders()
     cleanUpPaymentRequests()
     cleanUpVerificationTokens()
