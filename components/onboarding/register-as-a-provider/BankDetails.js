@@ -5,14 +5,13 @@ import UkModulusChecking from "uk-modulus-checking"
 
 import { Heading, Copy } from "../styles"
 import Questions from "../Questions"
-import { TextInput, SortCodeInput, NumberInput } from "../../Input"
+import { SortCodeInput, NumberInput } from "../../Input"
 
 import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 
 import providerProgress4 from "../../../static/images/providerProgress4.svg"
 
 const validation = Yup.object().shape({
-  bankName: Yup.string().required(),
   accountNumber: Yup.string().required(),
   sortCode: Yup.object().required(),
 })
@@ -56,13 +55,6 @@ const BankDetails = ({
       formWidth="100"
       title="3 Bank Details"
       questions={[
-        {
-          text: "UK Bank or Building Society Name",
-          name: "bankName",
-          component: TextInput,
-          width: "full",
-          placeholder: "e.g. Triodos Bank...",
-        },
         {
           text: "Account Number",
           name: "accountNumber",

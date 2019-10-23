@@ -5,7 +5,7 @@ import moment from "moment"
 
 import poundsToPennies from "../../../utils/poundsToPennies"
 import { prisma } from "../../../prisma/generated/ts"
-import { sendPaymentRequestDetails } from "../../../utils/mailgunClient"
+import { sendProviderRegistrationLink } from "../../../utils/mailgunClient"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -23,18 +23,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const expiresAt = moment()
       .add(expiryDays, "days")
       .toDate()
-
-    // const { Id: newWalletId } = await mango.Wallets.create({
-    //   Owners: [newMangoUserId],
-    //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
-    //   Currency: GBP,
-    // })
-    //
-    // const { Id: newWalletId } = await mango.Wallets.create({
-    //   Owners: [newMangoUserId],
-    //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
-    //   Currency: GBP,
-    // })
 
     const newChildcareProvider = await prisma.createChildcareProvider({
       email: providerEmail,
@@ -60,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       reference,
     })
 
-    sendPaymentRequestDetails({
+    await sendProviderRegistrationLink({
       user,
       email: newChildcareProvider.email,
       amountToPay: poundsToPennies(amountToPay),

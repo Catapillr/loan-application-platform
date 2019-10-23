@@ -12,7 +12,6 @@ const mailgunClient = mailgun.client({
   url: "https://api.eu.mailgun.net",
 })
 
-
 // TODO: await emails all over
 const mailgunEmailTemplate = ({ email, subject, template, data }) =>
   mailgunClient.messages
@@ -146,7 +145,7 @@ const sendLoanTransferDetails = ({
     },
   })
 
-const sendPaymentRequestDetails = ({ user, email, amountToPay, slug }) =>
+const sendProviderRegistrationLink = ({ user, email, amountToPay, slug }) =>
   mailgunEmailTemplate({
     email,
     subject: `${user.firstName} ${
@@ -155,7 +154,7 @@ const sendPaymentRequestDetails = ({ user, email, amountToPay, slug }) =>
       penniesToPounds(amountToPay),
       { code: "GBP" }
     )}`,
-    template: "payment-request-details",
+    template: "provider-registration-link",
     data: {
       "v:slug": slug,
       "v:userFirstName": user.firstName,
@@ -227,7 +226,7 @@ export {
   sendIncorrectPaymentNotification,
   sendEmployerPaymentNotification,
   sendEmployeeLoanPaymentNotification,
-  sendPaymentRequestDetails,
+  sendProviderRegistrationLink,
   sendEmployeeApplicationCompleteConfirmation,
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,

@@ -24,11 +24,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         companyNumber,
         repFirstName,
         repLastName,
-        repKeyContact,
         repDob,
         repCountryOfResidence,
         repNationality,
-        bankName,
         accountNumber,
         sortCode,
         AddressLine1,
@@ -41,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ubo2,
         ubo3,
         ubo4,
-        ...rest
+        articlesOfAssociation,
       } = fields
 
       // 1. Create legal user
@@ -81,12 +79,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         | "REGISTRATION_PROOF"
         | "ARTICLES_OF_ASSOCIATION"
 
-      const filesOnServer: { [key: string]: any } = R.pipe(
-        R.filter((item: any) => item.fileOnServer),
-        R.map((file: string) => JSON.parse(file))
-        // @ts-ignore
-      )(rest)
-
       const createDocumentWithPages = async (file: any, Type: KycDocument) => {
         try {
           const document = await mango.Users.createKycDocument(
@@ -120,16 +112,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
 
+      createDocumentWithPages(files.repProofOfId, "IDENTITY_PROOF")
+      createDocumentWithPages(files.proofOfRegistration, "REGISTRATION_PROOF")
       createDocumentWithPages(
-        filesOnServer.repProofOfId || files.repProofOfId,
-        "IDENTITY_PROOF"
-      )
-      createDocumentWithPages(
-        filesOnServer.proofOfRegistration || files.proofOfRegistration,
-        "REGISTRATION_PROOF"
-      )
-      createDocumentWithPages(
-        filesOnServer.articlesOfAssociation || files.articlesOfAssociation,
+        files.articlesOfAssociation ||
+          JSON.parse(articlesOfAssociation as string),
         "ARTICLES_OF_ASSOCIATION"
       )
 

@@ -4,10 +4,11 @@ import styled from "styled-components"
 import axios from "axios"
 import * as R from "ramda"
 
-import * as Steps from "../../components/onboarding/register-as-a-provider/stepNames"
 import getLastPath from "../../utils/getLastPath"
+
 import createFormData from "../../utils/createFormData"
 
+import * as Steps from "../../components/onboarding/register-as-a-provider/stepNames"
 import Welcome from "../../components/onboarding/register-as-a-provider/Welcome"
 import BusinessDetails from "../../components/onboarding/register-as-a-provider/BusinessDetails"
 import UBOs from "../../components/onboarding/register-as-a-provider/UBOs"
@@ -48,7 +49,6 @@ const initialValues = {
     lastModifiedDate: "",
     webkitRelativePath: "",
   },
-  bankName: "",
   accountNumber: "",
   sortCode: {
     firstSection: "",
@@ -62,7 +62,7 @@ const initialValues = {
   PostalCode: "",
   Country: "",
 }
-
+//
 // const initialValues = {
 //   businessName: "InFact",
 //   businessEmail: "hello@infactcoop.com",
@@ -78,7 +78,6 @@ const initialValues = {
 //   repProofOfIdURI: "",
 //   articlesOfAssociationURI: "",
 //   proofOfRegistrationURI: "",
-//   bankName: "Monzo",
 //   accountNumber: "17918586",
 //   sortCode: {
 //     firstSection: "23",
@@ -421,12 +420,12 @@ const ControlsSection = styled.section.attrs({
 ProviderOnboarding.getInitialProps = async ctx => {
   const { req } = ctx
   try {
-    const id = getLastPath(req.originalUrl)
+    const childcareProviderId = getLastPath(req.originalUrl)
 
     const {
       data: { paymentRequest, childcareProvider, user },
     } = await axios.get(
-      `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
+      `${process.env.HOST}/api/get-provider-registration-info?childcareProviderId=${childcareProviderId}`
     )
 
     const {
@@ -440,7 +439,7 @@ ProviderOnboarding.getInitialProps = async ctx => {
     console.error("Error in [id] getInitProps: ", error) //eslint-disable-line
     return {
       error:
-        "Sorry, there seems to have been a problem retrieving that payment. Please check that the link is correct and try again!",
+        "Sorry, there seems to have been a problem retrieving that page. Please check that the link is correct and try again!",
     }
   }
 }

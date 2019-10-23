@@ -114,11 +114,6 @@ const sections = uboSections => [
     heading: "Bank Details",
     fields: [
       {
-        title: "Bank or Building Society Name",
-        field: "bankName",
-        page: BankDetails,
-      },
-      {
         title: "Account Number",
         field: "accountNumber",
         page: BankDetails,
