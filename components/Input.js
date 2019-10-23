@@ -13,7 +13,7 @@ const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (
     <Container {...{ text, width, margin, direction }}>
       {text && <LabelAndLink name={name} link={link} text={text} />}
-      {attrs.component === NumberInput ? (
+      {attrs.component === NumberInput && attrs.currency ? (
         <InputWrap name={name}>
           <Field {...{ name, direction, id: name, ...attrs }} />
         </InputWrap>
@@ -23,7 +23,16 @@ const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
       <div className="relative">
         <ErrorMessage
           name={name}
-          render={msg => <Error direction={direction}>{msg}</Error>}
+          render={msg => (
+            <Error
+              direction={direction}
+              className={
+                (name === "confirmation" || name === "gdprConsent") && "pl-11d5"
+              }
+            >
+              {msg}
+            </Error>
+          )}
         />
       </div>
     </Container>
@@ -133,9 +142,7 @@ const SortCodeInput = ({
         maxLength={2}
         placeholder={"00"}
         onChange={keepFieldCleanOnChange(`${name}.firstSection`)}
-        {...{ className, validate }}
-        className={className}
-        validate={validate}
+        {...{ className }}
       />
       <Field
         name={`${name}.secondSection`}
@@ -143,7 +150,7 @@ const SortCodeInput = ({
         maxLength={2}
         placeholder={"00"}
         onChange={keepFieldCleanOnChange(`${name}.secondSection`)}
-        {...{ className, validate }}
+        {...{ className }}
       />
       <Field
         name={`${name}.thirdSection`}
@@ -157,14 +164,19 @@ const SortCodeInput = ({
 
     <div className="relative">
       <ErrorMessage
-        name={`${name}.firstSection`}
+        name={`${name}.thirdSection`}
         render={msg => <Error>{msg}</Error>}
       ></ErrorMessage>
     </div>
   </Container>
 )
 
-const DateInput = ({ text, validate, name }) => (
+const DateInput = ({
+  text,
+  validate,
+  name,
+  disabled = { day: false, month: false, year: false },
+}) => (
   <Container>
     {text && <Label htmlFor={name}>{text}</Label>}
 
@@ -175,12 +187,16 @@ const DateInput = ({ text, validate, name }) => (
         component={NumberInput}
         placeholder={"DD"}
         type="number"
+        disabled={disabled.day}
+        className={disabled.day && "bg-lightgray"}
       />
       <Field
         name={`${name}.month`}
         component={NumberInput}
         placeholder={"MM"}
         type="number"
+        disabled={disabled.month}
+        className={disabled.month && "bg-lightgray"}
       />
       <Field
         name={`${name}.year`}
@@ -188,6 +204,8 @@ const DateInput = ({ text, validate, name }) => (
         placeholder={"YYYY"}
         validate={validate}
         type="number"
+        disabled={disabled.year}
+        className={disabled.year && "bg-lightgray"}
       />
     </div>
 
@@ -235,10 +253,24 @@ const NumberInput = styled.input.attrs(
       }
     })()
 
+    const showSortCodeErrors = (() => {
+      if (
+        [".firstSection", ".secondSection"].some(suffix =>
+          name.includes(suffix)
+        )
+      ) {
+        const pathToThirdSectionSubField = [rootField, "thirdSection"]
+        return (
+          R.path(pathToThirdSectionSubField, errors) &&
+          R.path(pathToThirdSectionSubField, touched)
+        )
+      }
+    })()
+
     return {
       className: `${name === "annualSalary" &&
         "w-full"} border-solid border-2 border-${
-        showErrors || showDateErrors ? "red" : "midgray"
+        showErrors || showDateErrors || showSortCodeErrors ? "red" : "midgray"
       } rounded-full py-2d5 text-center mr-2`,
       type: "text",
 
@@ -283,9 +315,9 @@ const Range = styled.input.attrs(({ field }) => ({ ...field }))`
   }
 `
 
-const SelectInput = ({ width, field, options, form, placeholder }) => {
+const SelectInput = ({ width, field, options, form, placeholder, ...rest }) => {
   return (
-    <Select {...{ width, field, form }}>
+    <Select {...{ width, field, form, ...rest }}>
       <option value="">{placeholder}</option>
       {options.map(({ label, value }) => (
         <option
@@ -299,12 +331,13 @@ const SelectInput = ({ width, field, options, form, placeholder }) => {
 }
 
 const Select = styled.select.attrs(
-  ({ width, field, form: { errors, touched } }) => {
+  ({ width, field, form: { errors, touched }, className, disabled }) => {
     const { name } = field
     return {
       className: `border-2 border-${
         errors[name] && touched[name] ? "red" : "midgray"
-      } rounded-full py-3 px-9 mt-6 w-${width} text-center`,
+      } bg-white rounded-full py-3 px-9 mt-6 w-${width} text-center ${className}`,
+      disabled,
       ...field,
     }
   }
@@ -315,7 +348,7 @@ const Select = styled.select.attrs(
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background-color: #fff;
+  // background-color: #fff;
   background-image: url(${dropdown});
   background-repeat: no-repeat, repeat;
   background-position: right 0.8em top 50%, 0 0;

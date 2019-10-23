@@ -1,15 +1,24 @@
 import styled from "styled-components"
 import moment from "moment"
 import * as R from "ramda"
+import * as Yup from "yup"
 import R_ from "../../../utils/R_"
 
 import { Heading } from "../styles"
+import Questions from "../Questions"
+import { CheckboxInput } from "../../Input"
 
-import tealTick from "../../../static/icons/teal-tick.svg"
 import providerProgress5 from "../../../static/images/providerProgress5.svg"
 import { BusinessDetails, UBOs, Documents, BankDetails } from "./stepNames"
 
 import nationalities from "../nationalityOptions"
+
+const validation = Yup.object().shape({
+  confirmation: Yup.boolean().oneOf(
+    [true],
+    "You must confirm your information is correct before continuing"
+  ),
+})
 
 const FileLink = styled.a.attrs({
   className: "text-teal underline",
@@ -20,11 +29,17 @@ const sections = uboSections => [
   {
     heading: "1.1 Business Details",
     fields: [
-      { title: "Business Name", field: "businessName", page: BusinessDetails },
+      {
+        title: "Business Name",
+        field: "businessName",
+        page: BusinessDetails,
+        disabled: true,
+      },
       {
         title: "Company Number",
         field: "companyNumber",
         page: BusinessDetails,
+        disabled: true,
       },
       {
         title: "Generic business email",
@@ -36,26 +51,35 @@ const sections = uboSections => [
   {
     heading: "1.2 Registered Company Address",
     fields: [
-      { title: "Address Line 1", field: "AddressLine1", page: BusinessDetails },
+      {
+        title: "Address Line 1",
+        field: "AddressLine1",
+        page: BusinessDetails,
+        disabled: true,
+      },
       {
         title: "Address Line 2",
         field: "AddressLine2",
         page: BusinessDetails,
+        disabled: true,
       },
       {
         title: "City",
         field: "City",
         page: BusinessDetails,
+        disabled: true,
       },
       {
         title: "Post code",
         field: "PostalCode",
         page: BusinessDetails,
+        disabled: true,
       },
       {
         title: "Country",
         field: "Country",
         page: BusinessDetails,
+        disabled: true,
       },
     ],
   },
@@ -146,7 +170,8 @@ const getValues = field => values => {
       return `£${values.loanAmount / values.loanTerms}`
     case field === "repNationality" ||
       field === "repCountryOfResidence" ||
-      field === "Country":
+      field === "Country" ||
+      field.endsWith("Country"):
       return R.pipe(
         R.find(R.propEq("value", value)),
         R.prop("label")
@@ -180,15 +205,18 @@ const SummarySection = ({ heading, fields, values, setPage }) => {
   return (
     <div className="mb-10">
       <h2 className="uppercase mb-4">{heading}</h2>
-      {fields.map(({ field, title, date, page }) => (
+      {fields.map(({ field, title, date, page, disabled }) => (
         <div key={title} className="flex justify-between mb-3">
           <p className="w-2/5 font-bold">{title}</p>
           <p className="w-2/5">{getValues(field, date)(values)}</p>
+
           <a
-            className="w-1/5 text-right text-teal underline cursor-pointer"
-            onClick={page ? () => setPage(page) : null}
+            className={`w-1/5 text-right text-teal underline ${page &&
+              !disabled &&
+              "cursor-pointer"}`}
+            onClick={page && !disabled ? () => setPage(page) : null}
           >
-            {page && "Change"}
+            {page && !disabled && "Change"}
           </a>
         </div>
       ))}
@@ -237,7 +265,7 @@ const Summary = ({ values, setPage }) => {
     <main className="flex justify-center items-start flex-col m-auto font-base">
       <Heading className="mb-2">Thanks {values.repFirstName}</Heading>
       <Heading>
-        Please check your answers before we create your loan agreement
+        Please check your answers before we send your details off.
       </Heading>
       <SummaryContainer className="border border-midgray p-8 mt-10 w-full">
         {sections(uboSections).map(section => {
@@ -251,16 +279,24 @@ const Summary = ({ values, setPage }) => {
           )
         })}
         <Divider />
-        <div className="flex">
-          <img className="mr-4" src={tealTick} alt="tick" />
-          <div>
-            <p>
-              By submitting you are confirming that, to the best of your
-              knowledge, the details you are providing are correct.
-            </p>
-            <p className="text-teal underline">I've got some questions</p>
-          </div>
-        </div>
+        <Questions
+          formWidth="100"
+          questions={[
+            {
+              text:
+                "By submitting you are confirming that, to the best of your knowledge, the details you are providing are correct.",
+              name: "confirmation",
+              direction: "flex-row-reverse",
+              className: "",
+              type: "checkbox",
+              component: CheckboxInput,
+              link: {
+                text: "I've got some questions",
+                href: "https://catapillr.com/faq/",
+              },
+            },
+          ]}
+        />
       </SummaryContainer>
     </main>
   )
@@ -268,5 +304,6 @@ const Summary = ({ values, setPage }) => {
 
 Summary.progressImg = providerProgress5
 Summary.componentName = "Summary"
+Summary.validationSchema = validation
 
 export default Summary

@@ -41,7 +41,6 @@ const validateUKBankAccount = (
 
 const BankDetails = ({
   values: { accountNumber, sortCode },
-  errors,
   setFieldValue,
 }) => (
   <Container>
@@ -66,7 +65,6 @@ const BankDetails = ({
             /^[0-9\b]+$/
           ),
           width: "1/2",
-          className: `${errors.sortCode && "border-red"}`,
         },
         {
           text: "Sort Code",
@@ -78,10 +76,8 @@ const BankDetails = ({
             R.__,
             /^[0-9\b]+$/
           ),
-          className: `${errors.sortCode && "border-red"}`,
           width: "full",
-          validate: () =>
-            validateUKBankAccount(accountNumber, sortCode, errors),
+          validate: () => validateUKBankAccount(accountNumber, sortCode),
         },
       ]}
     />

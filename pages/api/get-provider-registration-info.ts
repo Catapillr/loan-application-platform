@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json({
       childcareProvider,
-      user,
+      employee: user,
       paymentRequest,
     })
   } catch (error) {
