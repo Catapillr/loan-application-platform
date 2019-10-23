@@ -14,7 +14,6 @@ import {
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
 } from "../../utils/mailgunClient"
-import poundsToPennies from "../../utils/poundsToPennies"
 
 const PAYIN_SUCCEEDED = "PAYIN_NORMAL_SUCCEEDED"
 const KYC_SUCCEEDED = "KYC_SUCCEEDED"
@@ -175,13 +174,13 @@ const processPaymentRequest = async (mangoLegalUserId: string) => {
 
     await sendProviderPaymentNotification({
       email: provider.email,
-      amountToPay: poundsToPennies(paymentRequest.amountToPay),
+      amountToPay: paymentRequest.amountToPay,
       employeeName: `${paymentRequest.user.firstName} ${paymentRequest.user.lastName}`,
     })
 
     await sendEmployeeOutgoingPaymentNotification({
       email: paymentRequest.user.email,
-      amountToPay: poundsToPennies(paymentRequest.amountToPay),
+      amountToPay: paymentRequest.amountToPay,
     })
   }
 
