@@ -8,6 +8,7 @@ import { TextInput, SelectInput } from "../../Input"
 import progress4 from "../../../static/images/progress4.svg"
 
 import nationalityOptions from "../nationalityOptions"
+import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 
 const validation = Yup.object().shape({
   nationality: Yup.string().required("Required"),
@@ -48,7 +49,7 @@ const validatePhoneNumber = async value => {
   }
 }
 
-const Contact = () => (
+const Contact = ({ setFieldValue }) => (
   <Questions
     formWidth="60"
     title="3.2 Your personal details"
@@ -64,7 +65,7 @@ const Contact = () => (
       },
       {
         text: "Employee ID (if applicable)",
-        name: "employeeID",
+        name: "employeeId",
         component: TextInput,
         width: "1/2",
       },
@@ -73,6 +74,11 @@ const Contact = () => (
         component: TextInput,
         name: "phoneNumber",
         width: "full",
+        onChange: keepFieldCleanOnChange(
+          setFieldValue,
+          "phoneNumber",
+          /^\+?[0-9\b-]*$/
+        ),
         placeholder: "e.g. 07565111222",
         validate: validatePhoneNumber,
       },

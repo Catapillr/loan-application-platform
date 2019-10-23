@@ -345,6 +345,7 @@ const Wizard = ({
 
 const RenderStep = ({ component, validateForm, page, setTouched }) => {
   useEffect(() => {
+    window.scrollTo(0, 0)
     setTouched({})
     validateForm()
   }, [page])

@@ -34,10 +34,10 @@ type User {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationToken @relation(onDelete: CASCADE)
   gdprConsent: Boolean!
-  loan: Loan @relation(onDelete: CASCADE)
+  loan: Loan @relation(link: INLINE, onDelete: CASCADE)
   mangoWalletId: String @unique
   mangoUserId: String @unique
   paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)
@@ -57,6 +57,7 @@ type VerificationToken {
 
 type Loan {
   id: ID! @id
+  user: User!
   amount: Int!
   terms: Int!
   approved: Boolean! @default(value: false)
@@ -67,7 +68,6 @@ type Loan {
 
 type PaymentRequest {
   id: ID! @id
-  mangoPaymentID: String @unique
   user: User! @relation(onDelete: SET_NULL)
   childcareProvider: ChildcareProvider! @relation(onDelete: SET_NULL)
   amountToPay: Int!

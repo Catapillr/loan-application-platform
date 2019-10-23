@@ -6,10 +6,20 @@ const Auth0Strategy = require("passport-auth0")
 const redis = require("redis")
 const connectRedis = require("connect-redis")
 const enforce = require("express-sslify")
+const cron = require("node-cron")
+
+// both these will be removed after tested cron
+const mailgun = require("mailgun.js")
+const R = require("ramda")
 
 const { prisma } = require("./prisma/generated/js")
 
 const authRoutes = require("./server/auth-routes")
+const {
+  cleanUpChildcareProviders,
+  cleanUpVerificationTokens,
+  cleanUpPaymentRequests,
+} = require("./server/clean-up-db")
 
 const {
   NODE_ENV,
@@ -55,6 +65,7 @@ app.prepare().then(() => {
     const client = redis.createClient(process.env.REDIS_URL)
     const RedisStore = connectRedis(session)
 
+    // TODO: see whether this can be added back in
     // sess.cookie.secure = true // serve secure cookies, requires https
     sess.store = new RedisStore({ client })
   }
@@ -97,6 +108,31 @@ app.prepare().then(() => {
 
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
+
+  cron.schedule("* 15 * * *", () => {
+    cleanUpChildcareProviders()
+    cleanUpPaymentRequests()
+    cleanUpVerificationTokens()
+
+    const mailgunClient = mailgun.client({
+      username: "api",
+      key: process.env.MAILGUN_API_KEY || "",
+      url: "https://api.eu.mailgun.net",
+    })
+
+    mailgunClient.messages
+      .create(
+        process.env.MAILGUN_DOMAIN,
+        R.merge({
+          from: `${process.env.MAILGUN_SENDER_NAME} <${process.env.MAILGUN_SENDER_EMAIL}>`,
+          to: "hello@infactcoop.com",
+          subject: "Testing cron",
+        })
+      )
+      .catch(err => {
+        console.error("Error sending email: ", err)
+      })
+  })
 
   server.get("/api/private/*", restrictAccessAPI)
 

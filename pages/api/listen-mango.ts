@@ -14,7 +14,6 @@ import {
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
 } from "../../utils/mailgunClient"
-import poundsToPennies from "../../utils/poundsToPennies"
 
 const PAYIN_SUCCEEDED = "PAYIN_NORMAL_SUCCEEDED"
 const KYC_SUCCEEDED = "KYC_SUCCEEDED"
@@ -46,7 +45,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         case UBO_DECLARATION_INCOMPLETE:
           return handleUBO
         default:
-          return res.status(200).end()
+          return () => () => res.status(200).end()
       }
     })()
 
@@ -122,9 +121,7 @@ const processPaymentRequest = async (mangoLegalUserId: string) => {
   })
 
   const paymentRequests: any = await prisma
-    .childcareProvider({
-      companyNumber: provider.companyNumber,
-    })
+    .childcareProvider({ mangoLegalUserId })
     .paymentRequests({ where: { expiresAt_gt: new Date().toISOString() } })
     .$fragment(gql`
     fragment paymentRequestWithUser on PaymentRequest {
@@ -136,6 +133,7 @@ const processPaymentRequest = async (mangoLegalUserId: string) => {
         mangoWalletId
         firstName
         lastName
+        email
       }
     }
   `)
@@ -172,18 +170,18 @@ const processPaymentRequest = async (mangoLegalUserId: string) => {
       PaymentType: "BANK_WIRE",
     })
 
-    sendProviderPaymentNotification({
+    await prisma.deletePaymentRequest({ id: paymentRequest.id })
+
+    await sendProviderPaymentNotification({
       email: provider.email,
-      amountToPay: poundsToPennies(paymentRequest.amountToPay),
+      amountToPay: paymentRequest.amountToPay,
       employeeName: `${paymentRequest.user.firstName} ${paymentRequest.user.lastName}`,
     })
 
-    sendEmployeeOutgoingPaymentNotification({
+    await sendEmployeeOutgoingPaymentNotification({
       email: paymentRequest.user.email,
-      amountToPay: poundsToPennies(paymentRequest.amountToPay),
+      amountToPay: paymentRequest.amountToPay,
     })
-
-    await prisma.deletePaymentRequest({ id: paymentRequest.id })
   }
 
   return await Promise.all(R.map(processPayout)(paymentRequests))

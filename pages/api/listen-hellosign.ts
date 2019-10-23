@@ -76,11 +76,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             nationality
             loan {
               amount
-              agreementURL
             }
             employer {
               id
-              name
             }
           }
         `)
@@ -135,6 +133,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
             loan: {
               update: {
+                approved: true,
                 agreementURL: signEvent.signature_request.files_url,
               },
             },

@@ -12,7 +12,9 @@ const mailgunClient = mailgun.client({
   url: "https://api.eu.mailgun.net",
 })
 
-const mailgunEmailTemplate = ({ email, subject, template, data }) => {
+
+// TODO: await emails all over
+const mailgunEmailTemplate = ({ email, subject, template, data }) =>
   mailgunClient.messages
     .create(
       process.env.MAILGUN_DOMAIN,
@@ -29,7 +31,6 @@ const mailgunEmailTemplate = ({ email, subject, template, data }) => {
     .catch((err: any) => {
       console.error("Error sending email: ", err)
     })
-}
 
 const sendEmployeeEmailVerification = ({ email, random }) =>
   mailgunEmailTemplate({
@@ -116,7 +117,7 @@ const sendEmployeeLoanPaymentNotification = ({ payment, user }) =>
         penniesToPounds(payment.loanAmount),
         { code: "GBP" }
       ),
-      "v:magicLink": "https://app.catapillr.com", // TODO: Change this to magic link
+      "v:magicLink": "https://app.catapillr.com/dashboard", // TODO: Change this to magic link
     },
   })
 

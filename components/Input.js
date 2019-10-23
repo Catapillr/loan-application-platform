@@ -1,5 +1,5 @@
 import { ErrorMessage, Field } from "formik"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import TextArea from "react-autosize-textarea"
 import * as R from "ramda"
 
@@ -186,7 +186,6 @@ const DateInput = ({
         name={`${name}.day`}
         component={NumberInput}
         placeholder={"DD"}
-        validate={validate}
         type="number"
         disabled={disabled.day}
         className={disabled.day && "bg-lightgray"}
@@ -203,6 +202,7 @@ const DateInput = ({
         name={`${name}.year`}
         component={NumberInput}
         placeholder={"YYYY"}
+        validate={validate}
         type="number"
         disabled={disabled.year}
         className={disabled.year && "bg-lightgray"}
@@ -228,7 +228,7 @@ const InputWrap = styled.span.attrs({
       content: "£";
       left: 36px;
       ${({ name }) => name === "annualSalary" && "top: 32px"};
-    } 
+    }
   }
 
 `
@@ -365,8 +365,10 @@ const Error = styled.span.attrs({
 })`
  ${({ direction }) =>
    direction === "flex-row-reverse" &&
-   `margin-top: 72px;
-    width: 100vw; `} 
+   css`
+     margin-top: 72px;
+     width: 100vw;
+   `}
   }
 `
 
