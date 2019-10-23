@@ -83,6 +83,7 @@ const Loan = ({
           {
             name: "loanAmount",
             component: NumberInput,
+            currency: true,
             onChange: keepFieldCleanOnChange(
               setFieldValue,
               "loanAmount",

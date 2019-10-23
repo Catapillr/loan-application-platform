@@ -242,7 +242,7 @@ const Summary = ({ values, setPage }) => {
     <main className="flex justify-center items-start flex-col m-auto font-base">
       <Heading className="mb-2">Thanks {values.repFirstName}</Heading>
       <Heading>
-        Please check your answers before we create your loan agreement
+        Please check your answers before we send your details off.
       </Heading>
       <SummaryContainer className="border border-midgray p-8 mt-10 w-full">
         {sections(uboSections).map(section => {
