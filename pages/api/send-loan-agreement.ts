@@ -24,7 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     lastName,
     dob,
     nationality,
-    employeeID,
+    employeeId,
     phoneNumber,
     employer,
     gdprConsent,
@@ -39,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       dob: moment(zeroIndexMonth(dob)).toDate(),
       nationality,
       employmentStartDate: moment(zeroIndexMonth(employmentStartDate)).toDate(),
-      employeeID,
+      employeeId,
       annualSalary: poundsToPennies(parseFloat(annualSalary)),
       employer: { connect: { slug: employer.slug } },
       loan: {
@@ -139,7 +139,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "userEmployeeID",
-        value: `${employeeID && employeeID !== "" ? employeeID : "n/a"} `,
+        value: `${employeeId && employeeId !== "" ? employeeId : "n/a"} `,
       },
       ...loanOptions(parseInt(loanAmount), parseInt(loanTerms)),
     ],
