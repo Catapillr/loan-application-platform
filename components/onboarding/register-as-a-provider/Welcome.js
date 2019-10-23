@@ -23,7 +23,8 @@ const Welcome = ({ user, paymentRequest, incrementPage }) => (
       `}
     </Heading>
     <Copy className="mb-6">
-      We just need a few details from you to allow Jessica to pay you using her{" "}
+      We just need a few details from you to allow ${user.firstName} to pay you
+      using her{" "}
       <Link href="/" target="_blank">
         Catapillr interest-free childcare loan
       </Link>
