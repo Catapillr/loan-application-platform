@@ -8,63 +8,67 @@ import { prisma } from "../../../prisma/generated/ts"
 import { sendPaymentRequestDetails } from "../../../utils/mailgunClient"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  // @ts-ignore
-  const user = req.user
-  const {
-    providerEmail,
-    companyNumber,
-    expiryDays = 7,
-    amountToPay,
-    consentToPay,
-    reference,
-  } = req.body
+  try {
+    // @ts-ignore
+    const user = req.user
+    const {
+      providerEmail,
+      companyNumber,
+      expiryDays = 7,
+      amountToPay,
+      consentToPay,
+      reference,
+    } = req.body
 
-  const expiresAt = moment()
-    .add(expiryDays, "days")
-    .toDate()
+    const expiresAt = moment()
+      .add(expiryDays, "days")
+      .toDate()
 
-  // const { Id: newWalletId } = await mango.Wallets.create({
-  //   Owners: [newMangoUserId],
-  //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
-  //   Currency: GBP,
-  // })
-  //
-  // const { Id: newWalletId } = await mango.Wallets.create({
-  //   Owners: [newMangoUserId],
-  //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
-  //   Currency: GBP,
-  // })
+    // const { Id: newWalletId } = await mango.Wallets.create({
+    //   Owners: [newMangoUserId],
+    //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
+    //   Currency: GBP,
+    // })
+    //
+    // const { Id: newWalletId } = await mango.Wallets.create({
+    //   Owners: [newMangoUserId],
+    //   Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
+    //   Currency: GBP,
+    // })
 
-  const newChildcareProvider = await prisma.createChildcareProvider({
-    email: providerEmail,
-    companyNumber,
-    expiresAt,
-    approved: false,
-  })
+    const newChildcareProvider = await prisma.createChildcareProvider({
+      email: providerEmail,
+      companyNumber,
+      expiresAt,
+      approved: false,
+    })
 
-  const newPaymentRequest = await prisma.createPaymentRequest({
-    user: {
-      connect: {
-        email: user.email,
+    await prisma.createPaymentRequest({
+      user: {
+        connect: {
+          email: user.email,
+        },
       },
-    },
-    childcareProvider: {
-      connect: {
-        id: newChildcareProvider.id,
+      childcareProvider: {
+        connect: {
+          id: newChildcareProvider.id,
+        },
       },
-    },
-    amountToPay: poundsToPennies(amountToPay),
-    consentToPay,
-    expiresAt,
-    reference,
-  })
+      amountToPay: poundsToPennies(amountToPay),
+      consentToPay,
+      expiresAt,
+      reference,
+    })
 
-  sendPaymentRequestDetails({
-    user,
-    email: newChildcareProvider.email,
-    amountToPay: poundsToPennies(amountToPay),
-    slug: newPaymentRequest.id,
-  })
+    sendPaymentRequestDetails({
+      user,
+      email: newChildcareProvider.email,
+      amountToPay: poundsToPennies(amountToPay),
+      slug: newChildcareProvider.id,
+    })
 
-  res.status(200).json({ childcareProviderId: newChildcareProvider.id })
+    res.status(200).json({ childcareProviderId: newChildcareProvider.id })
+  } catch (err) {
+    console.error("Error in add-childcare-provider", err)
+  }
 }
