@@ -135,6 +135,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
             loan: {
               update: {
+                approved: true,
                 agreementURL: signEvent.signature_request.files_url,
               },
             },
