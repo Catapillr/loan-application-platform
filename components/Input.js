@@ -1,5 +1,5 @@
 import { ErrorMessage, Field } from "formik"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import TextArea from "react-autosize-textarea"
 import * as R from "ramda"
 
@@ -174,7 +174,6 @@ const DateInput = ({ text, validate, name }) => (
         name={`${name}.day`}
         component={NumberInput}
         placeholder={"DD"}
-        validate={validate}
         type="number"
       />
       <Field
@@ -187,13 +186,14 @@ const DateInput = ({ text, validate, name }) => (
         name={`${name}.year`}
         component={NumberInput}
         placeholder={"YYYY"}
+        validate={validate}
         type="number"
       />
     </div>
 
     <div className="relative">
       <ErrorMessage
-        name={`${name}.day`}
+        name={`${name}.year`}
         render={msg => <Error>{msg}</Error>}
       ></ErrorMessage>
     </div>
@@ -210,7 +210,7 @@ const InputWrap = styled.span.attrs({
       content: "£";
       left: 36px;
       ${({ name }) => name === "annualSalary" && "top: 32px"};
-    } 
+    }
   }
 
 `
@@ -226,8 +226,8 @@ const NumberInput = styled.input.attrs(
       R.path(pathToField, errors) && R.path(pathToField, touched)
 
     const showDateErrors = (() => {
-      if ([".day", ".month", ".year"].some(suffix => name.includes(suffix))) {
-        const pathToYearSubField = [rootField, "day"]
+      if ([".day", ".month"].some(suffix => name.includes(suffix))) {
+        const pathToYearSubField = [rootField, "year"]
         return (
           R.path(pathToYearSubField, errors) &&
           R.path(pathToYearSubField, touched)
@@ -332,8 +332,10 @@ const Error = styled.span.attrs({
 })`
  ${({ direction }) =>
    direction === "flex-row-reverse" &&
-   `margin-top: 72px;
-    width: 100vw; `} 
+   css`
+     margin-top: 72px;
+     width: 100vw;
+   `}
   }
 `
 
