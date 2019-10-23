@@ -134,6 +134,10 @@ app.prepare().then(() => {
       })
   })
 
+  server.get("/", (_req, res) => {
+    res.redirect("/dashboard")
+  })
+
   server.get("/api/private/*", restrictAccessAPI)
 
   server.get("*", (req, res) => {
