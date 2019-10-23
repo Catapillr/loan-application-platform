@@ -25,11 +25,14 @@ const hydratePaymentRequest = gql`
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const id = req.query.id as string
+    const { childcareProviderId } = req.query
 
-    const { childcareProvider, user, ...paymentRequest }: any = await prisma
-      .paymentRequest({
-        id,
+    const [{ childcareProvider, user, ...paymentRequest }]: any = await prisma
+      .paymentRequests({
+        where: {
+          childcareProvider: { id: childcareProviderId as string },
+          expiresAt_gt: new Date().toISOString(),
+        },
       })
       .$fragment(hydratePaymentRequest)
 
@@ -39,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       paymentRequest,
     })
   } catch (error) {
-    console.error("Error in get-payment-request-from-id: ", error)
+    console.error("Error in get-provider-registration-info: ", error)
     return res.status(404).json({
       error,
     })

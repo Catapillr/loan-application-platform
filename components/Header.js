@@ -97,9 +97,6 @@ const Header = ({ activeHref }) => {
           <HeaderLink activeHref={activeHref} href="/make-a-payment">
             Make a payment
           </HeaderLink>
-          <HeaderLink activeHref={activeHref} href="/my-contacts">
-            My contacts
-          </HeaderLink>
         </Links>
         <Avatar className="cursor-pointer" onClick={toggleDropdown} />
       </Nav>
