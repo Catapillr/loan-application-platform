@@ -42,7 +42,7 @@ import orangeLogo from "../../static/logo_orange.svg"
 //     year: 1989,
 //   },
 //   nationality: "BE",
-//   employeeID: "8sdj98sd",
+//   employeeId: "8sdj98sd",
 //   phoneNumber: "07443998236",
 //   confirmation: false,
 //   gdprConsent: false,
@@ -60,7 +60,7 @@ const initialValues = {
   lastName: "",
   dob: { day: "", month: "", year: "" },
   nationality: "",
-  employeeID: "",
+  employeeId: "",
   phoneNumber: "",
   confirmation: false,
   gdprConsent: false,
@@ -340,6 +340,7 @@ const Wizard = ({ children, employer }) => {
 
 const RenderStep = ({ component, validateForm, page, setTouched }) => {
   useEffect(() => {
+    window.scrollTo(0, 0)
     setTouched({})
     validateForm()
   }, [page])

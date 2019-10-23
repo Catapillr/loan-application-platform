@@ -1285,7 +1285,6 @@ input PayInWhereUniqueInput {
 
 type PaymentRequest {
   id: ID!
-  mangoPaymentID: String
   user: User!
   childcareProvider: ChildcareProvider!
   amountToPay: Int!
@@ -1304,7 +1303,6 @@ type PaymentRequestConnection {
 
 input PaymentRequestCreateInput {
   id: ID
-  mangoPaymentID: String
   user: UserCreateOneWithoutPaymentRequestsInput!
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput!
   amountToPay: Int!
@@ -1325,7 +1323,6 @@ input PaymentRequestCreateManyWithoutUserInput {
 
 input PaymentRequestCreateWithoutChildcareProviderInput {
   id: ID
-  mangoPaymentID: String
   user: UserCreateOneWithoutPaymentRequestsInput!
   amountToPay: Int!
   consentToPay: Boolean
@@ -1335,7 +1332,6 @@ input PaymentRequestCreateWithoutChildcareProviderInput {
 
 input PaymentRequestCreateWithoutUserInput {
   id: ID
-  mangoPaymentID: String
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput!
   amountToPay: Int!
   consentToPay: Boolean
@@ -1351,8 +1347,6 @@ type PaymentRequestEdge {
 enum PaymentRequestOrderByInput {
   id_ASC
   id_DESC
-  mangoPaymentID_ASC
-  mangoPaymentID_DESC
   amountToPay_ASC
   amountToPay_DESC
   consentToPay_ASC
@@ -1369,7 +1363,6 @@ enum PaymentRequestOrderByInput {
 
 type PaymentRequestPreviousValues {
   id: ID!
-  mangoPaymentID: String
   amountToPay: Int!
   consentToPay: Boolean!
   reference: String
@@ -1393,20 +1386,6 @@ input PaymentRequestScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  mangoPaymentID: String
-  mangoPaymentID_not: String
-  mangoPaymentID_in: [String!]
-  mangoPaymentID_not_in: [String!]
-  mangoPaymentID_lt: String
-  mangoPaymentID_lte: String
-  mangoPaymentID_gt: String
-  mangoPaymentID_gte: String
-  mangoPaymentID_contains: String
-  mangoPaymentID_not_contains: String
-  mangoPaymentID_starts_with: String
-  mangoPaymentID_not_starts_with: String
-  mangoPaymentID_ends_with: String
-  mangoPaymentID_not_ends_with: String
   amountToPay: Int
   amountToPay_not: Int
   amountToPay_in: [Int!]
@@ -1479,7 +1458,6 @@ input PaymentRequestSubscriptionWhereInput {
 }
 
 input PaymentRequestUpdateInput {
-  mangoPaymentID: String
   user: UserUpdateOneRequiredWithoutPaymentRequestsInput
   childcareProvider: ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
   amountToPay: Int
@@ -1489,7 +1467,6 @@ input PaymentRequestUpdateInput {
 }
 
 input PaymentRequestUpdateManyDataInput {
-  mangoPaymentID: String
   amountToPay: Int
   consentToPay: Boolean
   reference: String
@@ -1497,7 +1474,6 @@ input PaymentRequestUpdateManyDataInput {
 }
 
 input PaymentRequestUpdateManyMutationInput {
-  mangoPaymentID: String
   amountToPay: Int
   consentToPay: Boolean
   reference: String
@@ -1534,7 +1510,6 @@ input PaymentRequestUpdateManyWithWhereNestedInput {
 }
 
 input PaymentRequestUpdateWithoutChildcareProviderDataInput {
-  mangoPaymentID: String
   user: UserUpdateOneRequiredWithoutPaymentRequestsInput
   amountToPay: Int
   consentToPay: Boolean
@@ -1543,7 +1518,6 @@ input PaymentRequestUpdateWithoutChildcareProviderDataInput {
 }
 
 input PaymentRequestUpdateWithoutUserDataInput {
-  mangoPaymentID: String
   childcareProvider: ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
   amountToPay: Int
   consentToPay: Boolean
@@ -1588,20 +1562,6 @@ input PaymentRequestWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  mangoPaymentID: String
-  mangoPaymentID_not: String
-  mangoPaymentID_in: [String!]
-  mangoPaymentID_not_in: [String!]
-  mangoPaymentID_lt: String
-  mangoPaymentID_lte: String
-  mangoPaymentID_gt: String
-  mangoPaymentID_gte: String
-  mangoPaymentID_contains: String
-  mangoPaymentID_not_contains: String
-  mangoPaymentID_starts_with: String
-  mangoPaymentID_not_starts_with: String
-  mangoPaymentID_ends_with: String
-  mangoPaymentID_not_ends_with: String
   user: UserWhereInput
   childcareProvider: ChildcareProviderWhereInput
   amountToPay: Int
@@ -1659,7 +1619,6 @@ input PaymentRequestWhereInput {
 
 input PaymentRequestWhereUniqueInput {
   id: ID
-  mangoPaymentID: String
 }
 
 type Query {
@@ -1895,7 +1854,7 @@ type User {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationToken
   gdprConsent: Boolean!
   loan: Loan
@@ -1925,7 +1884,7 @@ input UserCreateInput {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
@@ -1966,7 +1925,7 @@ input UserCreateWithoutEmployerInput {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
@@ -1988,7 +1947,7 @@ input UserCreateWithoutLoanInput {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
   mangoWalletId: String
@@ -2009,7 +1968,7 @@ input UserCreateWithoutPayInsInput {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
@@ -2030,7 +1989,7 @@ input UserCreateWithoutPaymentRequestsInput {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
@@ -2065,8 +2024,8 @@ enum UserOrderByInput {
   employmentStartDate_DESC
   annualSalary_ASC
   annualSalary_DESC
-  employeeID_ASC
-  employeeID_DESC
+  employeeId_ASC
+  employeeId_DESC
   gdprConsent_ASC
   gdprConsent_DESC
   mangoWalletId_ASC
@@ -2090,7 +2049,7 @@ type UserPreviousValues {
   nationality: String!
   employmentStartDate: DateTime!
   annualSalary: Int!
-  employeeID: String
+  employeeId: String
   gdprConsent: Boolean!
   mangoWalletId: String
   mangoUserId: String
@@ -2209,20 +2168,20 @@ input UserScalarWhereInput {
   annualSalary_lte: Int
   annualSalary_gt: Int
   annualSalary_gte: Int
-  employeeID: String
-  employeeID_not: String
-  employeeID_in: [String!]
-  employeeID_not_in: [String!]
-  employeeID_lt: String
-  employeeID_lte: String
-  employeeID_gt: String
-  employeeID_gte: String
-  employeeID_contains: String
-  employeeID_not_contains: String
-  employeeID_starts_with: String
-  employeeID_not_starts_with: String
-  employeeID_ends_with: String
-  employeeID_not_ends_with: String
+  employeeId: String
+  employeeId_not: String
+  employeeId_in: [String!]
+  employeeId_not_in: [String!]
+  employeeId_lt: String
+  employeeId_lte: String
+  employeeId_gt: String
+  employeeId_gte: String
+  employeeId_contains: String
+  employeeId_not_contains: String
+  employeeId_starts_with: String
+  employeeId_not_starts_with: String
+  employeeId_ends_with: String
+  employeeId_not_ends_with: String
   gdprConsent: Boolean
   gdprConsent_not: Boolean
   mangoWalletId: String
@@ -2303,7 +2262,7 @@ input UserUpdateInput {
   nationality: String
   employmentStartDate: DateTime
   annualSalary: Int
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
@@ -2323,7 +2282,7 @@ input UserUpdateManyDataInput {
   nationality: String
   employmentStartDate: DateTime
   annualSalary: Int
-  employeeID: String
+  employeeId: String
   gdprConsent: Boolean
   mangoWalletId: String
   mangoUserId: String
@@ -2339,7 +2298,7 @@ input UserUpdateManyMutationInput {
   nationality: String
   employmentStartDate: DateTime
   annualSalary: Int
-  employeeID: String
+  employeeId: String
   gdprConsent: Boolean
   mangoWalletId: String
   mangoUserId: String
@@ -2393,7 +2352,7 @@ input UserUpdateWithoutEmployerDataInput {
   nationality: String
   employmentStartDate: DateTime
   annualSalary: Int
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
@@ -2414,7 +2373,7 @@ input UserUpdateWithoutLoanDataInput {
   nationality: String
   employmentStartDate: DateTime
   annualSalary: Int
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
   mangoWalletId: String
@@ -2434,7 +2393,7 @@ input UserUpdateWithoutPayInsDataInput {
   nationality: String
   employmentStartDate: DateTime
   annualSalary: Int
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
@@ -2454,7 +2413,7 @@ input UserUpdateWithoutPaymentRequestsDataInput {
   nationality: String
   employmentStartDate: DateTime
   annualSalary: Int
-  employeeID: String
+  employeeId: String
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
@@ -2601,20 +2560,20 @@ input UserWhereInput {
   annualSalary_lte: Int
   annualSalary_gt: Int
   annualSalary_gte: Int
-  employeeID: String
-  employeeID_not: String
-  employeeID_in: [String!]
-  employeeID_not_in: [String!]
-  employeeID_lt: String
-  employeeID_lte: String
-  employeeID_gt: String
-  employeeID_gte: String
-  employeeID_contains: String
-  employeeID_not_contains: String
-  employeeID_starts_with: String
-  employeeID_not_starts_with: String
-  employeeID_ends_with: String
-  employeeID_not_ends_with: String
+  employeeId: String
+  employeeId_not: String
+  employeeId_in: [String!]
+  employeeId_not_in: [String!]
+  employeeId_lt: String
+  employeeId_lte: String
+  employeeId_gt: String
+  employeeId_gte: String
+  employeeId_contains: String
+  employeeId_not_contains: String
+  employeeId_starts_with: String
+  employeeId_not_starts_with: String
+  employeeId_ends_with: String
+  employeeId_not_ends_with: String
   verificationToken: VerificationTokenWhereInput
   gdprConsent: Boolean
   gdprConsent_not: Boolean

@@ -401,8 +401,6 @@ export interface ClientConstructor<T> {
 export type PaymentRequestOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "mangoPaymentID_ASC"
-  | "mangoPaymentID_DESC"
   | "amountToPay_ASC"
   | "amountToPay_DESC"
   | "consentToPay_ASC"
@@ -437,8 +435,8 @@ export type UserOrderByInput =
   | "employmentStartDate_DESC"
   | "annualSalary_ASC"
   | "annualSalary_DESC"
-  | "employeeID_ASC"
-  | "employeeID_DESC"
+  | "employeeId_ASC"
+  | "employeeId_DESC"
   | "gdprConsent_ASC"
   | "gdprConsent_DESC"
   | "mangoWalletId_ASC"
@@ -473,10 +471,10 @@ export type ChildcareProviderOrderByInput =
   | "email_DESC"
   | "companyNumber_ASC"
   | "companyNumber_DESC"
-  | "mangoLegalUserID_ASC"
-  | "mangoLegalUserID_DESC"
-  | "mangoBankAccountID_ASC"
-  | "mangoBankAccountID_DESC"
+  | "mangoLegalUserId_ASC"
+  | "mangoLegalUserId_DESC"
+  | "mangoBankAccountId_ASC"
+  | "mangoBankAccountId_DESC"
   | "mangoWalletId_ASC"
   | "mangoWalletId_DESC"
   | "approved_ASC"
@@ -584,8 +582,8 @@ export type ChildcareProviderWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
-  mangoLegalUserID?: Maybe<String>;
-  mangoBankAccountID?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
   mangoWalletId?: Maybe<String>;
 }>;
 
@@ -659,7 +657,7 @@ export interface UserUpdateWithoutPayInsDataInput {
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Int>;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
   loan?: Maybe<LoanUpdateOneWithoutUserInput>;
@@ -792,34 +790,34 @@ export interface ChildcareProviderWhereInput {
   companyNumber_not_starts_with?: Maybe<String>;
   companyNumber_ends_with?: Maybe<String>;
   companyNumber_not_ends_with?: Maybe<String>;
-  mangoLegalUserID?: Maybe<String>;
-  mangoLegalUserID_not?: Maybe<String>;
-  mangoLegalUserID_in?: Maybe<String[] | String>;
-  mangoLegalUserID_not_in?: Maybe<String[] | String>;
-  mangoLegalUserID_lt?: Maybe<String>;
-  mangoLegalUserID_lte?: Maybe<String>;
-  mangoLegalUserID_gt?: Maybe<String>;
-  mangoLegalUserID_gte?: Maybe<String>;
-  mangoLegalUserID_contains?: Maybe<String>;
-  mangoLegalUserID_not_contains?: Maybe<String>;
-  mangoLegalUserID_starts_with?: Maybe<String>;
-  mangoLegalUserID_not_starts_with?: Maybe<String>;
-  mangoLegalUserID_ends_with?: Maybe<String>;
-  mangoLegalUserID_not_ends_with?: Maybe<String>;
-  mangoBankAccountID?: Maybe<String>;
-  mangoBankAccountID_not?: Maybe<String>;
-  mangoBankAccountID_in?: Maybe<String[] | String>;
-  mangoBankAccountID_not_in?: Maybe<String[] | String>;
-  mangoBankAccountID_lt?: Maybe<String>;
-  mangoBankAccountID_lte?: Maybe<String>;
-  mangoBankAccountID_gt?: Maybe<String>;
-  mangoBankAccountID_gte?: Maybe<String>;
-  mangoBankAccountID_contains?: Maybe<String>;
-  mangoBankAccountID_not_contains?: Maybe<String>;
-  mangoBankAccountID_starts_with?: Maybe<String>;
-  mangoBankAccountID_not_starts_with?: Maybe<String>;
-  mangoBankAccountID_ends_with?: Maybe<String>;
-  mangoBankAccountID_not_ends_with?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoLegalUserId_not?: Maybe<String>;
+  mangoLegalUserId_in?: Maybe<String[] | String>;
+  mangoLegalUserId_not_in?: Maybe<String[] | String>;
+  mangoLegalUserId_lt?: Maybe<String>;
+  mangoLegalUserId_lte?: Maybe<String>;
+  mangoLegalUserId_gt?: Maybe<String>;
+  mangoLegalUserId_gte?: Maybe<String>;
+  mangoLegalUserId_contains?: Maybe<String>;
+  mangoLegalUserId_not_contains?: Maybe<String>;
+  mangoLegalUserId_starts_with?: Maybe<String>;
+  mangoLegalUserId_not_starts_with?: Maybe<String>;
+  mangoLegalUserId_ends_with?: Maybe<String>;
+  mangoLegalUserId_not_ends_with?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
+  mangoBankAccountId_not?: Maybe<String>;
+  mangoBankAccountId_in?: Maybe<String[] | String>;
+  mangoBankAccountId_not_in?: Maybe<String[] | String>;
+  mangoBankAccountId_lt?: Maybe<String>;
+  mangoBankAccountId_lte?: Maybe<String>;
+  mangoBankAccountId_gt?: Maybe<String>;
+  mangoBankAccountId_gte?: Maybe<String>;
+  mangoBankAccountId_contains?: Maybe<String>;
+  mangoBankAccountId_not_contains?: Maybe<String>;
+  mangoBankAccountId_starts_with?: Maybe<String>;
+  mangoBankAccountId_not_starts_with?: Maybe<String>;
+  mangoBankAccountId_ends_with?: Maybe<String>;
+  mangoBankAccountId_not_ends_with?: Maybe<String>;
   mangoWalletId?: Maybe<String>;
   mangoWalletId_not?: Maybe<String>;
   mangoWalletId_in?: Maybe<String[] | String>;
@@ -872,8 +870,8 @@ export interface ChildcareProviderCreateWithoutPaymentRequestsInput {
   id?: Maybe<ID_Input>;
   email: String;
   companyNumber: String;
-  mangoLegalUserID?: Maybe<String>;
-  mangoBankAccountID?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
   mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -1003,7 +1001,7 @@ export interface UserCreateWithoutEmployerInput {
   nationality: String;
   employmentStartDate: DateTimeInput;
   annualSalary: Int;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
   loan?: Maybe<LoanCreateOneWithoutUserInput>;
@@ -1031,8 +1029,8 @@ export interface EmployerSubscriptionWhereInput {
 export interface ChildcareProviderUpdateInput {
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
-  mangoLegalUserID?: Maybe<String>;
-  mangoBankAccountID?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
   mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   paymentRequests?: Maybe<
@@ -1102,14 +1100,13 @@ export interface UserUpdateManyMutationInput {
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Int>;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   gdprConsent?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
 }
 
 export interface PaymentRequestUpdateWithoutChildcareProviderDataInput {
-  mangoPaymentID?: Maybe<String>;
   user?: Maybe<UserUpdateOneRequiredWithoutPaymentRequestsInput>;
   amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
@@ -1129,7 +1126,7 @@ export interface UserCreateInput {
   nationality: String;
   employmentStartDate: DateTimeInput;
   annualSalary: Int;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
   loan?: Maybe<LoanCreateOneWithoutUserInput>;
@@ -1161,7 +1158,7 @@ export interface UserUpdateWithoutPaymentRequestsDataInput {
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Int>;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
   loan?: Maybe<LoanUpdateOneWithoutUserInput>;
@@ -1250,7 +1247,6 @@ export interface SuffixUpdateManyWithoutEmployerInput {
 
 export type PaymentRequestWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
 }>;
 
 export interface SuffixUpdateWithWhereUniqueWithoutEmployerInput {
@@ -1259,7 +1255,6 @@ export interface SuffixUpdateWithWhereUniqueWithoutEmployerInput {
 }
 
 export interface PaymentRequestUpdateManyMutationInput {
-  mangoPaymentID?: Maybe<String>;
   amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
@@ -1366,7 +1361,7 @@ export interface UserCreateWithoutLoanInput {
   nationality: String;
   employmentStartDate: DateTimeInput;
   annualSalary: Int;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
   mangoWalletId?: Maybe<String>;
@@ -1384,8 +1379,8 @@ export interface ChildcareProviderCreateInput {
   id?: Maybe<ID_Input>;
   email: String;
   companyNumber: String;
-  mangoLegalUserID?: Maybe<String>;
-  mangoBankAccountID?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
   mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   paymentRequests?: Maybe<
@@ -1405,7 +1400,6 @@ export interface LoanCreateInput {
 
 export interface PaymentRequestCreateWithoutChildcareProviderInput {
   id?: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
   user: UserCreateOneWithoutPaymentRequestsInput;
   amountToPay: Int;
   consentToPay?: Maybe<Boolean>;
@@ -1494,7 +1488,7 @@ export interface UserCreateWithoutPaymentRequestsInput {
   nationality: String;
   employmentStartDate: DateTimeInput;
   annualSalary: Int;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
   loan?: Maybe<LoanCreateOneWithoutUserInput>;
@@ -1582,7 +1576,7 @@ export interface UserCreateWithoutPayInsInput {
   nationality: String;
   employmentStartDate: DateTimeInput;
   annualSalary: Int;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenCreateOneInput>;
   gdprConsent: Boolean;
   loan?: Maybe<LoanCreateOneWithoutUserInput>;
@@ -1654,7 +1648,6 @@ export interface PaymentRequestUpdateManyWithoutUserInput {
 
 export interface PaymentRequestCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
   amountToPay: Int;
   consentToPay?: Maybe<Boolean>;
@@ -1688,7 +1681,6 @@ export interface VerificationTokenSubscriptionWhereInput {
 }
 
 export interface PaymentRequestUpdateWithoutUserDataInput {
-  mangoPaymentID?: Maybe<String>;
   childcareProvider?: Maybe<
     ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
   >;
@@ -1970,20 +1962,20 @@ export interface UserWhereInput {
   annualSalary_lte?: Maybe<Int>;
   annualSalary_gt?: Maybe<Int>;
   annualSalary_gte?: Maybe<Int>;
-  employeeID?: Maybe<String>;
-  employeeID_not?: Maybe<String>;
-  employeeID_in?: Maybe<String[] | String>;
-  employeeID_not_in?: Maybe<String[] | String>;
-  employeeID_lt?: Maybe<String>;
-  employeeID_lte?: Maybe<String>;
-  employeeID_gt?: Maybe<String>;
-  employeeID_gte?: Maybe<String>;
-  employeeID_contains?: Maybe<String>;
-  employeeID_not_contains?: Maybe<String>;
-  employeeID_starts_with?: Maybe<String>;
-  employeeID_not_starts_with?: Maybe<String>;
-  employeeID_ends_with?: Maybe<String>;
-  employeeID_not_ends_with?: Maybe<String>;
+  employeeId?: Maybe<String>;
+  employeeId_not?: Maybe<String>;
+  employeeId_in?: Maybe<String[] | String>;
+  employeeId_not_in?: Maybe<String[] | String>;
+  employeeId_lt?: Maybe<String>;
+  employeeId_lte?: Maybe<String>;
+  employeeId_gt?: Maybe<String>;
+  employeeId_gte?: Maybe<String>;
+  employeeId_contains?: Maybe<String>;
+  employeeId_not_contains?: Maybe<String>;
+  employeeId_starts_with?: Maybe<String>;
+  employeeId_not_starts_with?: Maybe<String>;
+  employeeId_ends_with?: Maybe<String>;
+  employeeId_not_ends_with?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenWhereInput>;
   gdprConsent?: Maybe<Boolean>;
   gdprConsent_not?: Maybe<Boolean>;
@@ -2046,8 +2038,8 @@ export interface UserWhereInput {
 export interface ChildcareProviderUpdateWithoutPaymentRequestsDataInput {
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
-  mangoLegalUserID?: Maybe<String>;
-  mangoBankAccountID?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
   mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -2075,7 +2067,7 @@ export interface UserUpdateInput {
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Int>;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
   loan?: Maybe<LoanUpdateOneWithoutUserInput>;
@@ -2111,20 +2103,6 @@ export interface PaymentRequestScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
-  mangoPaymentID_not?: Maybe<String>;
-  mangoPaymentID_in?: Maybe<String[] | String>;
-  mangoPaymentID_not_in?: Maybe<String[] | String>;
-  mangoPaymentID_lt?: Maybe<String>;
-  mangoPaymentID_lte?: Maybe<String>;
-  mangoPaymentID_gt?: Maybe<String>;
-  mangoPaymentID_gte?: Maybe<String>;
-  mangoPaymentID_contains?: Maybe<String>;
-  mangoPaymentID_not_contains?: Maybe<String>;
-  mangoPaymentID_starts_with?: Maybe<String>;
-  mangoPaymentID_not_starts_with?: Maybe<String>;
-  mangoPaymentID_ends_with?: Maybe<String>;
-  mangoPaymentID_not_ends_with?: Maybe<String>;
   amountToPay?: Maybe<Int>;
   amountToPay_not?: Maybe<Int>;
   amountToPay_in?: Maybe<Int[] | Int>;
@@ -2199,7 +2177,6 @@ export interface SuffixCreateInput {
 }
 
 export interface PaymentRequestUpdateManyDataInput {
-  mangoPaymentID?: Maybe<String>;
   amountToPay?: Maybe<Int>;
   consentToPay?: Maybe<Boolean>;
   reference?: Maybe<String>;
@@ -2208,7 +2185,6 @@ export interface PaymentRequestUpdateManyDataInput {
 
 export interface PaymentRequestCreateInput {
   id?: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
   user: UserCreateOneWithoutPaymentRequestsInput;
   childcareProvider: ChildcareProviderCreateOneWithoutPaymentRequestsInput;
   amountToPay: Int;
@@ -2246,7 +2222,7 @@ export interface UserUpdateWithoutLoanDataInput {
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Int>;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
@@ -2402,20 +2378,6 @@ export interface PaymentRequestWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  mangoPaymentID?: Maybe<String>;
-  mangoPaymentID_not?: Maybe<String>;
-  mangoPaymentID_in?: Maybe<String[] | String>;
-  mangoPaymentID_not_in?: Maybe<String[] | String>;
-  mangoPaymentID_lt?: Maybe<String>;
-  mangoPaymentID_lte?: Maybe<String>;
-  mangoPaymentID_gt?: Maybe<String>;
-  mangoPaymentID_gte?: Maybe<String>;
-  mangoPaymentID_contains?: Maybe<String>;
-  mangoPaymentID_not_contains?: Maybe<String>;
-  mangoPaymentID_starts_with?: Maybe<String>;
-  mangoPaymentID_not_starts_with?: Maybe<String>;
-  mangoPaymentID_ends_with?: Maybe<String>;
-  mangoPaymentID_not_ends_with?: Maybe<String>;
   user?: Maybe<UserWhereInput>;
   childcareProvider?: Maybe<ChildcareProviderWhereInput>;
   amountToPay?: Maybe<Int>;
@@ -2500,7 +2462,6 @@ export interface EmployerUpdateWithoutPayInsDataInput {
 }
 
 export interface PaymentRequestUpdateInput {
-  mangoPaymentID?: Maybe<String>;
   user?: Maybe<UserUpdateOneRequiredWithoutPaymentRequestsInput>;
   childcareProvider?: Maybe<
     ChildcareProviderUpdateOneRequiredWithoutPaymentRequestsInput
@@ -2563,7 +2524,7 @@ export interface UserUpdateWithoutEmployerDataInput {
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Int>;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   verificationToken?: Maybe<VerificationTokenUpdateOneInput>;
   gdprConsent?: Maybe<Boolean>;
   loan?: Maybe<LoanUpdateOneWithoutUserInput>;
@@ -2707,20 +2668,20 @@ export interface UserScalarWhereInput {
   annualSalary_lte?: Maybe<Int>;
   annualSalary_gt?: Maybe<Int>;
   annualSalary_gte?: Maybe<Int>;
-  employeeID?: Maybe<String>;
-  employeeID_not?: Maybe<String>;
-  employeeID_in?: Maybe<String[] | String>;
-  employeeID_not_in?: Maybe<String[] | String>;
-  employeeID_lt?: Maybe<String>;
-  employeeID_lte?: Maybe<String>;
-  employeeID_gt?: Maybe<String>;
-  employeeID_gte?: Maybe<String>;
-  employeeID_contains?: Maybe<String>;
-  employeeID_not_contains?: Maybe<String>;
-  employeeID_starts_with?: Maybe<String>;
-  employeeID_not_starts_with?: Maybe<String>;
-  employeeID_ends_with?: Maybe<String>;
-  employeeID_not_ends_with?: Maybe<String>;
+  employeeId?: Maybe<String>;
+  employeeId_not?: Maybe<String>;
+  employeeId_in?: Maybe<String[] | String>;
+  employeeId_not_in?: Maybe<String[] | String>;
+  employeeId_lt?: Maybe<String>;
+  employeeId_lte?: Maybe<String>;
+  employeeId_gt?: Maybe<String>;
+  employeeId_gte?: Maybe<String>;
+  employeeId_contains?: Maybe<String>;
+  employeeId_not_contains?: Maybe<String>;
+  employeeId_starts_with?: Maybe<String>;
+  employeeId_not_starts_with?: Maybe<String>;
+  employeeId_ends_with?: Maybe<String>;
+  employeeId_not_ends_with?: Maybe<String>;
   gdprConsent?: Maybe<Boolean>;
   gdprConsent_not?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
@@ -2812,7 +2773,7 @@ export interface UserUpdateManyDataInput {
   nationality?: Maybe<String>;
   employmentStartDate?: Maybe<DateTimeInput>;
   annualSalary?: Maybe<Int>;
-  employeeID?: Maybe<String>;
+  employeeId?: Maybe<String>;
   gdprConsent?: Maybe<Boolean>;
   mangoWalletId?: Maybe<String>;
   mangoUserId?: Maybe<String>;
@@ -2839,8 +2800,8 @@ export interface VerificationTokenCreateOneInput {
 export interface ChildcareProviderUpdateManyMutationInput {
   email?: Maybe<String>;
   companyNumber?: Maybe<String>;
-  mangoLegalUserID?: Maybe<String>;
-  mangoBankAccountID?: Maybe<String>;
+  mangoLegalUserId?: Maybe<String>;
+  mangoBankAccountId?: Maybe<String>;
   mangoWalletId?: Maybe<String>;
   approved?: Maybe<Boolean>;
   expiresAt?: Maybe<DateTimeInput>;
@@ -2971,7 +2932,6 @@ export interface EmployerConnectionSubscription
 
 export interface PaymentRequest {
   id: ID_Output;
-  mangoPaymentID?: String;
   amountToPay: Int;
   consentToPay: Boolean;
   reference?: String;
@@ -2984,7 +2944,6 @@ export interface PaymentRequestPromise
   extends Promise<PaymentRequest>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  mangoPaymentID: () => Promise<String>;
   user: <T = UserPromise>() => T;
   childcareProvider: <T = ChildcareProviderPromise>() => T;
   amountToPay: () => Promise<Int>;
@@ -2999,7 +2958,6 @@ export interface PaymentRequestSubscription
   extends Promise<AsyncIterator<PaymentRequest>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  mangoPaymentID: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   childcareProvider: <T = ChildcareProviderSubscription>() => T;
   amountToPay: () => Promise<AsyncIterator<Int>>;
@@ -3014,7 +2972,6 @@ export interface PaymentRequestNullablePromise
   extends Promise<PaymentRequest | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  mangoPaymentID: () => Promise<String>;
   user: <T = UserPromise>() => T;
   childcareProvider: <T = ChildcareProviderPromise>() => T;
   amountToPay: () => Promise<Int>;
@@ -3052,7 +3009,7 @@ export interface User {
   nationality: String;
   employmentStartDate: DateTimeOutput;
   annualSalary: Int;
-  employeeID?: String;
+  employeeId?: String;
   gdprConsent: Boolean;
   mangoWalletId?: String;
   mangoUserId?: String;
@@ -3072,7 +3029,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   nationality: () => Promise<String>;
   employmentStartDate: () => Promise<DateTimeOutput>;
   annualSalary: () => Promise<Int>;
-  employeeID: () => Promise<String>;
+  employeeId: () => Promise<String>;
   verificationToken: <T = VerificationTokenPromise>() => T;
   gdprConsent: () => Promise<Boolean>;
   loan: <T = LoanPromise>() => T;
@@ -3114,7 +3071,7 @@ export interface UserSubscription
   nationality: () => Promise<AsyncIterator<String>>;
   employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   annualSalary: () => Promise<AsyncIterator<Int>>;
-  employeeID: () => Promise<AsyncIterator<String>>;
+  employeeId: () => Promise<AsyncIterator<String>>;
   verificationToken: <T = VerificationTokenSubscription>() => T;
   gdprConsent: () => Promise<AsyncIterator<Boolean>>;
   loan: <T = LoanSubscription>() => T;
@@ -3158,7 +3115,7 @@ export interface UserNullablePromise
   nationality: () => Promise<String>;
   employmentStartDate: () => Promise<DateTimeOutput>;
   annualSalary: () => Promise<Int>;
-  employeeID: () => Promise<String>;
+  employeeId: () => Promise<String>;
   verificationToken: <T = VerificationTokenPromise>() => T;
   gdprConsent: () => Promise<Boolean>;
   loan: <T = LoanPromise>() => T;
@@ -3434,7 +3391,7 @@ export interface UserPreviousValues {
   nationality: String;
   employmentStartDate: DateTimeOutput;
   annualSalary: Int;
-  employeeID?: String;
+  employeeId?: String;
   gdprConsent: Boolean;
   mangoWalletId?: String;
   mangoUserId?: String;
@@ -3455,7 +3412,7 @@ export interface UserPreviousValuesPromise
   nationality: () => Promise<String>;
   employmentStartDate: () => Promise<DateTimeOutput>;
   annualSalary: () => Promise<Int>;
-  employeeID: () => Promise<String>;
+  employeeId: () => Promise<String>;
   gdprConsent: () => Promise<Boolean>;
   mangoWalletId: () => Promise<String>;
   mangoUserId: () => Promise<String>;
@@ -3476,7 +3433,7 @@ export interface UserPreviousValuesSubscription
   nationality: () => Promise<AsyncIterator<String>>;
   employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   annualSalary: () => Promise<AsyncIterator<Int>>;
-  employeeID: () => Promise<AsyncIterator<String>>;
+  employeeId: () => Promise<AsyncIterator<String>>;
   gdprConsent: () => Promise<AsyncIterator<Boolean>>;
   mangoWalletId: () => Promise<AsyncIterator<String>>;
   mangoUserId: () => Promise<AsyncIterator<String>>;
@@ -3488,8 +3445,8 @@ export interface ChildcareProvider {
   id: ID_Output;
   email: String;
   companyNumber: String;
-  mangoLegalUserID?: String;
-  mangoBankAccountID?: String;
+  mangoLegalUserId?: String;
+  mangoBankAccountId?: String;
   mangoWalletId?: String;
   approved: Boolean;
   expiresAt?: DateTimeOutput;
@@ -3503,8 +3460,8 @@ export interface ChildcareProviderPromise
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   companyNumber: () => Promise<String>;
-  mangoLegalUserID: () => Promise<String>;
-  mangoBankAccountID: () => Promise<String>;
+  mangoLegalUserId: () => Promise<String>;
+  mangoBankAccountId: () => Promise<String>;
   mangoWalletId: () => Promise<String>;
   approved: () => Promise<Boolean>;
   paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
@@ -3527,8 +3484,8 @@ export interface ChildcareProviderSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
   companyNumber: () => Promise<AsyncIterator<String>>;
-  mangoLegalUserID: () => Promise<AsyncIterator<String>>;
-  mangoBankAccountID: () => Promise<AsyncIterator<String>>;
+  mangoLegalUserId: () => Promise<AsyncIterator<String>>;
+  mangoBankAccountId: () => Promise<AsyncIterator<String>>;
   mangoWalletId: () => Promise<AsyncIterator<String>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   paymentRequests: <
@@ -3553,8 +3510,8 @@ export interface ChildcareProviderNullablePromise
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   companyNumber: () => Promise<String>;
-  mangoLegalUserID: () => Promise<String>;
-  mangoBankAccountID: () => Promise<String>;
+  mangoLegalUserId: () => Promise<String>;
+  mangoBankAccountId: () => Promise<String>;
   mangoWalletId: () => Promise<String>;
   approved: () => Promise<Boolean>;
   paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
@@ -3702,8 +3659,8 @@ export interface ChildcareProviderPreviousValues {
   id: ID_Output;
   email: String;
   companyNumber: String;
-  mangoLegalUserID?: String;
-  mangoBankAccountID?: String;
+  mangoLegalUserId?: String;
+  mangoBankAccountId?: String;
   mangoWalletId?: String;
   approved: Boolean;
   expiresAt?: DateTimeOutput;
@@ -3717,8 +3674,8 @@ export interface ChildcareProviderPreviousValuesPromise
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   companyNumber: () => Promise<String>;
-  mangoLegalUserID: () => Promise<String>;
-  mangoBankAccountID: () => Promise<String>;
+  mangoLegalUserId: () => Promise<String>;
+  mangoBankAccountId: () => Promise<String>;
   mangoWalletId: () => Promise<String>;
   approved: () => Promise<Boolean>;
   expiresAt: () => Promise<DateTimeOutput>;
@@ -3732,8 +3689,8 @@ export interface ChildcareProviderPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
   companyNumber: () => Promise<AsyncIterator<String>>;
-  mangoLegalUserID: () => Promise<AsyncIterator<String>>;
-  mangoBankAccountID: () => Promise<AsyncIterator<String>>;
+  mangoLegalUserId: () => Promise<AsyncIterator<String>>;
+  mangoBankAccountId: () => Promise<AsyncIterator<String>>;
   mangoWalletId: () => Promise<AsyncIterator<String>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -4347,7 +4304,6 @@ export interface SuffixNullablePromise
 
 export interface PaymentRequestPreviousValues {
   id: ID_Output;
-  mangoPaymentID?: String;
   amountToPay: Int;
   consentToPay: Boolean;
   reference?: String;
@@ -4360,7 +4316,6 @@ export interface PaymentRequestPreviousValuesPromise
   extends Promise<PaymentRequestPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  mangoPaymentID: () => Promise<String>;
   amountToPay: () => Promise<Int>;
   consentToPay: () => Promise<Boolean>;
   reference: () => Promise<String>;
@@ -4373,7 +4328,6 @@ export interface PaymentRequestPreviousValuesSubscription
   extends Promise<AsyncIterator<PaymentRequestPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  mangoPaymentID: () => Promise<AsyncIterator<String>>;
   amountToPay: () => Promise<AsyncIterator<Int>>;
   consentToPay: () => Promise<AsyncIterator<Boolean>>;
   reference: () => Promise<AsyncIterator<String>>;
