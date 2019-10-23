@@ -76,11 +76,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             nationality
             loan {
               amount
-              agreementURL
             }
             employer {
               id
-              name
             }
           }
         `)
