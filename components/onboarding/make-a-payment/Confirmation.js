@@ -2,7 +2,6 @@ import * as Yup from "yup"
 import styled from "styled-components"
 
 import Tick from "../../../static/icons/tick-in-circle.svg"
-import penniesToPounds from "../../../utils/penniesToPounds"
 
 const Container = styled.section.attrs({
   className: "w-full block bg-white px-10 py-10",
@@ -63,7 +62,7 @@ const Confirmation = ({
         ? "The payment amount was"
         : "Your magic link contains the amount of"}
     </Copy>
-    <Copy className="font-subheader mb-6">{penniesToPounds(amountToPay)}</Copy>
+    <Copy className="font-subheader mb-6">{amountToPay}</Copy>
     <WhatHappensNext>
       <Copy className="font-bold w-11/12">
         {isProviderRegistered
