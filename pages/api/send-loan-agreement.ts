@@ -2,6 +2,7 @@ import hellosign from "hellosign-sdk"
 import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 import * as R from "ramda"
+import R_ from "../../utils/R_"
 
 import zeroIndexMonth from "../../utils/zeroIndexMonth"
 import poundsToPennies from "../../utils/poundsToPennies"
@@ -24,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     lastName,
     dob,
     nationality,
-    employeeID,
+    employeeId,
     phoneNumber,
     employer,
     gdprConsent,
@@ -39,7 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       dob: moment(zeroIndexMonth(dob)).toDate(),
       nationality,
       employmentStartDate: moment(zeroIndexMonth(employmentStartDate)).toDate(),
-      employeeID,
+      employeeId,
       annualSalary: poundsToPennies(parseFloat(annualSalary)),
       employer: { connect: { slug: employer.slug } },
       loan: {
@@ -57,18 +58,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const loanOptions = (
     loanAmount: number,
     loanTerms: number,
-    maximumTerms: number = 12
+    maximumTerms: number = 11
   ): { name: string; value: any }[] => {
-    const mapIndexed: any = R.addIndex(R.map)
-
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
     const remainder = loanAmount % loanTerms
-    const lastMonth = monthlyRepayment + remainder
+    const firstMonth = monthlyRepayment + remainder
 
     const loanDetails = [
       {
         name: "loanAmount",
-        value: currencyFormatter.format(loanAmount, ({ code: "GBP" })),
+        value: currencyFormatter.format(loanAmount, { code: "GBP" }),
       },
       {
         name: "loanTerms",
@@ -76,20 +75,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "loanMonthlyRepayment",
-        value: currencyFormatter.format(monthlyRepayment, ({ code: "GBP" })),
+        value: currencyFormatter.format(monthlyRepayment, { code: "GBP" }),
       },
     ]
 
-    const loanMonths = mapIndexed((_: any, index: any) => ({
+    const loanMonths = R_.mapIndexed((_: any, index: any) => ({
       name: `loanMonth${index + 1}`,
       value: `${
-        index + 1 === loanTerms
-          ? `${currencyFormatter.format(lastMonth, ({ code: "GBP" }))}`
-          : `${currencyFormatter.format(monthlyRepayment, ({ code: "GBP" }))}`
-        }`,
+        index === 0
+          ? `${currencyFormatter.format(firstMonth, { code: "GBP" })}`
+          : `${currencyFormatter.format(monthlyRepayment, { code: "GBP" })}`
+      }`,
     }))([...Array(loanTerms)])
 
-    const defaultMonths = mapIndexed((_: any, index: any) => ({
+    const defaultMonths = R_.mapIndexed((_: any, index: any) => ({
       name: `loanMonth${loanTerms + index + 1}`,
       value: "n/a",
     }))([...Array(maximumTerms - loanTerms)])
@@ -97,7 +96,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // @ts-ignore
     return [...loanDetails, ...loanMonths, ...defaultMonths]
   }
-
 
   const opts = {
     test_mode: 1 as hellosign.Flag,
@@ -139,7 +137,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "userEmployeeID",
-        value: `${employeeID && employeeID !== "" ? employeeID : "n/a"} `,
+        value: `${employeeId && employeeId !== "" ? employeeId : "n/a"} `,
       },
       ...loanOptions(parseInt(loanAmount), parseInt(loanTerms)),
     ],

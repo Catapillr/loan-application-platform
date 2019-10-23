@@ -16,7 +16,6 @@ const hydratePaymentRequest = gql`
       approved
       expiresAt
     }
-    mangoPaymentID
     amountToPay
     consentToPay
     reference

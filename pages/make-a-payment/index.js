@@ -4,7 +4,7 @@ import styled from "styled-components"
 import * as R from "ramda"
 import axios from "axios"
 
-import { NURSERY, CLUB } from "../../utils/constants"
+// import { NURSERY, CLUB } from "../../utils/constants"
 import restrictAccess from "../../utils/restrictAccess"
 
 import Header from "../../components/Header"

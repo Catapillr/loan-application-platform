@@ -44,7 +44,7 @@ const sections = [
         page: Eligibility,
       },
       { title: "Contract type", field: "permanentRole", page: Eligibility },
-      { title: "Employee ID", field: "employeeID", page: Contact },
+      { title: "Employee ID", field: "employeeId", page: Contact },
       { title: "Salary", field: "annualSalary", page: Salary },
     ],
   },

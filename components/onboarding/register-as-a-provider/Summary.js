@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import moment from "moment"
 import * as R from "ramda"
+import R_ from "../../../utils/R_"
 
 import { Heading } from "../styles"
 
@@ -212,7 +213,7 @@ const Divider = styled.div.attrs({
 const Summary = ({ values, setPage }) => {
   const uboSections = R.pipe(
     R.filter(ubo => !!ubo),
-    R.addIndex(R.map)((ubo, index) => ({
+    R_.mapIndexed((ubo, index) => ({
       heading: `2.${index + 1} UBO ${index + 1}: ${ubo.FirstName} ${
         ubo.LastName
       }`,

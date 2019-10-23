@@ -1,13 +1,18 @@
 import { useEffect } from "react"
 import * as Yup from "yup"
+import R_ from "../../../utils/R_.js"
+
 import styled from "styled-components"
 
 import Questions from "../Questions"
+
 import { RangeInput, SelectInput, NumberInput } from "../../Input"
 
 import progress2 from "../../../static/images/progress2.svg"
 
 import penniesToPounds from "../../../utils/penniesToPounds"
+import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
+import addThousandsSeperator from "../../../utils/addThousandsSeperator"
 
 const validation = Yup.object().shape({
   loanAmount: Yup.number()
@@ -47,8 +52,11 @@ const Loan = ({
   const maxLoan = Math.min(
     annualSalary * maxSalaryPercentage * 0.01,
     penniesToPounds(maximumAmount)
-  )
-  const monthlyRepayment = (loanAmount / (loanTerms || 12)).toFixed(2)
+  ).toFixed(0)
+
+  const monthlyRepayment = Math.floor(loanAmount / (loanTerms || 11))
+  const remainder = loanAmount % (loanTerms || 11)
+  const firstMonth = monthlyRepayment + remainder
 
   useEffect(() => {
     setFieldValue("loanAmount", maxLoan)
@@ -75,6 +83,11 @@ const Loan = ({
           {
             name: "loanAmount",
             component: NumberInput,
+            onChange: keepFieldCleanOnChange(
+              setFieldValue,
+              "loanAmount",
+              /^[0-9\b]+$/
+            ),
             width: "full",
             max: maxLoan,
             min: 0,
@@ -83,7 +96,10 @@ const Loan = ({
           {
             text: "How long would you like to pay it back over?",
             name: "loanTerms",
-            options: [{ label: 10, value: 10 }, { label: 12, value: 12 }],
+            options: R_.mapIndexed((_, index) => ({
+              label: index + 1,
+              value: index + 1,
+            }))([...Array(11)]),
             placeholder: "Select months",
             type: "select",
             component: SelectInput,
@@ -97,19 +113,25 @@ const Loan = ({
           <div>
             <div className="flex justify-between mb-3">
               <p>Loan:</p>
-              <p>£{loanAmount}</p>
+              <p>£{addThousandsSeperator(loanAmount)}</p>
             </div>{" "}
             <div className="flex justify-between mb-3">
               <p>Repayment months:</p>
-              <p>{loanTerms || 12}</p>
+              <p>{loanTerms || 11}</p>
+            </div>{" "}
+            <div className="flex justify-between mb-3">
+              <p>First month:</p>
+              <p>£{addThousandsSeperator(firstMonth)}</p>
             </div>{" "}
             <div className="flex justify-between mb-3">
               <p>Repayment per month:</p>
-              <p>£{monthlyRepayment}</p>
+              <p>£{addThousandsSeperator(monthlyRepayment)}</p>
             </div>
           </div>
           <Divider />
-          <p className="text-right">Total £{loanAmount}</p>
+          <p className="text-right">
+            Total £{addThousandsSeperator(loanAmount)}
+          </p>
         </div>
         <p>
           Have more questions? Why not check out our{" "}

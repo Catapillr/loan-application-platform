@@ -1,7 +1,8 @@
 import * as Yup from "yup"
-import * as R from "ramda"
 import moment from "moment"
 import styled from "styled-components"
+import * as R from "ramda"
+import R_ from "../../../utils/R_"
 
 import Questions from "../Questions"
 import { Heading, Copy } from "../styles"
@@ -76,7 +77,7 @@ const UBOQuestion = (ubo, index) => (
 const UBOList = ubos =>
   R.pipe(
     R.filter(ubo => !!ubo),
-    R.addIndex(R.map)(UBOQuestion)
+    R_.mapIndexed(UBOQuestion)
   )(ubos)
 
 const UBOs = ({ values: { ubo1, ubo2, ubo3, ubo4 } }) => (

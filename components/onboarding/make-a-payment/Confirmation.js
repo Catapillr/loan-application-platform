@@ -1,6 +1,8 @@
 import * as Yup from "yup"
 import styled from "styled-components"
 
+import formatToGBP from "../../../utils/formatToGBP"
+
 import Tick from "../../../static/icons/tick-in-circle.svg"
 
 const Container = styled.section.attrs({
@@ -62,7 +64,7 @@ const Confirmation = ({
         ? "The payment amount was"
         : "Your magic link contains the amount of"}
     </Copy>
-    <Copy className="font-subheader mb-6">{amountToPay}</Copy>
+    <Copy className="font-subheader mb-6">{formatToGBP(amountToPay)}</Copy>
     <WhatHappensNext>
       <Copy className="font-bold w-11/12">
         {isProviderRegistered

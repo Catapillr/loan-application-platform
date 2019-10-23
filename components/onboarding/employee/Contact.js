@@ -65,7 +65,7 @@ const Contact = ({ setFieldValue }) => (
       },
       {
         text: "Employee ID (if applicable)",
-        name: "employeeID",
+        name: "employeeId",
         component: TextInput,
         width: "1/2",
       },
