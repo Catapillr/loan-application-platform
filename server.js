@@ -8,6 +8,10 @@ const connectRedis = require("connect-redis")
 const enforce = require("express-sslify")
 const cron = require("node-cron")
 
+// both these will be removed after tested cron
+const mailgun = require("mailgun.js")
+const R = require("ramda")
+
 const { prisma } = require("./prisma/generated/js")
 
 const authRoutes = require("./server/auth-routes")
@@ -104,10 +108,29 @@ app.prepare().then(() => {
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
 
-  cron.schedule("* 13 * * *", () => {
+  cron.schedule("* 15 * * *", () => {
     cleanUpChildcareProviders()
     cleanUpPaymentRequests()
     cleanUpVerificationTokens()
+
+    const mailgunClient = mailgun.client({
+      username: "api",
+      key: process.env.MAILGUN_API_KEY || "",
+      url: "https://api.eu.mailgun.net",
+    })
+
+    mailgunClient.messages
+      .create(
+        process.env.MAILGUN_DOMAIN,
+        R.merge({
+          from: `${process.env.MAILGUN_SENDER_NAME} <${process.env.MAILGUN_SENDER_EMAIL}>`,
+          to: "hello@infactcoop.com",
+          subject: "Testing cron",
+        })
+      )
+      .catch(err => {
+        console.error("Error sending email: ", err)
+      })
   })
 
   server.get("/api/private/*", restrictAccessAPI)
