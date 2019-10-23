@@ -61,6 +61,7 @@ const initialValues = {
   Region: "",
   PostalCode: "",
   Country: "",
+  confirmation: false,
 }
 
 // const initialValues = {
@@ -221,7 +222,7 @@ const Wizard = ({
   children,
   paymentRequest,
   childcareProvider,
-  user,
+  employee,
   company,
 }) => {
   const [page, setPage] = useState(Steps.Welcome)
@@ -292,7 +293,7 @@ const Wizard = ({
                     setPage,
                     paymentRequest,
                     childcareProvider,
-                    user,
+                    employee,
                     values,
                     emailVerificationError,
                     incrementPage,
@@ -354,7 +355,7 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
 const ProviderOnboarding = ({
   paymentRequest,
   childcareProvider,
-  user,
+  employee,
   company,
   error,
 }) => {
@@ -363,7 +364,7 @@ const ProviderOnboarding = ({
   }
 
   return (
-    <Wizard {...{ paymentRequest, childcareProvider, user, company }}>
+    <Wizard {...{ paymentRequest, childcareProvider, employee, company }}>
       <Welcome />
       <BusinessDetails />
       <UBOs />
@@ -423,7 +424,7 @@ ProviderOnboarding.getInitialProps = async ctx => {
     const id = getLastPath(req.originalUrl)
 
     const {
-      data: { paymentRequest, childcareProvider, user },
+      data: { paymentRequest, childcareProvider, employee },
     } = await axios.get(
       `${process.env.HOST}/api/get-payment-request-from-id?id=${id}`
     )
@@ -434,7 +435,7 @@ ProviderOnboarding.getInitialProps = async ctx => {
       `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`
     )
 
-    return { paymentRequest, childcareProvider, user, company }
+    return { paymentRequest, childcareProvider, employee, company }
   } catch (error) {
     console.error("Error in [id] getInitProps: ", error) //eslint-disable-line
     return {

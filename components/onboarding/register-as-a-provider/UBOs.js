@@ -55,6 +55,7 @@ const UBOQuestion = (ubo, index) => (
         text: `What is ${ubo.FirstName}'s birthday?`,
         name: `ubo${index + 1}.Birthday`,
         component: DateInput,
+        disabled: { day: false, month: true, year: true },
         custom: true,
         validate: () => validateDate(ubo.Birthday),
       },

@@ -22,7 +22,7 @@ const nationalityValues = R.map(R.prop("value"))(nationalityOptions)
 const validation = Yup.object().shape({
   businessName: Yup.string().required("This is a required field"),
   businessEmail: Yup.string()
-    .email()
+    .email("Please enter a valid email for your business")
     .required("This is a required field"),
   companyNumber: Yup.string().required("This is a required field"),
   repFirstName: Yup.string().required("This is a required field"),
@@ -61,7 +61,7 @@ const validateDate = date => {
     return "That date is in the future!"
   }
   if (ancientDate) {
-    return "Yous selected a date over 170 years ago! Are you sure?"
+    return "You selected a date over 170 years ago! Are you sure?"
   }
 }
 
@@ -85,12 +85,16 @@ const BusinessDetails = ({ values: { repDob } }) => (
           name: "businessName",
           component: TextInput,
           placeholder: "Start here...",
+          disabled: true,
+          className: "bg-lightgray",
         },
         {
           text: "Company Number",
           name: "companyNumber",
           component: TextInput,
           width: "1/2",
+          disabled: true,
+          className: "bg-lightgray",
         },
         {
           text: "Generic business email",
@@ -110,6 +114,8 @@ const BusinessDetails = ({ values: { repDob } }) => (
           component: TextInput,
           width: "full",
           placeholder: "148 Fonthill Road",
+          disabled: true,
+          className: "bg-lightgray",
         },
         {
           text: "Address Line 2",
@@ -117,6 +123,8 @@ const BusinessDetails = ({ values: { repDob } }) => (
           component: TextInput,
           width: "full",
           placeholder: "Finsbury Park",
+          disabled: true,
+          className: "bg-lightgray",
         },
         {
           text: "City",
@@ -124,6 +132,8 @@ const BusinessDetails = ({ values: { repDob } }) => (
           component: TextInput,
           width: "1/2",
           placeholder: "Stroud",
+          disabled: true,
+          className: "bg-lightgray",
         },
         {
           text: "Post code",
@@ -131,6 +141,8 @@ const BusinessDetails = ({ values: { repDob } }) => (
           component: TextInput,
           width: "1/2",
           placeholder: "AB1 3NT",
+          disabled: true,
+          className: "bg-lightgray",
         },
 
         {
@@ -140,12 +152,14 @@ const BusinessDetails = ({ values: { repDob } }) => (
           options: nationalityOptions,
           width: "full",
           placeholder: "Select country",
+          disabled: true,
+          className: "bg-lightgray",
         },
       ]}
     />
     <Questions
       formWidth="100"
-      title="1.3 Details of the business representative"
+      title="1.3 Details of the legal representative"
       className="mb-10"
       questions={[
         {
@@ -191,13 +205,6 @@ const BusinessDetails = ({ values: { repDob } }) => (
     />
   </Container>
 )
-
-// "AddressLine1": "1 Mangopay Street",
-// "AddressLine2": "The Loop",
-// "City": "Paris",
-// "Region": "Ile de France",
-// "PostalCode": "75001",
-// "Country": "FR"
 
 BusinessDetails.validationSchema = validation
 BusinessDetails.progressImg = providerProgress1

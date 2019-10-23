@@ -11,11 +11,11 @@ const Link = styled.a.attrs({
   className: "mb-5d5 text-center text-teal font-bold",
 })``
 
-const Welcome = ({ user, paymentRequest, incrementPage }) => (
+const Welcome = ({ employee, paymentRequest, incrementPage }) => (
   <main className="flex justify-center items-center flex-col w-5/12 m-auto">
     <Heading className="mb-6 self-start">
-      {`Great news! ${user.firstName} ${
-        user.lastName
+      {`Great news! ${employee.firstName} ${
+        employee.lastName
       } would like to pay you ${currencyFormatter.format(
         penniesToPounds(paymentRequest.amountToPay),
         { code: "GBP" }
@@ -23,8 +23,9 @@ const Welcome = ({ user, paymentRequest, incrementPage }) => (
       `}
     </Heading>
     <Copy className="mb-6">
-      We just need a few details from you to allow Jessica to pay you using her{" "}
-      <Link href="/" target="_blank">
+      We just need a few details from you to allow {employee.firstName} to pay
+      you using their{" "}
+      <Link href="https://www.catapillr.com/" target="_blank">
         Catapillr interest-free childcare loan
       </Link>
       ! Press the button below to start the sign-up process. We’ve made sure
