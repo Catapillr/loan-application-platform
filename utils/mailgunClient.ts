@@ -116,7 +116,7 @@ const sendEmployeeLoanPaymentNotification = ({ payment, user }) =>
         penniesToPounds(payment.loanAmount),
         { code: "GBP" }
       ),
-      "v:magicLink": "https://www.catapillr.com/", // TODO: Change this to magic link
+      "v:magicLink": "https://app.catapillr.com", // TODO: Change this to magic link
     },
   })
 

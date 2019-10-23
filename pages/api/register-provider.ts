@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextApiRequest, NextApiResponse } from "next"
 import * as R from "ramda"
 import moment from "moment"
@@ -52,9 +51,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // @ts-ignore
       const providerLegalUser = await mango.Users.create({
+        // @ts-ignore
         PersonType: "LEGAL",
         LegalPersonType: "BUSINESS",
         Name: businessName,
+        // @ts-ignore
         Email: childcareProviderEmail,
         HeadquartersAddress: {
           AddressLine1,
@@ -141,6 +142,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const uboPromises: any[] = R.pipe(
         //@ts-ignore
         R.filter(ubo => !!ubo),
+        //@ts-ignore
         R.map((ubo: string) => JSON.parse(ubo)),
         // @ts-ignore
         R.map(async (ubo: any) => {
