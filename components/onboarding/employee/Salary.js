@@ -21,6 +21,7 @@ const Salary = () => (
           text: "Please enter your annual salary",
           name: "annualSalary",
           component: NumberInput,
+          currency: true,
           placeholder: "e.g. 20000",
         },
       ]}

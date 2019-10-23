@@ -13,7 +13,7 @@ const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (
     <Container {...{ text, width, margin, direction }}>
       {text && <LabelAndLink name={name} link={link} text={text} />}
-      {attrs.component === NumberInput ? (
+      {attrs.component === NumberInput && attrs.currency ? (
         <InputWrap name={name}>
           <Field {...{ name, direction, id: name, ...attrs }} />
         </InputWrap>
