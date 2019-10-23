@@ -6,10 +6,16 @@ const Auth0Strategy = require("passport-auth0")
 const redis = require("redis")
 const connectRedis = require("connect-redis")
 const enforce = require("express-sslify")
+const cron = require("node-cron")
 
 const { prisma } = require("./prisma/generated/js")
 
 const authRoutes = require("./server/auth-routes")
+const {
+  cleanUpChildcareProviders,
+  cleanUpVerificationTokens,
+  cleanUpPaymentRequests,
+} = require("./server/clean-up-db")
 
 const {
   NODE_ENV,
@@ -97,6 +103,12 @@ app.prepare().then(() => {
 
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
+
+  cron.schedule("* 13 * * *", () => {
+    cleanUpChildcareProviders()
+    cleanUpPaymentRequests()
+    cleanUpVerificationTokens()
+  })
 
   server.get("/api/private/*", restrictAccessAPI)
 

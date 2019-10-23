@@ -14,6 +14,7 @@ const Home = () => {
       <Head>
         <title>Catapillr</title>
 
+        <link rel="shortcut icon" href="/static/favicon.ico" />
         <link
           rel="preload"
           as="font"
