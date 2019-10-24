@@ -8,13 +8,14 @@ const connectRedis = require("connect-redis")
 const enforce = require("express-sslify")
 const cron = require("node-cron")
 
+const NO_EXISTING_USER = "no-existing-user"
+
 // both these will be removed after tested cron
 const mailgun = require("mailgun.js")
 const mg = mailgun.client({
   username: "api",
   key: process.env.MAILGUN_API_KEY,
   url: "https://api.eu.mailgun.net",
-
 })
 
 const { prisma } = require("./prisma/generated/js")
@@ -103,13 +104,24 @@ app.prepare().then(() => {
   // this add the user to `req.user` on authenticated requests
   passport.deserializeUser(async (email, done) => {
     const user = await prisma.user({ email })
-    done(null, user)
+    if (user) {
+      return done(null, user)
+    }
+    return done({ error: NO_EXISTING_USER }, null)
   })
 
   server.use(passport.initialize())
   server.use(passport.session())
 
   server.use(authRoutes)
+
+  server.use(({ error }, req, res, next) => {
+    if (error === NO_EXISTING_USER) {
+      req.logout()
+      res.redirect("/no-existing-application")
+    }
+    next()
+  })
 
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
@@ -128,8 +140,8 @@ app.prepare().then(() => {
           text: "Testing some Mailgun awesomness!",
           html: "<h1>Testing some Mailgun awesomness!</h1>",
         })
-        .then(msg => console.log(msg)) // logs response data
-        .catch(err => console.log(err))
+        .then(msg => console.log(msg)) //eslint-disable-line
+        .catch(err => console.log(err)) //eslint-disable-line
     })
   }
 
