@@ -384,7 +384,6 @@ const Container = styled.div.attrs({
 })`
   width: 90%;
   margin: 60px 0 60px 0;
-  min-height: -webkit-fill-available;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
   margin: 50px 0;
 `
