@@ -7,6 +7,9 @@ const redis = require("redis")
 const connectRedis = require("connect-redis")
 const enforce = require("express-sslify")
 const cron = require("node-cron")
+const util = require("util")
+const url = require("url")
+const querystring = require("querystring")
 
 const NO_EXISTING_USER = "no-existing-user"
 
@@ -118,7 +121,26 @@ app.prepare().then(() => {
   server.use(({ error }, req, res, next) => {
     if (error === NO_EXISTING_USER) {
       req.logout()
-      res.redirect("/no-existing-application")
+
+      let returnTo = `${req.protocol}://${req.hostname}`
+      const port = req.connection.localPort
+      if (port !== undefined && port !== 80 && port !== 443) {
+        returnTo += ":" + port
+      }
+
+      returnTo += "/no-existing-application"
+
+      const logoutURL = new url.URL(
+        util.format("https://%s/v2/logout", AUTH0_DOMAIN)
+      )
+
+      const searchString = querystring.stringify({
+        client_id: AUTH0_CLIENT_ID,
+        returnTo,
+      })
+
+      logoutURL.search = searchString
+      res.redirect(logoutURL)
     }
     next()
   })

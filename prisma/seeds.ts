@@ -124,7 +124,7 @@ const seedDatabase = async () => {
       expiresAt: "2019-11-22T13:57:31.123Z",
     })
 
-    const ivanPayIn = console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console
+    console.log(JSON.stringify(yalla, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(infact, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(ivan, undefined, 2)) //eslint-disable-line no-console
     console.log(JSON.stringify(ivanLittleOnes, undefined, 2)) //eslint-disable-line no-console
