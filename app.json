@@ -1,0 +1,43 @@
+{
+  "name": "loan-application-platform",
+  "description": "",
+  "scripts": {},
+  "env": {
+    "HELLOSIGN_KEY": {
+      "required": true
+    },
+    "HOST": {
+      "required": true
+    },
+    "MAILGUN_API_KEY": {
+      "required": true
+    },
+    "MAILGUN_DOMAIN": {
+      "required": true
+    },
+    "MAILGUN_SENDER_EMAIL": {
+      "required": true
+    },
+    "MAILGUN_SENDER_NAME": {
+      "required": true
+    },
+    "PRISMA_ENDPOINT": {
+      "required": true
+    },
+    "PRISMA_SECRET": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "stack": "heroku-18"
+}

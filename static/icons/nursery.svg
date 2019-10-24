@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>bear-2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Catapillr-app" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="dashboard" transform="translate(-186.000000, -387.000000)">
+            <g id="Group-9" transform="translate(169.000000, 181.000000)">
+                <g id="Group-8" transform="translate(2.000000, 169.000000)">
+                    <g id="Group-7">
+                        <g id="Group-4" transform="translate(16.000000, 38.000000)">
+                            <g id="bear-2">
+                                <path d="M14.5706667,6.20133333 C14.0253333,2.68933333 10.9973333,0 7.33333333,0 C3.28266667,0 0,3.28266667 0,7.33333333 C0,10.512 2.02533333,13.212 4.85466667,14.228" id="Path" stroke="#32334F" stroke-width="2"></path>
+                                <path d="M25.4293333,6.20133333 C25.9746667,2.68933333 29.0026667,0 32.6666667,0 C36.7173333,0 40,3.28266667 40,7.33333333 C40,10.512 37.9746667,13.212 35.1453333,14.228" id="Path" stroke="#32334F" stroke-width="2"></path>
+                                <circle id="Oval" stroke="#32334F" stroke-width="2" stroke-linecap="square" cx="20" cy="22.6666667" r="17.3333333"></circle>
+                                <polygon id="Path" stroke="#32334F" stroke-width="2" stroke-linecap="square" points="20 28 22.6666667 24 17.3333333 24"></polygon>
+                                <path d="M20,28 L20,32" id="Path" stroke="#32334F" stroke-width="2" stroke-linecap="square"></path>
+                                <polygon id="Path" fill="#32334F" fill-rule="nonzero" points="20 28 22.6666667 24 17.3333333 24"></polygon>
+                                <path d="M16,32 L24,32" id="Path" stroke="#32334F" stroke-width="2" stroke-linecap="square"></path>
+                                <circle id="Oval" fill="#32334F" fill-rule="nonzero" cx="14" cy="18" r="2"></circle>
+                                <circle id="Oval" fill="#32334F" fill-rule="nonzero" cx="26" cy="18" r="2"></circle>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

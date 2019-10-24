@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="742px" height="45px" viewBox="0 0 742 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>providerProgress5</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Catapillr-app" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Provider-Progress-Bars" transform="translate(-33.000000, -341.000000)">
+            <g id="providerProgress5" transform="translate(32.000000, 341.000000)">
+                <g id="1.-Business-Details">
+                    <g id="1" transform="translate(40.000000, 0.000000)">
+                        <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" fill="#14BECB" fill-rule="nonzero" opacity="0.5"></path>
+                        <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                        <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
+                    </g>
+                    <text id="Business-Details" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                        <tspan x="0.12" y="39">Business Details</tspan>
+                    </text>
+                </g>
+                <g id="2.-UBOs" transform="translate(161.000000, 0.000000)">
+                    <g id="2" transform="translate(7.000000, 0.000000)">
+                        <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 0,16.9393795 0,11.2692561 C0,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" fill="#14BECB" fill-rule="nonzero" opacity="0.5"></path>
+                        <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                        <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
+                    </g>
+                    <text id="UBOs" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                        <tspan x="0.115" y="39">UBOs</tspan>
+                    </text>
+                </g>
+                <g id="3.-Documents" transform="translate(271.000000, 1.000000)">
+                    <g id="3" transform="translate(25.000000, 0.000000)">
+                        <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" fill="#14BECB" fill-rule="nonzero" opacity="0.5"></path>
+                        <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                        <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
+                    </g>
+                    <text id="Documents" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                        <tspan x="0.212" y="38">Documents</tspan>
+                    </text>
+                </g>
+                <g id="4.-Bank-Details" transform="translate(395.000000, 1.000000)">
+                    <g id="4" transform="translate(29.000000, 0.000000)">
+                        <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 0,16.9393795 0,11.2692561 C0,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" fill="#14BECB" fill-rule="nonzero" opacity="0.5"></path>
+                        <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                        <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
+                    </g>
+                    <text id="Bank-Details" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                        <tspan x="0.38" y="38">Bank Details</tspan>
+                    </text>
+                </g>
+                <g id="5.-Summary" transform="translate(543.000000, 1.000000)">
+                    <g id="5" transform="translate(19.000000, 0.000000)" fill-rule="nonzero">
+                        <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" fill="#14BECB" opacity="0.5"></path>
+                        <circle id="Oval" fill="#14BECB" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                        <path d="M9.83642578,12.3048828 C9.91845744,13.0067092 10.2443005,13.4920559 10.8139648,13.7609375 C11.105633,13.8976569 11.4428692,13.9660156 11.8256836,13.9660156 C12.5548539,13.9660156 13.0948876,13.733596 13.4458008,13.26875 C13.796714,12.8039039 13.972168,12.2889351 13.972168,11.7238281 C13.972168,11.0402309 13.763674,10.5115904 13.3466797,10.1378906 C12.9296854,9.76419079 12.4295277,9.5773437 11.8461914,9.5773437 C11.4223612,9.5773437 11.0589208,9.65937413 10.7558594,9.82343745 C10.452798,9.98750077 10.1941742,10.2153631 9.97998047,10.5070312 L8.91357422,10.4455078 L9.65869141,5.17499995 L14.7446289,5.17499995 L14.7446289,6.36445308 L10.581543,6.36445308 L10.1645508,9.0851562 C10.3924165,8.91197825 10.6088857,8.78209674 10.8139648,8.69550776 C11.17855,8.54511639 11.6000953,8.46992183 12.0786133,8.46992183 C12.9764042,8.46992183 13.7374643,8.75930695 14.3618164,9.33808589 C14.9861685,9.91686483 15.2983398,10.6505814 15.2983398,11.5392578 C15.2983398,12.4643926 15.0123727,13.2801396 14.4404297,13.9865234 C13.8684867,14.6929071 12.9558982,15.0460937 11.7026367,15.0460937 C10.9051067,15.0460937 10.1998729,14.8216493 9.58691406,14.3727539 C8.97395527,13.9238584 8.6310225,13.2345749 8.55810547,12.3048828 L9.83642578,12.3048828 Z" fill="#FFFFFF"></path>
+                    </g>
+                    <text id="Summary" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                        <tspan x="0.369" y="38">Summary</tspan>
+                    </text>
+                </g>
+                <g id="6.-Confirmation" transform="translate(659.000000, 1.000000)">
+                    <g id="6" opacity="0.5" transform="translate(31.000000, 0.000000)">
+                        <path d="M7.2056216,1.46666667 C4.6179886,3.33071691 2.93333333,6.36991701 2.93333333,9.80258942 C2.93333333,15.4727129 7.52987657,20.0692561 13.2,20.0692561 C14.2661075,20.0692561 15.2942616,19.906758 16.2610451,19.6051788 C14.5743994,20.8201859 12.5041177,21.5359228 10.2666667,21.5359228 C4.59654324,21.5359228 4.54747351e-13,16.9393795 4.54747351e-13,11.2692561 C4.54747351e-13,6.66524019 3.03053952,2.76904473 7.2056216,1.46666667 Z" id="Path" fill="#14BECB" fill-rule="nonzero"></path>
+                        <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
+                        <text font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="8.052" y="14.8">6</tspan>
+                        </text>
+                    </g>
+                    <text id="Confirmation" opacity="0.4" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                        <tspan x="0.423" y="38">Confirmation</tspan>
+                    </text>
+                </g>
+                <g id="Lines" transform="translate(70.000000, 10.500000)" stroke="#14BECB" stroke-dasharray="3">
+                    <path d="M90,0.5 L0,0.5" id="Line-1"></path>
+                    <path d="M218,0.5 L128,0.5" id="Line-2"></path>
+                    <path d="M346,1.5 L256,1.5" id="Line-3"></path>
+                    <path d="M484,1.5 L384,1.5" id="Line-4"></path>
+                    <path d="M612,1.5 L522,1.5" id="Line-5" opacity="0.5"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
