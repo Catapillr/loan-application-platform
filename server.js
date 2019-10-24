@@ -109,30 +109,23 @@ app.prepare().then(() => {
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
 
-  cron.schedule("* * * * *", () => {
-    cleanUpChildcareProviders()
-    cleanUpPaymentRequests()
-    cleanUpVerificationTokens()
+  if (!dev) {
+    cron.schedule("0 0 */1 * *", () => {
+      cleanUpChildcareProviders()
+      cleanUpPaymentRequests()
+      cleanUpVerificationTokens()
 
-    const mailgunClient = mailgun.client({
-      username: "api",
-      key: process.env.MAILGUN_API_KEY || "",
-      url: "https://api.eu.mailgun.net",
-    })
-
-    mailgunClient.messages
-      .create(
-        process.env.MAILGUN_DOMAIN,
-        R.merge({
-          from: `${process.env.MAILGUN_SENDER_NAME} <${process.env.MAILGUN_SENDER_EMAIL}>`,
-          to: "hello@infactcoop.com",
-          subject: "Testing cron",
-        })
-      )
-      .catch(err => {
-        console.error("Error sending email: ", err)
+      mg.messages.create('sandbox-123.mailgun.org', {
+        from: "Excited User <mailgun@sandbox-123.mailgun.org>",
+        to: ["test@example.com"],
+        subject: "Hello",
+        text: "Testing some Mailgun awesomness!"
+        html: "<h1>Testing some Mailgun awesomness!</h1>"
       })
-  })
+      .then(msg => console.log(msg)) // logs response data
+      .catch(err => console.log(err));
+    })
+  }
 
   server.get("/", (_req, res) => {
     res.redirect("/dashboard")
