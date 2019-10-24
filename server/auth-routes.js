@@ -4,6 +4,8 @@ const util = require("util")
 const url = require("url")
 const querystring = require("querystring")
 
+const { prisma } = require("../prisma/generated/js")
+
 const router = express.Router()
 
 const { AUTH0_DOMAIN, AUTH0_CLIENT_ID } = process.env
@@ -21,9 +23,15 @@ router.get(
 
 // Perform the final stage of authentication and redirect to previously requested URL or '/user'
 router.get("/callback", (req, res, next) => {
-  passport.authenticate("auth0", (err, user) => {
+  passport.authenticate("auth0", async (err, user) => {
     if (err) return next(err)
-    if (!user) return res.redirect("/login")
+
+    const userExistsInDatabase = await prisma.$exists.user({
+      email: user._json.email,
+    })
+
+    if (!user || !userExistsInDatabase) return res.redirect("/login")
+
     req.logIn(user, err => {
       if (err) return next(err)
 

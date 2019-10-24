@@ -94,7 +94,17 @@ app.prepare().then(() => {
   )
 
   passport.use(strategy)
-  passport.serializeUser((user, done) => done(null, user._json.email))
+  passport.serializeUser(async (user, done) => {
+    const userExistsInDatabase = await prisma.$exists.user({
+      email: user._json.email,
+    })
+
+    if (!userExistsInDatabase) {
+      return
+    }
+
+    done(null, user._json.email)
+  })
   // this add the user to `req.user` on authenticated requests
   passport.deserializeUser(async (email, done) => {
     const user = await prisma.user({ email })
@@ -134,7 +144,7 @@ app.prepare().then(() => {
       })
   })
 
-  server.get("/", (_req, res) => {
+  server.all("/", (_req, res) => {
     res.redirect("/dashboard")
   })
 
