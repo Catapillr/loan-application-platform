@@ -86,7 +86,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const { Id: newMangoUserId } = await mango.Users.create({
           FirstName: employee.firstName,
           LastName: employee.lastName,
-          Birthday: moment(employee.dob).unix(),
+          Birthday: moment.utc(employee.dob).unix(),
           Nationality: employee.nationality as mangopay.CountryISO,
           CountryOfResidence: "GB",
           Email: employee.email,
