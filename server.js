@@ -10,7 +10,10 @@ const cron = require("node-cron")
 
 // both these will be removed after tested cron
 const mailgun = require("mailgun.js")
-const R = require("ramda")
+const mg = mailgun.client({
+  username: "api",
+  key: process.env.MAILGUN_API_KEY,
+})
 
 const { prisma } = require("./prisma/generated/js")
 
@@ -115,15 +118,16 @@ app.prepare().then(() => {
       cleanUpPaymentRequests()
       cleanUpVerificationTokens()
 
-      mg.messages.create('sandbox-123.mailgun.org', {
-        from: "Excited User <mailgun@sandbox-123.mailgun.org>",
-        to: ["test@example.com"],
-        subject: "Hello",
-        text: "Testing some Mailgun awesomness!"
-        html: "<h1>Testing some Mailgun awesomness!</h1>"
-      })
-      .then(msg => console.log(msg)) // logs response data
-      .catch(err => console.log(err));
+      mg.messages
+        .create(process.env.MAILGUN_DOMAIN, {
+          from: "Catapillr <catapillr@mg.catapillr.com>",
+          to: ["lucy@infactcoop.com"],
+          subject: "Hello",
+          text: "Testing some Mailgun awesomness!",
+          html: "<h1>Testing some Mailgun awesomness!</h1>",
+        })
+        .then(msg => console.log(msg)) // logs response data
+        .catch(err => console.log(err))
     })
   }
 
