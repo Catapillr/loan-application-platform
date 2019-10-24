@@ -31,7 +31,13 @@
     "staging:schema": "env-cmd -f ./.config/staging.env npm run schema",
     "staging:token": "env-cmd -f ./.config/staging.env npm run token",
     "staging:up": "env-cmd -f ./.config/staging.env npm run up",
-    "staging:down": "env-cmd -f ./.config/staging.env npm run down"
+    "staging:down": "env-cmd -f ./.config/staging.env npm run down",
+    "==prisma:prod==": "------------------------------------------------------------------------------------",
+    "prod:deploy": "env-cmd -f ./.config/prod.env npm run deploy && npm run prod:schema",
+    "prod:schema": "env-cmd -f ./.config/prod.env npm run schema",
+    "prod:token": "env-cmd -f ./.config/prod.env npm run token",
+    "prod:up": "env-cmd -f ./.config/prod.env npm run up",
+    "prod:down": "env-cmd -f ./.config/prod.env npm run down"
   },
   "dependencies": {
     "@types/currency-formatter": "^1.3.0",
