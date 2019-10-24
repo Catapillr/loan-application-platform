@@ -37,9 +37,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       lastName,
       email,
       phoneNumber,
-      dob: moment(zeroIndexMonth(dob)).toDate(),
+      dob: moment.utc(zeroIndexMonth(dob)).toDate(),
       nationality,
-      employmentStartDate: moment(zeroIndexMonth(employmentStartDate)).toDate(),
+      employmentStartDate: moment.utc(zeroIndexMonth(employmentStartDate)).toDate(),
       employeeId,
       annualSalary: poundsToPennies(parseFloat(annualSalary)),
       employer: { connect: { slug: employer.slug } },
@@ -85,7 +85,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         index === 0
           ? `${currencyFormatter.format(firstMonth, { code: "GBP" })}`
           : `${currencyFormatter.format(monthlyRepayment, { code: "GBP" })}`
-      }`,
+        }`,
     }))([...Array(loanTerms)])
 
     const defaultMonths = R_.mapIndexed((_: any, index: any) => ({

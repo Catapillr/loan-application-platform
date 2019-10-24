@@ -9,6 +9,7 @@ import { Heading, Copy } from "../styles"
 
 import { TextInput, SelectInput, DateInput } from "../../Input"
 import nationalityOptions from "../nationalityOptions"
+import zeroIndexMonth from "../../../utils/zeroIndexMonth"
 
 import providerProgress2 from "../../../static/images/providerProgress2.svg"
 
@@ -22,7 +23,9 @@ const validation = Yup.object().shape({})
 
 const validateDate = date => {
   const { day, month, year } = date
-  const dob = moment(date)
+
+  const dateMonthZeroIndexed = zeroIndexMonth(date)
+  const dob = moment(dateMonthZeroIndexed)
 
   const dateIsValid = dob.isValid()
   const futureDate = dob.isAfter(moment())

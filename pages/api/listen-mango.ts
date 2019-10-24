@@ -213,7 +213,7 @@ const handleSuccesfulPayIn = (res: NextApiResponse) => async ({
       loanAmount: loan.amount,
       payInAmount: DebitedFunds.Amount,
       payInId: RessourceId,
-      dateOfPayment: moment(ExecutionDate).format("Do MMMM YYYY, h:mm:ss a"),
+      dateOfPayment: moment.utc(ExecutionDate).format("Do MMMM YYYY, h:mm:ss a"),
       discrepancy: DebitedFunds.Amount - loan.amount,
     }
 
