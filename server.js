@@ -10,7 +10,12 @@ const cron = require("node-cron")
 
 // both these will be removed after tested cron
 const mailgun = require("mailgun.js")
-const R = require("ramda")
+const mg = mailgun.client({
+  username: "api",
+  key: process.env.MAILGUN_API_KEY,
+  url: "https://api.eu.mailgun.net",
+
+})
 
 const { prisma } = require("./prisma/generated/js")
 
@@ -109,30 +114,24 @@ app.prepare().then(() => {
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
 
-  cron.schedule("* * * * *", () => {
-    cleanUpChildcareProviders()
-    cleanUpPaymentRequests()
-    cleanUpVerificationTokens()
+  if (!dev) {
+    cron.schedule("0 0 */1 * *", () => {
+      cleanUpChildcareProviders()
+      cleanUpPaymentRequests()
+      cleanUpVerificationTokens()
 
-    const mailgunClient = mailgun.client({
-      username: "api",
-      key: process.env.MAILGUN_API_KEY || "",
-      url: "https://api.eu.mailgun.net",
-    })
-
-    mailgunClient.messages
-      .create(
-        process.env.MAILGUN_DOMAIN,
-        R.merge({
-          from: `${process.env.MAILGUN_SENDER_NAME} <${process.env.MAILGUN_SENDER_EMAIL}>`,
-          to: "hello@infactcoop.com",
-          subject: "Testing cron",
+      mg.messages
+        .create(process.env.MAILGUN_DOMAIN, {
+          from: "Catapillr <catapillr@mg.catapillr.com>",
+          to: ["lucy@infactcoop.com"],
+          subject: "Hello",
+          text: "Testing some Mailgun awesomness!",
+          html: "<h1>Testing some Mailgun awesomness!</h1>",
         })
-      )
-      .catch(err => {
-        console.error("Error sending email: ", err)
-      })
-  })
+        .then(msg => console.log(msg)) // logs response data
+        .catch(err => console.log(err))
+    })
+  }
 
   server.get("/", (_req, res) => {
     res.redirect("/dashboard")

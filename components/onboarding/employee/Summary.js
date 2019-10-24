@@ -53,7 +53,7 @@ const sections = [
     fields: [
       { title: "Loan amount", field: "loanAmount", page: Loan },
       { title: "Repayment length", field: "loanTerms", page: Loan },
-      { title: "Monthly repayment", field: "monthlyRepayment" },
+      { title: "Average monthly repayment", field: "monthlyRepayment" },
     ],
   },
 ]
@@ -71,7 +71,7 @@ const getValues = field => values => {
     case field === "loanAmount" || field === "annualSalary":
       return `£${value}`
     case field === "monthlyRepayment":
-      return `£${values.loanAmount / values.loanTerms}`
+      return `£${(values.loanAmount / values.loanTerms).toFixed(2)}`
     case field === "nationality":
       return R.pipe(
         R.find(R.propEq("value", value)),

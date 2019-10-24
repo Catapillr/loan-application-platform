@@ -6,6 +6,7 @@ import formidable from "formidable"
 import mango from "../../lib/mango"
 import { prisma } from "../../prisma/generated/ts"
 import { sendProviderApplicationCompleteConfirmation } from "../../utils/mailgunClient"
+import zeroIndexMonth from "../../utils/zeroIndexMonth"
 
 const GBP = "GBP"
 
@@ -45,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // 1. Create legal user
 
       // @ts-ignore
-      const LegalRepresentativeBirthday = moment(JSON.parse(repDob)).unix()
+      const LegalRepresentativeBirthday = moment.utc(zeroIndexMonth(JSON.parse(repDob))).unix()
 
       // @ts-ignore
       const providerLegalUser = await mango.Users.create({
@@ -116,7 +117,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       createDocumentWithPages(files.proofOfRegistration, "REGISTRATION_PROOF")
       createDocumentWithPages(
         files.articlesOfAssociation ||
-          JSON.parse(articlesOfAssociation as string),
+        JSON.parse(articlesOfAssociation as string),
         "ARTICLES_OF_ASSOCIATION"
       )
 
@@ -141,7 +142,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               FirstName: ubo.FirstName,
               LastName: ubo.LastName,
               Nationality: ubo.Nationality,
-              Birthday: moment(ubo.Birthday).unix(),
+              Birthday: moment.utc(zeroIndexMonth(ubo.Birthday)).unix(),
               Address: ubo.Address,
               Birthplace: ubo.Birthplace,
             }

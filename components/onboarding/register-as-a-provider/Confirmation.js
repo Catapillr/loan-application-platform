@@ -12,12 +12,11 @@ const Confirmation = () => {
   return (
     <Container>
       <Heading className="mb-3">Great!</Heading>
-      <Heading className="mb-5">
-        Your loan agreement has been generated and sent to your email.
-      </Heading>
+      <Heading className="mb-5">Your application has been sent off.</Heading>
       <p>
-        Please check and sign the loan agreement. You will then receive an email
-        with further instructions.
+        You will receive an email notifying you of the status of your
+        application. When it is approved, your payment will automatically be
+        processed!
       </p>
     </Container>
   )
