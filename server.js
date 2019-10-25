@@ -122,7 +122,7 @@ app.prepare().then(() => {
     if (error === NO_EXISTING_USER) {
       req.logout()
 
-      let returnTo = `${req.protocol}://${req.hostname}`
+      let returnTo = `${dev ? "http" : "https"}://${req.hostname}`
       const port = req.connection.localPort
       if (port !== undefined && port !== 80 && port !== 443 && dev) {
         returnTo += ":" + port
