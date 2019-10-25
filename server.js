@@ -124,7 +124,7 @@ app.prepare().then(() => {
 
       let returnTo = `${req.protocol}://${req.hostname}`
       const port = req.connection.localPort
-      if (port !== undefined && port !== 80 && port !== 443) {
+      if (port !== undefined && port !== 80 && port !== 443 && dev) {
         returnTo += ":" + port
       }
 
