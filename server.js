@@ -168,7 +168,7 @@ app.prepare().then(() => {
   }
 
   server.get("/", (_req, res) => {
-    res.redirect("/dashboard")
+    res.redirect("https://www.catapillr.com/")
   })
 
   server.get("/api/private/*", restrictAccessAPI)
