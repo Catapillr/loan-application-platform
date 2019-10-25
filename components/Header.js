@@ -89,7 +89,7 @@ const Header = ({ activeHref }) => {
   return (
     <Container>
       <Nav>
-        <Logo href="/" activeHref={activeHref} />
+        <Logo href="/dashboard" activeHref={activeHref} />
         <Links>
           <HeaderLink activeHref={activeHref} href="/dashboard">
             My Payments
