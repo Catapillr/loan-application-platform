@@ -9,7 +9,7 @@ import countryToISO from "../../utils/countryToISO"
 import nationalityToISO from "../../utils/nationalityToISO"
 import getLastPath from "../../utils/getLastPath"
 
-export default async (_req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const authentication = {
       auth: {
@@ -17,9 +17,7 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
         password: "",
       },
     }
-    // const { company_number } = req.query
-    // const company_number = "10971761"
-    const company_number = "11912270"
+    const { company_number } = req.query
 
     const { data: company_data } = await axios(
       `https://api.companieshouse.gov.uk/company/${company_number}`,
