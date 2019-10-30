@@ -30,7 +30,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       `https://api.companieshouse.gov.uk/company/${company_number}/persons-with-significant-control`,
       authentication
     ).catch(e => {
-      debugger
       const [{ error }] = e.response.data.errors
       if (error === "company-psc-not-found") {
         return { data: { items: [] } }
