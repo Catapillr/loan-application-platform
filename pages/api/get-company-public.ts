@@ -112,6 +112,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.json({ company })
   } catch (e) {
-    console.log("There was an error retrieving Companies House data: ", e) //eslint-disable-line no-console
+    console.log("There was an error in /get-company-public endpoint: ", e) //eslint-disable-line no-console
   }
 }

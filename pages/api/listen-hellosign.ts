@@ -30,7 +30,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   form.parse(req, async (err, fields) => {
     if (err) {
-      return console.error("Listen for signEvent error", err) //eslint-disable-line no-console
+      console.error("Listen for signEvent error", err) //eslint-disable-line no-console
+      return res.status(200).send("Hello API Event Received")
     }
 
     const signEvent = JSON.parse(fields.json as string)
@@ -161,6 +162,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.error("Error with creating mango payIn instance: ", err)
       }
     }
+    return res.status(200).send("Hello API Event Received")
   })
 }
 

@@ -22,10 +22,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
 
     res.json({ company, catapillrChildcareProvider })
-
   } catch (e) {
     res.status(404)
     res.end()
-    console.log("There was an error retrieving Companies House data:", e) //eslint-disable-line no-console
+    console.log("There was an error in /get-company endpoint:", e) //eslint-disable-line no-console
   }
 }
