@@ -76,7 +76,7 @@ const seedDatabase = async () => {
       email: "ivan@infactcoop.com",
       phoneNumber: "+447939656400",
       dob: new Date().toISOString(),
-      nationality: "Colombian",
+      nationality: "GB",
       employmentStartDate: new Date().toISOString(),
       annualSalary: 28392382,
       employer: { connect: { id: infact.id } },
@@ -113,7 +113,7 @@ const seedDatabase = async () => {
       childcareProvider: {
         create: {
           email: "suzanne@littleonesnursery.org.uk",
-          companyNumber: "11790309",
+          companyNumber: "11912270",
           approved: false,
           expiresAt: "2019-11-22T13:57:31.123Z",
         },

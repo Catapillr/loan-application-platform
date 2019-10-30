@@ -51,6 +51,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     //   })
     //   .catch(e => console.log("error getting company SIC codes", e));
   } catch (e) {
-    console.log("There was an error retrieving Companies House data: ", e) //eslint-disable-line no-console
+    console.log("There was an error in /get-companies endpoint: ", e) //eslint-disable-line no-console
   }
 }
