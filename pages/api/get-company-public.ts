@@ -23,12 +23,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       `https://api.companieshouse.gov.uk/company/${company_number}`,
       authentication
     )
+
     const {
       data: { items: ubo_data },
     } = await axios(
       `https://api.companieshouse.gov.uk/company/${company_number}/persons-with-significant-control`,
       authentication
-    )
+    ).catch(e => {
+      debugger
+      const [{ error }] = e.response.data.errors
+      if (error === "company-psc-not-found") {
+        return { data: { items: [] } }
+      }
+      console.log("Error with pocs from companies house", e)
+    })
 
     const {
       data: { items: filing_data },
