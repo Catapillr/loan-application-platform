@@ -61,7 +61,7 @@ const handleUBO = (res: NextApiResponse) => async ({
 }) => {
   try {
     const { data: resource } = await axios.get(
-      `https://api.sandbox.mangopay.com/v2.01/${process.env.MANGO_CLIENT_ID}/kyc/ubodeclarations/${RessourceId}`,
+      `${process.env.MANGO_URL}/v2.01/${process.env.MANGO_CLIENT_ID}/kyc/ubodeclarations/${RessourceId}`,
       {
         headers: {
           "content-type": "application/json",
@@ -213,7 +213,9 @@ const handleSuccesfulPayIn = (res: NextApiResponse) => async ({
       loanAmount: loan.amount,
       payInAmount: DebitedFunds.Amount,
       payInId: RessourceId,
-      dateOfPayment: moment.utc(ExecutionDate).format("Do MMMM YYYY, h:mm:ss a"),
+      dateOfPayment: moment
+        .utc(ExecutionDate)
+        .format("Do MMMM YYYY, h:mm:ss a"),
       discrepancy: DebitedFunds.Amount - loan.amount,
     }
 
