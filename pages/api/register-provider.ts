@@ -46,7 +46,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // 1. Create legal user
 
       // @ts-ignore
-      const LegalRepresentativeBirthday = moment.utc(zeroIndexMonth(JSON.parse(repDob))).unix()
+      const LegalRepresentativeBirthday = moment
+        .utc(zeroIndexMonth(JSON.parse(repDob)))
+        .unix()
 
       // @ts-ignore
       const providerLegalUser = await mango.Users.create({
@@ -117,48 +119,49 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       createDocumentWithPages(files.proofOfRegistration, "REGISTRATION_PROOF")
       createDocumentWithPages(
         files.articlesOfAssociation ||
-        JSON.parse(articlesOfAssociation as string),
+          JSON.parse(articlesOfAssociation as string),
         "ARTICLES_OF_ASSOCIATION"
       )
 
       // 3. Create and submit UBO declaration
-      //@ts-ignore
-      const uboDeclaration = await mango.UboDeclarations.create(
-        providerLegalUser.Id
-      )
+      if (ubo1 || ubo2 || ubo3 || ubo4) {
+        //@ts-ignore
+        const uboDeclaration = await mango.UboDeclarations.create(
+          providerLegalUser.Id
+        )
 
-      const uboPromises: any[] = R.pipe(
-        //@ts-ignore
-        R.filter(ubo => !!ubo),
-        //@ts-ignore
-        R.map((ubo: string) => JSON.parse(ubo)),
-        // @ts-ignore
-        R.map(async (ubo: any) => {
+        const uboPromises: any[] = R.pipe(
+          //@ts-ignore
+          R.filter(ubo => !!ubo),
+          //@ts-ignore
+          R.map((ubo: string) => JSON.parse(ubo)),
           // @ts-ignore
-          return await mango.UboDeclarations.createUbo(
-            providerLegalUser.Id,
-            uboDeclaration.Id,
-            {
-              FirstName: ubo.FirstName,
-              LastName: ubo.LastName,
-              Nationality: ubo.Nationality,
-              Birthday: moment.utc(zeroIndexMonth(ubo.Birthday)).unix(),
-              Address: ubo.Address,
-              Birthplace: ubo.Birthplace,
-            }
-          )
+          R.map(async (ubo: any) => {
+            // @ts-ignore
+            return await mango.UboDeclarations.createUbo(
+              providerLegalUser.Id,
+              uboDeclaration.Id,
+              {
+                FirstName: ubo.FirstName,
+                LastName: ubo.LastName,
+                Nationality: ubo.Nationality,
+                Birthday: moment.utc(zeroIndexMonth(ubo.Birthday)).unix(),
+                Address: ubo.Address,
+                Birthplace: ubo.Birthplace,
+              }
+            )
+          })
+        )([ubo1, ubo2, ubo3, ubo4])
+
+        const Ubos = await Promise.all(uboPromises)
+
+        await mango.UboDeclarations.update(providerLegalUser.Id, {
+          //@ts-ignore
+          Id: uboDeclaration.Id,
+          Ubos,
+          Status: "VALIDATION_ASKED",
         })
-      )([ubo1, ubo2, ubo3, ubo4])
-
-      const Ubos = await Promise.all(uboPromises)
-
-      await mango.UboDeclarations.update(providerLegalUser.Id, {
-        //@ts-ignore
-        Id: uboDeclaration.Id,
-        Ubos,
-        Status: "VALIDATION_ASKED",
-      })
-
+      }
       // 4. Create a mango wallet for that user
       const providerWallet = await mango.Wallets.create({
         Owners: [providerLegalUser.Id],
