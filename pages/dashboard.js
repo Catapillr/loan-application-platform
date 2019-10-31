@@ -135,7 +135,10 @@ const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
 
 Dash.getInitialProps = async ctx => {
   const { req } = ctx
-  restrictAccess(ctx)
+
+  if (restrictAccess(ctx)) {
+    return
+  }
 
   const cookies = nextCookies(ctx)
   const serializedCookies = R.pipe(
