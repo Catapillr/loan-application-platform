@@ -424,19 +424,50 @@ ProviderOnboarding.getInitialProps = async ctx => {
 
     const {
       data: { paymentRequest, childcareProvider, employee },
-    } = await axios.get(
-      `${process.env.HOST}/api/get-provider-registration-info?childcareProviderId=${childcareProviderId}`
-    )
+    } = await axios
+      .get(
+        `${process.env.HOST}/api/get-provider-registration-info?childcareProviderId=${childcareProviderId}`
+      )
+      .catch(e => {
+        const error = {
+          error: e,
+          url: `${process.env.HOST}/api/get-provider-registration-info?childcareProviderId=${childcareProviderId}`,
+          time: new Date().toISOString(),
+          originalUrl: req.originalUrl,
+        }
+        //eslint-disable-next-line
+        console.error(
+          "Error in page /register-as-a-provider => /api/get-provider-registration-info api call: ",
+          error
+        )
+        throw e
+      })
 
     const {
       data: { company },
-    } = await axios.get(
-      `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`
-    )
+    } = await axios
+      .get(
+        `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`
+      )
+      .catch(e => {
+        const error = {
+          error: e,
+          url: `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`,
+          time: new Date().toISOString(),
+          originalUrl: req.originalUrl,
+        }
+        //eslint-disable-next-line
+        console.error(
+          "Error in page /register-as-a-provider => /api/get-company-public api call: ",
+          error
+        )
+        throw e
+      })
 
     return { paymentRequest, childcareProvider, employee, company }
   } catch (error) {
-    console.error("Error in [id] getInitProps: ", error) //eslint-disable-line
+    //eslint-disable-next-line
+    console.error("Error in page /register-as-a-provider getInitProps: ", error)
     return {
       error:
         "Sorry, there seems to have been a problem retrieving that page. Please check that the link is correct and try again!",
