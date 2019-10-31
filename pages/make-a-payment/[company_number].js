@@ -318,7 +318,10 @@ MakeAPayment.getInitialProps = async ctx => {
   const { req } = ctx
   // makes sure session is authenticated and that page is server side rendered
   // (auth does not work at the moment without SSR)
-  restrictAccess(ctx)
+
+  if (restrictAccess(ctx)) {
+    return
+  }
 
   // we need this when the axios request gets sent from the server rather than the browser
   // as the session cookies are not passed along to axios from the req object. This is not

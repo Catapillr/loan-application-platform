@@ -13,5 +13,8 @@ export default ({ req, res }) => {
     req.session.returnTo = req.originalUrl
     res.writeHead(302, { Location: "/login" })
     res.end()
+    return true
   }
+
+  return false
 }
