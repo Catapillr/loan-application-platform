@@ -34,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (error === "company-psc-not-found") {
         return { data: { items: [] } }
       }
-      console.log("Error with pocs from companies house", e)
+      console.log("Error with pscs from companies house", e)
     })
 
     const {

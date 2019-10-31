@@ -4,6 +4,7 @@ import gql from "graphql-tag"
 import moment from "moment"
 import { NextApiRequest, NextApiResponse } from "next"
 import R from "ramda"
+import crypto from "crypto"
 
 import mango from "../../lib/mango"
 
@@ -36,7 +37,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const signEvent = JSON.parse(fields.json as string)
 
-    if (signEvent.event.event_type !== SignatureRequestSigned) {
+    const { event } = signEvent
+
+    const hash = crypto
+      .createHmac("sha256", process.env.HELLOSIGN_KEY)
+      .update(event.event_time + event.event_type)
+      .digest("hex")
+      .toString()
+
+    if (hash !== event.event_hash) {
+      return res.status(401).end()
+    }
+
+    if (event.event_type !== SignatureRequestSigned) {
       return res.status(200).send("Hello API Event Received")
     }
 
@@ -46,6 +59,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         R.filter(R.propEq("signer_role", role)),
         R.head
       )(signEvent)
+
+    console.log("signEvent: ", signEvent)
 
     const employerSignatureInfo = getSignature(Employer)
     const employeeSignatureInfo = getSignature(Employee)
@@ -159,7 +174,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         return res.status(200).send("Hello API Event Received")
       } catch (err) {
-        console.error("Error with creating mango payIn instance: ", err)
+        const error = {
+          error: err,
+          url: `${process.env.HOST}/api/listen-hellosign`,
+          time: new Date().toISOString(),
+          signEvent,
+          employeeEmail,
+        }
+
+        console.error("Error with creating mango payIn instance: ", error)
       }
     }
     return res.status(200).send("Hello API Event Received")
