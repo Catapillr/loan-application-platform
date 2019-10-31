@@ -104,7 +104,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       City: company_data.registered_office_address.locality,
       Region: company_data.registered_office_address.locality,
       PostalCode: company_data.registered_office_address.postal_code,
-      Country: countryToISO(company_data.registered_office_address.country),
+      Country:
+        countryToISO(company_data.registered_office_address.country) || "GB",
       companyCodes: company_data.sic_codes,
       articlesOfAssociation: {
         name: "CH_incorporation.pdf",
