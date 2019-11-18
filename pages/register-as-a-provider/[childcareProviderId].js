@@ -8,17 +8,17 @@ import getLastPath from "../../utils/getLastPath"
 
 import createFormData from "../../utils/createFormData"
 
-import * as Steps from "../../components/onboarding/register-as-a-provider/stepNames"
-import Welcome from "../../components/onboarding/register-as-a-provider/Welcome"
-import BusinessDetails from "../../components/onboarding/register-as-a-provider/BusinessDetails"
-import UBOs from "../../components/onboarding/register-as-a-provider/UBOs"
-import BankDetails from "../../components/onboarding/register-as-a-provider/BankDetails"
-import Documents from "../../components/onboarding/register-as-a-provider/Documents"
-import Summary from "../../components/onboarding/register-as-a-provider/Summary"
-import Confirmation from "../../components/onboarding/register-as-a-provider/Confirmation"
+import * as Steps from "../../components/multistep-forms/register-as-a-provider/stepNames"
+import Welcome from "../../components/multistep-forms/register-as-a-provider/Welcome"
+import BusinessDetails from "../../components/multistep-forms/register-as-a-provider/BusinessDetails"
+import UBOs from "../../components/multistep-forms/register-as-a-provider/UBOs"
+import BankDetails from "../../components/multistep-forms/register-as-a-provider/BankDetails"
+import Documents from "../../components/multistep-forms/register-as-a-provider/Documents"
+import Summary from "../../components/multistep-forms/register-as-a-provider/Summary"
+import Confirmation from "../../components/multistep-forms/register-as-a-provider/Confirmation"
 
 import DebugFormik from "../../components/DebugFormik"
-import { Button } from "../../components/onboarding/styles"
+import { Button } from "../../components/multistep-forms/styles"
 
 import orangeLogo from "../../static/logo_orange.svg"
 

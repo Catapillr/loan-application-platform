@@ -41,7 +41,7 @@ const validateDate = date => {
     return "That date is in the future!"
   }
   if (ancientDate) {
-    return "Yous selected a date over 170 years ago! Are you sure?"
+    return "You selected a date over 170 years ago! Are you sure?"
   }
 }
 
@@ -66,6 +66,7 @@ const UBOQuestion = (ubo, index) => (
         text: `Which city was ${ubo.FirstName} born in?`,
         name: `ubo${index + 1}.Birthplace.City`,
         component: TextInput,
+        validate: value => !value && "Required",
       },
       {
         text: `Which country was ${ubo.FirstName} born in?`,
@@ -73,6 +74,7 @@ const UBOQuestion = (ubo, index) => (
         options: nationalityOptions,
         placeholder: "Select birthplace",
         component: SelectInput,
+        validate: value => !value && "Required",
       },
     ]}
   />
