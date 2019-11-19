@@ -4,6 +4,7 @@ import moment from "moment"
 import mangopay from "mangopay2-nodejs-sdk"
 import R from "ramda"
 import { sendLoanTransferDetails } from "../../utils/mailgunClient"
+import calculatePlatformFees from "../../utils/calculatePlatformFees"
 
 const Natural = "NATURAL"
 const GBP = "GBP"
@@ -24,6 +25,7 @@ const run = async () => {
         }
         employer {
           id
+          minimumLoanFee
         }
       }
     `)
@@ -44,6 +46,11 @@ const run = async () => {
       Currency: GBP,
     })
 
+    const platformFees = calculatePlatformFees({
+      minimumLoanFee: employee.employer.minimumLoanFee,
+      loanAmount: employee.loan.amount,
+    })
+
     const {
       Id: payInId,
       BankAccount,
@@ -56,11 +63,11 @@ const run = async () => {
       CreditedWalletId: newWalletId,
       DeclaredDebitedFunds: {
         Currency: GBP,
-        Amount: employee.loan.amount,
+        Amount: employee.loan.amount + platformFees,
       },
       DeclaredFees: {
         Currency: GBP,
-        Amount: 1000,
+        Amount: platformFees,
       },
     })
 
@@ -94,6 +101,7 @@ const run = async () => {
       loanAmount: employee.loan.amount,
       employeeName: `${employee.firstName} ${employee.lastName}`,
     })
+    console.log("Success!")
   } catch (err) {
     console.error(err)
   }

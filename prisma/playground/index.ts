@@ -5,6 +5,10 @@
 // import R from "ramda"
 // import axios from "axios"
 
+import mango from "../../lib/mango"
+
+mango.Clients.getClientWallets().then(console.log)
+
 // // const mango = new mangopay({
 // //   clientId: process.env.MANGO_CLIENT_ID,
 // //   clientApiKey: process.env.MANGO_KEY,
