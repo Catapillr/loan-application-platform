@@ -507,6 +507,8 @@ export type EmployerOrderByInput =
   | "payrollEmail_DESC"
   | "signerEmail_ASC"
   | "signerEmail_DESC"
+  | "minimumLoanFee_ASC"
+  | "minimumLoanFee_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "createdAt_ASC"
@@ -891,6 +893,7 @@ export interface EmployerCreateInput {
   payrollEmail: String;
   signerEmail: String;
   payIns?: Maybe<PayInCreateManyWithoutEmployerInput>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface PayInCreateManyWithoutUserInput {
@@ -950,6 +953,7 @@ export interface EmployerCreateWithoutPayInsInput {
   maxSalaryPercentage: Float;
   payrollEmail: String;
   signerEmail: String;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface PaymentRequestSubscriptionWhereInput {
@@ -1179,6 +1183,7 @@ export interface EmployerUpdateWithoutEmailSuffixesDataInput {
   payrollEmail?: Maybe<String>;
   signerEmail?: Maybe<String>;
   payIns?: Maybe<PayInUpdateManyWithoutEmployerInput>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface EmployerUpdateOneRequiredWithoutUserInput {
@@ -1205,6 +1210,7 @@ export interface EmployerUpdateWithoutUserDataInput {
   payrollEmail?: Maybe<String>;
   signerEmail?: Maybe<String>;
   payIns?: Maybe<PayInUpdateManyWithoutEmployerInput>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface EmployerCreateWithoutEmailSuffixesInput {
@@ -1220,6 +1226,7 @@ export interface EmployerCreateWithoutEmailSuffixesInput {
   payrollEmail: String;
   signerEmail: String;
   payIns?: Maybe<PayInCreateManyWithoutEmployerInput>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface SuffixUpdateManyWithoutEmployerInput {
@@ -1507,6 +1514,7 @@ export interface EmployerUpdateManyMutationInput {
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
   signerEmail?: Maybe<String>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface EmployerCreateWithoutUserInput {
@@ -1522,6 +1530,7 @@ export interface EmployerCreateWithoutUserInput {
   payrollEmail: String;
   signerEmail: String;
   payIns?: Maybe<PayInCreateManyWithoutEmployerInput>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface EmployerUpdateInput {
@@ -1537,6 +1546,7 @@ export interface EmployerUpdateInput {
   payrollEmail?: Maybe<String>;
   signerEmail?: Maybe<String>;
   payIns?: Maybe<PayInUpdateManyWithoutEmployerInput>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface SuffixCreateWithoutEmployerInput {
@@ -1822,6 +1832,14 @@ export interface EmployerWhereInput {
   payIns_every?: Maybe<PayInWhereInput>;
   payIns_some?: Maybe<PayInWhereInput>;
   payIns_none?: Maybe<PayInWhereInput>;
+  minimumLoanFee?: Maybe<Int>;
+  minimumLoanFee_not?: Maybe<Int>;
+  minimumLoanFee_in?: Maybe<Int[] | Int>;
+  minimumLoanFee_not_in?: Maybe<Int[] | Int>;
+  minimumLoanFee_lt?: Maybe<Int>;
+  minimumLoanFee_lte?: Maybe<Int>;
+  minimumLoanFee_gt?: Maybe<Int>;
+  minimumLoanFee_gte?: Maybe<Int>;
   updatedAt?: Maybe<DateTimeInput>;
   updatedAt_not?: Maybe<DateTimeInput>;
   updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2459,6 +2477,7 @@ export interface EmployerUpdateWithoutPayInsDataInput {
   maxSalaryPercentage?: Maybe<Float>;
   payrollEmail?: Maybe<String>;
   signerEmail?: Maybe<String>;
+  minimumLoanFee?: Maybe<Int>;
 }
 
 export interface PaymentRequestUpdateInput {
@@ -3227,6 +3246,7 @@ export interface Employer {
   maxSalaryPercentage: Float;
   payrollEmail: String;
   signerEmail: String;
+  minimumLoanFee: Int;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -3269,6 +3289,7 @@ export interface EmployerPromise extends Promise<Employer>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  minimumLoanFee: () => Promise<Int>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -3313,6 +3334,7 @@ export interface EmployerSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  minimumLoanFee: () => Promise<AsyncIterator<Int>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -3357,6 +3379,7 @@ export interface EmployerNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  minimumLoanFee: () => Promise<Int>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -3811,6 +3834,7 @@ export interface EmployerPreviousValues {
   maxSalaryPercentage: Float;
   payrollEmail: String;
   signerEmail: String;
+  minimumLoanFee: Int;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -3828,6 +3852,7 @@ export interface EmployerPreviousValuesPromise
   maxSalaryPercentage: () => Promise<Float>;
   payrollEmail: () => Promise<String>;
   signerEmail: () => Promise<String>;
+  minimumLoanFee: () => Promise<Int>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -3845,6 +3870,7 @@ export interface EmployerPreviousValuesSubscription
   maxSalaryPercentage: () => Promise<AsyncIterator<Float>>;
   payrollEmail: () => Promise<AsyncIterator<String>>;
   signerEmail: () => Promise<AsyncIterator<String>>;
+  minimumLoanFee: () => Promise<AsyncIterator<Int>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
