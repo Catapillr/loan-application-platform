@@ -1,5 +1,6 @@
 {
   "exclude": ["./generated/js/"],
+  "include": ["../"],
   "compilerOptions": {
     "module": "commonjs",
     "lib": ["ES2015"],
