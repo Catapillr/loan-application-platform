@@ -54,9 +54,9 @@ const run = async () => {
       )
     )
 
-    const File = Buffer.from(fs.readFileSync(`${__dirname}/test.pdf`)).toString(
-      "base64"
-    )
+    const File = Buffer.from(
+      fs.readFileSync(`${__dirname}/mock-kyc.pdf`)
+    ).toString("base64")
 
     await Promise.all(
       [proofId, associationId, proofRegId].map(
