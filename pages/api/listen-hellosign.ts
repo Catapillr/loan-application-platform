@@ -177,6 +177,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           WireReference,
           loanAmount: employee.loan.amount,
           employeeName: `${employee.firstName} ${employee.lastName}`,
+          fees: `${platformFees / 1.2}`,
+          feesPlusVAT: platformFees,
+          totalPayInAmount: employee.loan.amount + platformFees,
         })
 
         return res.status(200).send("Hello API Event Received")

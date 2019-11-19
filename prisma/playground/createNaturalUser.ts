@@ -100,6 +100,9 @@ const run = async () => {
       WireReference,
       loanAmount: employee.loan.amount,
       employeeName: `${employee.firstName} ${employee.lastName}`,
+      fees: `${platformFees / 1.2}`,
+      feesPlusVAT: `${platformFees}`,
+      totalPayInAmount: employee.loan.amount + platformFees,
     })
     console.log("Success!")
   } catch (err) {
