@@ -123,7 +123,7 @@ const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
                   />
                 )
               default:
-                return <div></div>
+                return <div key={transaction.Id}></div>
             }
           })}
         </TransactionContainer>

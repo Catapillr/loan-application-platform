@@ -74,18 +74,14 @@ app.prepare().then(() => {
     const client = redis.createClient(process.env.REDIS_URL)
     const RedisStore = connectRedis(session)
 
-    // TODO: see whether this can be added back in
-    // sess.cookie.secure = true // serve secure cookies, requires https
+    server.use(enforce.HTTPS({ trustProtoHeader: true }))
+
+    server.set("trust proxy", 1)
+    sess.cookie.secure = true
     sess.store = new RedisStore({ client })
   }
 
-  server
-    .use(session(sess))
-    .use(
-      dev
-        ? (req, res, next) => next()
-        : enforce.HTTPS({ trustProtoHeader: true })
-    )
+  server.use(session(sess))
 
   const strategy = new Auth0Strategy(
     {
@@ -168,7 +164,9 @@ app.prepare().then(() => {
   }
 
   server.get("/", (_req, res) => {
-    res.redirect("https://www.catapillr.com/")
+    dev
+      ? res.redirect("/dashboard")
+      : res.redirect("https://www.catapillr.com/")
   })
 
   server.get("/api/private/*", restrictAccessAPI)
