@@ -8,6 +8,7 @@
     "dev:nodemon": "env-cmd -f ./.config/dev.env nodemon --inspect -w ./server.js -w ./next.config.js -w .config/ -e js,json,env server.js",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
+    "test": "jest",
     "==lint&format==": "-----------------------------------------------------------------------------------",
     "format": "prettier --write \"{**/*.css,**/*.js,**/*.html,**/*.json,**/*.md,**/*.yaml,**/*.yml}\"",
     "lint": "eslint ./",
@@ -74,6 +75,7 @@
   },
   "devDependencies": {
     "@types/formidable": "^1.0.31",
+    "@types/jest": "^24.0.23",
     "@types/node": "^12.7.4",
     "@types/ramda": "^0.26.21",
     "@types/react": "^16.9.2",
@@ -90,10 +92,14 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^24.9.0",
+    "jest-watch-select-projects": "^1.0.0",
+    "jest-watch-typeahead": "^0.4.2",
     "nodemon": "^1.19.2",
     "postcss-import": "^12.0.1",
     "prettier": "^1.18.2",
     "tachyons": "^4.11.1",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.6.2"
   }
 }

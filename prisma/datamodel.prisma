@@ -12,6 +12,7 @@ type Employer {
   payrollEmail: String!
   signerEmail: String!
   payIns: [PayIn!] @relation(onDelete: CASCADE)
+  minimumLoanFee: Int! @default(value: 10000)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }

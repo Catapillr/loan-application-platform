@@ -1,7 +1,6 @@
 import hellosign from "hellosign-sdk"
 import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
-import * as R from "ramda"
 import R_ from "../../utils/R_"
 
 import zeroIndexMonth from "../../utils/zeroIndexMonth"
@@ -39,7 +38,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       phoneNumber,
       dob: moment.utc(zeroIndexMonth(dob)).toDate(),
       nationality,
-      employmentStartDate: moment.utc(zeroIndexMonth(employmentStartDate)).toDate(),
+      employmentStartDate: moment
+        .utc(zeroIndexMonth(employmentStartDate))
+        .toDate(),
       employeeId,
       annualSalary: poundsToPennies(parseFloat(annualSalary)),
       employer: { connect: { slug: employer.slug } },
@@ -79,15 +80,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     ]
 
+    // @ts-ignore
     const loanMonths = R_.mapIndexed((_: any, index: any) => ({
       name: `loanMonth${index + 1}`,
       value: `${
         index === 0
           ? `${currencyFormatter.format(firstMonth, { code: "GBP" })}`
           : `${currencyFormatter.format(monthlyRepayment, { code: "GBP" })}`
-        }`,
+      }`,
     }))([...Array(loanTerms)])
 
+    // @ts-ignore
     const defaultMonths = R_.mapIndexed((_: any, index: any) => ({
       name: `loanMonth${loanTerms + index + 1}`,
       value: "n/a",
@@ -129,7 +132,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "employerMinimumService",
-        value: employer.minimumServiceLength
+        value: employer.minimumServiceLength,
       },
       {
         name: "userName",
