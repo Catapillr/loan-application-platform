@@ -12,7 +12,7 @@
                         <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
                         <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
                     </g>
-                    <text id="Business-Details" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                    <text id="Business-Details" opacity="0.6" font-family="Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
                         <tspan x="0.12" y="39">Business Details</tspan>
                     </text>
                 </g>
@@ -22,7 +22,7 @@
                         <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
                         <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
                     </g>
-                    <text id="UBOs" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                    <text id="UBOs" opacity="0.6" font-family="Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
                         <tspan x="0.115" y="39">UBOs</tspan>
                     </text>
                 </g>
@@ -32,7 +32,7 @@
                         <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
                         <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
                     </g>
-                    <text id="Documents" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                    <text id="Documents" opacity="0.6" font-family="Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
                         <tspan x="0.212" y="38">Documents</tspan>
                     </text>
                 </g>
@@ -42,7 +42,7 @@
                         <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
                         <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
                     </g>
-                    <text id="Bank-Details" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                    <text id="Bank-Details" opacity="0.6" font-family="Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
                         <tspan x="0.38" y="38">Bank Details</tspan>
                     </text>
                 </g>
@@ -52,7 +52,7 @@
                         <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
                         <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
                     </g>
-                    <text id="Summary" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                    <text id="Summary" opacity="0.6" font-family="Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
                         <tspan x="0.369" y="38">Summary</tspan>
                     </text>
                 </g>
@@ -62,7 +62,7 @@
                         <circle id="Oval" fill="#14BECB" fill-rule="nonzero" cx="11.7333333" cy="10.2666667" r="10.2666667"></circle>
                         <polygon id="Tick" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="4 10.8444444 5.95555556 8.88888889 8.88888889 11.8222222 16.7111111 4 18.6666667 5.95555556 8.88888889 15.7333333"></polygon>
                     </g>
-                    <text id="Confirmation" opacity="0.6" font-family="Ubuntu-Regular, Ubuntu" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
+                    <text id="Confirmation" opacity="0.6" font-family="Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-size="14" font-weight="normal" line-spacing="20" fill="#32334F">
                         <tspan x="0.423" y="38">Confirmation</tspan>
                     </text>
                 </g>
