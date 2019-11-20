@@ -332,6 +332,7 @@ type Employer {
   payrollEmail: String!
   signerEmail: String!
   payIns(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PayIn!]
+  minimumLoanFee: Int!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -356,6 +357,7 @@ input EmployerCreateInput {
   payrollEmail: String!
   signerEmail: String!
   payIns: PayInCreateManyWithoutEmployerInput
+  minimumLoanFee: Int
 }
 
 input EmployerCreateOneWithoutEmailSuffixesInput {
@@ -386,6 +388,7 @@ input EmployerCreateWithoutEmailSuffixesInput {
   payrollEmail: String!
   signerEmail: String!
   payIns: PayInCreateManyWithoutEmployerInput
+  minimumLoanFee: Int
 }
 
 input EmployerCreateWithoutPayInsInput {
@@ -401,6 +404,7 @@ input EmployerCreateWithoutPayInsInput {
   maxSalaryPercentage: Float!
   payrollEmail: String!
   signerEmail: String!
+  minimumLoanFee: Int
 }
 
 input EmployerCreateWithoutUserInput {
@@ -416,6 +420,7 @@ input EmployerCreateWithoutUserInput {
   payrollEmail: String!
   signerEmail: String!
   payIns: PayInCreateManyWithoutEmployerInput
+  minimumLoanFee: Int
 }
 
 type EmployerEdge {
@@ -444,6 +449,8 @@ enum EmployerOrderByInput {
   payrollEmail_DESC
   signerEmail_ASC
   signerEmail_DESC
+  minimumLoanFee_ASC
+  minimumLoanFee_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -461,6 +468,7 @@ type EmployerPreviousValues {
   maxSalaryPercentage: Float!
   payrollEmail: String!
   signerEmail: String!
+  minimumLoanFee: Int!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -496,6 +504,7 @@ input EmployerUpdateInput {
   payrollEmail: String
   signerEmail: String
   payIns: PayInUpdateManyWithoutEmployerInput
+  minimumLoanFee: Int
 }
 
 input EmployerUpdateManyMutationInput {
@@ -508,6 +517,7 @@ input EmployerUpdateManyMutationInput {
   maxSalaryPercentage: Float
   payrollEmail: String
   signerEmail: String
+  minimumLoanFee: Int
 }
 
 input EmployerUpdateOneRequiredWithoutEmailSuffixesInput {
@@ -543,6 +553,7 @@ input EmployerUpdateWithoutEmailSuffixesDataInput {
   payrollEmail: String
   signerEmail: String
   payIns: PayInUpdateManyWithoutEmployerInput
+  minimumLoanFee: Int
 }
 
 input EmployerUpdateWithoutPayInsDataInput {
@@ -557,6 +568,7 @@ input EmployerUpdateWithoutPayInsDataInput {
   maxSalaryPercentage: Float
   payrollEmail: String
   signerEmail: String
+  minimumLoanFee: Int
 }
 
 input EmployerUpdateWithoutUserDataInput {
@@ -571,6 +583,7 @@ input EmployerUpdateWithoutUserDataInput {
   payrollEmail: String
   signerEmail: String
   payIns: PayInUpdateManyWithoutEmployerInput
+  minimumLoanFee: Int
 }
 
 input EmployerUpsertWithoutEmailSuffixesInput {
@@ -720,6 +733,14 @@ input EmployerWhereInput {
   payIns_every: PayInWhereInput
   payIns_some: PayInWhereInput
   payIns_none: PayInWhereInput
+  minimumLoanFee: Int
+  minimumLoanFee_not: Int
+  minimumLoanFee_in: [Int!]
+  minimumLoanFee_not_in: [Int!]
+  minimumLoanFee_lt: Int
+  minimumLoanFee_lte: Int
+  minimumLoanFee_gt: Int
+  minimumLoanFee_gte: Int
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]

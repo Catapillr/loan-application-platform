@@ -14,6 +14,7 @@ import {
   sendLoanTransferDetails,
   sendEmployeeApplicationCompleteConfirmation,
 } from "../../utils/mailgunClient"
+import calculatePlatformFees from "../../utils/calculatePlatformFees"
 
 // Hellosign constants
 const Signed = "signed"
@@ -95,6 +96,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
             employer {
               id
+              minimumLoanFee
             }
           }
         `)
@@ -115,6 +117,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Currency: GBP,
         })
 
+        const platformFees = calculatePlatformFees({
+          minimumLoanFee: employee.employer.minimumLoanFee,
+          loanAmount: employee.loan.amount,
+        })
+
         const {
           Id: payInId,
           WireReference,
@@ -127,11 +134,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           CreditedWalletId: newWalletId,
           DeclaredDebitedFunds: {
             Currency: GBP,
-            Amount: employee.loan.amount,
+            Amount: employee.loan.amount + platformFees,
           },
           DeclaredFees: {
             Currency: GBP,
-            Amount: 0,
+            Amount: platformFees,
           },
         })
 
@@ -170,6 +177,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           WireReference,
           loanAmount: employee.loan.amount,
           employeeName: `${employee.firstName} ${employee.lastName}`,
+          fees: `${platformFees / 1.2}`,
+          feesPlusVAT: platformFees,
+          totalPayInAmount: employee.loan.amount + platformFees,
         })
 
         return res.status(200).send("Hello API Event Received")
