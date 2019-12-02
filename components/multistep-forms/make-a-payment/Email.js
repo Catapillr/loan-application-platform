@@ -7,6 +7,42 @@ import { Input, TextInput } from "../../Input"
 
 import Nursery from "../../../static/icons/nursery.svg"
 
+const Email = ({ incrementPage, company, Controls, submitForm, isValid }) => (
+  <Container>
+    <Controls />
+    <Icon />
+    <Title>{company.company_name}</Title>
+
+    <Error>
+      Unfortunately, this provider is not yet registered to the Catapillr
+      scheme.
+    </Error>
+    <p>
+      Please read the <span className="font-bold">How does this work? </span>
+      section on the right to learn more about your next steps.
+    </p>
+    <Input
+      name="providerEmail"
+      component={TextInput}
+      className="w-full mt-10"
+      placeholder="Provider's email address..."
+      validate={validateEmail}
+    />
+    <Next className="mt-10" onClick={isValid ? incrementPage : submitForm}>
+      Next
+    </Next>
+  </Container>
+)
+
+const validation = Yup.object().shape({
+  providerEmail: Yup.string()
+    .email("Please enter a valid email")
+    .required("Required!"),
+})
+
+Email.validationSchema = validation
+Email.componentName = "Email"
+
 const doesEmailExist = async ({ email }) => {
   const res = await axios(
     `${process.env.HOST}/api/does-email-exist?email=${email}&accountType=${CHILDCAREPROVIDER}`
@@ -38,20 +74,11 @@ const Error = styled.p.attrs({
   className: "text-red my-5d5",
 })``
 
-const Copy = styled.p.attrs({
-  className: "",
-})``
 const Next = styled.button.attrs({
   className:
     "text-teal border border-teal rounded-full py-2 px-17 text-center block m-auto",
   type: "button",
 })``
-
-const validation = Yup.object().shape({
-  providerEmail: Yup.string()
-    .email("Please enter a valid email")
-    .required("Required!"),
-})
 
 const validateEmail = async value => {
   let error
@@ -61,35 +88,5 @@ const validateEmail = async value => {
     return error
   }
 }
-
-const Email = ({ incrementPage, company, Controls, submitForm, isValid }) => (
-  <Container>
-    <Controls />
-    <Icon />
-    <Title>{company.company_name}</Title>
-
-    <Error>
-      Unfortunately, this provider is not yet registered to the Catapillr
-      scheme.
-    </Error>
-    <Copy>
-      Please read the <span className="font-bold">How does this work? </span>
-      section on the right to learn more about your next steps.
-    </Copy>
-    <Input
-      name="providerEmail"
-      component={TextInput}
-      className="w-full mt-10"
-      placeholder="Provider's email address..."
-      validate={validateEmail}
-    />
-    <Next className="mt-10" onClick={isValid ? incrementPage : submitForm}>
-      Next
-    </Next>
-  </Container>
-)
-
-Email.validationSchema = validation
-Email.componentName = "Email"
 
 export default Email

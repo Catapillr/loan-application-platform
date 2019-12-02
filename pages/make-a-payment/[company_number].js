@@ -27,50 +27,83 @@ const initialValues = {
   consentToPay: false,
 }
 
-const onSubmit = ({
-  incrementPage,
+const MakeAPayment = ({
   company,
-  setFormCompleted,
-  isProviderRegistered,
+  user,
   catapillrChildcareProvider,
-}) => async values => {
-  const childcareProvider = {
-    providerEmail: values.providerEmail,
-    companyNumber: company.company_number,
-  }
-  const paymentRequest = {
-    amountToPay: values.amountToPay,
-    consentToPay: isProviderRegistered ? true : values.consentToPay,
-    reference: values.reference,
-  }
-
-  const setupProviderAndSendPayment = () => {
-    return axios.post(
-      `${process.env.HOST}/api/private/add-childcare-provider`,
-      {
-        ...childcareProvider,
-        ...paymentRequest,
-      }
+  userWalletBalance,
+}) => {
+  if (catapillrChildcareProvider) {
+    return (
+      <Wizard
+        {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
+      >
+        <Pay />
+        <Summary />
+        <Confirmation />
+      </Wizard>
     )
   }
 
-  const sendPayment = () => {
-    return axios.post(`${process.env.HOST}/api/private/send-payment-request`, {
-      ...paymentRequest,
-      childcareProviderId: catapillrChildcareProvider.id,
-    })
+  return (
+    <Wizard
+      {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
+    >
+      <Email />
+      <Pay />
+      <Summary />
+      <Confirmation />
+    </Wizard>
+  )
+}
+
+MakeAPayment.getInitialProps = async ctx => {
+  const { req } = ctx
+  // makes sure session is authenticated and that page is server side rendered
+  // (auth does not work at the moment without SSR)
+
+  if (restrictAccess(ctx)) {
+    return
   }
 
-  try {
-    isProviderRegistered
-      ? await sendPayment()
-      : await setupProviderAndSendPayment()
+  // we need this when the axios request gets sent from the server rather than the browser
+  // as the session cookies are not passed along to axios from the req object. This is not
+  // a problem on the browser as cookies are added to every request automatically
+  const cookies = nextCookies(ctx)
+  const serializedCookies = R.pipe(
+    R.mapObjIndexed((val, key) => `${key}=${val};`),
+    R.values,
+    R.join(" ")
+  )(cookies)
 
-    incrementPage()
-    setFormCompleted(true)
-  } catch (e) {
-    //eslint-disable-next-line no-console
-    console.error("Loan agreement sending error", e)
+  try {
+    const company_number = getLastPath(req.originalUrl)
+
+    const [
+      {
+        data: { company, catapillrChildcareProvider },
+      },
+      {
+        data: { userWalletBalance },
+      },
+    ] = await Promise.all([
+      axios.get(
+        `${process.env.HOST}/api/private/get-company?company_number=${company_number}`,
+        {
+          headers: { Cookie: serializedCookies },
+        }
+      ),
+      axios.get(`${process.env.HOST}/api/private/get-user-wallet-balance`, {
+        headers: { Cookie: serializedCookies },
+      }),
+    ])
+
+    const user = req.user
+
+    return { company, user, catapillrChildcareProvider, userWalletBalance }
+  } catch (err) {
+    console.error("Error in [company_number] getInitProps: ", err) //eslint-disable-line
+    return { error: "Sorry, that company doesn't seem to exist!" }
   }
 }
 
@@ -102,20 +135,6 @@ const Wizard = ({
   const decrementPage = () => {
     setPage(pages[pageIndex - 1])
   }
-
-  const Controls = () => (
-    <_Controls>
-      <Back
-        onClick={pageIndex !== 0 ? decrementPage : undefined}
-        href={pageIndex === 0 ? "/make-a-payment" : undefined}
-      >
-        Back
-      </Back>
-      <PageCounter>
-        {pageIndex + 1} / {pages.length}
-      </PageCounter>
-    </_Controls>
-  )
 
   return (
     <Container>
@@ -181,7 +200,11 @@ const Wizard = ({
                           isSubmitting,
                           setFieldValue,
                           company,
-                          Controls,
+                          Controls: (
+                            <Controls
+                              {...{ pageIndex, decrementPage, pages }}
+                            />
+                          ),
                           isProviderRegistered,
                           userWalletBalance,
                         }),
@@ -226,6 +249,67 @@ const Wizard = ({
   )
 }
 
+const Controls = ({ pageIndex, decrementPage, pages }) => (
+  <_Controls>
+    <Back
+      onClick={pageIndex !== 0 ? decrementPage : undefined}
+      href={pageIndex === 0 ? "/make-a-payment" : undefined}
+    >
+      Back
+    </Back>
+    <PageCounter>
+      {pageIndex + 1} / {pages.length}
+    </PageCounter>
+  </_Controls>
+)
+
+const onSubmit = ({
+  incrementPage,
+  company,
+  setFormCompleted,
+  isProviderRegistered,
+  catapillrChildcareProvider,
+}) => async values => {
+  const childcareProvider = {
+    providerEmail: values.providerEmail,
+    companyNumber: company.company_number,
+  }
+  const paymentRequest = {
+    amountToPay: values.amountToPay,
+    consentToPay: isProviderRegistered ? true : values.consentToPay,
+    reference: values.reference,
+  }
+
+  const setupProviderAndSendPayment = () => {
+    return axios.post(
+      `${process.env.HOST}/api/private/add-childcare-provider`,
+      {
+        ...childcareProvider,
+        ...paymentRequest,
+      }
+    )
+  }
+
+  const sendPayment = () => {
+    return axios.post(`${process.env.HOST}/api/private/send-payment-request`, {
+      ...paymentRequest,
+      childcareProviderId: catapillrChildcareProvider.id,
+    })
+  }
+
+  try {
+    isProviderRegistered
+      ? await sendPayment()
+      : await setupProviderAndSendPayment()
+
+    incrementPage()
+    setFormCompleted(true)
+  } catch (e) {
+    //eslint-disable-next-line no-console
+    console.error("Loan agreement sending error", e)
+  }
+}
+
 const RenderStep = ({ component, validateForm, page, setTouched }) => {
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -234,36 +318,6 @@ const RenderStep = ({ component, validateForm, page, setTouched }) => {
   }, [page])
 
   return <>{component}</>
-}
-
-const MakeAPayment = ({
-  company,
-  user,
-  catapillrChildcareProvider,
-  userWalletBalance,
-}) => {
-  if (catapillrChildcareProvider) {
-    return (
-      <Wizard
-        {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
-      >
-        <Pay />
-        <Summary />
-        <Confirmation />
-      </Wizard>
-    )
-  }
-
-  return (
-    <Wizard
-      {...{ company, user, catapillrChildcareProvider, userWalletBalance }}
-    >
-      <Email />
-      <Pay />
-      <Summary />
-      <Confirmation />
-    </Wizard>
-  )
 }
 
 const Contents = styled.section.attrs(({ formCompleted }) => ({
@@ -313,55 +367,5 @@ const Back = styled.a.attrs({
 const PageCounter = styled.div.attrs({
   className: "",
 })``
-
-MakeAPayment.getInitialProps = async ctx => {
-  const { req } = ctx
-  // makes sure session is authenticated and that page is server side rendered
-  // (auth does not work at the moment without SSR)
-
-  if (restrictAccess(ctx)) {
-    return
-  }
-
-  // we need this when the axios request gets sent from the server rather than the browser
-  // as the session cookies are not passed along to axios from the req object. This is not
-  // a problem on the browser as cookies are added to every request automatically
-  const cookies = nextCookies(ctx)
-  const serializedCookies = R.pipe(
-    R.mapObjIndexed((val, key) => `${key}=${val};`),
-    R.values,
-    R.join(" ")
-  )(cookies)
-
-  try {
-    const company_number = getLastPath(req.originalUrl)
-
-    const [
-      {
-        data: { company, catapillrChildcareProvider },
-      },
-      {
-        data: { userWalletBalance },
-      },
-    ] = await Promise.all([
-      axios.get(
-        `${process.env.HOST}/api/private/get-company?company_number=${company_number}`,
-        {
-          headers: { Cookie: serializedCookies },
-        }
-      ),
-      axios.get(`${process.env.HOST}/api/private/get-user-wallet-balance`, {
-        headers: { Cookie: serializedCookies },
-      }),
-    ])
-
-    const user = req.user
-
-    return { company, user, catapillrChildcareProvider, userWalletBalance }
-  } catch (err) {
-    console.error("Error in [company_number] getInitProps: ", err) //eslint-disable-line
-    return { error: "Sorry, that company doesn't seem to exist!" }
-  }
-}
 
 export default MakeAPayment

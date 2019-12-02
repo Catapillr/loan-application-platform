@@ -6,6 +6,32 @@ import nursery from "../static/icons/nursery.svg"
 import childminder from "../static/icons/childminder.svg"
 import club from "../static/icons/club.svg"
 
+const Payee = ({ name, childcareType, slug }) => (
+  <_Payee>
+    <Icon src={childcareToIcon(childcareType)} />
+    <Name>{name}</Name>
+    <Button href={`${process.env.HOST}/make-a-payment/${slug}`}>Pay</Button>
+  </_Payee>
+)
+
+const childcareToIcon = childcareType => {
+  switch (childcareType) {
+    case NURSERY:
+      return nursery
+    case CHILDMINDER:
+      return childminder
+    case CLUB:
+      return club
+    default:
+      return nursery
+  }
+}
+
+const Button = styled.a.attrs({
+  className:
+    "text-teal border border-teal rounded-full py-2 w-full text-center",
+})``
+
 const _Payee = styled.div.attrs({
   className:
     "flex flex-col justify-between bg-white flex-wrap w-full px-4 pb-5 pt-9d5",
@@ -22,30 +48,5 @@ const Icon = styled.div.attrs({
 })`
   background: ${({ src }) => `url(${src})`};
 `
-
-const childcareToIcon = childcareType => {
-  switch (childcareType) {
-    case NURSERY:
-      return nursery
-    case CHILDMINDER:
-      return childminder
-    case CLUB:
-      return club
-    default:
-      return nursery
-  }
-}
-const Button = styled.a.attrs({
-  className:
-    "text-teal border border-teal rounded-full py-2 w-full text-center",
-})``
-
-const Payee = ({ name, childcareType, slug }) => (
-  <_Payee>
-    <Icon src={childcareToIcon(childcareType)} />
-    <Name>{name}</Name>
-    <Button href={`${process.env.HOST}/make-a-payment/${slug}`}>Pay</Button>
-  </_Payee>
-)
 
 export default Payee
