@@ -465,6 +465,7 @@ input ChildWhereInput {
 
 input ChildWhereUniqueInput {
   id: ID
+  taxFreeChildReference: String
 }
 
 scalar DateTime

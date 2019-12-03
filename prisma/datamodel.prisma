@@ -106,7 +106,7 @@ type Child {
   id: ID! @id
   parent: User!
   name: String!
-  taxFreeChildReference: String!
+  taxFreeChildReference: String! @unique
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }

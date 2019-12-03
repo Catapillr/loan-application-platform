@@ -619,6 +619,7 @@ export interface UserUpdateWithoutPayInsDataInput {
 
 export type ChildWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  taxFreeChildReference?: Maybe<String>;
 }>;
 
 export interface PaymentRequestCreateWithoutUserInput {
@@ -3319,147 +3320,41 @@ export interface ChildEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface User {
+export interface Child {
   id: ID_Output;
-  firstName: String;
-  lastName: String;
-  email: String;
-  isVerified: Boolean;
-  phoneNumber: String;
-  dob: DateTimeOutput;
-  nationality: String;
-  employmentStartDate: DateTimeOutput;
-  annualSalary: Int;
-  employeeId?: String;
-  gdprConsent: Boolean;
-  mangoWalletId?: String;
-  mangoUserId?: String;
+  name: String;
+  taxFreeChildReference: String;
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
+export interface ChildPromise extends Promise<Child>, Fragmentable {
   id: () => Promise<ID_Output>;
-  employer: <T = EmployerPromise>() => T;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  isVerified: () => Promise<Boolean>;
-  phoneNumber: () => Promise<String>;
-  dob: () => Promise<DateTimeOutput>;
-  nationality: () => Promise<String>;
-  employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Int>;
-  employeeId: () => Promise<String>;
-  verificationToken: <T = VerificationTokenPromise>() => T;
-  gdprConsent: () => Promise<Boolean>;
-  loan: <T = LoanPromise>() => T;
-  mangoWalletId: () => Promise<String>;
-  mangoUserId: () => Promise<String>;
-  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
-    where?: PaymentRequestWhereInput;
-    orderBy?: PaymentRequestOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  payIns: <T = FragmentableArray<PayIn>>(args?: {
-    where?: PayInWhereInput;
-    orderBy?: PayInOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  parent: <T = UserPromise>() => T;
+  name: () => Promise<String>;
+  taxFreeChildReference: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface ChildSubscription
+  extends Promise<AsyncIterator<Child>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  employer: <T = EmployerSubscription>() => T;
-  firstName: () => Promise<AsyncIterator<String>>;
-  lastName: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  isVerified: () => Promise<AsyncIterator<Boolean>>;
-  phoneNumber: () => Promise<AsyncIterator<String>>;
-  dob: () => Promise<AsyncIterator<DateTimeOutput>>;
-  nationality: () => Promise<AsyncIterator<String>>;
-  employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  annualSalary: () => Promise<AsyncIterator<Int>>;
-  employeeId: () => Promise<AsyncIterator<String>>;
-  verificationToken: <T = VerificationTokenSubscription>() => T;
-  gdprConsent: () => Promise<AsyncIterator<Boolean>>;
-  loan: <T = LoanSubscription>() => T;
-  mangoWalletId: () => Promise<AsyncIterator<String>>;
-  mangoUserId: () => Promise<AsyncIterator<String>>;
-  paymentRequests: <
-    T = Promise<AsyncIterator<PaymentRequestSubscription>>
-  >(args?: {
-    where?: PaymentRequestWhereInput;
-    orderBy?: PaymentRequestOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  payIns: <T = Promise<AsyncIterator<PayInSubscription>>>(args?: {
-    where?: PayInWhereInput;
-    orderBy?: PayInOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  parent: <T = UserSubscription>() => T;
+  name: () => Promise<AsyncIterator<String>>;
+  taxFreeChildReference: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface UserNullablePromise
-  extends Promise<User | null>,
+export interface ChildNullablePromise
+  extends Promise<Child | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  employer: <T = EmployerPromise>() => T;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  isVerified: () => Promise<Boolean>;
-  phoneNumber: () => Promise<String>;
-  dob: () => Promise<DateTimeOutput>;
-  nationality: () => Promise<String>;
-  employmentStartDate: () => Promise<DateTimeOutput>;
-  annualSalary: () => Promise<Int>;
-  employeeId: () => Promise<String>;
-  verificationToken: <T = VerificationTokenPromise>() => T;
-  gdprConsent: () => Promise<Boolean>;
-  loan: <T = LoanPromise>() => T;
-  mangoWalletId: () => Promise<String>;
-  mangoUserId: () => Promise<String>;
-  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
-    where?: PaymentRequestWhereInput;
-    orderBy?: PaymentRequestOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  payIns: <T = FragmentableArray<PayIn>>(args?: {
-    where?: PayInWhereInput;
-    orderBy?: PayInOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  parent: <T = UserPromise>() => T;
+  name: () => Promise<String>;
+  taxFreeChildReference: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -3541,43 +3436,29 @@ export interface AggregateSuffixSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface Child {
-  id: ID_Output;
-  name: String;
-  taxFreeChildReference: String;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
 }
 
-export interface ChildPromise extends Promise<Child>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  parent: <T = UserPromise>() => T;
-  name: () => Promise<String>;
-  taxFreeChildReference: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ChildSubscription
-  extends Promise<AsyncIterator<Child>>,
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  parent: <T = UserSubscription>() => T;
-  name: () => Promise<AsyncIterator<String>>;
-  taxFreeChildReference: () => Promise<AsyncIterator<String>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
 }
 
-export interface ChildNullablePromise
-  extends Promise<Child | null>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  parent: <T = UserPromise>() => T;
-  name: () => Promise<String>;
-  taxFreeChildReference: () => Promise<String>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface SuffixConnection {
@@ -3882,6 +3763,247 @@ export interface ChildcareProviderPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface User {
+  id: ID_Output;
+  firstName: String;
+  lastName: String;
+  email: String;
+  isVerified: Boolean;
+  phoneNumber: String;
+  dob: DateTimeOutput;
+  nationality: String;
+  employmentStartDate: DateTimeOutput;
+  annualSalary: Int;
+  employeeId?: String;
+  gdprConsent: Boolean;
+  mangoWalletId?: String;
+  mangoUserId?: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  employer: <T = EmployerPromise>() => T;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  isVerified: () => Promise<Boolean>;
+  phoneNumber: () => Promise<String>;
+  dob: () => Promise<DateTimeOutput>;
+  nationality: () => Promise<String>;
+  employmentStartDate: () => Promise<DateTimeOutput>;
+  annualSalary: () => Promise<Int>;
+  employeeId: () => Promise<String>;
+  verificationToken: <T = VerificationTokenPromise>() => T;
+  gdprConsent: () => Promise<Boolean>;
+  loan: <T = LoanPromise>() => T;
+  mangoWalletId: () => Promise<String>;
+  mangoUserId: () => Promise<String>;
+  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
+    where?: PaymentRequestWhereInput;
+    orderBy?: PaymentRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  payIns: <T = FragmentableArray<PayIn>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  employer: <T = EmployerSubscription>() => T;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  isVerified: () => Promise<AsyncIterator<Boolean>>;
+  phoneNumber: () => Promise<AsyncIterator<String>>;
+  dob: () => Promise<AsyncIterator<DateTimeOutput>>;
+  nationality: () => Promise<AsyncIterator<String>>;
+  employmentStartDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  annualSalary: () => Promise<AsyncIterator<Int>>;
+  employeeId: () => Promise<AsyncIterator<String>>;
+  verificationToken: <T = VerificationTokenSubscription>() => T;
+  gdprConsent: () => Promise<AsyncIterator<Boolean>>;
+  loan: <T = LoanSubscription>() => T;
+  mangoWalletId: () => Promise<AsyncIterator<String>>;
+  mangoUserId: () => Promise<AsyncIterator<String>>;
+  paymentRequests: <
+    T = Promise<AsyncIterator<PaymentRequestSubscription>>
+  >(args?: {
+    where?: PaymentRequestWhereInput;
+    orderBy?: PaymentRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  payIns: <T = Promise<AsyncIterator<PayInSubscription>>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  employer: <T = EmployerPromise>() => T;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  isVerified: () => Promise<Boolean>;
+  phoneNumber: () => Promise<String>;
+  dob: () => Promise<DateTimeOutput>;
+  nationality: () => Promise<String>;
+  employmentStartDate: () => Promise<DateTimeOutput>;
+  annualSalary: () => Promise<Int>;
+  employeeId: () => Promise<String>;
+  verificationToken: <T = VerificationTokenPromise>() => T;
+  gdprConsent: () => Promise<Boolean>;
+  loan: <T = LoanPromise>() => T;
+  mangoWalletId: () => Promise<String>;
+  mangoUserId: () => Promise<String>;
+  paymentRequests: <T = FragmentableArray<PaymentRequest>>(args?: {
+    where?: PaymentRequestWhereInput;
+    orderBy?: PaymentRequestOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  payIns: <T = FragmentableArray<PayIn>>(args?: {
+    where?: PayInWhereInput;
+    orderBy?: PayInOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PaymentRequest {
+  id: ID_Output;
+  amountToPay: Int;
+  consentToPay: Boolean;
+  reference?: String;
+  expiresAt?: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface PaymentRequestPromise
+  extends Promise<PaymentRequest>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  childcareProvider: <T = ChildcareProviderPromise>() => T;
+  amountToPay: () => Promise<Int>;
+  consentToPay: () => Promise<Boolean>;
+  reference: () => Promise<String>;
+  expiresAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PaymentRequestSubscription
+  extends Promise<AsyncIterator<PaymentRequest>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  childcareProvider: <T = ChildcareProviderSubscription>() => T;
+  amountToPay: () => Promise<AsyncIterator<Int>>;
+  consentToPay: () => Promise<AsyncIterator<Boolean>>;
+  reference: () => Promise<AsyncIterator<String>>;
+  expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PaymentRequestNullablePromise
+  extends Promise<PaymentRequest | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  childcareProvider: <T = ChildcareProviderPromise>() => T;
+  amountToPay: () => Promise<Int>;
+  consentToPay: () => Promise<Boolean>;
+  reference: () => Promise<String>;
+  expiresAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface EmployerEdge {
+  node: Employer;
+  cursor: String;
+}
+
+export interface EmployerEdgePromise
+  extends Promise<EmployerEdge>,
+    Fragmentable {
+  node: <T = EmployerPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface EmployerEdgeSubscription
+  extends Promise<AsyncIterator<EmployerEdge>>,
+    Fragmentable {
+  node: <T = EmployerSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface EmployerSubscriptionPayload {
+  mutation: MutationType;
+  node: Employer;
+  updatedFields: String[];
+  previousValues: EmployerPreviousValues;
+}
+
+export interface EmployerSubscriptionPayloadPromise
+  extends Promise<EmployerSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = EmployerPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = EmployerPreviousValuesPromise>() => T;
+}
+
+export interface EmployerSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EmployerSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = EmployerSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = EmployerPreviousValuesSubscription>() => T;
+}
+
 export interface Employer {
   id: ID_Output;
   name: String;
@@ -4029,127 +4151,6 @@ export interface EmployerNullablePromise
   minimumLoanFee: () => Promise<Int>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PaymentRequest {
-  id: ID_Output;
-  amountToPay: Int;
-  consentToPay: Boolean;
-  reference?: String;
-  expiresAt?: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  createdAt: DateTimeOutput;
-}
-
-export interface PaymentRequestPromise
-  extends Promise<PaymentRequest>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  user: <T = UserPromise>() => T;
-  childcareProvider: <T = ChildcareProviderPromise>() => T;
-  amountToPay: () => Promise<Int>;
-  consentToPay: () => Promise<Boolean>;
-  reference: () => Promise<String>;
-  expiresAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PaymentRequestSubscription
-  extends Promise<AsyncIterator<PaymentRequest>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  user: <T = UserSubscription>() => T;
-  childcareProvider: <T = ChildcareProviderSubscription>() => T;
-  amountToPay: () => Promise<AsyncIterator<Int>>;
-  consentToPay: () => Promise<AsyncIterator<Boolean>>;
-  reference: () => Promise<AsyncIterator<String>>;
-  expiresAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PaymentRequestNullablePromise
-  extends Promise<PaymentRequest | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  user: <T = UserPromise>() => T;
-  childcareProvider: <T = ChildcareProviderPromise>() => T;
-  amountToPay: () => Promise<Int>;
-  consentToPay: () => Promise<Boolean>;
-  reference: () => Promise<String>;
-  expiresAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface EmployerEdge {
-  node: Employer;
-  cursor: String;
-}
-
-export interface EmployerEdgePromise
-  extends Promise<EmployerEdge>,
-    Fragmentable {
-  node: <T = EmployerPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface EmployerEdgeSubscription
-  extends Promise<AsyncIterator<EmployerEdge>>,
-    Fragmentable {
-  node: <T = EmployerSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface EmployerSubscriptionPayload {
-  mutation: MutationType;
-  node: Employer;
-  updatedFields: String[];
-  previousValues: EmployerPreviousValues;
-}
-
-export interface EmployerSubscriptionPayloadPromise
-  extends Promise<EmployerSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = EmployerPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = EmployerPreviousValuesPromise>() => T;
-}
-
-export interface EmployerSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<EmployerSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = EmployerSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = EmployerPreviousValuesSubscription>() => T;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface EmployerPreviousValues {

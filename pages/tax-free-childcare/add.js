@@ -16,21 +16,18 @@ import Tick from "../../static/icons/tick-in-circle.svg"
 import { TextInput, Input } from "../../components/Input"
 
 const initialValues = {
-  childName: "",
-  childReferenceNumber: "",
+  name: "",
+  taxFreeChildReference: "",
 }
 
 const validationSchema = Yup.object().shape({
-  childName: Yup.string().required("Required!"),
-  childReferenceNumber: Yup.string().required("Required!"),
+  name: Yup.string().required("Required!"),
+  taxFreeChildReference: Yup.string().required("Required!"),
 })
-
-// TODO: abstract out confirmation and Contents
-// TODO: make child reference unique in database
 
 const AddChild = () => {
   const [formSubmitted, setFormSubmitted] = useState(false)
-  const [childName, setChildName] = useState()
+  const [name, setName] = useState()
   return (
     <Container>
       <Header activeHref="/make-a-payment" />
@@ -42,7 +39,7 @@ const AddChild = () => {
             <FormContainer>
               <ChildDetailsForm
                 setFormSubmitted={setFormSubmitted}
-                setChildName={setChildName}
+                setName={setName}
               ></ChildDetailsForm>
             </FormContainer>
           </Main>
@@ -73,7 +70,7 @@ const AddChild = () => {
           </Aside>
         </Contents>
       ) : (
-        <Confirmation childName={childName}></Confirmation>
+        <Confirmation name={name}></Confirmation>
       )}
       <Footer />
     </Container>
@@ -87,7 +84,7 @@ AddChild.getInitialProps = async ctx => {
   return {}
 }
 
-const ChildDetailsForm = ({ setFormSubmitted, setChildName }) => {
+const ChildDetailsForm = ({ setFormSubmitted, setName }) => {
   return (
     <>
       <_Controls>
@@ -106,33 +103,40 @@ const ChildDetailsForm = ({ setFormSubmitted, setChildName }) => {
                 "/api/private/add-child-tax-free-details",
                 values
               )
-              setChildName(values.childName)
+              setName(values.name)
               setFormSubmitted(true)
               actions.setSubmitting(false)
             } catch (err) {
               //eslint-disable-next-line no-console
               console.error("Error adding child tax free details to db", err)
+              actions.setSubmitting(false)
+              if (!err.response.data.unique) {
+                actions.setFieldError(
+                  err.response.data.field,
+                  "That reference is already in our system"
+                )
+              }
             }
           },
         }}
       >
-        {() => {
+        {({ isSubmitting }) => {
           return (
             <Form className="mt-6">
               <Input
                 text="Child's name"
-                name="childName"
+                name="name"
                 component={TextInput}
               ></Input>
 
               <Input
                 text="Child's reference number"
-                name="childReferenceNumber"
+                name="taxFreeChildReference"
                 component={TextInput}
               ></Input>
 
-              <Submit className="mt-10" type="submit">
-                Add Account
+              <Submit className="mt-10" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Add Account"}
               </Submit>
             </Form>
           )
@@ -142,13 +146,12 @@ const ChildDetailsForm = ({ setFormSubmitted, setChildName }) => {
   )
 }
 
-const Confirmation = ({ childName }) => (
+const Confirmation = ({ name }) => (
   <ConfirmationContainer>
     <Icon src={Tick} />
     <p className="text-center uppercase">Great news!</p>
     <p className="text-center mb-4">
-      You added <span className="font-bold">{childName || "Ashley"}</span>'s tax
-      free account
+      You added <span className="font-bold">{name}</span>'s tax free account
     </p>
     <Submit as="a" href="/tax-free-childcare/pay">
       Go back
