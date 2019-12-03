@@ -5,9 +5,9 @@
 // import R from "ramda"
 // import axios from "axios"
 
-import mango from "../../lib/mango"
+// import mango from "../../lib/mango"
 
-mango.Clients.getClientWallets().then(console.log)
+// mango.Clients.getClientWallets().then(console.log)
 
 // // const mango = new mangopay({
 // //   clientId: process.env.MANGO_CLIENT_ID,
@@ -51,11 +51,6 @@ mango.Clients.getClientWallets().then(console.log)
 //     Amount: 0,
 //   },
 // })
-
-// ivan id - 68516446
-// ivan wallet id - 68516447
-// infact id - 69681155
-// infact walletId - 69681266
 
 // mango.Transfers.create({
 //   AuthorId: "68516446",

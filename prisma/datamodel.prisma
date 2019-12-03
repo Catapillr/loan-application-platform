@@ -101,3 +101,12 @@ type PayIn {
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
+
+type Child {
+  id: ID! @id
+  parent: User!
+  name: String!
+  taxFreeChildReference: String!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}

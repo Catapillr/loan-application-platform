@@ -30,5 +30,13 @@
   },
   "globals": {
     "cssTheme": "readonly"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "rules": {
+        "import/no-unresolved": 0
+      }
+    }
+  ]
 }

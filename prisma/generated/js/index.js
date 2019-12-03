@@ -35,6 +35,10 @@ var models = [
   {
     name: "PayIn",
     embedded: false
+  },
+  {
+    name: "Child",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

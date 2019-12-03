@@ -57,6 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({ childcareProviderId: newChildcareProvider.id })
   } catch (err) {
+    //eslint-disable-next-line no-console
     console.error("Error in add-childcare-provider", err)
   }
 }

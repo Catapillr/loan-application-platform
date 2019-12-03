@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateChildcareProvider {
+/* GraphQL */ `type AggregateChild {
+  count: Int!
+}
+
+type AggregateChildcareProvider {
   count: Int!
 }
 
@@ -37,6 +41,15 @@ type AggregateVerificationToken {
 
 type BatchPayload {
   count: Long!
+}
+
+type Child {
+  id: ID!
+  parent: User!
+  name: String!
+  taxFreeChildReference: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type ChildcareProvider {
@@ -315,6 +328,143 @@ input ChildcareProviderWhereUniqueInput {
   mangoLegalUserId: String
   mangoBankAccountId: String
   mangoWalletId: String
+}
+
+type ChildConnection {
+  pageInfo: PageInfo!
+  edges: [ChildEdge]!
+  aggregate: AggregateChild!
+}
+
+input ChildCreateInput {
+  id: ID
+  parent: UserCreateOneInput!
+  name: String!
+  taxFreeChildReference: String!
+}
+
+type ChildEdge {
+  node: Child!
+  cursor: String!
+}
+
+enum ChildOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  taxFreeChildReference_ASC
+  taxFreeChildReference_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ChildPreviousValues {
+  id: ID!
+  name: String!
+  taxFreeChildReference: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type ChildSubscriptionPayload {
+  mutation: MutationType!
+  node: Child
+  updatedFields: [String!]
+  previousValues: ChildPreviousValues
+}
+
+input ChildSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ChildWhereInput
+  AND: [ChildSubscriptionWhereInput!]
+  OR: [ChildSubscriptionWhereInput!]
+  NOT: [ChildSubscriptionWhereInput!]
+}
+
+input ChildUpdateInput {
+  parent: UserUpdateOneRequiredInput
+  name: String
+  taxFreeChildReference: String
+}
+
+input ChildUpdateManyMutationInput {
+  name: String
+  taxFreeChildReference: String
+}
+
+input ChildWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  parent: UserWhereInput
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  taxFreeChildReference: String
+  taxFreeChildReference_not: String
+  taxFreeChildReference_in: [String!]
+  taxFreeChildReference_not_in: [String!]
+  taxFreeChildReference_lt: String
+  taxFreeChildReference_lte: String
+  taxFreeChildReference_gt: String
+  taxFreeChildReference_gte: String
+  taxFreeChildReference_contains: String
+  taxFreeChildReference_not_contains: String
+  taxFreeChildReference_starts_with: String
+  taxFreeChildReference_not_starts_with: String
+  taxFreeChildReference_ends_with: String
+  taxFreeChildReference_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [ChildWhereInput!]
+  OR: [ChildWhereInput!]
+  NOT: [ChildWhereInput!]
+}
+
+input ChildWhereUniqueInput {
+  id: ID
 }
 
 scalar DateTime
@@ -970,6 +1120,12 @@ input LoanWhereUniqueInput {
 scalar Long
 
 type Mutation {
+  createChild(data: ChildCreateInput!): Child!
+  updateChild(data: ChildUpdateInput!, where: ChildWhereUniqueInput!): Child
+  updateManyChildren(data: ChildUpdateManyMutationInput!, where: ChildWhereInput): BatchPayload!
+  upsertChild(where: ChildWhereUniqueInput!, create: ChildCreateInput!, update: ChildUpdateInput!): Child!
+  deleteChild(where: ChildWhereUniqueInput!): Child
+  deleteManyChildren(where: ChildWhereInput): BatchPayload!
   createChildcareProvider(data: ChildcareProviderCreateInput!): ChildcareProvider!
   updateChildcareProvider(data: ChildcareProviderUpdateInput!, where: ChildcareProviderWhereUniqueInput!): ChildcareProvider
   updateManyChildcareProviders(data: ChildcareProviderUpdateManyMutationInput!, where: ChildcareProviderWhereInput): BatchPayload!
@@ -1643,6 +1799,9 @@ input PaymentRequestWhereUniqueInput {
 }
 
 type Query {
+  child(where: ChildWhereUniqueInput!): Child
+  children(where: ChildWhereInput, orderBy: ChildOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Child]!
+  childrenConnection(where: ChildWhereInput, orderBy: ChildOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChildConnection!
   childcareProvider(where: ChildcareProviderWhereUniqueInput!): ChildcareProvider
   childcareProviders(where: ChildcareProviderWhereInput, orderBy: ChildcareProviderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ChildcareProvider]!
   childcareProvidersConnection(where: ChildcareProviderWhereInput, orderBy: ChildcareProviderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChildcareProviderConnection!
@@ -1671,6 +1830,7 @@ type Query {
 }
 
 type Subscription {
+  child(where: ChildSubscriptionWhereInput): ChildSubscriptionPayload
   childcareProvider(where: ChildcareProviderSubscriptionWhereInput): ChildcareProviderSubscriptionPayload
   employer(where: EmployerSubscriptionWhereInput): EmployerSubscriptionPayload
   loan(where: LoanSubscriptionWhereInput): LoanSubscriptionPayload
@@ -1918,6 +2078,11 @@ input UserCreateInput {
 input UserCreateManyWithoutEmployerInput {
   create: [UserCreateWithoutEmployerInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutLoanInput {
@@ -2272,6 +2437,27 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  employer: EmployerUpdateOneRequiredWithoutUserInput
+  firstName: String
+  lastName: String
+  email: String
+  isVerified: Boolean
+  phoneNumber: String
+  dob: DateTime
+  nationality: String
+  employmentStartDate: DateTime
+  annualSalary: Int
+  employeeId: String
+  verificationToken: VerificationTokenUpdateOneInput
+  gdprConsent: Boolean
+  loan: LoanUpdateOneWithoutUserInput
+  mangoWalletId: String
+  mangoUserId: String
+  paymentRequests: PaymentRequestUpdateManyWithoutUserInput
+  payIns: PayInUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   employer: EmployerUpdateOneRequiredWithoutUserInput
   firstName: String
@@ -2340,6 +2526,13 @@ input UserUpdateManyWithoutEmployerInput {
 input UserUpdateManyWithWhereNestedInput {
   where: UserScalarWhereInput!
   data: UserUpdateManyDataInput!
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneRequiredWithoutLoanInput {
@@ -2446,6 +2639,11 @@ input UserUpdateWithoutPaymentRequestsDataInput {
 input UserUpdateWithWhereUniqueWithoutEmployerInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutEmployerDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutLoanInput {
