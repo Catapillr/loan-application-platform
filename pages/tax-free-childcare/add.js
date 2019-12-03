@@ -99,10 +99,7 @@ const ChildDetailsForm = ({ setFormSubmitted, setName }) => {
           enableReinitialize: false,
           onSubmit: async (values, actions) => {
             try {
-              await axios.post(
-                "/api/private/add-child-tax-free-details",
-                values
-              )
+              await axios.post("/api/private/add-child-account", values)
               setName(values.name)
               setFormSubmitted(true)
               actions.setSubmitting(false)

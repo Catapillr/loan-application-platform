@@ -28,7 +28,7 @@ const MakeAPayment = ({ recentPayeesByMangoId }) => (
             <Payee
               name={payee.Name}
               key={payee.Id}
-              slug={payee.CompanyNumber}
+              href={`${process.env.HOST}/make-a-payment/${payee.companyNumber}`}
             />
           ))}
         </PayeesContainer>

@@ -43,6 +43,7 @@ type User {
   mangoUserId: String @unique
   paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)
   payIns: [PayIn!] @relation(onDelete: CASCADE)
+  childAccounts: [ChildAccount!] @relation(onDelete: CASCADE)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
@@ -102,7 +103,7 @@ type PayIn {
   createdAt: DateTime! @createdAt
 }
 
-type Child {
+type ChildAccount {
   id: ID! @id
   parent: User!
   name: String!

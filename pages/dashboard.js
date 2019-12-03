@@ -78,7 +78,7 @@ const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
             <Payee
               name={payee.Name}
               key={payee.Id}
-              slug={payee.CompanyNumber}
+              href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
             />
           ))}
         </PayeesContainer>

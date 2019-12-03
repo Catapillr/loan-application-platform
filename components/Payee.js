@@ -6,11 +6,11 @@ import nursery from "../static/icons/nursery.svg"
 import childminder from "../static/icons/childminder.svg"
 import club from "../static/icons/club.svg"
 
-const Payee = ({ name, childcareType, slug }) => (
+const Payee = ({ name, childcareType, href }) => (
   <_Payee>
     <Icon src={childcareToIcon(childcareType)} />
     <Name>{name}</Name>
-    <Button href={`${process.env.HOST}/make-a-payment/${slug}`}>Pay</Button>
+    <Button href={href}>Pay</Button>
   </_Payee>
 )
 

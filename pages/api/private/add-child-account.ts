@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { name, taxFreeChildReference } = req.body
 
-    await prisma.createChild({
+    await prisma.createChildAccount({
       name,
       taxFreeChildReference,
       parent: {

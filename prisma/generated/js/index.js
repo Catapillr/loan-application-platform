@@ -37,7 +37,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Child",
+    name: "ChildAccount",
     embedded: false
   }
 ];
