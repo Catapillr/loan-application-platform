@@ -1,33 +1,38 @@
 import { useState } from "react"
 import styled from "styled-components"
+import axios from "axios"
 import { Formik, Form } from "formik"
 import * as Yup from "yup"
+import { useRouter } from "next/router"
+import currencyFormatter from "currency-formatter"
 
-import restrictAccess from "../../utils/restrictAccess"
+import { Input, PriceInput, TextAreaInput } from "../../../components/Input"
 
-import axios from "axios"
+import restrictAccess from "../../../utils/restrictAccess"
 
-import Header from "../../components/Header"
-import Footer from "../../components/Footer"
+import Header from "../../../components/Header"
+import Footer from "../../../components/Footer"
 
-import Nursery from "../../static/icons/nursery.svg"
-import Tick from "../../static/icons/tick-in-circle.svg"
+import Tick from "../../../static/icons/tick-in-circle.svg"
 
-import { TextInput, Input } from "../../components/Input"
+import Pen from "../../../static/icons/pen.svg"
+import Nursery from "../../../static/icons/nursery.svg"
 
 const initialValues = {
-  name: "",
+  amountToPay: "",
   taxFreeChildReference: "",
 }
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Required!"),
+  amountToPay: Yup.string().required("Required!"),
   taxFreeChildReference: Yup.string().required("Required!"),
 })
 
-const AddChild = () => {
+const PayIntoChildAccount = () => {
   const [formSubmitted, setFormSubmitted] = useState(false)
-  const [name, setName] = useState()
+
+  const router = useRouter()
+  const { taxFreeChildReference, name } = router.query
   return (
     <Container>
       <Header activeHref="/make-a-payment" />
@@ -36,10 +41,11 @@ const AddChild = () => {
           <Main>
             <Title className="mb-12">Make a payment</Title>
             <FormContainer>
-              <ChildDetailsForm
+              <PaymentForm
                 setFormSubmitted={setFormSubmitted}
-                setName={setName}
-              ></ChildDetailsForm>
+                name={name}
+                taxFreeChildReference={taxFreeChildReference}
+              ></PaymentForm>
             </FormContainer>
           </Main>
           <Aside>
@@ -69,63 +75,100 @@ const AddChild = () => {
   )
 }
 
-AddChild.getInitialProps = async ctx => {
+PayIntoChildAccount.getInitialProps = async ctx => {
   if (restrictAccess(ctx)) {
     return
   }
   return {}
 }
 
-const ChildDetailsForm = ({ setFormSubmitted, setName }) => {
+const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
   return (
     <>
       <_Controls>
         <Back href="/tax-free-childcare/pay">Back</Back>
       </_Controls>
       <Icon src={Nursery} />
-      <p className="text-center">Your child's details</p>
+      <p className="text-center">
+        You are making a payment to <span className="font-bold">{name}'s</span>{" "}
+        tax-free account
+      </p>
+
       <Formik
         {...{
-          initialValues,
+          initialValues: { ...initialValues, taxFreeChildReference },
           validationSchema,
           enableReinitialize: false,
           onSubmit: async (values, actions) => {
             try {
-              await axios.post("/api/private/add-child-account", values)
-              setName(values.name)
+              await axios.post(
+                "/api/private/pay-out-to-tax-free-account",
+                values
+              )
               setFormSubmitted(true)
               actions.setSubmitting(false)
             } catch (err) {
               //eslint-disable-next-line no-console
-              console.error("Error adding child tax free details to db", err)
-              actions.setSubmitting(false)
-              if (!err.response.data.unique) {
-                actions.setFieldError(
-                  err.response.data.field,
-                  "That reference is already in our system"
-                )
+              console.error("Error sending tax free payment to server", err)
+              if (err.response) {
+                const { status, reason } = err.response.data
+                if (
+                  status === "FAILED" &&
+                  reason === "Unsufficient wallet balance"
+                ) {
+                  actions.setFieldError(
+                    "amountToPay",
+                    "You don't have sufficient funds in your account"
+                  )
+                }
               }
+              actions.setSubmitting(false)
             }
           },
         }}
       >
-        {({ isSubmitting }) => {
+        {({ isSubmitting, setFieldValue, values }) => {
+          const { amountToPay } = values
           return (
             <Form className="mt-6">
+              <Copy>How much would you like to pay?</Copy>
               <Input
-                text="Child's name"
-                name="name"
-                component={TextInput}
-              ></Input>
+                name="amountToPay"
+                onBlur={e => {
+                  setFieldValue(
+                    "amountToPay",
+                    currencyFormatter.format(e.target.value, { code: "GBP" })
+                  )
+                }}
+                validate={value => {
+                  const amount =
+                    currencyFormatter.unformat(value, { code: "GBP" }) * 100
 
-              <Input
-                text="Child's reference number"
-                name="taxFreeChildReference"
-                component={TextInput}
-              ></Input>
+                  if (amount <= 0) {
+                    return "Amount must be more than 0"
+                  }
+                }}
+                component={PriceInput}
+                size={amountToPay.length > 7 ? amountToPay.length : 7}
+                className="text-center block m-auto"
+                placeholder="£0.00"
+              />
+              <Reference>
+                <Edit />
+                <Input
+                  name="taxFreeChildReference"
+                  disabled={true}
+                  margin=""
+                  component={TextAreaInput}
+                />
+              </Reference>
 
-              <Submit className="mt-10" type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Add Account"}
+              <Submit
+                className={`mt-10 ${isSubmitting && "opacity-50"}`}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Send money now"}
               </Submit>
             </Form>
           )
@@ -140,7 +183,7 @@ const Confirmation = ({ name }) => (
     <Icon src={Tick} />
     <p className="text-center uppercase">Great news!</p>
     <p className="text-center mb-4">
-      You added <span className="font-bold">{name}</span>'s tax free account
+      You added <span className="font-bold">{name}'s</span> tax free account
     </p>
     <Submit as="a" href="/tax-free-childcare/pay">
       Go back
@@ -209,4 +252,18 @@ const Submit = styled.button.attrs({
     "text-teal border border-teal rounded-full py-2 px-6 text-center block m-auto",
 })``
 
-export default AddChild
+const Reference = styled.div.attrs({
+  className:
+    "border-t border-b border-midgray py-10 flex items-center justify-center mb-10",
+})``
+
+const Copy = styled.p.attrs({
+  className: "text-center",
+})``
+
+const Edit = styled.img.attrs({
+  src: Pen,
+  className: "mr-8",
+})``
+
+export default PayIntoChildAccount

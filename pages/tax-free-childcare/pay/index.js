@@ -3,11 +3,11 @@ import styled from "styled-components"
 import * as R from "ramda"
 import axios from "axios"
 
-import restrictAccess from "../../utils/restrictAccess"
+import restrictAccess from "../../../utils/restrictAccess"
 
-import Header from "../../components/Header"
-import Footer from "../../components/Footer"
-import Payee from "../../components/Payee"
+import Header from "../../../components/Header"
+import Footer from "../../../components/Footer"
+import Payee from "../../../components/Payee"
 
 // TODO: fix active headers
 // TODO: add dropdown to menu
@@ -27,7 +27,7 @@ const PayTFC = ({ childAccounts }) => (
                 <Payee
                   name={account.name}
                   key={account.name}
-                  href={`/tax-free-childcare/pay/${account.taxFreeChildReference}`}
+                  href={`/tax-free-childcare/pay/${account.taxFreeChildReference}?name=${account.name}`}
                 />
               ))}
             </PayeesContainer>
