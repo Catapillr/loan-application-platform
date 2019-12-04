@@ -9,7 +9,7 @@ import calculatePlatformFees from "../../utils/calculatePlatformFees"
 const Natural = "NATURAL"
 const GBP = "GBP"
 
-const run = async () => {
+const run = async (): Promise<any> => {
   try {
     const employee: any = await prisma.user({
       email: "ivan@infactcoop.com",
@@ -104,8 +104,10 @@ const run = async () => {
       feesPlusVAT: `${platformFees}`,
       totalPayInAmount: employee.loan.amount + platformFees,
     })
+    // eslint-disable-next-line
     console.log("Success!")
   } catch (err) {
+    // eslint-disable-next-line
     console.error(err)
   }
 }

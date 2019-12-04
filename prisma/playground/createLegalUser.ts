@@ -3,7 +3,7 @@ import fs from "fs"
 
 import { prisma } from "../generated/ts"
 
-const run = async () => {
+const run = async (): Promise<any> => {
   try {
     const legalUser = await mango.Users.create({
       HeadquartersAddress: {
@@ -163,17 +163,22 @@ const run = async () => {
       },
     })
 
+    // eslint-disable-next-line
     console.log("Legal User: ", JSON.stringify(legalUser, undefined, 2))
+    // eslint-disable-next-line
     console.log(
       "Legal User wallet: ",
       JSON.stringify(legalUserWallet, undefined, 2)
     )
+    // eslint-disable-next-line
     console.log(
       "Legal User bank account: ",
       JSON.stringify(legalUserBankAccount, undefined, 2)
     )
+    // eslint-disable-next-line
     console.log("SUCCESS")
   } catch (err) {
+    // eslint-disable-next-line
     console.error(err)
   }
 }

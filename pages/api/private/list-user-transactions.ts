@@ -5,9 +5,13 @@ import mango from "../../../lib/mango"
 import { prisma } from "../../../prisma/generated/ts"
 import gql from "graphql-tag"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   const options = {
     parameters: {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       Per_Page: 100,
       Sort: "CreationDate:DESC",
     },

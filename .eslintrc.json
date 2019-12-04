@@ -34,8 +34,26 @@
   "overrides": [
     {
       "files": ["**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["@typescript-eslint"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
+      ],
       "rules": {
-        "import/no-unresolved": 0
+        "@typescript-eslint/ban-ts-ignore": 0,
+        "@typescript-eslint/no-explicit-any": 0
+      },
+      "settings": {
+        "import/resolver": {
+          "typescript": {
+            "alwaysTryTypes": true,
+            "directory": "tsconfig.json"
+          }
+        }
       }
     }
   ]

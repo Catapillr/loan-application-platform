@@ -2,7 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 import mango from "../../../lib/mango"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     // @ts-ignore
     const user = req.user

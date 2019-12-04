@@ -10,7 +10,10 @@ import {
 } from "../../../utils/mailgunClient"
 import poundsToPennies from "../../../utils/poundsToPennies"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   // @ts-ignore
   const user = req.user
   const { childcareProviderId, amountToPay, reference } = req.body
