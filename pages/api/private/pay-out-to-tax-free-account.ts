@@ -1,11 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-// import { prisma } from "../../../prisma/generated/ts"
 import mango from "../../../lib/mango"
 import poundsToPennies from "../../../utils/poundsToPennies"
+import { sendEmployeeOutgoingPaymentNotification } from "../../../utils/mailgunClient"
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     // @ts-ignore
     const user = req.user
@@ -52,18 +54,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       PaymentType: "BANK_WIRE",
     })
 
-    // TODO: verify there are funds in account before sending payment
-    // TODO: add notification emails
-    // await sendProviderPaymentNotification({
-    //   email: provider.email,
-    //   amountToPay: paymentRequest.amountToPay,
-    //   employeeName: `${paymentRequest.user.firstName} ${paymentRequest.user.lastName}`,
-    // })
-    //
-    // await sendEmployeeOutgoingPaymentNotification({
-    //   email: paymentRequest.user.email,
-    //   amountToPay: paymentRequest.amountToPay,
-    // })
+    await sendEmployeeOutgoingPaymentNotification({
+      email: user.email,
+      amountToPay: poundsToPennies(amountToPay),
+    })
 
     res.status(200).end()
   } catch (err) {

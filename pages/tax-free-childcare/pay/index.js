@@ -9,9 +9,6 @@ import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
 import Payee from "../../../components/Payee"
 
-// TODO: fix active headers
-// TODO: add dropdown to menu
-
 const PayTFC = ({ childAccounts }) => (
   <Container>
     <Header />

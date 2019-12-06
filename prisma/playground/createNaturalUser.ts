@@ -91,7 +91,6 @@ const run = async (): Promise<any> => {
 
     const [sortCode, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
 
-    // TODO: check this in production to see if it's being split properly
     sendLoanTransferDetails({
       email: "ivan@infactcoop.com",
       sortCode,
