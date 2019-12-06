@@ -41,6 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ubo3,
         ubo4,
         articlesOfAssociation,
+        proofOfRegistration,
       } = fields
 
       // 1. Create legal user
@@ -135,7 +136,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       createDocumentWithPages(files.repProofOfId, "IDENTITY_PROOF")
-      createDocumentWithPages(files.proofOfRegistration, "REGISTRATION_PROOF")
+      createDocumentWithPages(
+        files.proofOfRegistration || JSON.parse(proofOfRegistration as string),
+        "REGISTRATION_PROOF"
+      )
       createDocumentWithPages(
         files.articlesOfAssociation ||
           JSON.parse(articlesOfAssociation as string),
