@@ -22,51 +22,51 @@ import { Button } from "../../components/multistep-forms/styles"
 
 import orangeLogo from "../../static/logo_orange.svg"
 
-const initialValues = {
-  employmentStartDate: {
-    day: 1,
-    month: 1,
-    year: 2018,
-  },
-  email: "lucy@infactcoop.com",
-  token: "e214fdc7b766",
-  permanentRole: true,
-  annualSalary: "£10,000",
-  loanAmount: 965,
-  loanAmountBox: "£965",
-  loanTerms: "12",
-  firstName: "Ivan",
-  lastName: "Gonzalez",
-  dob: {
-    day: 23,
-    month: 3,
-    year: 1989,
-  },
-  nationality: "BE",
-  employeeId: "8sdj98sd",
-  phoneNumber: "07443998236",
-  confirmation: false,
-  gdprConsent: false,
-}
-
 // const initialValues = {
-//   employmentStartDate: { day: "", month: "", year: "" },
-//   email: "",
-//   token: "",
-//   permanentRole: false,
-//   annualSalary: "",
-//   loanAmount: 0,
-//   loanAmountBox: "",
-//   loanTerms: "",
-//   firstName: "",
-//   lastName: "",
-//   dob: { day: "", month: "", year: "" },
-//   nationality: "",
-//   employeeId: "",
-//   phoneNumber: "",
+//   employmentStartDate: {
+//     day: 1,
+//     month: 1,
+//     year: 2018,
+//   },
+//   email: "lucy@infactcoop.com",
+//   token: "e214fdc7b766",
+//   permanentRole: true,
+//   annualSalary: "£10,000",
+//   loanAmount: 965,
+//   loanAmountBox: "£965",
+//   loanTerms: "12",
+//   firstName: "Ivan",
+//   lastName: "Gonzalez",
+//   dob: {
+//     day: 23,
+//     month: 3,
+//     year: 1989,
+//   },
+//   nationality: "BE",
+//   employeeId: "8sdj98sd",
+//   phoneNumber: "07443998236",
 //   confirmation: false,
 //   gdprConsent: false,
 // }
+
+const initialValues = {
+  employmentStartDate: { day: "", month: "", year: "" },
+  email: "",
+  token: "",
+  permanentRole: false,
+  annualSalary: "",
+  loanAmount: 0,
+  loanAmountBox: "",
+  loanTerms: "",
+  firstName: "",
+  lastName: "",
+  dob: { day: "", month: "", year: "" },
+  nationality: "",
+  employeeId: "",
+  phoneNumber: "",
+  confirmation: false,
+  gdprConsent: false,
+}
 
 const Previous = ({ decrementPage, hidePrevious }) => (
   <div className="w-40">
