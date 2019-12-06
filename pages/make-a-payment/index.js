@@ -13,7 +13,7 @@ import Payee from "../../components/Payee"
 
 const MakeAPayment = ({ recentPayeesByMangoId }) => (
   <Container>
-    <Header activeHref="/make-a-payment" />
+    <Header />
     <Contents>
       <Main>
         <Title className="mb-12">Make a payment</Title>

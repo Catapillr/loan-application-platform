@@ -1,5 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
+import { useRouter } from "next/router"
 
 import useOnOutsideClick from "../hooks/useOnOutsideClick"
 import { useAuth } from "../context/auth-context"
@@ -9,7 +10,8 @@ import avatar from "../static/icons/avatar.svg"
 import logoutIcon from "../static/icons/logout.svg"
 import downChevron from "../static/icons/down-chevron.svg"
 
-const Header = ({ activeHref }) => {
+const Header = () => {
+  const { pathname } = useRouter()
   const { logout } = useAuth()
 
   const [logoutDropdownOpen, setLogoutDropdownOpen] = useState(false)
@@ -35,20 +37,17 @@ const Header = ({ activeHref }) => {
   return (
     <Container>
       <Nav>
-        <Logo href="/dashboard" activeHref={activeHref} />
+        <Logo href="/dashboard" pathname={pathname} />
         <Links>
-          <HeaderLink activeHref={activeHref} href="/dashboard">
+          <HeaderLink pathname={pathname} href="/dashboard">
             My Payments
           </HeaderLink>
           <div>
-            <div className="flex flex-row" onClick={togglePaymentDropdown}>
-              <HeaderLink
-                activeHref={activeHref}
-                href="/make-a-payment"
-                as="div"
-              >
-                Make a payment
-              </HeaderLink>
+            <div
+              className="flex flex-row cursor-pointer"
+              onClick={togglePaymentDropdown}
+            >
+              <PaymentLink pathname={pathname}>Make a payment</PaymentLink>
               <DownChevron src={downChevron} alt="Open dropdown menu" />
             </div>
             <div className="relative">
@@ -58,12 +57,20 @@ const Header = ({ activeHref }) => {
                   className="payment-dropdown"
                 >
                   <div className="w-full">
-                    <div className="text-base font-normal py-2 pl-2 w-full">
+                    <PaymentDropdownLink
+                      className="text-base font-normal py-2 pl-2 w-full block bg-orange"
+                      href="/make-a-payment"
+                      pathname={pathname}
+                    >
                       Chilcare provider
-                    </div>
-                    <div className="text-base font-normal py-2 pl-2 w-full">
+                    </PaymentDropdownLink>
+                    <PaymentDropdownLink
+                      className="text-base font-normal py-2 pl-2 w-full block"
+                      href="/tax-free-childcare/pay"
+                      pathname={pathname}
+                    >
                       Tax free account
-                    </div>
+                    </PaymentDropdownLink>
                   </div>
                 </PaymentDropdown>
               </PaymentDropdownContainer>
@@ -85,6 +92,11 @@ const Header = ({ activeHref }) => {
     </Container>
   )
 }
+
+const PaymentDropdownLink = styled.a`
+  background-color: ${({ pathname, href }) =>
+    pathname === href ? "rgba(252, 143, 20, 0.05)" : "inherit"};
+`
 
 const DownChevron = styled.img`
   height: 12px;
@@ -127,8 +139,18 @@ const Links = styled.div.attrs({
 const HeaderLink = styled.a.attrs({
   className: "mr-5 font-lg font-bold",
 })`
-  box-shadow: ${({ href, activeHref }) =>
-    href === activeHref ? `inset 0 -10px 0 0 #FFC67E` : "inherit"};
+  box-shadow: ${({ href, pathname }) =>
+    href === pathname ? `inset 0 -10px 0 0 #FFC67E` : "inherit"};
+`
+
+const PaymentLink = styled(HeaderLink).attrs({ as: "div" })`
+  margin-right: ${cssTheme("spacing.2")};
+  box-shadow: ${({ pathname }) =>
+    ["/make-a-payment", "/tax-free-childcare/pay"].some(
+      path => pathname === path
+    )
+      ? `inset 0 -10px 0 0 #FFC67E`
+      : "inherit"};
 `
 
 const LogoutDropdownContainer = styled.div.attrs({
