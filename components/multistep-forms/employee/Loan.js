@@ -12,8 +12,6 @@ import progress2 from "../../../static/images/progress2.svg"
 
 import penniesToPounds from "../../../utils/penniesToPounds"
 import { formatToGBP, unformatFromGBP } from "../../../utils/currencyFormatter"
-import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
-import addThousandsSeperator from "../../../utils/addThousandsSeperator"
 
 const validation = Yup.object().shape({
   loanAmount: Yup.string().required("Required"),

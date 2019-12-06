@@ -162,7 +162,7 @@ const BusinessDetails = ({ values: { repDob } }) => (
     />
     <Questions
       formWidth="100"
-      title="1.3 Details of the legal representative"
+      title="1.3 Details of the business owner or legal representative"
       className="mb-10"
       questions={[
         {

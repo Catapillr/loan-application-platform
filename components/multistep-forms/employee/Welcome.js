@@ -4,11 +4,15 @@ import progress1 from "../../../static/images/progress1.svg"
 
 const Welcome = ({ incrementPage, employer }) => (
   <main className="flex justify-center items-center flex-col w-5/12 m-auto">
-    <Heading className="mb-6 self-start">Welcome to Catapillr!</Heading>
+    <Heading className="mb-6 self-start">
+      Hello and welcome to the Childcare Cash Advance Scheme from Catapillr.
+    </Heading>
     <Copy className="mb-6">
-      We've partnered up with <span className="font-bold">{employer.name}</span>{" "}
-      to offer you interest-free childcare loans to help tide you over and
-      hopefully make both your work life and your home life more rewarding.
+      <span className="font-bold">{employer.name}</span> has partnered with
+      Catapillr to offer you access to the Childcare Cash Advance Scheme, a new
+      employee benefit to help with the cost and management of childcare.
+    </Copy>
+    <Copy className="mb-6">
       Press the button below to see how much you could borrow from your
       employer!
     </Copy>

@@ -4,7 +4,7 @@ import providerProgress1 from "../../../static/images/providerProgress1.svg"
 import styled from "styled-components"
 
 import penniesToPounds from "../../../utils/penniesToPounds"
-import { fomatToGBP } from "../../../utils/currencyFormatter"
+import { formatToGBP } from "../../../utils/currencyFormatter"
 
 const Link = styled.a.attrs({
   className: "mb-5d5 text-center text-teal font-bold",

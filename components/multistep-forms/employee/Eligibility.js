@@ -47,7 +47,8 @@ const validateEmail = async (emailSuffixes, value) => {
 
   const emailExists = await doesEmailExist({ email: value })
   if (emailExists) {
-    error = "Looks like you've already created an account! Try signing in?"
+    error =
+      "Looks like you've already created an account! Try signing in at app.catapillr.com/dashboard"
     return error
   }
 }
@@ -87,11 +88,11 @@ const Eligibility = ({ employer, values: { employmentStartDate } }) => {
   return (
     <Questions
       formWidth="70"
-      title="We need a few details from you to verify that you are eligible"
+      title="To confirm your eligibility for the scheme, please answer the following questions."
       questions={[
         {
           text:
-            "The childcare cash advance scheme is currently only available for permanent employees. Please click the box below to confirm you are a permanent employee.",
+            "The Childcare Cash Advance Scheme is currently only available for permanent employees. Please click the circle below to confirm you are a permanent employee.",
           name: "permanentRole",
           className: "",
           type: "checkbox",

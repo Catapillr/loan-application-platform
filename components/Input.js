@@ -213,21 +213,6 @@ const DateInput = ({
   </Container>
 )
 
-const InputWrap = styled.span.attrs({
-  className: "w-full",
-})`
-  margin-top: -20px;
-
-  ::before {
-      position: relative;
-      content: "£";
-      left: 36px;
-      ${({ name }) => name === "annualSalary" && "top: 32px"};
-    }
-  }
-
-`
-
 const NumberInput = styled.input.attrs(
   ({ field, form: { errors, touched } }) => {
     const { name } = field
@@ -406,6 +391,8 @@ const AddWidth = styled.div.attrs({
 const CheckboxContainer = styled.label.attrs({
   className: "block relative cursor-pointer select-none",
 })`
+  width: fit-content;
+
   /* Hide the browser's default checkbox */
   input {
     position: absolute;
