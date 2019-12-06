@@ -5,8 +5,8 @@ import { Formik, Form } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/router"
 
-import { formatToGBP, unformatFromGBP } from "../../utils/currencyFormatter"
-
+import { formatToGBP, unformatFromGBP } from "../../../utils/currencyFormatter"
+import penniesToPounds from "../../../utils/penniesToPounds"
 import { Input, PriceInput, TextAreaInput } from "../../../components/Input"
 
 import restrictAccess from "../../../utils/restrictAccess"

@@ -213,21 +213,6 @@ const DateInput = ({
   </Container>
 )
 
-const InputWrap = styled.span.attrs({
-  className: "w-full",
-})`
-  margin-top: -20px;
-
-  ::before {
-      position: relative;
-      content: "£";
-      left: 36px;
-      ${({ name }) => name === "annualSalary" && "top: 32px"};
-    }
-  }
-
-`
-
 const NumberInput = styled.input.attrs(
   ({ field, form: { errors, touched } }) => {
     const { name } = field
