@@ -406,6 +406,8 @@ const AddWidth = styled.div.attrs({
 const CheckboxContainer = styled.label.attrs({
   className: "block relative cursor-pointer select-none",
 })`
+  width: fit-content;
+
   /* Hide the browser's default checkbox */
   input {
     position: absolute;
