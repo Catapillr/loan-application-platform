@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import { Heading } from "../styles"
 
-import progress5 from "../../../static/images/progress5.svg"
+import progressComplete from "../../../static/images/progressComplete.svg"
 
 const Container = styled.div`
   min-height: 80%;
@@ -25,7 +25,7 @@ const Confirmation = () => {
 
 Confirmation.hideNext = true
 Confirmation.hidePrevious = true
-Confirmation.progressImg = progress5
+Confirmation.progressImg = progressComplete
 Confirmation.componentName = "Confirmation"
 
 export default Confirmation
