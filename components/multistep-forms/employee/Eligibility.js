@@ -47,7 +47,8 @@ const validateEmail = async (emailSuffixes, value) => {
 
   const emailExists = await doesEmailExist({ email: value })
   if (emailExists) {
-    error = "Looks like you've already created an account! Try signing in?"
+    error =
+      "Looks like you've already created an account! Try signing in at app.catapillr.com/dashboard"
     return error
   }
 }
