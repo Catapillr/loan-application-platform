@@ -4,7 +4,8 @@ import axios from "axios"
 import { Formik, Form } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/router"
-import currencyFormatter from "currency-formatter"
+
+import { formatToGBP, unformatFromGBP } from "../../utils/currencyFormatter"
 
 import { Input, PriceInput, TextAreaInput } from "../../../components/Input"
 
@@ -135,14 +136,10 @@ const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
               <Input
                 name="amountToPay"
                 onBlur={e => {
-                  setFieldValue(
-                    "amountToPay",
-                    currencyFormatter.format(e.target.value, { code: "GBP" })
-                  )
+                  setFieldValue("amountToPay", formatToGBP(e.target.value))
                 }}
                 validate={value => {
-                  const amount =
-                    currencyFormatter.unformat(value, { code: "GBP" }) * 100
+                  const amount = penniesToPounds(unformatFromGBP(value))
 
                   if (amount <= 0) {
                     return "Amount must be more than 0"

@@ -11,14 +11,12 @@ import { RangeInput, SelectInput, NumberInput } from "../../Input"
 import progress2 from "../../../static/images/progress2.svg"
 
 import penniesToPounds from "../../../utils/penniesToPounds"
+import { formatToGBP, unformatFromGBP } from "../../../utils/currencyFormatter"
 import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 import addThousandsSeperator from "../../../utils/addThousandsSeperator"
 
 const validation = Yup.object().shape({
-  loanAmount: Yup.number()
-    .typeError("Please enter digits only in this box")
-    .moreThan(0, "Please choose a loan amount using the slider")
-    .required("Required"),
+  loanAmount: Yup.string().required("Required"),
 
   loanTerms: Yup.number()
     .typeError("Please enter digits only in this box")
@@ -27,7 +25,12 @@ const validation = Yup.object().shape({
 
 const validateLoanAmount = (value, maxLoan) => {
   let error
-  if (value > maxLoan) {
+
+  if (unformatFromGBP(value) <= 0) {
+    error = "Please choose a loan amount"
+  }
+
+  if (unformatFromGBP(value) > maxLoan) {
     error = "Sorry, you can't borrow that much"
   }
 
@@ -50,7 +53,7 @@ const Loan = ({
 }) => {
   const { annualSalary, loanAmount, loanTerms } = values
   const maxLoan = Math.min(
-    annualSalary * maxSalaryPercentage * 0.01,
+    unformatFromGBP(annualSalary) * maxSalaryPercentage * 0.01,
     penniesToPounds(maximumAmount)
   ).toFixed(0)
 
@@ -60,6 +63,7 @@ const Loan = ({
 
   useEffect(() => {
     setFieldValue("loanAmount", maxLoan)
+    setFieldValue("loanAmountBox", formatToGBP(maxLoan))
   }, [])
 
   return (
@@ -67,7 +71,8 @@ const Loan = ({
       <Questions
         values={values}
         formWidth="60"
-        title="Success! Let's start your loan application process."
+        title="Please now select the loan amount required"
+        subheader="The maximum amount you can borrow has been calculated in the box below. You can either keep this amount or use the slider to select the loan you require. "
         questions={[
           {
             text: "How much would you like to borrow?",
@@ -78,17 +83,24 @@ const Loan = ({
             max: maxLoan,
             min: 0,
             step: 5,
+            onChange: e => {
+              setFieldValue("loanAmount", e.target.value)
+              setFieldValue("loanAmountBox", formatToGBP(e.target.value))
+            },
             validate: value => validateLoanAmount(value, maxLoan),
           },
           {
-            name: "loanAmount",
+            name: "loanAmountBox",
             component: NumberInput,
             currency: true,
-            onChange: keepFieldCleanOnChange(
-              setFieldValue,
-              "loanAmount",
-              /^[0-9\b]+$/
-            ),
+            onBlur: e => {
+              setFieldValue("loanAmountBox", formatToGBP(e.target.value))
+              setFieldValue("loanAmount", unformatFromGBP(e.target.value))
+            },
+            onInput: e => {
+              setFieldValue("loanAmountBox", formatToGBP(e.target.value))
+              setFieldValue("loanAmount", unformatFromGBP(e.target.value))
+            },
             width: "full",
             max: maxLoan,
             min: 0,
@@ -114,7 +126,7 @@ const Loan = ({
           <div>
             <div className="flex justify-between mb-3">
               <p>Loan:</p>
-              <p>£{addThousandsSeperator(loanAmount)}</p>
+              <p>{formatToGBP(loanAmount)}</p>
             </div>{" "}
             <div className="flex justify-between mb-3">
               <p>Repayment months:</p>
@@ -122,20 +134,18 @@ const Loan = ({
             </div>{" "}
             <div className="flex justify-between mb-3">
               <p>First month:</p>
-              <p>£{addThousandsSeperator(firstMonth)}</p>
+              <p>{formatToGBP(firstMonth)}</p>
             </div>{" "}
             <div className="flex justify-between mb-3">
               <p>Repayment per month:</p>
-              <p>£{addThousandsSeperator(monthlyRepayment)}</p>
+              <p>{formatToGBP(monthlyRepayment)}</p>
             </div>
           </div>
           <Divider />
-          <p className="text-right">
-            Total £{addThousandsSeperator(loanAmount)}
-          </p>
+          <p className="text-right">Total {formatToGBP(loanAmount)}</p>
         </div>
         <p>
-          Have more questions? Why not check out our{" "}
+          If you have any questions, please check out our{" "}
           <a
             href="https://catapillr.com/faq/"
             target="_blank"

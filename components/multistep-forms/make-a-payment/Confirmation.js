@@ -1,7 +1,7 @@
 import * as Yup from "yup"
 import styled from "styled-components"
 
-import formatToGBP from "../../../utils/formatToGBP"
+import { formatToGBP } from "../../../utils/currencyFormatter"
 
 import Tick from "../../../static/icons/tick-in-circle.svg"
 

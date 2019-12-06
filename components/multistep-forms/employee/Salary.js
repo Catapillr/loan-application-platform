@@ -2,16 +2,15 @@ import * as Yup from "yup"
 
 import Questions from "../Questions"
 import { NumberInput } from "../../../components/Input"
+import { formatToGBP } from "../../../utils/currencyFormatter"
 
 import progress2 from "../../../static/images/progress2.svg"
 
 const validation = Yup.object().shape({
-  annualSalary: Yup.number("Please enter a valid salary")
-    .typeError("Please enter digits only in this box")
-    .required("Required"),
+  annualSalary: Yup.string("Please enter a valid salary").required("Required"),
 })
 
-const Salary = () => (
+const Salary = ({ setFieldValue }) => (
   <div>
     <Questions
       formWidth="60"
@@ -22,7 +21,10 @@ const Salary = () => (
           name: "annualSalary",
           component: NumberInput,
           currency: true,
-          placeholder: "e.g. 20000",
+          placeholder: "e.g. £20,000",
+          onBlur: e => {
+            return setFieldValue("annualSalary", formatToGBP(e.target.value))
+          },
         },
       ]}
     />

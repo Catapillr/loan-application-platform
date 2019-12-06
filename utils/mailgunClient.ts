@@ -1,7 +1,7 @@
 import * as mailgun from "mailgun.js"
 import R from "ramda"
 import penniesToPounds from "./penniesToPounds"
-import formatToGBP from "./formatToGBP"
+import { formatToGBP } from "./currencyFormatter"
 
 // all financial amounts should come into this file as pennies and be converted
 // to pounds before sending

@@ -68,7 +68,7 @@ const getValues = field => values => {
       ).format("DD MMMM YYYY")
     case field === "permanentRole":
       return "Permanent role"
-    case field === "loanAmount" || field === "annualSalary":
+    case field === "loanAmount":
       return `£${value}`
     case field === "monthlyRepayment":
       return `£${(values.loanAmount / values.loanTerms).toFixed(2)}`

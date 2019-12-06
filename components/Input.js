@@ -8,18 +8,13 @@ import tick from "../static/icons/tick.svg"
 import dropdown from "../static/icons/dropdown.svg"
 import document from "../static/icons/document.svg"
 import upload from "../static/icons/upload.svg"
+import { formatToGBP } from "../utils/currencyFormatter"
 
 const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (
     <Container {...{ text, width, margin, direction }}>
       {text && <LabelAndLink name={name} link={link} text={text} />}
-      {attrs.component === NumberInput && attrs.currency ? (
-        <InputWrap name={name}>
-          <Field {...{ name, direction, id: name, ...attrs }} />
-        </InputWrap>
-      ) : (
-        <Field {...{ name, direction, id: name, ...attrs }} />
-      )}
+      <Field {...{ name, direction, id: name, ...attrs }} />
       <div className="relative">
         <ErrorMessage
           name={name}
@@ -280,10 +275,19 @@ const NumberInput = styled.input.attrs(
   }
 )``
 
+const Max = styled.span`
+  margin-right: -15px;
+`
+const Zero = styled.span``
+
 const RangeInput = ({ field, ...attrs }) => {
   return (
     <>
       <Range {...field} {...attrs} />
+      <div className="flex mt-1 justify-between relative">
+        <Zero>0</Zero>
+        <Max>{formatToGBP(attrs.max)}</Max>
+      </div>
     </>
   )
 }

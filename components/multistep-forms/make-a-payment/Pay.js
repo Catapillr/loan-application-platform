@@ -1,8 +1,9 @@
 import * as Yup from "yup"
-import currencyFormatter from "currency-formatter"
 import styled from "styled-components"
 
 import { Input, PriceInput, TextAreaInput } from "../../Input"
+import { formatToGBP, unformatFromGBP } from "../../../utils/currencyFormatter"
+import penniesToPounds from "../../../utils/penniesToPounds"
 
 import Pen from "../../../static/icons/pen.svg"
 import Nursery from "../../../static/icons/nursery.svg"
@@ -13,7 +14,7 @@ const validation = Yup.object().shape({
 })
 
 const validateAmount = ({ userWalletBalance }) => value => {
-  const amount = currencyFormatter.unformat(value, { code: "GBP" }) * 100
+  const amount = penniesToPounds(unformatFromGBP(value))
 
   if (amount <= 0) {
     return "Amount must be more than 0"
@@ -43,10 +44,7 @@ const Pay = ({
     <Input
       name="amountToPay"
       onBlur={e => {
-        setFieldValue(
-          "amountToPay",
-          currencyFormatter.format(e.target.value, { code: "GBP" })
-        )
+        setFieldValue("amountToPay", formatToGBP(e.target.value))
       }}
       validate={validateAmount({ userWalletBalance })}
       component={PriceInput}
