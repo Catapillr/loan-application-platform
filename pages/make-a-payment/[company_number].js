@@ -138,7 +138,7 @@ const Wizard = ({
 
   return (
     <Container>
-      <Header activeHref="/make-a-payment" />
+      <Header />
       <Formik
         {...{
           initialValues,

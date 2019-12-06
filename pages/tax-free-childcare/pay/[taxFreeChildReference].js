@@ -36,7 +36,7 @@ const PayIntoChildAccount = () => {
   const { taxFreeChildReference, name } = router.query
   return (
     <Container>
-      <Header activeHref="/make-a-payment" />
+      <Header />
       {!formSubmitted ? (
         <Contents>
           <Main>

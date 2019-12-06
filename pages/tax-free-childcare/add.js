@@ -30,7 +30,7 @@ const AddChild = () => {
   const [name, setName] = useState()
   return (
     <Container>
-      <Header activeHref="/make-a-payment" />
+      <Header />
       {!formSubmitted ? (
         <Contents>
           <Main>
