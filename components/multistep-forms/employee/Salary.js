@@ -17,7 +17,7 @@ const Salary = ({ setFieldValue }) => (
       title="Success! Let's start your loan application process."
       questions={[
         {
-          text: "Please enter your annual salary",
+          text: "Please enter your gross annual salary",
           name: "annualSalary",
           component: NumberInput,
           currency: true,
