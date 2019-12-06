@@ -10,7 +10,10 @@ import {
 } from "../../../utils/mailgunClient"
 import poundsToPennies from "../../../utils/poundsToPennies"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   // @ts-ignore
   const user = req.user
   const { childcareProviderId, amountToPay, reference } = req.body
@@ -69,6 +72,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).end()
   } catch (err) {
+    //eslint-disable-next-line no-console
     console.error(err)
     res.status(400).end()
   }

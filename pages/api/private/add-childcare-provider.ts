@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 
-// import mango from "../../lib/mango"
-
 import poundsToPennies from "../../../utils/poundsToPennies"
 import { prisma } from "../../../prisma/generated/ts"
 import { sendProviderRegistrationLink } from "../../../utils/mailgunClient"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     // @ts-ignore
     const user = req.user
@@ -57,6 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({ childcareProviderId: newChildcareProvider.id })
   } catch (err) {
+    //eslint-disable-next-line no-console
     console.error("Error in add-childcare-provider", err)
   }
 }

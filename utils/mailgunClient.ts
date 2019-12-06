@@ -13,7 +13,7 @@ const mailgunClient = mailgun.client({
 })
 
 // TODO: await emails all over
-const mailgunEmailTemplate = ({ email, subject, template, data }) =>
+const mailgunEmailTemplate = ({ email, subject, template, data }): any =>
   mailgunClient.messages
     .create(
       process.env.MAILGUN_DOMAIN,
@@ -27,11 +27,12 @@ const mailgunEmailTemplate = ({ email, subject, template, data }) =>
         data
       )
     )
-    .catch((err: any) => {
+    .catch((err: any): any => {
+      // eslint-disable-next-line no-console
       console.error("Error sending email: ", err)
     })
 
-const sendEmployeeEmailVerification = ({ email, random }) =>
+const sendEmployeeEmailVerification = ({ email, random }): any =>
   mailgunEmailTemplate({
     email,
     subject: "Email verification code",
@@ -41,7 +42,7 @@ const sendEmployeeEmailVerification = ({ email, random }) =>
     },
   })
 
-const sendEmployeeApplicationCompleteConfirmation = (email: string) =>
+const sendEmployeeApplicationCompleteConfirmation = (email: string): any =>
   mailgunEmailTemplate({
     email,
     subject: "Your application is complete",
@@ -49,7 +50,7 @@ const sendEmployeeApplicationCompleteConfirmation = (email: string) =>
     data: {},
   })
 
-const sendEmployeeLoanApproval = (email: string) =>
+const sendEmployeeLoanApproval = (email: string): any =>
   mailgunEmailTemplate({
     email,
     subject: "Congratulations, your loan has been approved",
@@ -57,7 +58,7 @@ const sendEmployeeLoanApproval = (email: string) =>
     data: {},
   })
 
-const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
+const sendIncorrectPaymentNotification = ({ payment, user, employer }): any =>
   mailgunEmailTemplate({
     email: process.env.ADMIN_EMAIL,
     subject: `An employee of ${employer.name} has been paid the wrong amount`,
@@ -79,7 +80,7 @@ const sendIncorrectPaymentNotification = ({ payment, user, employer }) =>
     },
   })
 
-const sendEmployerPaymentNotification = ({ payment, user, employer }) =>
+const sendEmployerPaymentNotification = ({ payment, user, employer }): any =>
   mailgunEmailTemplate({
     email: employer.payrollEmail,
     subject: `Your employee's loan has been successfully received`,
@@ -92,7 +93,7 @@ const sendEmployerPaymentNotification = ({ payment, user, employer }) =>
     },
   })
 
-const sendEmployeeLoanPaymentNotification = ({ payment, user }) =>
+const sendEmployeeLoanPaymentNotification = ({ payment, user }): any =>
   mailgunEmailTemplate({
     email: user.email,
     subject: `Your Catapillr loan has been paid into your account!`,
@@ -116,7 +117,7 @@ const sendLoanTransferDetails = ({
   fees,
   feesPlusVAT,
   totalPayInAmount,
-}) =>
+}): any =>
   mailgunEmailTemplate({
     email,
     subject: "Loan transfer details",
@@ -134,7 +135,12 @@ const sendLoanTransferDetails = ({
     },
   })
 
-const sendProviderRegistrationLink = ({ user, email, amountToPay, slug }) =>
+const sendProviderRegistrationLink = ({
+  user,
+  email,
+  amountToPay,
+  slug,
+}): any =>
   mailgunEmailTemplate({
     email,
     subject: `${user.firstName} ${user.lastName} wants to pay you ${formatToGBP(
@@ -149,7 +155,7 @@ const sendProviderRegistrationLink = ({ user, email, amountToPay, slug }) =>
     },
   })
 
-const sendProviderApplicationCompleteConfirmation = ({ email }) =>
+const sendProviderApplicationCompleteConfirmation = ({ email }): any =>
   mailgunEmailTemplate({
     email,
     subject: "We have successfully received your payment details!",
@@ -161,7 +167,7 @@ const sendProviderPaymentNotification = ({
   email,
   amountToPay,
   employeeName,
-}) =>
+}): any =>
   mailgunEmailTemplate({
     email,
     subject: "Payment notification",
@@ -177,7 +183,7 @@ const sendEmployeeOutgoingPaymentNotification = ({
   email,
   amountToPay,
   // providerName,
-}) =>
+}): any =>
   mailgunEmailTemplate({
     email,
     subject: "Outgoing payment",
@@ -188,7 +194,7 @@ const sendEmployeeOutgoingPaymentNotification = ({
     },
   })
 
-const sendKYCorUBOFailure = (failureReasons: any) =>
+const sendKYCorUBOFailure = (failureReasons: any): any =>
   mailgunEmailTemplate({
     email: process.env.ADMIN_EMAIL,
     subject: "There was an error with childcare provider registration",

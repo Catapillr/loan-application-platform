@@ -15,6 +15,7 @@ const Icon = styled.img.attrs({
   className: "mb-6 m-auto",
   src: Tick,
 })``
+
 const Title = styled.label.attrs({
   className: "block ttu font-bold text-center font-lg",
 })``

@@ -3,11 +3,16 @@ import axios from "axios"
 
 import { prisma } from "../../../prisma/generated/ts"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
+    // eslint-disable-next-line @typescript-eslint/camelcase
     const { company_number } = req.query
 
     const { data: company } = await axios(
+      // eslint-disable-next-line @typescript-eslint/camelcase
       `https://api.companieshouse.gov.uk/company/${company_number}`,
       {
         auth: {
@@ -18,6 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     )
 
     const catapillrChildcareProvider = await prisma.childcareProvider({
+      // eslint-disable-next-line @typescript-eslint/camelcase
       companyNumber: company_number as string,
     })
 

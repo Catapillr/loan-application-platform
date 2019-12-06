@@ -25,6 +25,7 @@ const Container = styled.div.attrs({
 const Contents = styled.section.attrs({
   className: "flex flex-grow justify-between pl-43 pr-12 py-18 h-full",
 })``
+
 const Main = styled.main.attrs({
   className: "w-6/12",
 })``
@@ -68,7 +69,7 @@ const formatAmounts = R.pipe(
 
 const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
   <Container>
-    <Header activeHref="/dashboard" />
+    <Header />
     <Contents>
       <Main>
         <Title className="mb-12">My payments</Title>
@@ -78,7 +79,7 @@ const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
             <Payee
               name={payee.Name}
               key={payee.Id}
-              slug={payee.CompanyNumber}
+              href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
             />
           ))}
         </PayeesContainer>

@@ -27,7 +27,10 @@ const GBP = "GBP"
 
 type Role = "Employer" | "Employee"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   const form = new formidable.IncomingForm()
 
   form.parse(req, async (err, fields) => {
@@ -54,14 +57,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).send("Hello API Event Received")
     }
 
-    const getSignature = (role: Role) =>
+    const getSignature = (role: Role): any =>
       R.pipe(
         R.path(["signature_request", "signatures"]),
         R.filter(R.propEq("signer_role", role)),
         R.head
       )(signEvent)
-
-    console.log("signEvent: ", signEvent)
 
     const employerSignatureInfo = getSignature(Employer)
     const employeeSignatureInfo = getSignature(Employee)
@@ -192,6 +193,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           employeeEmail,
         }
 
+        // eslint-disable-next-line no-console
         console.error("Error with creating mango payIn instance: ", error)
       }
     }

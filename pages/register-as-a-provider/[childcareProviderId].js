@@ -279,7 +279,7 @@ const Wizard = ({
 
         return (
           <Container>
-            <Header activeHref="make-a-payment">
+            <Header>
               <Logo />
             </Header>
             <StyledForm>
