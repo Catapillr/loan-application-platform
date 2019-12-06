@@ -37,35 +37,77 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.log("Error with pscs from companies house", e)
     })
 
+    // Get filing list from Companies House
+
     const {
       data: { items: filing_data },
     } = await axios(
-      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation`,
+      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=confirmation-statement%2C+annual-return%2C+incorporation`,
       authentication
     )
 
-    const transaction_id = R.pipe(
+    // Get Certificate of Incorporation
+
+    const incorporation_transaction_id = R.pipe(
       R.filter((file: any) => file.category === "incorporation"),
       R.head,
       file => getLastPath(file.links.document_metadata)
     )(filing_data)
 
-    const { data, ...articles } = await axios(
-      `https://document-api.companieshouse.gov.uk/document/${transaction_id}/content`,
+    const { data: _inc_data, ...incorporation } = await axios(
+      `https://document-api.companieshouse.gov.uk/document/${incorporation_transaction_id}/content`,
       { headers: { Accept: "application/pdf" }, ...authentication }
     )
 
     const { data: incorporationDocument } = await axios.get(
-      articles.request.res.responseUrl,
+      incorporation.request.res.responseUrl,
       {
         responseType: "stream",
       }
     )
 
-    const { path } = await file({
+    const { path: incorporation_path } = await file({
       postfix: ".pdf",
     })
-    incorporationDocument.pipe(fs.createWriteStream(path))
+    incorporationDocument.pipe(fs.createWriteStream(incorporation_path))
+
+    // Get Latest Confirmation Statement / Annual Return
+
+    const confirmation_transaction_id = R.pipe(
+      R.filter(
+        (file: any) =>
+          file.category === "confirmation-statement" ||
+          file.category === "annual-return"
+      ),
+      R.head,
+      file => (file ? getLastPath(file.links.document_metadata) : null)
+    )(filing_data)
+
+    const getConfirmationPath = async () => {
+      if (confirmation_transaction_id) {
+        const { data: _conf_data, ...confirmation } = await axios(
+          `https://document-api.companieshouse.gov.uk/document/${confirmation_transaction_id}/content`,
+          { headers: { Accept: "application/pdf" }, ...authentication }
+        )
+
+        const { data: confirmationDocument } = await axios.get(
+          confirmation.request.res.responseUrl,
+          {
+            responseType: "stream",
+          }
+        )
+
+        const { path } = await file({
+          postfix: ".pdf",
+        })
+
+        confirmationDocument.pipe(fs.createWriteStream(path))
+        return path
+      }
+      return null
+    }
+
+    const confirmation_path = getConfirmationPath()
 
     // @ts-ignore
     const ubos = R_.reduceIndexed((acc: any, ubo: any, index: number) => {
@@ -112,8 +154,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         type: "application/pdf",
         size: 300000,
         fileOnServer: true,
-        path,
-        webkitRelativePath: path,
+        path: incorporation_path,
+        webkitRelativePath: incorporation_path,
+      },
+      proofOfRegistration: {
+        name: confirmation_path
+          ? "CH_registration.pdf"
+          : "CH_incorporation.pdf",
+        type: "application/pdf",
+        size: 300000,
+        fileOnServer: true,
+        path: confirmation_path ? confirmation_path : incorporation_path,
+        webkitRelativePath: confirmation_path
+          ? confirmation_path
+          : incorporation_path,
       },
       ...ubos,
     }
