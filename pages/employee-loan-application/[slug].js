@@ -230,7 +230,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
 }
 
 const Wizard = ({ children, employer }) => {
-  const [page, setPage] = useState(Steps.Loan)
+  const [page, setPage] = useState(Steps.Welcome)
   const [formCompleted, setFormCompleted] = useState(false)
   const [emailVerificationError, setEmailVerificationError] = useState(false)
 
