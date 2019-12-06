@@ -5,7 +5,7 @@ import R_ from "../../utils/R_"
 
 import zeroIndexMonth from "../../utils/zeroIndexMonth"
 import poundsToPennies from "../../utils/poundsToPennies"
-import currencyFormatter from "currency-formatter"
+import { formatToGBP, unformatFromGBP } from "../../utils/currencyFormatter"
 
 import { prisma } from "../../prisma/generated/ts"
 
@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         .utc(zeroIndexMonth(employmentStartDate))
         .toDate(),
       employeeId,
-      annualSalary: poundsToPennies(parseFloat(annualSalary)),
+      annualSalary: poundsToPennies(annualSalary),
       employer: { connect: { slug: employer.slug } },
       loan: {
         create: {
@@ -68,7 +68,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const loanDetails = [
       {
         name: "loanAmount",
-        value: currencyFormatter.format(loanAmount, { code: "GBP" }),
+        value: unformatFromGBP(loanAmount),
       },
       {
         name: "loanTerms",
@@ -76,7 +76,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
       {
         name: "loanMonthlyRepayment",
-        value: currencyFormatter.format(monthlyRepayment, { code: "GBP" }),
+        value: unformatFromGBP(monthlyRepayment),
       },
     ]
 
@@ -85,9 +85,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       name: `loanMonth${index + 1}`,
       value: `${
         index === 0
-          ? `${currencyFormatter.format(firstMonth, { code: "GBP" })}`
-          : `${currencyFormatter.format(monthlyRepayment, { code: "GBP" })}`
-      }`,
+          ? `${formatToGBP(firstMonth)}`
+          : `${formatToGBP(monthlyRepayment)}`
+        }`,
     }))([...Array(loanTerms)])
 
     // @ts-ignore

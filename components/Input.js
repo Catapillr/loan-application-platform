@@ -8,6 +8,7 @@ import tick from "../static/icons/tick.svg"
 import dropdown from "../static/icons/dropdown.svg"
 import document from "../static/icons/document.svg"
 import upload from "../static/icons/upload.svg"
+import { formatToGBP } from "../utils/currencyFormatter"
 
 const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (

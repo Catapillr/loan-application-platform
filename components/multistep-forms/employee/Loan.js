@@ -11,6 +11,7 @@ import { RangeInput, SelectInput, NumberInput } from "../../Input"
 import progress2 from "../../../static/images/progress2.svg"
 
 import penniesToPounds from "../../../utils/penniesToPounds"
+import { formatToGBP, unformatFromGBP } from "../../../utils/currencyFormatter"
 import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 import addThousandsSeperator from "../../../utils/addThousandsSeperator"
 
@@ -27,7 +28,12 @@ const validation = Yup.object().shape({
 
 const validateLoanAmount = (value, maxLoan) => {
   let error
-  if (value > maxLoan) {
+
+  if (unformatFromGBP(value) <= 0) {
+    error = "Please choose a loan amount"
+  }
+
+  if (unformatFromGBP(value) > maxLoan) {
     error = "Sorry, you can't borrow that much"
   }
 
@@ -50,7 +56,7 @@ const Loan = ({
 }) => {
   const { annualSalary, loanAmount, loanTerms } = values
   const maxLoan = Math.min(
-    annualSalary * maxSalaryPercentage * 0.01,
+    unformatFromGBP(annualSalary) * maxSalaryPercentage * 0.01,
     penniesToPounds(maximumAmount)
   ).toFixed(0)
 
