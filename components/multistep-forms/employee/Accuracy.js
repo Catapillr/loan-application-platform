@@ -14,10 +14,9 @@ const Accuracy = ({ incrementPage }) => (
     <Copy className="mb-12">
       This information will form the basis of the loan agreement and any
       inaccuracies may lead to{" "}
-      <span className="font-bold">internal disciplinary action</span> being
-      taken, which could lead to loss of employment. In the next section you
-      will fill your personal details and confirm that you understand and accept
-      this notice.
+      <span className="font-bold">internal disciplinary action</span>. In the
+      next section you will fill your personal details and confirm that you
+      understand and accept this notice.
     </Copy>
     <Button
       className="text-center shadow-button text-white bg-teal"
