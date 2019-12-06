@@ -1,11 +1,95 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import styled from "styled-components"
 
+import useOnOutsideClick from "../hooks/useOnOutsideClick"
 import { useAuth } from "../context/auth-context"
 
 import logo from "../static/icons/catapillr-orange.svg"
 import avatar from "../static/icons/avatar.svg"
 import logoutIcon from "../static/icons/logout.svg"
+import downChevron from "../static/icons/down-chevron.svg"
+
+const Header = ({ activeHref }) => {
+  const { logout } = useAuth()
+
+  const [logoutDropdownOpen, setLogoutDropdownOpen] = useState(false)
+  const toggleLogoutDropdown = () =>
+    setLogoutDropdownOpen(prevState => !prevState)
+
+  const [paymentDropdownOpen, setPaymentDropdownOpen] = useState(false)
+  const togglePaymentDropdown = () =>
+    setPaymentDropdownOpen(prevState => !prevState)
+
+  useOnOutsideClick({
+    className: "logout-dropdown",
+    openState: logoutDropdownOpen,
+    setOpenState: setLogoutDropdownOpen,
+  })
+
+  useOnOutsideClick({
+    className: "payment-dropdown",
+    openState: paymentDropdownOpen,
+    setOpenState: setPaymentDropdownOpen,
+  })
+
+  return (
+    <Container>
+      <Nav>
+        <Logo href="/dashboard" activeHref={activeHref} />
+        <Links>
+          <HeaderLink activeHref={activeHref} href="/dashboard">
+            My Payments
+          </HeaderLink>
+          <div>
+            <div className="flex flex-row" onClick={togglePaymentDropdown}>
+              <HeaderLink
+                activeHref={activeHref}
+                href="/make-a-payment"
+                as="div"
+              >
+                Make a payment
+              </HeaderLink>
+              <DownChevron src={downChevron} alt="Open dropdown menu" />
+            </div>
+            <div className="relative">
+              <PaymentDropdownContainer>
+                <PaymentDropdown
+                  {...{ paymentDropdownOpen }}
+                  className="payment-dropdown"
+                >
+                  <div className="w-full">
+                    <div className="text-base font-normal py-2 pl-2 w-full">
+                      Chilcare provider
+                    </div>
+                    <div className="text-base font-normal py-2 pl-2 w-full">
+                      Tax free account
+                    </div>
+                  </div>
+                </PaymentDropdown>
+              </PaymentDropdownContainer>
+            </div>
+          </div>
+        </Links>
+        <Avatar className="cursor-pointer" onClick={toggleLogoutDropdown} />
+      </Nav>
+      <LogoutDropdownContainer>
+        <LogoutDropdown
+          {...{ logoutDropdownOpen }}
+          className="logout-dropdown"
+          onClick={logout}
+        >
+          <img src={logoutIcon} alt="Log out" />
+          <p className="ml-2">Log out</p>
+        </LogoutDropdown>
+      </LogoutDropdownContainer>
+    </Container>
+  )
+}
+
+const DownChevron = styled.img`
+  height: 12px;
+  align-self: center;
+`
 
 const Container = styled.section.attrs({
   className: "bg-white w-full py-8 px-12 relative",
@@ -47,71 +131,34 @@ const HeaderLink = styled.a.attrs({
     href === activeHref ? `inset 0 -10px 0 0 #FFC67E` : "inherit"};
 `
 
-const DropdownContainer = styled.div`
+const LogoutDropdownContainer = styled.div.attrs({
+  className: "absolute px-12 w-full flex justify-end",
+})`
   bottom: -40px;
   right: 0;
 `
 
-const Dropdown = styled.div`
-  height: 40px;
-  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
-  display: ${({ dropdownOpen }) => (dropdownOpen ? "flex" : "none")};
+const PaymentDropdownContainer = styled.div.attrs({
+  className: "absolute w-full flex justify-start",
+})`
+  top: 10px;
 `
 
-const Header = ({ activeHref }) => {
-  const { logout } = useAuth()
+const LogoutDropdown = styled.div.attrs({
+  className: "px-4 flex items-center bg-white cursor-pointer",
+})`
+  height: 40px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
+  display: ${({ logoutDropdownOpen }) =>
+    logoutDropdownOpen ? "flex" : "none"};
+`
 
-  const [dropdownOpen, setDropwdownOpen] = useState(false)
-  const toggleDropdown = () => setDropwdownOpen(!dropdownOpen)
-
-  useEffect(() => {
-    const outsideClickListener = event => {
-      if (
-        event.target.closest(".onclick-keep-dropdown-open-area") === null &&
-        dropdownOpen
-      ) {
-        setDropwdownOpen(false)
-        removeClickListener()
-      }
-    }
-
-    const removeClickListener = () => {
-      document.removeEventListener("click", outsideClickListener)
-    }
-    const addClickListener = () => {
-      document.addEventListener("click", outsideClickListener)
-    }
-
-    dropdownOpen && addClickListener()
-    return removeClickListener
-  }, [dropdownOpen])
-
-  return (
-    <Container>
-      <Nav>
-        <Logo href="/dashboard" activeHref={activeHref} />
-        <Links>
-          <HeaderLink activeHref={activeHref} href="/dashboard">
-            My Payments
-          </HeaderLink>
-          <HeaderLink activeHref={activeHref} href="/make-a-payment">
-            Make a payment
-          </HeaderLink>
-        </Links>
-        <Avatar className="cursor-pointer" onClick={toggleDropdown} />
-      </Nav>
-      <DropdownContainer className="absolute px-12 w-full flex justify-end">
-        <Dropdown
-          {...{ dropdownOpen }}
-          className="px-4 flex items-center bg-white cursor-pointer onclick-keep-dropdown-open-area"
-          onClick={logout}
-        >
-          <img src={logoutIcon} alt="Log out" />
-          <p className="ml-2">Log out</p>
-        </Dropdown>
-      </DropdownContainer>
-    </Container>
-  )
-}
+const PaymentDropdown = styled.div.attrs({
+  className: "flex bg-white cursor-pointer w-full",
+})`
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
+  display: ${({ paymentDropdownOpen }) =>
+    paymentDropdownOpen ? "flex" : "none"};
+`
 
 export default Header
