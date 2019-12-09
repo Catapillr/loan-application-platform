@@ -7,6 +7,7 @@ import Questions from "../Questions"
 import { TextInput, CheckboxInput, DateInput } from "../../Input"
 import { USER } from "../../../utils/constants"
 import zeroIndexMonth from "../../../utils/zeroIndexMonth"
+import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 
 import progress1 from "../../../static/images/progress1.svg"
 
@@ -83,7 +84,11 @@ const validateDate = (minimumServiceLength, date) => {
   }
 }
 
-const Eligibility = ({ employer, values: { employmentStartDate } }) => {
+const Eligibility = ({
+  employer,
+  values: { employmentStartDate },
+  setFieldValue,
+}) => {
   const { emailSuffixes, minimumServiceLength } = employer
   return (
     <Questions
@@ -103,6 +108,16 @@ const Eligibility = ({ employer, values: { employmentStartDate } }) => {
           custom: true,
           component: DateInput,
           name: "employmentStartDate",
+          keepFieldCleanOnChangeDayMonth: keepFieldCleanOnChange(
+            setFieldValue,
+            R.__,
+            /^[0-9\b]{0,2}$/
+          ),
+          keepFieldCleanOnChangeYear: keepFieldCleanOnChange(
+            setFieldValue,
+            R.__,
+            /^[0-9\b]{0,4}$/
+          ),
           validate: () =>
             validateDate(minimumServiceLength, employmentStartDate),
         },
