@@ -13,7 +13,15 @@ const loanBuckets = [
   [900100, 1000000],
 ]
 
-const calculatePlatformFees = ({ loanAmount, minimumLoanFee }): number => {
+type Options = {
+  loanAmount: number
+  minimumLoanFee: number
+}
+
+const calculatePlatformFees = ({
+  loanAmount,
+  minimumLoanFee,
+}: Options): number => {
   const bucketIndex = R.findIndex(
     (bucket: any[]) => loanAmount >= bucket[0] && loanAmount <= bucket[1]
   )(loanBuckets)
