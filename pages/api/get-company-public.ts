@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {
       data: { items: filing_data },
     } = await axios(
-      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=confirmation-statement%2C+annual-return%2C+incorporation`,
+      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation%2Cannual-return%2Cconfirmation-statement`,
       authentication
     )
 
@@ -107,7 +107,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return null
     }
 
-    const confirmation_path = getConfirmationPath()
+    const confirmation_path = await getConfirmationPath()
 
     // @ts-ignore
     const ubos = R_.reduceIndexed((acc: any, ubo: any, index: number) => {
