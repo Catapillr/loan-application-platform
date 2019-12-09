@@ -171,6 +171,8 @@ const DateInput = ({
   validate,
   name,
   disabled = { day: false, month: false, year: false },
+  keepFieldCleanOnChangeDayMonth,
+  keepFieldCleanOnChangeYear,
 }) => (
   <Container>
     {text && <Label htmlFor={name}>{text}</Label>}
@@ -181,6 +183,7 @@ const DateInput = ({
         name={`${name}.day`}
         component={NumberInput}
         placeholder={"DD"}
+        onChange={keepFieldCleanOnChangeDayMonth(`${name}.day`)}
         type="number"
         disabled={disabled.day}
         className={disabled.day && "bg-lightgray"}
@@ -189,6 +192,7 @@ const DateInput = ({
         name={`${name}.month`}
         component={NumberInput}
         placeholder={"MM"}
+        onChange={keepFieldCleanOnChangeDayMonth(`${name}.month`)}
         type="number"
         disabled={disabled.month}
         className={disabled.month && "bg-lightgray"}
@@ -198,6 +202,7 @@ const DateInput = ({
         component={NumberInput}
         placeholder={"YYYY"}
         validate={validate}
+        onChange={keepFieldCleanOnChangeYear(`${name}.year`)}
         type="number"
         disabled={disabled.year}
         className={disabled.year && "bg-lightgray"}
