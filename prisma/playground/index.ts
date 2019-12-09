@@ -6,30 +6,9 @@
 // import axios from "axios"
 
 // import { prisma } from "../generated/ts"
-import mango from "../../lib/mango"
+// import mango from "../../lib/mango"
 
 // import poundsToPennies from "../../utils/poundsToPennies"
-
-const run = (): any => {
-  mango.Hooks.getAll()
-    .then(hooks =>
-      hooks.map(hook =>
-        mango.Hooks.update({
-          ...hook,
-          Url: "https://69373a40.eu.ngrok.io/api/listen-mango",
-          //@ts-ignore
-          Status: "ENABLED",
-        })
-      )
-    )
-    .then(hookPromises => Promise.all(hookPromises))
-    .then(
-      // eslint-disable-next-line
-      console.log
-    )
-}
-
-run()
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 // const run = async () => {
