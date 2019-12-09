@@ -46,7 +46,7 @@ const validateDate = date => {
   }
 }
 
-const UBOQuestion = (setFieldValue, ubo, index) => (
+const UBOQuestion = ({ setFieldValue, ubo, index }) => (
   <Questions
     key={`ubo${index + 1}`}
     formWidth="100"
@@ -94,7 +94,9 @@ const UBOQuestion = (setFieldValue, ubo, index) => (
 const UBOList = (ubos, setFieldValue) =>
   R.pipe(
     R.filter(ubo => !!ubo),
-    R_.mapIndexed(UBOQuestion(setFieldValue))
+    R_.mapIndexed((ubo, index) => (
+      <UBOQuestion {...{ setFieldValue, ubo, index }}></UBOQuestion>
+    ))
   )(ubos)
 
 const UBOs = ({ values: { ubo1, ubo2, ubo3, ubo4 }, setFieldValue }) => (

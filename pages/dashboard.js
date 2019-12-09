@@ -18,55 +18,6 @@ import penniesToPounds from "../utils/penniesToPounds"
 const Transfer = "TRANSFER"
 const PayIn = "PAYIN"
 
-const Container = styled.div.attrs({
-  className: "w-full bg-lightgray min-h-screen flex flex-col justify-between",
-})``
-
-const Contents = styled.section.attrs({
-  className: "flex flex-grow justify-between pl-43 pr-12 py-18 h-full",
-})``
-
-const Main = styled.main.attrs({
-  className: "w-6/12",
-})``
-
-const Aside = styled.aside.attrs({
-  className: "bg-white w-5/12",
-})`
-  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
-`
-
-const BalanceContainer = styled.div.attrs({
-  className: "bg-teal text-white flex items-center justify-between px-9 py-5d5",
-})``
-
-const Subtitle = styled.h2.attrs({
-  className: "font-2xl font-bold",
-})``
-
-const Title = styled.h1.attrs({
-  className: "font-bold font-3xl",
-})``
-
-const TransactionContainer = styled.section.attrs({
-  className: "px-9 py-10d5",
-})``
-
-const PayeesContainer = styled.section.attrs({
-  className: "",
-})`
-  display: grid;
-  grid-column-gap: ${cssTheme("spacing.5")};
-  grid-row-gap: ${cssTheme("spacing.5")};
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-`
-
-const formatAmounts = R.pipe(
-  penniesToPounds,
-  R.flip(currencyFormatter.format)({ code: "GBP" })
-)
-
 const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
   <Container>
     <Header />
@@ -178,5 +129,54 @@ Dash.getInitialProps = async ctx => {
     return {}
   }
 }
+
+const formatAmounts = R.pipe(
+  penniesToPounds,
+  R.flip(currencyFormatter.format)({ code: "GBP" })
+)
+
+const Container = styled.div.attrs({
+  className: "w-full bg-lightgray min-h-screen flex flex-col justify-between",
+})``
+
+const Contents = styled.section.attrs({
+  className: "flex flex-grow justify-between pl-43 pr-12 py-18 h-full",
+})``
+
+const Main = styled.main.attrs({
+  className: "w-6/12",
+})``
+
+const Aside = styled.aside.attrs({
+  className: "bg-white w-5/12",
+})`
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
+`
+
+const BalanceContainer = styled.div.attrs({
+  className: "bg-teal text-white flex items-center justify-between px-9 py-5d5",
+})``
+
+const Subtitle = styled.h2.attrs({
+  className: "font-2xl font-bold",
+})``
+
+const Title = styled.h1.attrs({
+  className: "font-bold font-3xl",
+})``
+
+const TransactionContainer = styled.section.attrs({
+  className: "px-9 py-10d5",
+})``
+
+const PayeesContainer = styled.section.attrs({
+  className: "",
+})`
+  display: grid;
+  grid-column-gap: ${cssTheme("spacing.5")};
+  grid-row-gap: ${cssTheme("spacing.5")};
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+`
 
 export default Dash

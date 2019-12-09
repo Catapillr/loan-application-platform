@@ -11,57 +11,59 @@ import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Payee from "../../components/Payee"
 
-const MakeAPayment = ({ recentPayeesByMangoId }) => (
-  <Container>
-    <Header />
-    <Contents>
-      <Main>
-        <Title className="mb-12">Make a payment</Title>
+const MakeAPayment = ({ recentPayeesByMangoId }) => {
+  return (
+    <Container>
+      <Header />
+      <Contents>
+        <Main>
+          <Title className="mb-12">Make a payment</Title>
 
-        <SearchContainer>
-          <SearchTitle>Find your service provider</SearchTitle>
-          <Search />
-        </SearchContainer>
-        <Subtitle className="mb-10">Recent payees</Subtitle>
-        <PayeesContainer>
-          {R.values(recentPayeesByMangoId).map(payee => (
-            <Payee
-              name={payee.Name}
-              key={payee.Id}
-              href={`${process.env.HOST}/make-a-payment/${payee.companyNumber}`}
-            />
-          ))}
-        </PayeesContainer>
-      </Main>
-      <Aside>
-        <Tip>
-          <h2 className="font-bold mb-6">How does this work?</h2>
-          <p className="mb-6">
-            Search for your childcare provider by entering their name or company
-            number into the search bar (left).
-          </p>
-          <p className="mb-6">
-            Select the provider from the list. In case your provider doesnt show
-            up, add them by sending them an email letting know that you would
-            like to use their services through the catapillr scheme.
-          </p>
-          <p>
-            Can't find who you want to pay?{" "}
-            <a
-              className="text-teal underline"
-              href="https://catapillr.com/contact-us/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Send us an email now.
-            </a>
-          </p>
-        </Tip>
-      </Aside>
-    </Contents>
-    <Footer />
-  </Container>
-)
+          <SearchContainer>
+            <SearchTitle>Find your service provider</SearchTitle>
+            <Search />
+          </SearchContainer>
+          <Subtitle className="mb-10">Recent payees</Subtitle>
+          <PayeesContainer>
+            {R.values(recentPayeesByMangoId).map(payee => (
+              <Payee
+                name={payee.Name}
+                key={payee.Id}
+                href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
+              />
+            ))}
+          </PayeesContainer>
+        </Main>
+        <Aside>
+          <Tip>
+            <h2 className="font-bold mb-6">How does this work?</h2>
+            <p className="mb-6">
+              Search for your childcare provider by entering their name or
+              company number into the search bar (left).
+            </p>
+            <p className="mb-6">
+              Select the provider from the list. In case your provider doesnt
+              show up, add them by sending them an email letting know that you
+              would like to use their services through the catapillr scheme.
+            </p>
+            <p>
+              Can't find who you want to pay?{" "}
+              <a
+                className="text-teal underline"
+                href="https://catapillr.com/contact-us/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Send us an email now.
+              </a>
+            </p>
+          </Tip>
+        </Aside>
+      </Contents>
+      <Footer />
+    </Container>
+  )
+}
 
 MakeAPayment.getInitialProps = async ctx => {
   const { req } = ctx
