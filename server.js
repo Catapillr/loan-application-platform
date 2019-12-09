@@ -13,14 +13,6 @@ const querystring = require("querystring")
 
 const NO_EXISTING_USER = "no-existing-user"
 
-// both these will be removed after tested cron
-const mailgun = require("mailgun.js")
-const mg = mailgun.client({
-  username: "api",
-  key: process.env.MAILGUN_API_KEY,
-  url: "https://api.eu.mailgun.net",
-})
-
 const { prisma } = require("./prisma/generated/js")
 
 const authRoutes = require("./server/auth-routes")
@@ -149,17 +141,6 @@ app.prepare().then(() => {
       cleanUpChildcareProviders()
       cleanUpPaymentRequests()
       cleanUpVerificationTokens()
-
-      mg.messages
-        .create(process.env.MAILGUN_DOMAIN, {
-          from: "Catapillr <catapillr@mg.catapillr.com>",
-          to: ["lucy@infactcoop.com"],
-          subject: "Hello",
-          text: "Testing some Mailgun awesomness!",
-          html: "<h1>Testing some Mailgun awesomness!</h1>",
-        })
-        .then(msg => console.log(msg)) //eslint-disable-line
-        .catch(err => console.log(err)) //eslint-disable-line
     })
   }
 
