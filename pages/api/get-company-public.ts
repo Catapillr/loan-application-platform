@@ -51,8 +51,7 @@ export default async (
     const {
       data: { items: filingData },
     } = await axios(
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=confirmation-statement%2C+annual-return%2C+incorporation`,
+      `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation%2Cannual-return%2Cconfirmation-statement`,
       authentication
     )
 
@@ -118,7 +117,7 @@ export default async (
       return null
     }
 
-    const confirmationPath = getConfirmationPath()
+    const confirmationPath = await getConfirmationPath()
 
     // @ts-ignore
     const ubos = R_.reduceIndexed((acc: any, ubo: any, index: number) => {
