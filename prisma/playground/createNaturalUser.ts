@@ -14,7 +14,7 @@ const run = async (): Promise<any> => {
     const employee: any = await prisma.user({
       email: "ivan@infactcoop.com",
     }).$fragment(`
-      fragment EmployeeWithLoan on User {
+      fragment EmployeeWithLoanPlayground on User {
         firstName
         lastName
         email

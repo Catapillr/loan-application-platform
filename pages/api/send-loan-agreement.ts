@@ -8,12 +8,16 @@ import poundsToPennies from "../../utils/poundsToPennies"
 import { formatToGBP, unformatFromGBP } from "../../utils/currencyFormatter"
 
 import { prisma } from "../../prisma/generated/ts"
+import calculatePlatformFees from "../../utils/calculatePlatformFees"
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
 })
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   const {
     employmentStartDate,
     email,
@@ -26,11 +30,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     nationality,
     employeeId,
     phoneNumber,
-    employer,
+    employer: { slug },
     gdprConsent,
   } = req.body
 
-  prisma
+  const employer = await prisma.employer({ slug })
+
+  const platformFees = calculatePlatformFees({
+    minimumLoanFee: employer.minimumLoanFee,
+    loanAmount: poundsToPennies(loanAmount),
+  })
+
+  await prisma
     .createUser({
       firstName,
       lastName,
@@ -48,6 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         create: {
           amount: poundsToPennies(loanAmount),
           terms: parseInt(loanTerms),
+          platformFees,
         },
       },
       gdprConsent,
@@ -59,7 +71,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const loanOptions = (
     loanAmount: number,
     loanTerms: number,
-    maximumTerms: number = 11
+    maximumTerms = 11
   ): { name: string; value: any }[] => {
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
     const remainder = loanAmount % loanTerms
@@ -87,7 +99,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         index === 0
           ? `${formatToGBP(firstMonth)}`
           : `${formatToGBP(monthlyRepayment)}`
-        }`,
+      }`,
     }))([...Array(loanTerms)])
 
     // @ts-ignore
@@ -101,22 +113,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const opts = {
+    // eslint-disable-next-line @typescript-eslint/camelcase
     test_mode: 1 as hellosign.Flag,
+    // eslint-disable-next-line @typescript-eslint/camelcase
     template_id: "f7d22e065f90856421dc4d0f4b0257783a22c356",
     title: "Employee CCAS loan agreement",
     subject: "Employee CCAS loan agreement",
     signers: [
       {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         email_address: email,
         name: `${firstName} ${lastName} `,
         role: "Employee",
       },
       {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         email_address: employer.signerEmail,
         name: employer.name,
         role: "Employer",
       },
     ],
+    // eslint-disable-next-line @typescript-eslint/camelcase
     custom_fields: [
       {
         name: "employerName",

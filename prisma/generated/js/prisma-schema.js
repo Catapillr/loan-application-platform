@@ -1038,6 +1038,7 @@ type Loan {
   user: User!
   amount: Int!
   terms: Int!
+  platformFees: Int!
   approved: Boolean!
   agreementURL: String
   updatedAt: DateTime!
@@ -1055,6 +1056,7 @@ input LoanCreateInput {
   user: UserCreateOneWithoutLoanInput!
   amount: Int!
   terms: Int!
+  platformFees: Int!
   approved: Boolean
   agreementURL: String
 }
@@ -1068,6 +1070,7 @@ input LoanCreateWithoutUserInput {
   id: ID
   amount: Int!
   terms: Int!
+  platformFees: Int!
   approved: Boolean
   agreementURL: String
 }
@@ -1084,6 +1087,8 @@ enum LoanOrderByInput {
   amount_DESC
   terms_ASC
   terms_DESC
+  platformFees_ASC
+  platformFees_DESC
   approved_ASC
   approved_DESC
   agreementURL_ASC
@@ -1098,6 +1103,7 @@ type LoanPreviousValues {
   id: ID!
   amount: Int!
   terms: Int!
+  platformFees: Int!
   approved: Boolean!
   agreementURL: String
   updatedAt: DateTime!
@@ -1126,6 +1132,7 @@ input LoanUpdateInput {
   user: UserUpdateOneRequiredWithoutLoanInput
   amount: Int
   terms: Int
+  platformFees: Int
   approved: Boolean
   agreementURL: String
 }
@@ -1133,6 +1140,7 @@ input LoanUpdateInput {
 input LoanUpdateManyMutationInput {
   amount: Int
   terms: Int
+  platformFees: Int
   approved: Boolean
   agreementURL: String
 }
@@ -1149,6 +1157,7 @@ input LoanUpdateOneWithoutUserInput {
 input LoanUpdateWithoutUserDataInput {
   amount: Int
   terms: Int
+  platformFees: Int
   approved: Boolean
   agreementURL: String
 }
@@ -1190,6 +1199,14 @@ input LoanWhereInput {
   terms_lte: Int
   terms_gt: Int
   terms_gte: Int
+  platformFees: Int
+  platformFees_not: Int
+  platformFees_in: [Int!]
+  platformFees_not_in: [Int!]
+  platformFees_lt: Int
+  platformFees_lte: Int
+  platformFees_gt: Int
+  platformFees_gte: Int
   approved: Boolean
   approved_not: Boolean
   agreementURL: String
