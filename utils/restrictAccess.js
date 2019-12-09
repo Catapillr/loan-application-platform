@@ -11,7 +11,7 @@ export default ({ req, res }) => {
 
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl
-    res.writeHead(302, { Location: "/login" })
+    res.writeHead(302, { Location: '/login' })
     res.end()
     return true
   }

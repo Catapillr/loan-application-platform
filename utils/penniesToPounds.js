@@ -1,7 +1,7 @@
-import { unformatFromGBP } from "./currencyFormatter"
+import { unformatFromGBP } from './currencyFormatter'
 
 const penniesToPounds = amountInPennies =>
-  typeof amountInPennies === "string"
+  typeof amountInPennies === 'string'
     ? unformatFromGBP(amountInPennies) / 100
     : amountInPennies / 100
 

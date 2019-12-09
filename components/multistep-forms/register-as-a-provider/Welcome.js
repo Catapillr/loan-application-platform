@@ -1,13 +1,13 @@
-import { Heading, Copy, Button } from "../styles"
+import { Heading, Copy, Button } from '../styles'
 
-import providerProgress1 from "../../../static/images/providerProgress1.svg"
-import styled from "styled-components"
+import providerProgress1 from '../../../static/images/providerProgress1.svg'
+import styled from 'styled-components'
 
-import penniesToPounds from "../../../utils/penniesToPounds"
-import { formatToGBP } from "../../../utils/currencyFormatter"
+import penniesToPounds from '../../../utils/penniesToPounds'
+import { formatToGBP } from '../../../utils/currencyFormatter'
 
 const Link = styled.a.attrs({
-  className: "mb-5d5 text-center text-teal font-bold",
+  className: 'mb-5d5 text-center text-teal font-bold',
 })``
 
 const Welcome = ({ employee, paymentRequest, incrementPage }) => (
@@ -16,13 +16,13 @@ const Welcome = ({ employee, paymentRequest, incrementPage }) => (
       {`Great news! ${employee.firstName} ${
         employee.lastName
       } would like to pay you ${formatToGBP(
-        penniesToPounds(paymentRequest.amountToPay)
+        penniesToPounds(paymentRequest.amountToPay),
       )}! 🎉
       `}
     </Heading>
     <Copy className="mb-6">
       We just need a few details from you to allow {employee.firstName} to pay
-      you using their{" "}
+      you using their{' '}
       <Link href="https://www.catapillr.com/" target="_blank">
         Catapillr interest-free childcare loan
       </Link>
@@ -40,6 +40,6 @@ const Welcome = ({ employee, paymentRequest, incrementPage }) => (
 
 Welcome.hideControls = true
 Welcome.progressImg = providerProgress1
-Welcome.componentName = "Welcome"
+Welcome.componentName = 'Welcome'
 
 export default Welcome

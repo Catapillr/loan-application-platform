@@ -1,4 +1,4 @@
-import mangopay from "mangopay2-nodejs-sdk"
+import mangopay from 'mangopay2-nodejs-sdk'
 
 const mango = new mangopay({
   clientId: process.env.MANGO_CLIENT_ID,

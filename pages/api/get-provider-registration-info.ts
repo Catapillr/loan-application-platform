@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "../../prisma/generated/ts"
-import gql from "graphql-tag"
+import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '../../prisma/generated/ts'
+import gql from 'graphql-tag'
 
 const hydratePaymentRequest = gql`
   fragment paymentRequestHydrated on PaymentRequest {
@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       paymentRequest,
     })
   } catch (error) {
-    console.error("Error in get-provider-registration-info: ", error)
+    console.error('Error in get-provider-registration-info: ', error)
     return res.status(404).json({
       error,
     })

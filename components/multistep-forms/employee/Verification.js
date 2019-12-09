@@ -1,14 +1,14 @@
-import * as Yup from "yup"
+import * as Yup from 'yup'
 
-import Questions from "../Questions"
-import { TextInput } from "../../Input"
+import Questions from '../Questions'
+import { TextInput } from '../../Input'
 
-import progress1 from "../../../static/images/progress1.svg"
+import progress1 from '../../../static/images/progress1.svg'
 
 const validation = Yup.object().shape({
   token: Yup.string()
     .min(1)
-    .required("Required"),
+    .required('Required'),
 })
 
 const Verification = ({ emailVerificationError }) => (
@@ -19,9 +19,9 @@ const Verification = ({ emailVerificationError }) => (
         {
           text:
             "We've sent a verification code to your email address. Please check your email, and enter the code here:",
-          name: "token",
+          name: 'token',
           component: TextInput,
-          placeholder: "e.g. 4HG78Y",
+          placeholder: 'e.g. 4HG78Y',
         },
       ]}
     />
@@ -37,6 +37,6 @@ const Verification = ({ emailVerificationError }) => (
 
 Verification.validationSchema = validation
 Verification.progressImg = progress1
-Verification.componentName = "Verification"
+Verification.componentName = 'Verification'
 
 export default Verification

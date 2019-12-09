@@ -1,6 +1,6 @@
-import calculatePlatformFees from "../calculatePlatformFees"
+import calculatePlatformFees from '../calculatePlatformFees'
 
-test("platform fees are calculated correctly", () => {
+test('platform fees are calculated correctly', () => {
   let actual = calculatePlatformFees({
     minimumLoanFee: 10000,
     loanAmount: 200000,
@@ -37,7 +37,7 @@ test("platform fees are calculated correctly", () => {
   expect(actual).toBe(expected)
 })
 
-test("platform fees are calculated correctly when minimum loan fee is different", () => {
+test('platform fees are calculated correctly when minimum loan fee is different', () => {
   let actual = calculatePlatformFees({
     minimumLoanFee: 20000,
     loanAmount: 200000,

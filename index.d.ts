@@ -1,6 +1,6 @@
 /// <reference types="node" />
 
-declare module "hellosign-sdk" {
+declare module 'hellosign-sdk' {
   // Configuration
   type Configuration =
     | { key: string }
@@ -88,9 +88,9 @@ declare module "hellosign-sdk" {
       }
 
       export type SignatureStatusCode =
-        | "awaiting_signature"
-        | "signed"
-        | "declined"
+        | 'awaiting_signature'
+        | 'signed'
+        | 'declined'
 
       export type Signature = {
         signature_id: string
@@ -129,27 +129,27 @@ declare module "hellosign-sdk" {
       }
 
       export type FieldType =
-        | "text"
-        | "checkbox"
-        | "date_signed"
-        | "executiondate"
-        | "initials"
-        | "signature"
-        | "text-merge"
-        | "checkbox-merge"
+        | 'text'
+        | 'checkbox'
+        | 'date_signed'
+        | 'executiondate'
+        | 'initials'
+        | 'signature'
+        | 'text-merge'
+        | 'checkbox-merge'
 
       export type ValidationTypeBase =
-        | "numbers_only"
-        | "letters_only"
-        | "phone_number"
-        | "bank_routing_number"
-        | "bank_account_number"
-        | "email_address"
-        | "zip_code"
-        | "social_security_number"
-        | "employer_identification_number"
+        | 'numbers_only'
+        | 'letters_only'
+        | 'phone_number'
+        | 'bank_routing_number'
+        | 'bank_account_number'
+        | 'email_address'
+        | 'zip_code'
+        | 'social_security_number'
+        | 'employer_identification_number'
 
-      export type ValidationTypeRegex = "custom_regex"
+      export type ValidationTypeRegex = 'custom_regex'
 
       export type ValidationType = ValidationTypeBase | ValidationTypeRegex
 
@@ -168,7 +168,7 @@ declare module "hellosign-sdk" {
       }
 
       export type DocumentFieldRegexpValidation = DocumentFieldBaseValidation & {
-        validation_type: "custom_regex"
+        validation_type: 'custom_regex'
         validation_custom_regex: string
         validation_custom_regex_format_label: string
       }
@@ -230,20 +230,20 @@ declare module "hellosign-sdk" {
         list: (options?: ListOptions) => Promise<ListResponse>
         send: (data: FilePayload) => Promise<SignatureRequestResponse>
         sendWithTemplate: (
-          data: TemplatePayload
+          data: TemplatePayload,
         ) => Promise<SignatureRequestResponse>
         createEmbeddedWithTemplate: (
-          data: TemplatePayload
+          data: TemplatePayload,
         ) => Promise<SignatureRequestResponse>
         createEmbedded: (data: FilePayload) => Promise<SignatureRequestResponse>
         remind: (
           request_id: string,
-          options: { email_address: string }
+          options: { email_address: string },
         ) => Promise<SignatureRequestResponse>
         download: (
           request_id: string,
           options: { file_type: string },
-          callback: (err: Error, response: ReadableStream) => void
+          callback: (err: Error, response: ReadableStream) => void,
         ) => void
         cancel: (request_id: string) => Promise<SignatureRequestResponse>
       }
@@ -273,25 +273,25 @@ declare module "hellosign-sdk" {
     // Http callbacks
     export namespace Callback {
       export type EventSignature =
-        | "signature_request_viewed"
-        | "signature_request_downloadable"
-        | "signature_request_sent"
-        | "signature_request_declined"
-        | "signature_request_reassigned"
-        | "signature_request_remind"
-        | "signature_request_all_signed"
-        | "signature_request_email_bounce"
-        | "signature_request_invalid"
-        | "signature_request_canceled"
-        | "signature_request_prepared"
-        | "signature_request_declined"
-        | "signature_request_signed"
+        | 'signature_request_viewed'
+        | 'signature_request_downloadable'
+        | 'signature_request_sent'
+        | 'signature_request_declined'
+        | 'signature_request_reassigned'
+        | 'signature_request_remind'
+        | 'signature_request_all_signed'
+        | 'signature_request_email_bounce'
+        | 'signature_request_invalid'
+        | 'signature_request_canceled'
+        | 'signature_request_prepared'
+        | 'signature_request_declined'
+        | 'signature_request_signed'
 
-      export type EventTest = "callback_test"
+      export type EventTest = 'callback_test'
 
-      export type EventSignUrlInvalid = "sign_url_invalid"
+      export type EventSignUrlInvalid = 'sign_url_invalid'
 
-      export type EventTemplate = "template_created" | "template_error"
+      export type EventTemplate = 'template_created' | 'template_error'
 
       type Event<T extends string> = {
         event_time: string
@@ -319,9 +319,9 @@ declare module "hellosign-sdk" {
   export = Hellosign
 }
 
-declare module "mailgun.js"
+declare module 'mailgun.js'
 
-declare module "mangopay2-nodejs-sdk" {
+declare module 'mangopay2-nodejs-sdk' {
   export = MangoPay
 
   declare class MangoPay {
@@ -362,7 +362,7 @@ declare module "mangopay2-nodejs-sdk" {
     method(
       method: ApiMethod,
       callback: (...args: any[]) => void,
-      options: MangoPay.RequestOptions
+      options: MangoPay.RequestOptions,
     ): any
   }
 
@@ -374,26 +374,26 @@ declare module "mangopay2-nodejs-sdk" {
     }
 
     interface Headers {
-      "Content-Type": string
-      "User-Agent": string
-      "Idempotency-Key": string
+      'Content-Type': string
+      'User-Agent': string
+      'Idempotency-Key': string
       Authorization: string
       [header: string]: string | undefined
     }
 
     /** A UTC timestamp in seconds */
     type Timestamp = number
-    type ColumnAndDirection = "ASC" | "DESC"
+    type ColumnAndDirection = 'ASC' | 'DESC'
     type AVSResult =
-      | "NO_CHECK"
-      | "NO_MATCH"
-      | "ADDRESS_MATCH_ONLY"
-      | "POSTAL_CODE_MATCH_ONLY"
-      | "FULL_MATCH"
-    type SecureMode = "DEFAULT" | "FORCE"
-    type PreAuthorizationExecutionType = "DIRECT"
-    type PaymentStatus = "WAITING" | "CANCELED" | "EXPIRED" | "VALIDATED"
-    type PreAuthorizationStatus = "CREATED" | "SUCCEEDED" | "FAILED"
+      | 'NO_CHECK'
+      | 'NO_MATCH'
+      | 'ADDRESS_MATCH_ONLY'
+      | 'POSTAL_CODE_MATCH_ONLY'
+      | 'FULL_MATCH'
+    type SecureMode = 'DEFAULT' | 'FORCE'
+    type PreAuthorizationExecutionType = 'DIRECT'
+    type PaymentStatus = 'WAITING' | 'CANCELED' | 'EXPIRED' | 'VALIDATED'
+    type PreAuthorizationStatus = 'CREATED' | 'SUCCEEDED' | 'FAILED'
     interface BillingData {
       Address: models.Address | address.AddressData | string
     }
@@ -425,7 +425,7 @@ declare module "mangopay2-nodejs-sdk" {
       (options?: MethodOptionWithoutResponse): Promise<R>
       (
         callback: (data: WithResponse<R>) => void,
-        options?: MethodOptionWithResponse
+        options?: MethodOptionWithResponse,
       ): void
       (callback: (data: R) => void, options?: MethodOptionWithoutResponse): void
     }
@@ -436,12 +436,12 @@ declare module "mangopay2-nodejs-sdk" {
       (
         data: T,
         callback: (data: WithResponse<R>) => void,
-        options: MethodOptionWithResponse
+        options: MethodOptionWithResponse,
       ): void
       (
         data: T,
         callback: (data: R) => void,
-        options?: MethodOptionWithoutResponse
+        options?: MethodOptionWithoutResponse,
       ): void
     }
 
@@ -454,13 +454,13 @@ declare module "mangopay2-nodejs-sdk" {
         data: T,
         extra: U,
         callback: (data: WithResponse<R>) => void,
-        options?: MethodOptionWithResponse
+        options?: MethodOptionWithResponse,
       ): void
       (
         data: T,
         extra: U,
         callback: (data: R) => void,
-        options?: MethodOptionWithoutResponse
+        options?: MethodOptionWithoutResponse,
       ): void
     }
 
@@ -469,27 +469,27 @@ declare module "mangopay2-nodejs-sdk" {
         data: T,
         extra: U,
         lastArg: V,
-        options: MethodOptionWithResponse
+        options: MethodOptionWithResponse,
       ): Promise<WithResponse<R>>
       (
         data: T,
         extra: U,
         lastArg: V,
-        options?: MethodOptionWithoutResponse
+        options?: MethodOptionWithoutResponse,
       ): Promise<R>
       (
         data: T,
         extra: U,
         lastArg: V,
         callback: (data: WithResponse<R>) => void,
-        options?: MethodOptionWithResponse
+        options?: MethodOptionWithResponse,
       ): void
       (
         data: T,
         extra: U,
         lastArg: V,
         callback: (data: R) => void,
-        options?: MethodOptionWithoutResponse
+        options?: MethodOptionWithoutResponse,
       ): void
     }
 
@@ -818,7 +818,7 @@ declare module "mangopay2-nodejs-sdk" {
         constructor(
           data:
             | uboDeclaration.CreateUboDeclaration
-            | uboDeclaration.UpdateUboDeclaration
+            | uboDeclaration.UpdateUboDeclaration,
         )
       }
 
@@ -830,7 +830,7 @@ declare module "mangopay2-nodejs-sdk" {
         constructor(
           data:
             | cardRegistration.CreateCardRegistration
-            | cardRegistration.UpdateCardRegistration
+            | cardRegistration.UpdateCardRegistration,
         )
       }
 
@@ -847,7 +847,7 @@ declare module "mangopay2-nodejs-sdk" {
         constructor(
           data:
             | cardPreAuthorization.CardPreAuthorizationData
-            | cardPreAuthorization.UpdateCardPreAuthorization
+            | cardPreAuthorization.UpdateCardPreAuthorization,
         )
       }
 
@@ -861,12 +861,12 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       class UserLegal extends EntityBase<user.UserLegalData> {
-        PersonType: "LEGAL"
+        PersonType: 'LEGAL'
         constructor(
           data: MakeKeysRequired<
             Partial<user.UserLegalData>,
             user.RequiredUserLegalData
-          >
+          >,
         )
 
         /**
@@ -879,12 +879,12 @@ declare module "mangopay2-nodejs-sdk" {
       interface UserLegal extends user.UserLegalData {}
 
       class UserNatural extends EntityBase<user.UserNaturalData> {
-        PersonType: "NATURAL"
+        PersonType: 'NATURAL'
         constructor(
           data: MakeKeysRequired<
             Partial<user.UserNaturalData>,
             user.RequiredUserNaturalData
-          >
+          >,
         )
 
         /**
@@ -972,7 +972,7 @@ declare module "mangopay2-nodejs-sdk" {
 
       class Refund extends EntityBase<refund.RefundData> {
         constructor(
-          data: refund.CreatePayInRefund | refund.CreateTransferRefund
+          data: refund.CreatePayInRefund | refund.CreateTransferRefund,
         )
       }
 
@@ -1062,146 +1062,146 @@ declare module "mangopay2-nodejs-sdk" {
     }
 
     interface IPayInExecutionType {
-      Direct: "DIRECT"
-      Web: "WEB"
+      Direct: 'DIRECT'
+      Web: 'WEB'
     }
 
     interface IPayInPaymentType {
-      BankWire: "BANK_WIRE"
-      Card: "CARD"
-      DirectDebit: "DIRECT_DEBIT"
-      Preauthorized: "PREAUTHORIZED"
-      PayPal: "PAYPAL"
+      BankWire: 'BANK_WIRE'
+      Card: 'CARD'
+      DirectDebit: 'DIRECT_DEBIT'
+      Preauthorized: 'PREAUTHORIZED'
+      PayPal: 'PAYPAL'
     }
 
     interface IMandateStatus {
-      Created: "CREATED"
-      Submitted: "SUBMITTED"
-      Active: "ACTIVE"
-      Failed: "FAILED"
+      Created: 'CREATED'
+      Submitted: 'SUBMITTED'
+      Active: 'ACTIVE'
+      Failed: 'FAILED'
     }
 
     interface ILegalPersonType {
-      NotSpecified: "NotSpecified"
-      Business: "BUSINESS"
-      Organization: "ORGANIZATION"
-      Soletrader: "SOLETRADER"
+      NotSpecified: 'NotSpecified'
+      Business: 'BUSINESS'
+      Organization: 'ORGANIZATION'
+      Soletrader: 'SOLETRADER'
     }
 
     interface IPersonType {
-      NotSpecified: "NotSpecified"
-      Natural: "NATURAL"
-      Legal: "LEGAL"
+      NotSpecified: 'NotSpecified'
+      Natural: 'NATURAL'
+      Legal: 'LEGAL'
     }
 
     interface IBankAccountType {
-      NotSpecified: "NotSpecified"
-      IBAN: "IBAN"
-      GB: "GB"
-      US: "US"
-      CA: "CA"
-      OTHER: "OTHER"
+      NotSpecified: 'NotSpecified'
+      IBAN: 'IBAN'
+      GB: 'GB'
+      US: 'US'
+      CA: 'CA'
+      OTHER: 'OTHER'
     }
 
     interface IDeclaredUboStatus {
-      Created: "CREATED"
-      Validated: "VALIDATED"
-      Refused: "REFUSED"
+      Created: 'CREATED'
+      Validated: 'VALIDATED'
+      Refused: 'REFUSED'
     }
 
     interface IKycDocumentStatus {
-      Created: "CREATED"
-      ValidationAsked: "VALIDATION_ASKED"
-      Validated: "VALIDATED"
-      Refused: "REFUSED"
+      Created: 'CREATED'
+      ValidationAsked: 'VALIDATION_ASKED'
+      Validated: 'VALIDATED'
+      Refused: 'REFUSED'
     }
 
     interface IKycDocumentType {
-      IdentityProof: "IDENTITY_PROOF"
-      RegistrationProof: "REGISTRATION_PROOF"
-      ArticlesOfAssociation: "ARTICLES_OF_ASSOCIATION"
-      ShareholderDeclaration: "SHAREHOLDER_DECLARATION"
-      AddressProof: "ADDRESS_PROOF"
+      IdentityProof: 'IDENTITY_PROOF'
+      RegistrationProof: 'REGISTRATION_PROOF'
+      ArticlesOfAssociation: 'ARTICLES_OF_ASSOCIATION'
+      ShareholderDeclaration: 'SHAREHOLDER_DECLARATION'
+      AddressProof: 'ADDRESS_PROOF'
     }
 
     interface IPayOutPaymentType {
-      BankWire: "BANK_WIRE"
+      BankWire: 'BANK_WIRE'
     }
 
     interface IPlatformType {
-      NotSpecified: "NotSpecified"
-      MARKETPLACE: "MARKETPLACE"
-      P2P_PAYMENT: "P2P_PAYMENT"
-      CROWDFUNDING_DONATION: "CROWDFUNDING_DONATION"
-      CROWDFUNDING_REWARD: "CROWDFUNDING_REWARD"
-      CROWDFUNDING_EQUITY: "CROWDFUNDING_EQUITY"
-      CROWDFUNDING_LOAN: "CROWDFUNDING_LOAN"
-      OTHER: "OTHER"
+      NotSpecified: 'NotSpecified'
+      MARKETPLACE: 'MARKETPLACE'
+      P2P_PAYMENT: 'P2P_PAYMENT'
+      CROWDFUNDING_DONATION: 'CROWDFUNDING_DONATION'
+      CROWDFUNDING_REWARD: 'CROWDFUNDING_REWARD'
+      CROWDFUNDING_EQUITY: 'CROWDFUNDING_EQUITY'
+      CROWDFUNDING_LOAN: 'CROWDFUNDING_LOAN'
+      OTHER: 'OTHER'
     }
 
     interface IUboDeclarationRefusedReasonType {
       /**
        * When at least one natural user is missing on the declaration
        */
-      MissingUbo: "MISSING_UBO"
+      MissingUbo: 'MISSING_UBO'
 
       /**
        * When at least one natural user should not be declared as UBO
        */
-      InvalidDeclaredUbo: "INVALID_DECLARED_UBO"
+      InvalidDeclaredUbo: 'INVALID_DECLARED_UBO'
 
       /**
        * When at least one natural user declared as UBO has been created
        * with wrong details (i.e. date of birth, country of residence)
        */
-      InvalidUboDetails: "INVALID_UBO_DETAILS"
+      InvalidUboDetails: 'INVALID_UBO_DETAILS'
     }
 
     interface IUboDeclarationStatus {
       /**
        * When the UBO declaration was created
        */
-      Created: "CREATED"
+      Created: 'CREATED'
 
       /**
        * When validation has been requested for the UBO declaration
        */
-      ValidationAsked: "VALIDATION_ASKED"
+      ValidationAsked: 'VALIDATION_ASKED'
 
       /**
        * When the UBO declaration was validated
        */
-      Validated: "VALIDATED"
+      Validated: 'VALIDATED'
 
       /**
        * When the UBO declaration was refused
        */
-      Refused: "REFUSED"
+      Refused: 'REFUSED'
     }
 
     interface IUboRefusedReasonType {
       /**
        * When user should not be declared as UBO
        */
-      InvalidDeclaredUbo: "INVALID_DECLARED_UBO"
+      InvalidDeclaredUbo: 'INVALID_DECLARED_UBO'
 
       /**
        * When user declared as UBO was created with wrong
        * details (i.e. date of birth, country of residence)
        */
-      InvalidUboDetails: "INVALID_UBO_DETAILS"
+      InvalidUboDetails: 'INVALID_UBO_DETAILS'
     }
 
     interface IUserNaturalCapacity {
       /**
        * Real customer
        */
-      Normal: "NORMAL"
+      Normal: 'NORMAL'
 
       /**
        * User used only for declaration purpose
        */
-      Declarative: "DECLARATIVE"
+      Declarative: 'DECLARATIVE'
     }
 
     namespace entityBase {
@@ -1225,7 +1225,7 @@ declare module "mangopay2-nodejs-sdk" {
     }
 
     namespace bankingAlias {
-      type BankingAliasType = "IBAN"
+      type BankingAliasType = 'IBAN'
       interface BankingAliasData extends entityBase.EntityBaseData {
         /**
          * The user ID who is credited (defaults to the owner of the wallet)
@@ -1262,7 +1262,7 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The type of banking alias (note that only IBAN is available at present)
          */
-        Type: "IBAN"
+        Type: 'IBAN'
 
         /**
          * The IBAN of the banking alias
@@ -1278,14 +1278,14 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateIBANBankingAlias
         extends PickPartialRequired<
           IBANBankingAliasData,
-          "Tag" | "CreditedUserId",
-          "OwnerName" | "Country"
+          'Tag' | 'CreditedUserId',
+          'OwnerName' | 'Country'
         > {}
     }
 
     namespace bankAccount {
-      type BankAccountType = "IBAN" | "GB" | "US" | "CA" | "OTHER"
-      type DepositAccountType = "CHECKING" | "SAVINGS"
+      type BankAccountType = 'IBAN' | 'GB' | 'US' | 'CA' | 'OTHER'
+      type DepositAccountType = 'CHECKING' | 'SAVINGS'
 
       interface BaseData extends entityBase.EntityBaseData {
         /**
@@ -1320,7 +1320,7 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface IBANDetails {
-        Type: "IBAN"
+        Type: 'IBAN'
 
         /**
          * The address of the owner of the bank account
@@ -1346,7 +1346,7 @@ declare module "mangopay2-nodejs-sdk" {
       type IBANData = BaseData & IBANDetails
 
       interface USDetails {
-        Type: "US"
+        Type: 'US'
 
         /**
          * The address of the owner of the bank account
@@ -1377,7 +1377,7 @@ declare module "mangopay2-nodejs-sdk" {
       type USData = BaseData & USDetails
 
       interface CADetails {
-        Type: "CA"
+        Type: 'CA'
 
         /**
          * The address of the owner of the bank account
@@ -1413,7 +1413,7 @@ declare module "mangopay2-nodejs-sdk" {
       type CAData = BaseData & CADetails
 
       interface GBDetails {
-        Type: "GB"
+        Type: 'GB'
 
         /**
          * The address of the owner of the bank account
@@ -1439,7 +1439,7 @@ declare module "mangopay2-nodejs-sdk" {
       type GBData = BaseData & GBDetails
 
       interface OtherDetails {
-        Type: "OTHER"
+        Type: 'OTHER'
 
         /**
          * The address of the owner of the bank account
@@ -1481,12 +1481,12 @@ declare module "mangopay2-nodejs-sdk" {
 
     namespace transaction {
       type TransactionNature =
-        | "REGULAR"
-        | "REPUDIATION"
-        | "REFUND"
-        | "SETTLEMENT"
-      type TransactionType = "PAYIN" | "TRANSFER" | "PAYOUT"
-      type TransactionStatus = "CREATED" | "SUCCEEDED" | "FAILED"
+        | 'REGULAR'
+        | 'REPUDIATION'
+        | 'REFUND'
+        | 'SETTLEMENT'
+      type TransactionType = 'PAYIN' | 'TRANSFER' | 'PAYOUT'
+      type TransactionStatus = 'CREATED' | 'SUCCEEDED' | 'FAILED'
 
       interface TransactionData extends entityBase.EntityBaseData {
         /**
@@ -1557,8 +1557,8 @@ declare module "mangopay2-nodejs-sdk" {
     }
 
     namespace wallet {
-      type ClientFundsType = "FEES" | "CREDIT"
-      type FundsType = "DEFAULT" | ClientFundsType
+      type ClientFundsType = 'FEES' | 'CREDIT'
+      type FundsType = 'DEFAULT' | ClientFundsType
 
       interface WalletData extends entityBase.EntityBaseData {
         /**
@@ -1588,40 +1588,40 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface ClientWalletData
-        extends Omit<WalletData, "Owners" | "Description"> {
+        extends Omit<WalletData, 'Owners' | 'Description'> {
         FundsType: ClientFundsType
       }
 
       type CreateWallet = UpdateWallet &
-        Pick<WalletData, "Owners" | "Currency" | "Description">
-      type UpdateWallet = PickPartial<WalletData, "Tag" | "Description">
+        Pick<WalletData, 'Owners' | 'Currency' | 'Description'>
+      type UpdateWallet = PickPartial<WalletData, 'Tag' | 'Description'>
     }
 
     namespace disputeDocument {
       type DisputeDocumentType =
-        | "DELIVERY_PROOF"
-        | "INVOICE"
-        | "REFUND_PROOF"
-        | "USER_CORRESPONDANCE"
-        | "USER_ACCEPTANCE_PROOF"
-        | "PRODUCT_REPLACEMENT_PROOF"
-        | "OTHER"
+        | 'DELIVERY_PROOF'
+        | 'INVOICE'
+        | 'REFUND_PROOF'
+        | 'USER_CORRESPONDANCE'
+        | 'USER_ACCEPTANCE_PROOF'
+        | 'PRODUCT_REPLACEMENT_PROOF'
+        | 'OTHER'
 
       type DocumentStatus =
-        | "CREATED"
-        | "VALIDATION_ASKED"
-        | "VALIDATED"
-        | "REFUSED"
+        | 'CREATED'
+        | 'VALIDATION_ASKED'
+        | 'VALIDATED'
+        | 'REFUSED'
 
       type RefusedReasonType =
-        | "DOCUMENT_UNREADABLE"
-        | "DOCUMENT_NOT_ACCEPTED"
-        | "DOCUMENT_HAS_EXPIRED"
-        | "DOCUMENT_INCOMPLETE"
-        | "DOCUMENT_MISSING"
-        | "SPECIFIC_CASE"
-        | "DOCUMENT_FALSIFIED"
-        | "OTHER"
+        | 'DOCUMENT_UNREADABLE'
+        | 'DOCUMENT_NOT_ACCEPTED'
+        | 'DOCUMENT_HAS_EXPIRED'
+        | 'DOCUMENT_INCOMPLETE'
+        | 'DOCUMENT_MISSING'
+        | 'SPECIFIC_CASE'
+        | 'DOCUMENT_FALSIFIED'
+        | 'OTHER'
 
       interface DisputeDocumentData extends entityBase.EntityBaseData {
         /**
@@ -1672,7 +1672,7 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The status of this KYC/Dispute document
          */
-        Status: "VALIDATION_ASKED"
+        Status: 'VALIDATION_ASKED'
         Tag?: string
       }
 
@@ -1715,29 +1715,29 @@ declare module "mangopay2-nodejs-sdk" {
 
     namespace kycDocument {
       type KycDocumentType =
-        | "IDENTITY_PROOF"
-        | "REGISTRATION_PROOF"
-        | "ARTICLES_OF_ASSOCIATION"
-        | "SHAREHOLDER_DECLARATION"
-        | "ADDRESS_PROOF"
+        | 'IDENTITY_PROOF'
+        | 'REGISTRATION_PROOF'
+        | 'ARTICLES_OF_ASSOCIATION'
+        | 'SHAREHOLDER_DECLARATION'
+        | 'ADDRESS_PROOF'
       type DocumentStatus =
-        | "CREATED"
-        | "VALIDATION_ASKED"
-        | "VALIDATED"
-        | "REFUSED"
+        | 'CREATED'
+        | 'VALIDATION_ASKED'
+        | 'VALIDATED'
+        | 'REFUSED'
 
       type KYCDocumentRefusedReasonType =
-        | "DOCUMENT_UNREADABLE"
-        | "DOCUMENT_NOT_ACCEPTED"
-        | "DOCUMENT_HAS_EXPIRED"
-        | "DOCUMENT_INCOMPLETE"
-        | "DOCUMENT_MISSING"
-        | "DOCUMENT_DO_NOT_MATCH_USER_DATA"
-        | "DOCUMENT_DO_NOT_MATCH_ACCOUNT_DATA"
-        | "SPECIFIC_CASE"
-        | "DOCUMENT_FALSIFIED"
-        | "UNDERAGE_PERSON"
-        | "SPECIFIC_CASE"
+        | 'DOCUMENT_UNREADABLE'
+        | 'DOCUMENT_NOT_ACCEPTED'
+        | 'DOCUMENT_HAS_EXPIRED'
+        | 'DOCUMENT_INCOMPLETE'
+        | 'DOCUMENT_MISSING'
+        | 'DOCUMENT_DO_NOT_MATCH_USER_DATA'
+        | 'DOCUMENT_DO_NOT_MATCH_ACCOUNT_DATA'
+        | 'SPECIFIC_CASE'
+        | 'DOCUMENT_FALSIFIED'
+        | 'UNDERAGE_PERSON'
+        | 'SPECIFIC_CASE'
 
       interface KycDocumentData extends entityBase.EntityBaseData {
         /**
@@ -1791,7 +1791,7 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The status of this KYC/Dispute document
          */
-        Status: "VALIDATION_ASKED"
+        Status: 'VALIDATION_ASKED'
         Tag?: string
       }
 
@@ -1874,7 +1874,7 @@ declare module "mangopay2-nodejs-sdk" {
       interface UpdateUboDeclaration {
         Id: string
         Tag?: string
-        Status?: "VALIDATION_ASKED"
+        Status?: 'VALIDATION_ASKED'
 
         /**
          * An array of UserIDs declared as Ultimate Beneficial Owners of a BUSINESS Legal User.
@@ -1943,27 +1943,27 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateCardRegistration
         extends PickPartialRequired<
           CardRegistrationData,
-          "CardType" | "Tag",
-          "UserId" | "Currency"
+          'CardType' | 'Tag',
+          'UserId' | 'Currency'
         > {}
       type UpdateCardRegistration = PickPartial<
         CardRegistrationData,
-        "Tag" | "RegistrationData"
+        'Tag' | 'RegistrationData'
       >
     }
 
     namespace card {
       type CardType =
-        | "CB_VISA_MASTERCARD"
-        | "DINERS"
-        | "MASTERPASS"
-        | "MAESTRO"
-        | "P24"
-        | "IDEAL"
-        | "BCMC"
-        | "PAYLIB"
-      type CardStatus = "CREATED" | "VALIDATED" | "ERROR"
-      type CardValidity = "UNKNOWN" | "VALID" | "INVALID"
+        | 'CB_VISA_MASTERCARD'
+        | 'DINERS'
+        | 'MASTERPASS'
+        | 'MAESTRO'
+        | 'P24'
+        | 'IDEAL'
+        | 'BCMC'
+        | 'PAYLIB'
+      type CardStatus = 'CREATED' | 'VALIDATED' | 'ERROR'
+      type CardValidity = 'UNKNOWN' | 'VALID' | 'INVALID'
 
       interface CardData extends entityBase.EntityBaseData {
         /**
@@ -2116,19 +2116,19 @@ declare module "mangopay2-nodejs-sdk" {
 
       type CreateCardPreAuthorization = PickPartialRequired<
         CardPreAuthorizationData,
-        "Tag" | "Billing" | "SecureMode",
-        "AuthorId" | "DebitedFunds" | "CardId" | "SecureModeReturnURL"
+        'Tag' | 'Billing' | 'SecureMode',
+        'AuthorId' | 'DebitedFunds' | 'CardId' | 'SecureModeReturnURL'
       >
       type UpdateCardPreAuthorization = PickPartialRequired<
         CardPreAuthorizationData,
-        "Tag",
-        "PaymentStatus" | "Id"
+        'Tag',
+        'PaymentStatus' | 'Id'
       >
     }
 
     namespace hook {
-      type HookValidity = "UNKNOWN" | "VALID" | "INVALID"
-      type HookStatus = "DISABLED" | "ENABLED"
+      type HookValidity = 'UNKNOWN' | 'VALID' | 'INVALID'
+      type HookStatus = 'DISABLED' | 'ENABLED'
 
       interface HookData extends entityBase.EntityBaseData {
         /**
@@ -2153,13 +2153,13 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface CreateHook
-        extends PickPartialRequired<HookData, "Tag", "EventType" | "Url"> {}
+        extends PickPartialRequired<HookData, 'Tag', 'EventType' | 'Url'> {}
 
       interface UpdateHook
         extends PickPartialRequired<
           HookData,
-          "EventType" | "Url" | "Tag",
-          "Id"
+          'EventType' | 'Url' | 'Tag',
+          'Id'
         > {}
     }
 
@@ -2242,41 +2242,41 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       type Column =
-        | "Alias"
-        | "AuthorId"
-        | "BankAccountId"
-        | "BankWireRef"
-        | "CardId"
-        | "CardType"
-        | "Country"
-        | "CreationDate"
-        | "CreditedFundsAmount"
-        | "CreditedFundsCurrency"
-        | "CreditedUserId"
-        | "CreditedWalletId"
-        | "Culture"
-        | "DebitedFundsAmount"
-        | "DebitedFundsCurrency"
-        | "DebitedWalletId"
-        | "DeclaredDebitedFundsAmount"
-        | "DeclaredDebitedFundsCurrency"
-        | "DeclaredFeesAmount"
-        | "DeclaredFeesCurrency"
-        | "ExecutionDate"
-        | "ExecutionType"
-        | "ExpirationDate"
-        | "FeesAmount"
-        | "FeesCurrency"
-        | "Id"
-        | "Nature"
-        | "PaymentType"
-        | "PreauthorizationId"
-        | "ResultCode"
-        | "ResultMessage"
-        | "Status"
-        | "Tag"
-        | "Type"
-        | "WireReference"
+        | 'Alias'
+        | 'AuthorId'
+        | 'BankAccountId'
+        | 'BankWireRef'
+        | 'CardId'
+        | 'CardType'
+        | 'Country'
+        | 'CreationDate'
+        | 'CreditedFundsAmount'
+        | 'CreditedFundsCurrency'
+        | 'CreditedUserId'
+        | 'CreditedWalletId'
+        | 'Culture'
+        | 'DebitedFundsAmount'
+        | 'DebitedFundsCurrency'
+        | 'DebitedWalletId'
+        | 'DeclaredDebitedFundsAmount'
+        | 'DeclaredDebitedFundsCurrency'
+        | 'DeclaredFeesAmount'
+        | 'DeclaredFeesCurrency'
+        | 'ExecutionDate'
+        | 'ExecutionType'
+        | 'ExpirationDate'
+        | 'FeesAmount'
+        | 'FeesCurrency'
+        | 'Id'
+        | 'Nature'
+        | 'PaymentType'
+        | 'PreauthorizationId'
+        | 'ResultCode'
+        | 'ResultMessage'
+        | 'Status'
+        | 'Tag'
+        | 'Type'
+        | 'WireReference'
 
       interface ReportData extends entityBase.EntityBaseData {
         /**
@@ -2297,12 +2297,12 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The format of the report download
          */
-        DownloadFormat: "CSV"
+        DownloadFormat: 'CSV'
 
         /**
          * The type of report
          */
-        ReportType: "TRANSACTIONS"
+        ReportType: 'TRANSACTIONS'
 
         /**
          * The column to sort against and direction seperate by a `:`
@@ -2338,13 +2338,13 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateReport
         extends PickPartial<
           ReportData,
-          | "Tag"
-          | "CallbackURL"
-          | "DownloadFormat"
-          | "Sort"
-          | "Preview"
-          | "Filters"
-          | "Columns"
+          | 'Tag'
+          | 'CallbackURL'
+          | 'DownloadFormat'
+          | 'Sort'
+          | 'Preview'
+          | 'Filters'
+          | 'Columns'
         > {}
     }
 
@@ -2356,10 +2356,10 @@ declare module "mangopay2-nodejs-sdk" {
        * - "FAILED" - the mandate has failed for a variety of reasons and is no longer available for payments
        */
       type MandateStatus = ValueOf<IMandateStatus>
-      type MandateScheme = "SEPA" | "BACS"
-      type MandateCultureCode = "EN" | "FR" | "NL" | "DE" | "ES" | "IT" | "PL"
-      type MandateExecutionType = "WEB"
-      type MandateType = "DIRECT_DEBIT"
+      type MandateScheme = 'SEPA' | 'BACS'
+      type MandateCultureCode = 'EN' | 'FR' | 'NL' | 'DE' | 'ES' | 'IT' | 'PL'
+      type MandateExecutionType = 'WEB'
+      type MandateType = 'DIRECT_DEBIT'
       interface MandateData extends entityBase.EntityBaseData {
         /**
          * An ID of a Bank Account
@@ -2430,8 +2430,8 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateMandate
         extends PickPartialRequired<
           MandateData,
-          "Tag",
-          "BankAccountId" | "Culture" | "ReturnURL"
+          'Tag',
+          'BankAccountId' | 'Culture' | 'ReturnURL'
         > {}
     }
 
@@ -2446,20 +2446,20 @@ declare module "mangopay2-nodejs-sdk" {
        * 6 - for incomes >120K€
        */
       type IncomeRange = 1 | 2 | 3 | 4 | 5 | 6
-      type PersonType = "NATURAL" | "LEGAL"
-      type KYCLevel = "LIGHT" | "REGULAR"
-      type LegalPersonType = "BUSINESS" | "ORGANIZATION" | "SOLETRADER"
+      type PersonType = 'NATURAL' | 'LEGAL'
+      type KYCLevel = 'LIGHT' | 'REGULAR'
+      type LegalPersonType = 'BUSINESS' | 'ORGANIZATION' | 'SOLETRADER'
       type StaticKeys =
-        | "KYCLevel"
-        | "PersonType"
-        | "Id"
-        | "CreationDate"
-        | "ProofOfIdentity"
-        | "ProofOfAddress"
-        | "ProofOfRegistration"
-        | "LegalRepresentativeProofOfIdentity"
-        | "ShareholderDeclaration"
-        | "Statute"
+        | 'KYCLevel'
+        | 'PersonType'
+        | 'Id'
+        | 'CreationDate'
+        | 'ProofOfIdentity'
+        | 'ProofOfAddress'
+        | 'ProofOfRegistration'
+        | 'LegalRepresentativeProofOfIdentity'
+        | 'ShareholderDeclaration'
+        | 'Statute'
       interface UserData extends entityBase.EntityBaseData {
         /**
          * Type of user
@@ -2478,7 +2478,7 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface UserLegalData extends UserData {
-        PersonType: "LEGAL"
+        PersonType: 'LEGAL'
 
         /**
          * The name of the legal user
@@ -2553,7 +2553,7 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface UserNaturalData extends UserData {
-        PersonType: "NATURAL"
+        PersonType: 'NATURAL'
 
         /**
          * The name of the user
@@ -2604,38 +2604,38 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The capacity of this user - for use with UBO declarations
          */
-        Capacity: "NORMAL" | "DECLARATIVE"
+        Capacity: 'NORMAL' | 'DECLARATIVE'
       }
 
       type RequiredUserLegalData =
-        | "LegalPersonType"
-        | "Name"
-        | "LegalRepresentativeBirthday"
-        | "LegalRepresentativeCountryOfResidence"
-        | "LegalRepresentativeNationality"
-        | "LegalRepresentativeFirstName"
-        | "LegalRepresentativeLastName"
-        | "Email"
+        | 'LegalPersonType'
+        | 'Name'
+        | 'LegalRepresentativeBirthday'
+        | 'LegalRepresentativeCountryOfResidence'
+        | 'LegalRepresentativeNationality'
+        | 'LegalRepresentativeFirstName'
+        | 'LegalRepresentativeLastName'
+        | 'Email'
 
       type RequiredUserNaturalData =
-        | "FirstName"
-        | "LastName"
-        | "Birthday"
-        | "Nationality"
-        | "CountryOfResidence"
-        | "Email"
+        | 'FirstName'
+        | 'LastName'
+        | 'Birthday'
+        | 'Nationality'
+        | 'CountryOfResidence'
+        | 'Email'
 
       interface BaseUserLegalData
         extends PickPartial<
           UserLegalData,
           | RequiredUserLegalData
-          | "CompanyNumber"
-          | "LegalRepresentativeEmail"
-          | "LegalRepresentativeAddress"
-          | "HeadquartersAddress"
-          | "Tag"
+          | 'CompanyNumber'
+          | 'LegalRepresentativeEmail'
+          | 'LegalRepresentativeAddress'
+          | 'HeadquartersAddress'
+          | 'Tag'
         > {
-        PersonType: "LEGAL"
+        PersonType: 'LEGAL'
       }
 
       interface UpdateUserLegalData extends BaseUserLegalData {
@@ -2645,19 +2645,19 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateUserLegalData
         extends MakeKeysRequired<
           BaseUserLegalData,
-          RequiredUserLegalData | "PersonType"
+          RequiredUserLegalData | 'PersonType'
         > {}
 
       interface BaseUserNaturalData
         extends PickPartial<
           UserNaturalData,
           | RequiredUserNaturalData
-          | "Address"
-          | "Occupation"
-          | "IncomeRange"
-          | "Tag"
+          | 'Address'
+          | 'Occupation'
+          | 'IncomeRange'
+          | 'Tag'
         > {
-        PersonType: "NATURAL"
+        PersonType: 'NATURAL'
       }
 
       interface UpdateUserNaturalData extends BaseUserNaturalData {
@@ -2667,7 +2667,7 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateUserNaturalData
         extends MakeKeysRequired<
           BaseUserNaturalData,
-          RequiredUserNaturalData | "PersonType"
+          RequiredUserNaturalData | 'PersonType'
         > {}
     }
 
@@ -2675,7 +2675,7 @@ declare module "mangopay2-nodejs-sdk" {
       type PayInPaymentType = ValueOf<IPayInPaymentType>
       type PayInExecutionType =
         | ValueOf<IPayInExecutionType>
-        | "EXTERNAL_INSTRUCTION"
+        | 'EXTERNAL_INSTRUCTION'
 
       interface TemplateURLOptions {
         Payline: string
@@ -2759,8 +2759,8 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface CardWebPayInData extends BasePayInData {
-        ExecutionType: "WEB"
-        PaymentType: "CARD"
+        ExecutionType: 'WEB'
+        PaymentType: 'CARD'
 
         /**
          * The URL to redirect to after payment (whether successful or not)
@@ -2801,8 +2801,8 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface CreateCardWebPayIn {
-        ExecutionType: "WEB"
-        PaymentType: "CARD"
+        ExecutionType: 'WEB'
+        PaymentType: 'CARD'
 
         /**
          * A user's ID
@@ -2865,8 +2865,8 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface CardDirectPayInData extends BasePayInData {
-        ExecutionType: "DIRECT"
-        PaymentType: "CARD"
+        ExecutionType: 'DIRECT'
+        PaymentType: 'CARD'
 
         /**
          * This is the URL where users are automatically redirected after 3D secure validation (if activated)
@@ -2912,8 +2912,8 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface CreateCardDirectPayIn {
-        ExecutionType: "DIRECT"
-        PaymentType: "CARD"
+        ExecutionType: 'DIRECT'
+        PaymentType: 'CARD'
 
         /**
          * A user's ID
@@ -2970,13 +2970,13 @@ declare module "mangopay2-nodejs-sdk" {
 
       interface CardPreAuthorizedPayInData extends BasePayInData {
         PreauthorizationId: string
-        ExecutionType: "DIRECT"
-        PaymentType: "PREAUTHORIZED"
+        ExecutionType: 'DIRECT'
+        PaymentType: 'PREAUTHORIZED'
       }
 
       interface CreateCardPreAuthorizedPayIn {
-        ExecutionType: "DIRECT"
-        PaymentType: "PREAUTHORIZED"
+        ExecutionType: 'DIRECT'
+        PaymentType: 'PREAUTHORIZED'
 
         /**
          * Custom data that you can add to this item
@@ -3042,8 +3042,8 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface BankWireDirectPayInData extends BasePayInData {
-        ExecutionType: "DIRECT"
-        PaymentType: "BANK_WIRE"
+        ExecutionType: 'DIRECT'
+        PaymentType: 'BANK_WIRE'
 
         /**
          * The declared debited funds
@@ -3069,15 +3069,15 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateBankWireDirectPayIn
         extends PickPartialRequired<
           BankWireDirectPayInData,
-          "Tag",
-          | "AuthorId"
-          | "CreditedUserId"
-          | "CreditedWalletId"
-          | "DeclaredDebitedFunds"
-          | "DeclaredFees"
+          'Tag',
+          | 'AuthorId'
+          | 'CreditedUserId'
+          | 'CreditedWalletId'
+          | 'DeclaredDebitedFunds'
+          | 'DeclaredFees'
         > {
-        ExecutionType: "DIRECT"
-        PaymentType: "BANK_WIRE"
+        ExecutionType: 'DIRECT'
+        PaymentType: 'BANK_WIRE'
       }
 
       type PayInData =
@@ -3089,12 +3089,12 @@ declare module "mangopay2-nodejs-sdk" {
 
     namespace refund {
       type RefundReasonType =
-        | "INITIALIZED_BY_CLIENT"
-        | "BANKACCOUNT_INCORRECT"
-        | "OWNER_DO_NOT_MATCH_BANKACCOUNT"
-        | "BANKACCOUNT_HAS_BEEN_CLOSED"
-        | "WITHDRAWAL_IMPOSSIBLE_ON_SAVINGS_ACCOUNTS"
-        | "OTHER"
+        | 'INITIALIZED_BY_CLIENT'
+        | 'BANKACCOUNT_INCORRECT'
+        | 'OWNER_DO_NOT_MATCH_BANKACCOUNT'
+        | 'BANKACCOUNT_HAS_BEEN_CLOSED'
+        | 'WITHDRAWAL_IMPOSSIBLE_ON_SAVINGS_ACCOUNTS'
+        | 'OTHER'
       interface RefundReason {
         RefundReasonType: RefundReasonType
       }
@@ -3103,7 +3103,7 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The nature of the transaction
          */
-        Nature: "REFUND"
+        Nature: 'REFUND'
 
         /**
          * The initial transaction ID
@@ -3139,7 +3139,7 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The nature of the transaction
          */
-        Nature: "REPUDIATION"
+        Nature: 'REPUDIATION'
 
         /**
          * The initial transaction ID
@@ -3159,18 +3159,18 @@ declare module "mangopay2-nodejs-sdk" {
     }
 
     namespace client {
-      type BusinessType = "MARKETPLACE" | "CROWDFUNDING" | "FRANCHISE" | "OTHER"
+      type BusinessType = 'MARKETPLACE' | 'CROWDFUNDING' | 'FRANCHISE' | 'OTHER'
       type Sector =
-        | "RENTALS"
-        | "STORES_FASHION_ACCESSORIES_OBJECTS"
-        | "BEAUTY_COSMETICS_HEALTH"
-        | "FOOD_WINE_RESTAURANTS"
-        | "HOSPITALITY_TRAVEL_CORIDING"
-        | "ART_MUSIC_ENTERTAINMENT"
-        | "FURNITURE_GARDEN"
-        | "SERVICES_JOBBING_EDUCATION"
-        | "SPORT_RECREATION_ACTIVITIES"
-        | "TICKETING"
+        | 'RENTALS'
+        | 'STORES_FASHION_ACCESSORIES_OBJECTS'
+        | 'BEAUTY_COSMETICS_HEALTH'
+        | 'FOOD_WINE_RESTAURANTS'
+        | 'HOSPITALITY_TRAVEL_CORIDING'
+        | 'ART_MUSIC_ENTERTAINMENT'
+        | 'FURNITURE_GARDEN'
+        | 'SERVICES_JOBBING_EDUCATION'
+        | 'SPORT_RECREATION_ACTIVITIES'
+        | 'TICKETING'
       type PlatformType = ValueOf<IPlatformType>
 
       interface PlatformCategorization {
@@ -3327,56 +3327,56 @@ declare module "mangopay2-nodejs-sdk" {
 
     namespace event {
       type EventType =
-        | "PAYIN_NORMAL_CREATED"
-        | "PAYIN_NORMAL_SUCCEEDED"
-        | "PAYIN_NORMAL_FAILED"
-        | "PAYOUT_NORMAL_CREATED"
-        | "PAYOUT_NORMAL_SUCCEEDED"
-        | "PAYOUT_NORMAL_FAILED"
-        | "TRANSFER_NORMAL_CREATED"
-        | "TRANSFER_NORMAL_SUCCEEDED"
-        | "TRANSFER_NORMAL_FAILED"
-        | "PAYIN_REFUND_CREATED"
-        | "PAYIN_REFUND_SUCCEEDED"
-        | "PAYIN_REFUND_FAILED"
-        | "PAYOUT_REFUND_CREATED"
-        | "PAYOUT_REFUND_SUCCEEDED"
-        | "PAYOUT_REFUND_FAILED"
-        | "TRANSFER_REFUND_CREATED"
-        | "TRANSFER_REFUND_SUCCEEDED"
-        | "TRANSFER_REFUND_FAILED"
-        | "KYC_CREATED"
-        | "KYC_VALIDATION_ASKED"
-        | "KYC_SUCCEEDED"
-        | "KYC_FAILED"
-        | "PAYIN_REPUDIATION_CREATED"
-        | "PAYIN_REPUDIATION_SUCCEEDED"
-        | "PAYIN_REPUDIATION_FAILED"
-        | "DISPUTE_DOCUMENT_CREATED"
-        | "DISPUTE_DOCUMENT_VALIDATION_ASKED"
-        | "DISPUTE_DOCUMENT_SUCCEEDED"
-        | "DISPUTE_DOCUMENT_FAILED"
-        | "DISPUTE_CREATED"
-        | "DISPUTE_SUBMITTED"
-        | "DISPUTE_ACTION_REQUIRED"
-        | "DISPUTE_FURTHER_ACTION_REQUIRED"
-        | "DISPUTE_CLOSED"
-        | "DISPUTE_SENT_TO_BANK"
-        | "TRANSFER_SETTLEMENT_CREATED"
-        | "TRANSFER_SETTLEMENT_SUCCEEDED"
-        | "TRANSFER_SETTLEMENT_FAILED"
-        | "MANDATE_CREATED"
-        | "MANDATE_FAILED"
-        | "MANDATE_ACTIVATED"
-        | "MANDATE_SUBMITTED"
-        | "PREAUTHORIZATION_PAYMENT_WAITING"
-        | "PREAUTHORIZATION_PAYMENT_EXPIRED"
-        | "PREAUTHORIZATION_PAYMENT_CANCELED"
-        | "PREAUTHORIZATION_PAYMENT_VALIDATED"
-        | "UBO_DECLARATION_CREATED"
-        | "UBO_DECLARATION_VALIDATION_ASKED"
-        | "UBO_DECLARATION_REFUSED"
-        | "UBO_DECLARATION_VALIDATED"
+        | 'PAYIN_NORMAL_CREATED'
+        | 'PAYIN_NORMAL_SUCCEEDED'
+        | 'PAYIN_NORMAL_FAILED'
+        | 'PAYOUT_NORMAL_CREATED'
+        | 'PAYOUT_NORMAL_SUCCEEDED'
+        | 'PAYOUT_NORMAL_FAILED'
+        | 'TRANSFER_NORMAL_CREATED'
+        | 'TRANSFER_NORMAL_SUCCEEDED'
+        | 'TRANSFER_NORMAL_FAILED'
+        | 'PAYIN_REFUND_CREATED'
+        | 'PAYIN_REFUND_SUCCEEDED'
+        | 'PAYIN_REFUND_FAILED'
+        | 'PAYOUT_REFUND_CREATED'
+        | 'PAYOUT_REFUND_SUCCEEDED'
+        | 'PAYOUT_REFUND_FAILED'
+        | 'TRANSFER_REFUND_CREATED'
+        | 'TRANSFER_REFUND_SUCCEEDED'
+        | 'TRANSFER_REFUND_FAILED'
+        | 'KYC_CREATED'
+        | 'KYC_VALIDATION_ASKED'
+        | 'KYC_SUCCEEDED'
+        | 'KYC_FAILED'
+        | 'PAYIN_REPUDIATION_CREATED'
+        | 'PAYIN_REPUDIATION_SUCCEEDED'
+        | 'PAYIN_REPUDIATION_FAILED'
+        | 'DISPUTE_DOCUMENT_CREATED'
+        | 'DISPUTE_DOCUMENT_VALIDATION_ASKED'
+        | 'DISPUTE_DOCUMENT_SUCCEEDED'
+        | 'DISPUTE_DOCUMENT_FAILED'
+        | 'DISPUTE_CREATED'
+        | 'DISPUTE_SUBMITTED'
+        | 'DISPUTE_ACTION_REQUIRED'
+        | 'DISPUTE_FURTHER_ACTION_REQUIRED'
+        | 'DISPUTE_CLOSED'
+        | 'DISPUTE_SENT_TO_BANK'
+        | 'TRANSFER_SETTLEMENT_CREATED'
+        | 'TRANSFER_SETTLEMENT_SUCCEEDED'
+        | 'TRANSFER_SETTLEMENT_FAILED'
+        | 'MANDATE_CREATED'
+        | 'MANDATE_FAILED'
+        | 'MANDATE_ACTIVATED'
+        | 'MANDATE_SUBMITTED'
+        | 'PREAUTHORIZATION_PAYMENT_WAITING'
+        | 'PREAUTHORIZATION_PAYMENT_EXPIRED'
+        | 'PREAUTHORIZATION_PAYMENT_CANCELED'
+        | 'PREAUTHORIZATION_PAYMENT_VALIDATED'
+        | 'UBO_DECLARATION_CREATED'
+        | 'UBO_DECLARATION_VALIDATION_ASKED'
+        | 'UBO_DECLARATION_REFUSED'
+        | 'UBO_DECLARATION_VALIDATED'
 
       interface EventData {
         /**
@@ -3398,32 +3398,32 @@ declare module "mangopay2-nodejs-sdk" {
 
     namespace dispute {
       type DisputeReasonType =
-        | "DUPLICATE"
-        | "FRAUD"
-        | "PRODUCT_UNACCEPTABLE"
-        | "UNKNOWN"
-        | "OTHER"
-        | "REFUND_CONVERSION_RATE"
-        | "LATE_FAILURE_INSUFFICIENT_FUNDS"
-        | "LATE_FAILURE_CONTACT_USER"
-        | "LATE_FAILURE_BANKACCOUNT_CLOSED"
-        | "LATE_FAILURE_BANKACCOUNT_INCOMPATIBLE"
-        | "LATE_FAILURE_BANKACCOUNT_INCORRECT"
-        | "AUTHORISATION_DISPUTED"
-        | "TRANSACTION_NOT_RECOGNIZED"
-        | "PRODUCT_NOT_PROVIDED"
-        | "CANCELED_REOCCURING_TRANSACTION"
-        | "REFUND_NOT_PROCESSED"
+        | 'DUPLICATE'
+        | 'FRAUD'
+        | 'PRODUCT_UNACCEPTABLE'
+        | 'UNKNOWN'
+        | 'OTHER'
+        | 'REFUND_CONVERSION_RATE'
+        | 'LATE_FAILURE_INSUFFICIENT_FUNDS'
+        | 'LATE_FAILURE_CONTACT_USER'
+        | 'LATE_FAILURE_BANKACCOUNT_CLOSED'
+        | 'LATE_FAILURE_BANKACCOUNT_INCOMPATIBLE'
+        | 'LATE_FAILURE_BANKACCOUNT_INCORRECT'
+        | 'AUTHORISATION_DISPUTED'
+        | 'TRANSACTION_NOT_RECOGNIZED'
+        | 'PRODUCT_NOT_PROVIDED'
+        | 'CANCELED_REOCCURING_TRANSACTION'
+        | 'REFUND_NOT_PROCESSED'
 
       type DisputeStatus =
-        | "CREATED"
-        | "PENDING_CLIENT_ACTION"
-        | "SUBMITTED"
-        | "PENDING_BANK_ACTION"
-        | "REOPENED_PENDING_CLIENT_ACTION"
-        | "CLOSED"
+        | 'CREATED'
+        | 'PENDING_CLIENT_ACTION'
+        | 'SUBMITTED'
+        | 'PENDING_BANK_ACTION'
+        | 'REOPENED_PENDING_CLIENT_ACTION'
+        | 'CLOSED'
 
-      type DisputeType = "CONTESTABLE" | "NOT_CONTESTABLE" | "RETRIEVAL"
+      type DisputeType = 'CONTESTABLE' | 'NOT_CONTESTABLE' | 'RETRIEVAL'
 
       interface DisputeReason {
         DisputeReasonType: DisputeReasonType
@@ -3493,9 +3493,9 @@ declare module "mangopay2-nodejs-sdk" {
       }
 
       interface SubmitDispute
-        extends PickPartial<DisputeData, "ContestedFunds"> {}
+        extends PickPartial<DisputeData, 'ContestedFunds'> {}
 
-      interface UpdateDispute extends PickPartial<DisputeData, "Tag"> {}
+      interface UpdateDispute extends PickPartial<DisputeData, 'Tag'> {}
     }
 
     interface DisputeReason extends dispute.DisputeReason {}
@@ -3505,7 +3505,7 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The nature of the transaction
          */
-        Nature: "SETTLEMENT"
+        Nature: 'SETTLEMENT'
 
         /**
          * The ID of the associated repudiation transaction
@@ -3531,8 +3531,8 @@ declare module "mangopay2-nodejs-sdk" {
       interface CreateSettlementTransfer
         extends PickPartialRequired<
           SettlementTransferData,
-          "Tag",
-          "AuthorId" | "DebitedFunds" | "Fees"
+          'Tag',
+          'AuthorId' | 'DebitedFunds' | 'Fees'
         > {}
     }
 
@@ -3601,7 +3601,7 @@ declare module "mangopay2-nodejs-sdk" {
         /**
          * The type of the transaction
          */
-        Type: "TRANSFER"
+        Type: 'TRANSFER'
       }
 
       interface CreateTransfer {
@@ -3643,13 +3643,13 @@ declare module "mangopay2-nodejs-sdk" {
     }
 
     namespace PayOut {
-      interface PayOutData extends Omit<transfer.TransferData, "Type"> {
+      interface PayOutData extends Omit<transfer.TransferData, 'Type'> {
         /**
          * The type of the transaction
          */
-        Type: "PAYOUT"
+        Type: 'PAYOUT'
 
-        PaymentType: IPayOutPaymentType["BankWire"]
+        PaymentType: IPayOutPaymentType['BankWire']
 
         /**
          * An ID of a Bank Account
@@ -4362,7 +4362,7 @@ declare module "mangopay2-nodejs-sdk" {
        * @param options
        */
       update: MethodOverload<
-        Partial<Omit<bankingAlias.CreateIBANBankingAlias, "CreditedUserId">>,
+        Partial<Omit<bankingAlias.CreateIBANBankingAlias, 'CreditedUserId'>>,
         bankingAlias.IBANBankingAliasData
       >
 
@@ -4731,539 +4731,539 @@ declare module "mangopay2-nodejs-sdk" {
 
   type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
-  type OmitType<T extends { Type: string }> = Omit<T, "Type">
+  type OmitType<T extends { Type: string }> = Omit<T, 'Type'>
 
   type ValueOf<T> = T[keyof T]
 
   type ApiMethod =
-    | "authentication_oauth"
-    | "responses_get"
-    | "events_all"
-    | "hooks_create"
-    | "hooks_all"
-    | "hooks_get"
-    | "hooks_save"
-    | "cardregistration_create"
-    | "cardregistration_get"
-    | "cardregistration_save"
-    | "preauthorization_create"
-    | "preauthorization_get"
-    | "preauthorization_save"
-    | "preauthorizations_get_for_user"
-    | "card_get"
-    | "cards_get_by_fingerprint"
-    | "card_save"
-    | "card_get_preauthorizations"
-    | "payins_card-web_create"
-    | "payins_card-direct_create"
-    | "payins_preauthorized-direct_create"
-    | "payins_bankwire-direct_create"
-    | "payins_directdebit-web_create"
-    | "payins_directdebit-direct_create"
-    | "payins_paypal-web_create"
-    | "payins_get"
-    | "payins_createrefunds"
-    | "payouts_bankwire_create"
-    | "payouts_get"
-    | "refunds_get"
-    | "refunds_get_for_repudiation"
-    | "refunds_get_for_transfer"
-    | "refunds_get_for_payin"
-    | "refunds_get_for_payout"
-    | "transfers_create"
-    | "transfers_get"
-    | "transfers_createrefunds"
-    | "users_createnaturals"
-    | "users_createlegals"
-    | "users_createbankaccounts_iban"
-    | "users_createbankaccounts_gb"
-    | "users_createbankaccounts_us"
-    | "users_createbankaccounts_ca"
-    | "users_createbankaccounts_other"
-    | "users_all"
-    | "users_allwallets"
-    | "users_allbankaccount"
-    | "users_allcards"
-    | "users_alltransactions"
-    | "users_allkycdocuments"
-    | "users_get"
-    | "users_getnaturals"
-    | "users_getlegals"
-    | "users_getbankaccount"
-    | "users_deactivate_bankaccount"
-    | "users_savenaturals"
-    | "users_savelegals"
-    | "users_getemoney"
-    | "wallets_create"
-    | "wallets_alltransactions"
-    | "wallets_get"
-    | "wallets_save"
-    | "kyc_documents_create"
-    | "kyc_documents_get"
-    | "kyc_documents_save"
-    | "kyc_page_create"
-    | "kyc_documents_all"
-    | "kyc_documents_get_alt"
-    | "kyc_documents_create_consult"
-    | "disputes_get"
-    | "disputes_save_tag"
-    | "disputes_save_contest_funds"
-    | "dispute_save_close"
-    | "disputes_get_transactions"
-    | "disputes_all"
-    | "disputes_get_for_wallet"
-    | "disputes_get_for_user"
-    | "disputes_document_create"
-    | "disputes_document_page_create"
-    | "disputes_document_save"
-    | "disputes_document_get"
-    | "disputes_document_get_for_dispute"
-    | "disputes_document_all"
-    | "disputes_document_create_consult"
-    | "disputes_repudiation_get"
-    | "disputes_repudiation_create_settlement"
-    | "disputes_repudiation_get_settlement"
-    | "disputes_pending_settlement"
-    | "reports_transaction_create"
-    | "reports_wallet_create"
-    | "reports_get"
-    | "reports_all"
-    | "mandates_directdebit-web_create"
-    | "mandates_get"
-    | "mandates_cancel"
-    | "mandates_all"
-    | "mandates_get_for_user"
-    | "mandates_get_for_bank_account"
-    | "clients_get"
-    | "clients_update"
-    | "clients_upload_logo"
-    | "client_wallets_all"
-    | "client_wallets_get"
-    | "client_wallets_by_fundsType"
-    | "client_wallets_transactions"
-    | "banking_aliases_iban_create"
-    | "banking_aliases_get"
-    | "banking_aliases_update"
-    | "banking_aliases_all"
-    | "ubo_declaration_create"
-    | "ubo_declaration_update"
-    | "ubo_declaration_get"
-    | "transactions_get_for_mandate"
-    | "transactions_get_for_card"
-    | "transactions_get_for_bank_account"
+    | 'authentication_oauth'
+    | 'responses_get'
+    | 'events_all'
+    | 'hooks_create'
+    | 'hooks_all'
+    | 'hooks_get'
+    | 'hooks_save'
+    | 'cardregistration_create'
+    | 'cardregistration_get'
+    | 'cardregistration_save'
+    | 'preauthorization_create'
+    | 'preauthorization_get'
+    | 'preauthorization_save'
+    | 'preauthorizations_get_for_user'
+    | 'card_get'
+    | 'cards_get_by_fingerprint'
+    | 'card_save'
+    | 'card_get_preauthorizations'
+    | 'payins_card-web_create'
+    | 'payins_card-direct_create'
+    | 'payins_preauthorized-direct_create'
+    | 'payins_bankwire-direct_create'
+    | 'payins_directdebit-web_create'
+    | 'payins_directdebit-direct_create'
+    | 'payins_paypal-web_create'
+    | 'payins_get'
+    | 'payins_createrefunds'
+    | 'payouts_bankwire_create'
+    | 'payouts_get'
+    | 'refunds_get'
+    | 'refunds_get_for_repudiation'
+    | 'refunds_get_for_transfer'
+    | 'refunds_get_for_payin'
+    | 'refunds_get_for_payout'
+    | 'transfers_create'
+    | 'transfers_get'
+    | 'transfers_createrefunds'
+    | 'users_createnaturals'
+    | 'users_createlegals'
+    | 'users_createbankaccounts_iban'
+    | 'users_createbankaccounts_gb'
+    | 'users_createbankaccounts_us'
+    | 'users_createbankaccounts_ca'
+    | 'users_createbankaccounts_other'
+    | 'users_all'
+    | 'users_allwallets'
+    | 'users_allbankaccount'
+    | 'users_allcards'
+    | 'users_alltransactions'
+    | 'users_allkycdocuments'
+    | 'users_get'
+    | 'users_getnaturals'
+    | 'users_getlegals'
+    | 'users_getbankaccount'
+    | 'users_deactivate_bankaccount'
+    | 'users_savenaturals'
+    | 'users_savelegals'
+    | 'users_getemoney'
+    | 'wallets_create'
+    | 'wallets_alltransactions'
+    | 'wallets_get'
+    | 'wallets_save'
+    | 'kyc_documents_create'
+    | 'kyc_documents_get'
+    | 'kyc_documents_save'
+    | 'kyc_page_create'
+    | 'kyc_documents_all'
+    | 'kyc_documents_get_alt'
+    | 'kyc_documents_create_consult'
+    | 'disputes_get'
+    | 'disputes_save_tag'
+    | 'disputes_save_contest_funds'
+    | 'dispute_save_close'
+    | 'disputes_get_transactions'
+    | 'disputes_all'
+    | 'disputes_get_for_wallet'
+    | 'disputes_get_for_user'
+    | 'disputes_document_create'
+    | 'disputes_document_page_create'
+    | 'disputes_document_save'
+    | 'disputes_document_get'
+    | 'disputes_document_get_for_dispute'
+    | 'disputes_document_all'
+    | 'disputes_document_create_consult'
+    | 'disputes_repudiation_get'
+    | 'disputes_repudiation_create_settlement'
+    | 'disputes_repudiation_get_settlement'
+    | 'disputes_pending_settlement'
+    | 'reports_transaction_create'
+    | 'reports_wallet_create'
+    | 'reports_get'
+    | 'reports_all'
+    | 'mandates_directdebit-web_create'
+    | 'mandates_get'
+    | 'mandates_cancel'
+    | 'mandates_all'
+    | 'mandates_get_for_user'
+    | 'mandates_get_for_bank_account'
+    | 'clients_get'
+    | 'clients_update'
+    | 'clients_upload_logo'
+    | 'client_wallets_all'
+    | 'client_wallets_get'
+    | 'client_wallets_by_fundsType'
+    | 'client_wallets_transactions'
+    | 'banking_aliases_iban_create'
+    | 'banking_aliases_get'
+    | 'banking_aliases_update'
+    | 'banking_aliases_all'
+    | 'ubo_declaration_create'
+    | 'ubo_declaration_update'
+    | 'ubo_declaration_get'
+    | 'transactions_get_for_mandate'
+    | 'transactions_get_for_card'
+    | 'transactions_get_for_bank_account'
 
   export type CountryISO =
-    | "AD"
-    | "AE"
-    | "AF"
-    | "AG"
-    | "AI"
-    | "AL"
-    | "AM"
-    | "AO"
-    | "AQ"
-    | "AR"
-    | "AS"
-    | "AT"
-    | "AU"
-    | "AW"
-    | "AX"
-    | "AZ"
-    | "BA"
-    | "BB"
-    | "BD"
-    | "BE"
-    | "BF"
-    | "BG"
-    | "BH"
-    | "BI"
-    | "BJ"
-    | "BL"
-    | "BM"
-    | "BN"
-    | "BO"
-    | "BQ"
-    | "BR"
-    | "BS"
-    | "BT"
-    | "BV"
-    | "BW"
-    | "BY"
-    | "BZ"
-    | "CA"
-    | "CC"
-    | "CD"
-    | "CF"
-    | "CG"
-    | "CH"
-    | "CI"
-    | "CK"
-    | "CL"
-    | "CM"
-    | "CN"
-    | "CO"
-    | "CR"
-    | "CU"
-    | "CV"
-    | "CW"
-    | "CX"
-    | "CY"
-    | "CZ"
-    | "DE"
-    | "DJ"
-    | "DK"
-    | "DM"
-    | "DO"
-    | "DZ"
-    | "EC"
-    | "EE"
-    | "EG"
-    | "EH"
-    | "ER"
-    | "ES"
-    | "ET"
-    | "FI"
-    | "FJ"
-    | "FK"
-    | "FM"
-    | "FO"
-    | "FR"
-    | "GA"
-    | "GB"
-    | "GD"
-    | "GE"
-    | "GF"
-    | "GG"
-    | "GH"
-    | "GI"
-    | "GL"
-    | "GM"
-    | "GN"
-    | "GP"
-    | "GQ"
-    | "GR"
-    | "GS"
-    | "GT"
-    | "GU"
-    | "GW"
-    | "GY"
-    | "HK"
-    | "HM"
-    | "HN"
-    | "HR"
-    | "HT"
-    | "HU"
-    | "ID"
-    | "IE"
-    | "IL"
-    | "IM"
-    | "IN"
-    | "IO"
-    | "IQ"
-    | "IR"
-    | "IS"
-    | "IT"
-    | "JE"
-    | "JM"
-    | "JO"
-    | "JP"
-    | "KE"
-    | "KG"
-    | "KH"
-    | "KI"
-    | "KM"
-    | "KN"
-    | "KP"
-    | "KR"
-    | "KW"
-    | "KY"
-    | "KZ"
-    | "LA"
-    | "LB"
-    | "LC"
-    | "LI"
-    | "LK"
-    | "LR"
-    | "LS"
-    | "LT"
-    | "LU"
-    | "LV"
-    | "LY"
-    | "MA"
-    | "MC"
-    | "MD"
-    | "ME"
-    | "MF"
-    | "MG"
-    | "MH"
-    | "MK"
-    | "ML"
-    | "MM"
-    | "MN"
-    | "MO"
-    | "MP"
-    | "MQ"
-    | "MR"
-    | "MS"
-    | "MT"
-    | "MU"
-    | "MV"
-    | "MW"
-    | "MX"
-    | "MY"
-    | "MZ"
-    | "NA"
-    | "NC"
-    | "NE"
-    | "NF"
-    | "NG"
-    | "NI"
-    | "NL"
-    | "NO"
-    | "NP"
-    | "NR"
-    | "NU"
-    | "NZ"
-    | "OM"
-    | "PA"
-    | "PE"
-    | "PF"
-    | "PG"
-    | "PH"
-    | "PK"
-    | "PL"
-    | "PM"
-    | "PN"
-    | "PR"
-    | "PS"
-    | "PT"
-    | "PW"
-    | "PY"
-    | "QA"
-    | "RE"
-    | "RO"
-    | "RS"
-    | "RU"
-    | "RW"
-    | "SA"
-    | "SB"
-    | "SC"
-    | "SD"
-    | "SE"
-    | "SG"
-    | "SH"
-    | "SI"
-    | "SJ"
-    | "SK"
-    | "SL"
-    | "SM"
-    | "SN"
-    | "SO"
-    | "SR"
-    | "SS"
-    | "ST"
-    | "SV"
-    | "SX"
-    | "SY"
-    | "SZ"
-    | "TC"
-    | "TD"
-    | "TF"
-    | "TG"
-    | "TH"
-    | "TJ"
-    | "TK"
-    | "TL"
-    | "TM"
-    | "TN"
-    | "TO"
-    | "TR"
-    | "TT"
-    | "TV"
-    | "TW"
-    | "TZ"
-    | "UA"
-    | "UG"
-    | "UM"
-    | "US"
-    | "UY"
-    | "UZ"
-    | "VA"
-    | "VC"
-    | "VE"
-    | "VG"
-    | "VI"
-    | "VN"
-    | "VU"
-    | "WF"
-    | "WS"
-    | "YE"
-    | "YT"
-    | "ZA"
-    | "ZM"
-    | "ZW"
+    | 'AD'
+    | 'AE'
+    | 'AF'
+    | 'AG'
+    | 'AI'
+    | 'AL'
+    | 'AM'
+    | 'AO'
+    | 'AQ'
+    | 'AR'
+    | 'AS'
+    | 'AT'
+    | 'AU'
+    | 'AW'
+    | 'AX'
+    | 'AZ'
+    | 'BA'
+    | 'BB'
+    | 'BD'
+    | 'BE'
+    | 'BF'
+    | 'BG'
+    | 'BH'
+    | 'BI'
+    | 'BJ'
+    | 'BL'
+    | 'BM'
+    | 'BN'
+    | 'BO'
+    | 'BQ'
+    | 'BR'
+    | 'BS'
+    | 'BT'
+    | 'BV'
+    | 'BW'
+    | 'BY'
+    | 'BZ'
+    | 'CA'
+    | 'CC'
+    | 'CD'
+    | 'CF'
+    | 'CG'
+    | 'CH'
+    | 'CI'
+    | 'CK'
+    | 'CL'
+    | 'CM'
+    | 'CN'
+    | 'CO'
+    | 'CR'
+    | 'CU'
+    | 'CV'
+    | 'CW'
+    | 'CX'
+    | 'CY'
+    | 'CZ'
+    | 'DE'
+    | 'DJ'
+    | 'DK'
+    | 'DM'
+    | 'DO'
+    | 'DZ'
+    | 'EC'
+    | 'EE'
+    | 'EG'
+    | 'EH'
+    | 'ER'
+    | 'ES'
+    | 'ET'
+    | 'FI'
+    | 'FJ'
+    | 'FK'
+    | 'FM'
+    | 'FO'
+    | 'FR'
+    | 'GA'
+    | 'GB'
+    | 'GD'
+    | 'GE'
+    | 'GF'
+    | 'GG'
+    | 'GH'
+    | 'GI'
+    | 'GL'
+    | 'GM'
+    | 'GN'
+    | 'GP'
+    | 'GQ'
+    | 'GR'
+    | 'GS'
+    | 'GT'
+    | 'GU'
+    | 'GW'
+    | 'GY'
+    | 'HK'
+    | 'HM'
+    | 'HN'
+    | 'HR'
+    | 'HT'
+    | 'HU'
+    | 'ID'
+    | 'IE'
+    | 'IL'
+    | 'IM'
+    | 'IN'
+    | 'IO'
+    | 'IQ'
+    | 'IR'
+    | 'IS'
+    | 'IT'
+    | 'JE'
+    | 'JM'
+    | 'JO'
+    | 'JP'
+    | 'KE'
+    | 'KG'
+    | 'KH'
+    | 'KI'
+    | 'KM'
+    | 'KN'
+    | 'KP'
+    | 'KR'
+    | 'KW'
+    | 'KY'
+    | 'KZ'
+    | 'LA'
+    | 'LB'
+    | 'LC'
+    | 'LI'
+    | 'LK'
+    | 'LR'
+    | 'LS'
+    | 'LT'
+    | 'LU'
+    | 'LV'
+    | 'LY'
+    | 'MA'
+    | 'MC'
+    | 'MD'
+    | 'ME'
+    | 'MF'
+    | 'MG'
+    | 'MH'
+    | 'MK'
+    | 'ML'
+    | 'MM'
+    | 'MN'
+    | 'MO'
+    | 'MP'
+    | 'MQ'
+    | 'MR'
+    | 'MS'
+    | 'MT'
+    | 'MU'
+    | 'MV'
+    | 'MW'
+    | 'MX'
+    | 'MY'
+    | 'MZ'
+    | 'NA'
+    | 'NC'
+    | 'NE'
+    | 'NF'
+    | 'NG'
+    | 'NI'
+    | 'NL'
+    | 'NO'
+    | 'NP'
+    | 'NR'
+    | 'NU'
+    | 'NZ'
+    | 'OM'
+    | 'PA'
+    | 'PE'
+    | 'PF'
+    | 'PG'
+    | 'PH'
+    | 'PK'
+    | 'PL'
+    | 'PM'
+    | 'PN'
+    | 'PR'
+    | 'PS'
+    | 'PT'
+    | 'PW'
+    | 'PY'
+    | 'QA'
+    | 'RE'
+    | 'RO'
+    | 'RS'
+    | 'RU'
+    | 'RW'
+    | 'SA'
+    | 'SB'
+    | 'SC'
+    | 'SD'
+    | 'SE'
+    | 'SG'
+    | 'SH'
+    | 'SI'
+    | 'SJ'
+    | 'SK'
+    | 'SL'
+    | 'SM'
+    | 'SN'
+    | 'SO'
+    | 'SR'
+    | 'SS'
+    | 'ST'
+    | 'SV'
+    | 'SX'
+    | 'SY'
+    | 'SZ'
+    | 'TC'
+    | 'TD'
+    | 'TF'
+    | 'TG'
+    | 'TH'
+    | 'TJ'
+    | 'TK'
+    | 'TL'
+    | 'TM'
+    | 'TN'
+    | 'TO'
+    | 'TR'
+    | 'TT'
+    | 'TV'
+    | 'TW'
+    | 'TZ'
+    | 'UA'
+    | 'UG'
+    | 'UM'
+    | 'US'
+    | 'UY'
+    | 'UZ'
+    | 'VA'
+    | 'VC'
+    | 'VE'
+    | 'VG'
+    | 'VI'
+    | 'VN'
+    | 'VU'
+    | 'WF'
+    | 'WS'
+    | 'YE'
+    | 'YT'
+    | 'ZA'
+    | 'ZM'
+    | 'ZW'
 
   type CurrencyISO =
-    | "AED"
-    | "AFN"
-    | "ALL"
-    | "AMD"
-    | "ANG"
-    | "AOA"
-    | "ARS"
-    | "AUD"
-    | "AWG"
-    | "AZN"
-    | "BAM"
-    | "BBD"
-    | "BDT"
-    | "BGN"
-    | "BHD"
-    | "BIF"
-    | "BMD"
-    | "BND"
-    | "BOB"
-    | "BRL"
-    | "BSD"
-    | "BTN"
-    | "BWP"
-    | "BYN"
-    | "BZD"
-    | "CAD"
-    | "CDF"
-    | "CHF"
-    | "CLP"
-    | "CNY"
-    | "COP"
-    | "CRC"
-    | "CUC"
-    | "CUP"
-    | "CVE"
-    | "CZK"
-    | "DJF"
-    | "DKK"
-    | "DOP"
-    | "DZD"
-    | "EGP"
-    | "ERN"
-    | "ETB"
-    | "EUR"
-    | "FJD"
-    | "FKP"
-    | "GBP"
-    | "GEL"
-    | "GGP"
-    | "GHS"
-    | "GIP"
-    | "GMD"
-    | "GNF"
-    | "GTQ"
-    | "GYD"
-    | "HKD"
-    | "HNL"
-    | "HRK"
-    | "HTG"
-    | "HUF"
-    | "IDR"
-    | "ILS"
-    | "IMP"
-    | "INR"
-    | "IQD"
-    | "IRR"
-    | "ISK"
-    | "JEP"
-    | "JMD"
-    | "JOD"
-    | "JPY"
-    | "KES"
-    | "KGS"
-    | "KHR"
-    | "KMF"
-    | "KPW"
-    | "KRW"
-    | "KWD"
-    | "KYD"
-    | "KZT"
-    | "LAK"
-    | "LBP"
-    | "LKR"
-    | "LRD"
-    | "LSL"
-    | "LYD"
-    | "MAD"
-    | "MDL"
-    | "MGA"
-    | "MKD"
-    | "MMK"
-    | "MNT"
-    | "MOP"
-    | "MRU"
-    | "MUR"
-    | "MVR"
-    | "MWK"
-    | "MXN"
-    | "MYR"
-    | "MZN"
-    | "NAD"
-    | "NGN"
-    | "NIO"
-    | "NOK"
-    | "NPR"
-    | "NZD"
-    | "OMR"
-    | "PAB"
-    | "PEN"
-    | "PGK"
-    | "PHP"
-    | "PKR"
-    | "PLN"
-    | "PYG"
-    | "QAR"
-    | "RON"
-    | "RSD"
-    | "RUB"
-    | "RWF"
-    | "SAR"
-    | "SBD"
-    | "SCR"
-    | "SDG"
-    | "SEK"
-    | "SGD"
-    | "SHP"
-    | "SLL"
-    | "SOS"
-    | "SPL"
-    | "SRD"
-    | "STN"
-    | "SVC"
-    | "SYP"
-    | "SZL"
-    | "THB"
-    | "TJS"
-    | "TMT"
-    | "TND"
-    | "TOP"
-    | "TRY"
-    | "TTD"
-    | "TVD"
-    | "TWD"
-    | "TZS"
-    | "UAH"
-    | "UGX"
-    | "USD"
-    | "UYU"
-    | "UZS"
-    | "VEF"
-    | "VND"
-    | "VUV"
-    | "WST"
-    | "XAF"
-    | "XCD"
-    | "XDR"
-    | "XOF"
-    | "XPF"
-    | "YER"
-    | "ZAR"
-    | "ZMW"
-    | "ZWD"
+    | 'AED'
+    | 'AFN'
+    | 'ALL'
+    | 'AMD'
+    | 'ANG'
+    | 'AOA'
+    | 'ARS'
+    | 'AUD'
+    | 'AWG'
+    | 'AZN'
+    | 'BAM'
+    | 'BBD'
+    | 'BDT'
+    | 'BGN'
+    | 'BHD'
+    | 'BIF'
+    | 'BMD'
+    | 'BND'
+    | 'BOB'
+    | 'BRL'
+    | 'BSD'
+    | 'BTN'
+    | 'BWP'
+    | 'BYN'
+    | 'BZD'
+    | 'CAD'
+    | 'CDF'
+    | 'CHF'
+    | 'CLP'
+    | 'CNY'
+    | 'COP'
+    | 'CRC'
+    | 'CUC'
+    | 'CUP'
+    | 'CVE'
+    | 'CZK'
+    | 'DJF'
+    | 'DKK'
+    | 'DOP'
+    | 'DZD'
+    | 'EGP'
+    | 'ERN'
+    | 'ETB'
+    | 'EUR'
+    | 'FJD'
+    | 'FKP'
+    | 'GBP'
+    | 'GEL'
+    | 'GGP'
+    | 'GHS'
+    | 'GIP'
+    | 'GMD'
+    | 'GNF'
+    | 'GTQ'
+    | 'GYD'
+    | 'HKD'
+    | 'HNL'
+    | 'HRK'
+    | 'HTG'
+    | 'HUF'
+    | 'IDR'
+    | 'ILS'
+    | 'IMP'
+    | 'INR'
+    | 'IQD'
+    | 'IRR'
+    | 'ISK'
+    | 'JEP'
+    | 'JMD'
+    | 'JOD'
+    | 'JPY'
+    | 'KES'
+    | 'KGS'
+    | 'KHR'
+    | 'KMF'
+    | 'KPW'
+    | 'KRW'
+    | 'KWD'
+    | 'KYD'
+    | 'KZT'
+    | 'LAK'
+    | 'LBP'
+    | 'LKR'
+    | 'LRD'
+    | 'LSL'
+    | 'LYD'
+    | 'MAD'
+    | 'MDL'
+    | 'MGA'
+    | 'MKD'
+    | 'MMK'
+    | 'MNT'
+    | 'MOP'
+    | 'MRU'
+    | 'MUR'
+    | 'MVR'
+    | 'MWK'
+    | 'MXN'
+    | 'MYR'
+    | 'MZN'
+    | 'NAD'
+    | 'NGN'
+    | 'NIO'
+    | 'NOK'
+    | 'NPR'
+    | 'NZD'
+    | 'OMR'
+    | 'PAB'
+    | 'PEN'
+    | 'PGK'
+    | 'PHP'
+    | 'PKR'
+    | 'PLN'
+    | 'PYG'
+    | 'QAR'
+    | 'RON'
+    | 'RSD'
+    | 'RUB'
+    | 'RWF'
+    | 'SAR'
+    | 'SBD'
+    | 'SCR'
+    | 'SDG'
+    | 'SEK'
+    | 'SGD'
+    | 'SHP'
+    | 'SLL'
+    | 'SOS'
+    | 'SPL'
+    | 'SRD'
+    | 'STN'
+    | 'SVC'
+    | 'SYP'
+    | 'SZL'
+    | 'THB'
+    | 'TJS'
+    | 'TMT'
+    | 'TND'
+    | 'TOP'
+    | 'TRY'
+    | 'TTD'
+    | 'TVD'
+    | 'TWD'
+    | 'TZS'
+    | 'UAH'
+    | 'UGX'
+    | 'USD'
+    | 'UYU'
+    | 'UZS'
+    | 'VEF'
+    | 'VND'
+    | 'VUV'
+    | 'WST'
+    | 'XAF'
+    | 'XCD'
+    | 'XDR'
+    | 'XOF'
+    | 'XPF'
+    | 'YER'
+    | 'ZAR'
+    | 'ZMW'
+    | 'ZWD'
 }

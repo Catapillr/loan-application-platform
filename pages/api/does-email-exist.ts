@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from 'next'
 
-import { prisma } from "../../prisma/generated/ts"
-import { USER, CHILDCAREPROVIDER } from "../../utils/constants"
+import { prisma } from '../../prisma/generated/ts'
+import { USER, CHILDCAREPROVIDER } from '../../utils/constants'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const accountTypeExists = (params: any) => {

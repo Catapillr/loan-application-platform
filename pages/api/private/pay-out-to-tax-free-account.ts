@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from 'next'
 
-import mango from "../../../lib/mango"
-import poundsToPennies from "../../../utils/poundsToPennies"
-import { sendEmployeeOutgoingPaymentNotification } from "../../../utils/mailgunClient"
+import mango from '../../../lib/mango'
+import poundsToPennies from '../../../utils/poundsToPennies'
+import { sendEmployeeOutgoingPaymentNotification } from '../../../utils/mailgunClient'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   try {
     // @ts-ignore
@@ -17,19 +17,19 @@ export default async (
     const { Status, ResultMessage } = await mango.Transfers.create({
       AuthorId: user.mangoUserId,
       DebitedFunds: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: poundsToPennies(amountToPay),
       },
       Fees: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: 0,
       },
       DebitedWalletId: user.mangoWalletId,
       CreditedWalletId: process.env.TAX_FREE_WALLET_ID,
     })
 
-    const FAILED = "FAILED"
-    const INSUFFICIENT_BALANCE = "Unsufficient wallet balance"
+    const FAILED = 'FAILED'
+    const INSUFFICIENT_BALANCE = 'Unsufficient wallet balance'
 
     if (Status === FAILED && ResultMessage === INSUFFICIENT_BALANCE) {
       return res
@@ -40,18 +40,18 @@ export default async (
     await mango.PayOuts.create({
       AuthorId: process.env.TAX_FREE_ACCOUNT_USER_ID,
       DebitedFunds: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: poundsToPennies(amountToPay),
       },
       Fees: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: 0,
       },
       BankAccountId: process.env.TAX_FREE_BANK_ACCOUNT_ID,
       DebitedWalletId: process.env.TAX_FREE_WALLET_ID,
       BankWireRef: reference,
       // @ts-ignore
-      PaymentType: "BANK_WIRE",
+      PaymentType: 'BANK_WIRE',
     })
 
     await sendEmployeeOutgoingPaymentNotification({
@@ -63,8 +63,8 @@ export default async (
   } catch (err) {
     //eslint-disable-next-line no-console
     console.error(
-      "Error when paying out to tax free account server: ",
-      JSON.stringify(err, undefined, 2)
+      'Error when paying out to tax free account server: ',
+      JSON.stringify(err, undefined, 2),
     )
   }
 }

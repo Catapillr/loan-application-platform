@@ -2,12 +2,12 @@ body {
   min-height: 100vh;
   height: fit-content;
   -webkit-font-smoothing: antialiased;
-  font-size: theme("fontSize.base");
-  line-height: theme("lineHeight.base");
+  font-size: theme('fontSize.base');
+  line-height: theme('lineHeight.base');
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

@@ -1,4 +1,4 @@
-const { prisma } = require("../prisma/generated/js")
+const { prisma } = require('../prisma/generated/js')
 
 const cleanUpVerificationTokens = async () => {
   const verificationTokens = await prisma
@@ -6,10 +6,10 @@ const cleanUpVerificationTokens = async () => {
       expiresAt_lt: new Date().toISOString(),
     })
     //eslint-disable-next-line
-    .catch(err => console.log("error cleaning up verification tokens:", err))
+    .catch(err => console.log('error cleaning up verification tokens:', err))
 
   //eslint-disable-next-line
-  console.log("deleted verification tokens:", verificationTokens)
+  console.log('deleted verification tokens:', verificationTokens)
 }
 
 const cleanUpPaymentRequests = async () => {
@@ -18,10 +18,10 @@ const cleanUpPaymentRequests = async () => {
       expiresAt_lt: new Date().toISOString(),
     })
     //eslint-disable-next-line
-    .catch(err => console.log("error cleaning up payment requests:", err))
+    .catch(err => console.log('error cleaning up payment requests:', err))
 
   //eslint-disable-next-line
-  console.log("deleted payment requests:", paymentRequests)
+  console.log('deleted payment requests:', paymentRequests)
 }
 
 const cleanUpChildcareProviders = async () => {
@@ -31,20 +31,20 @@ const cleanUpChildcareProviders = async () => {
       data: { expiresAt: null },
     })
     //eslint-disable-next-line
-    .catch(err => console.log("error updating childcare providers:", err))
+    .catch(err => console.log('error updating childcare providers:', err))
 
   //eslint-disable-next-line
-  console.log("approved childcare providers:", approvedProviders)
+  console.log('approved childcare providers:', approvedProviders)
 
   const childcareProviders = await prisma
     .deleteManyChildcareProviders({
       expiresAt_lt: new Date().toISOString(),
     })
     //eslint-disable-next-line
-    .catch(err => console.log("error cleaning up childcare providers:", err))
+    .catch(err => console.log('error cleaning up childcare providers:', err))
 
   //eslint-disable-next-line
-  console.log("deleted childcare providers:", childcareProviders)
+  console.log('deleted childcare providers:', childcareProviders)
 }
 
 module.exports = {

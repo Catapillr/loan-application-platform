@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react"
-import { Formik, Form, Field } from "formik"
-import styled from "styled-components"
-import axios from "axios"
-import * as R from "ramda"
+import React, { useState, useEffect } from 'react'
+import { Formik, Form, Field } from 'formik'
+import styled from 'styled-components'
+import axios from 'axios'
+import * as R from 'ramda'
 
-import * as Steps from "../../components/multistep-forms/employee/stepNames"
+import * as Steps from '../../components/multistep-forms/employee/stepNames'
 
-import Welcome from "../../components/multistep-forms/employee/Welcome"
-import Eligibility from "../../components/multistep-forms/employee/Eligibility"
-import Verification from "../../components/multistep-forms/employee/Verification"
-import Salary from "../../components/multistep-forms/employee/Salary"
-import Loan from "../../components/multistep-forms/employee/Loan"
-import Accuracy from "../../components/multistep-forms/employee/Accuracy"
-import Personal from "../../components/multistep-forms/employee/Personal"
-import Contact from "../../components/multistep-forms/employee/Contact"
-import Summary from "../../components/multistep-forms/employee/Summary"
-import Confirmation from "../../components/multistep-forms/employee/Confirmation"
+import Welcome from '../../components/multistep-forms/employee/Welcome'
+import Eligibility from '../../components/multistep-forms/employee/Eligibility'
+import Verification from '../../components/multistep-forms/employee/Verification'
+import Salary from '../../components/multistep-forms/employee/Salary'
+import Loan from '../../components/multistep-forms/employee/Loan'
+import Accuracy from '../../components/multistep-forms/employee/Accuracy'
+import Personal from '../../components/multistep-forms/employee/Personal'
+import Contact from '../../components/multistep-forms/employee/Contact'
+import Summary from '../../components/multistep-forms/employee/Summary'
+import Confirmation from '../../components/multistep-forms/employee/Confirmation'
 
-import DebugFormik from "../../components/DebugFormik"
-import { Button } from "../../components/multistep-forms/styles"
+import DebugFormik from '../../components/DebugFormik'
+import { Button } from '../../components/multistep-forms/styles'
 
-import orangeLogo from "../../static/logo_orange.svg"
+import orangeLogo from '../../static/logo_orange.svg'
 
 // const initialValues = {
 //   employmentStartDate: {
@@ -50,20 +50,20 @@ import orangeLogo from "../../static/logo_orange.svg"
 // }
 
 const initialValues = {
-  employmentStartDate: { day: "", month: "", year: "" },
-  email: "",
-  token: "",
+  employmentStartDate: { day: '', month: '', year: '' },
+  email: '',
+  token: '',
   permanentRole: false,
-  annualSalary: "",
+  annualSalary: '',
   loanAmount: 0,
-  loanAmountBox: "",
-  loanTerms: "",
-  firstName: "",
-  lastName: "",
-  dob: { day: "", month: "", year: "" },
-  nationality: "",
-  employeeId: "",
-  phoneNumber: "",
+  loanAmountBox: '',
+  loanTerms: '',
+  firstName: '',
+  lastName: '',
+  dob: { day: '', month: '', year: '' },
+  nationality: '',
+  employeeId: '',
+  phoneNumber: '',
   confirmation: false,
   gdprConsent: false,
 }
@@ -89,7 +89,7 @@ const Submit = ({ isSubmitting, submitForm }) => (
     disabled={isSubmitting}
     onClick={submitForm}
   >
-    {isSubmitting ? "Submitting..." : "Submit"}
+    {isSubmitting ? 'Submitting...' : 'Submit'}
   </Button>
 )
 
@@ -110,7 +110,7 @@ const Next = ({
         onClick={isValid ? onClick : displayErrors}
         disabled={isSubmitting}
       >
-        {formCompleted && page !== Steps.Salary ? "Summary" : "Next"}
+        {formCompleted && page !== Steps.Salary ? 'Summary' : 'Next'}
       </Button>
     )}
   </div>
@@ -130,7 +130,7 @@ const createNewToken = async ({ email }) => {
 
 const isTokenValid = async ({ email, token }) => {
   const res = await axios(
-    `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`
+    `${process.env.HOST}/api/is-token-valid?email=${email}&token=${token}`,
   )
 
   const {
@@ -213,7 +213,7 @@ const Controls = ({
 
 const onSubmit = ({ incrementPage, employer }) => async values => {
   //eslint-disable-next-line no-console
-  console.log("onboarding employee/form submitted")
+  console.log('onboarding employee/form submitted')
   try {
     await axios.post(`${process.env.HOST}/api/send-loan-agreement`, {
       employer,
@@ -225,7 +225,7 @@ const onSubmit = ({ incrementPage, employer }) => async values => {
     // TODO: trigger submit error (maybe with toast error)
 
     //eslint-disable-next-line no-console
-    console.error("Loan agreement sending error", e)
+    console.error('Loan agreement sending error', e)
   }
 }
 
@@ -236,7 +236,7 @@ const Wizard = ({ children, employer }) => {
 
   const steps = React.Children.toArray(children)
   const pages = steps.map(step => step.type.componentName)
-  const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
+  const activePage = R.find(R.pathEq(['type', 'componentName'], page))(steps)
 
   const {
     validationSchema,
@@ -382,7 +382,7 @@ const EmployeeOnboarding = ({ employer }) => {
 }
 
 const Container = styled.div.attrs({
-  className: "bg-white flex flex-col items-center justify-between",
+  className: 'bg-white flex flex-col items-center justify-between',
 })`
   width: 90%;
   margin: 60px 0 60px 0;
@@ -391,16 +391,16 @@ const Container = styled.div.attrs({
 `
 
 const Header = styled.div.attrs({
-  className: "pl-10 pt-8  w-full",
+  className: 'pl-10 pt-8  w-full',
 })``
 
-const Footer = styled.div.attrs({ className: "w-full bg-white" })`
+const Footer = styled.div.attrs({ className: 'w-full bg-white' })`
   transform: rotate(-180deg);
   box-shadow: 0 28px 34px 0 #f7f8fb;
 `
 
 const StyledForm = styled(Form).attrs({
-  className: "pt-10 pb-20 flex justify-center items-center",
+  className: 'pt-10 pb-20 flex justify-center items-center',
 })`
   width: 70%;
   min-height: 55vh;
@@ -408,7 +408,7 @@ const StyledForm = styled(Form).attrs({
 `
 
 const ErrorDiv = styled.div.attrs({
-  className: "pt-10 pb-20 flex justify-center items-center",
+  className: 'pt-10 pb-20 flex justify-center items-center',
 })`
   width: 70%;
   min-height: 55vh;
@@ -432,7 +432,7 @@ EmployeeOnboarding.getInitialProps = async ctx => {
   const {
     data: { employer },
   } = await axios.get(
-    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`
+    `${process.env.HOST}/api/get-employer-from-slug?slug=${slug}`,
   )
 
   return { employer }

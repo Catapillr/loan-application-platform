@@ -1,23 +1,23 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import axios from "axios"
-import fs from "fs"
-import { file } from "tmp-promise"
-import * as R from "ramda"
-import R_ from "../../utils/R_"
+import { NextApiRequest, NextApiResponse } from 'next'
+import axios from 'axios'
+import fs from 'fs'
+import { file } from 'tmp-promise'
+import * as R from 'ramda'
+import R_ from '../../utils/R_'
 
-import countryToISO from "../../utils/countryToISO"
-import nationalityToISO from "../../utils/nationalityToISO"
-import getLastPath from "../../utils/getLastPath"
+import countryToISO from '../../utils/countryToISO'
+import nationalityToISO from '../../utils/nationalityToISO'
+import getLastPath from '../../utils/getLastPath'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   try {
     const authentication = {
       auth: {
         username: process.env.COMPANIES_HOUSE_API,
-        password: "",
+        password: '',
       },
     }
 
@@ -27,7 +27,7 @@ export default async (
     const { data: companyData } = await axios(
       // eslint-disable-next-line @typescript-eslint/camelcase
       `https://api.companieshouse.gov.uk/company/${company_number}`,
-      authentication
+      authentication,
     )
 
     const {
@@ -35,15 +35,15 @@ export default async (
     } = await axios(
       // eslint-disable-next-line @typescript-eslint/camelcase
       `https://api.companieshouse.gov.uk/company/${company_number}/persons-with-significant-control`,
-      authentication
+      authentication,
     ).catch(e => {
       const [{ error }] = e.response.data.errors
-      if (error === "company-psc-not-found") {
+      if (error === 'company-psc-not-found') {
         return { data: { items: [] } }
       }
 
       // eslint-disable-next-line no-console
-      console.log("Error with pscs from companies house", e)
+      console.log('Error with pscs from companies house', e)
     })
 
     // Get filing list from Companies House
@@ -52,31 +52,31 @@ export default async (
       data: { items: filingData },
     } = await axios(
       `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation%2Cannual-return%2Cconfirmation-statement`,
-      authentication
+      authentication,
     )
 
     // Get Certificate of Incorporation
 
     const incorporationTransactionId = R.pipe(
-      R.filter((file: any) => file.category === "incorporation"),
+      R.filter((file: any) => file.category === 'incorporation'),
       R.head,
-      file => getLastPath(file.links.document_metadata)
+      file => getLastPath(file.links.document_metadata),
     )(filingData)
 
     const { data: _incData, ...incorporation } = await axios(
       `https://document-api.companieshouse.gov.uk/document/${incorporationTransactionId}/content`,
-      { headers: { Accept: "application/pdf" }, ...authentication }
+      { headers: { Accept: 'application/pdf' }, ...authentication },
     )
 
     const { data: incorporationDocument } = await axios.get(
       incorporation.request.res.responseUrl,
       {
-        responseType: "stream",
-      }
+        responseType: 'stream',
+      },
     )
 
     const { path: incorporationPath } = await file({
-      postfix: ".pdf",
+      postfix: '.pdf',
     })
 
     incorporationDocument.pipe(fs.createWriteStream(incorporationPath))
@@ -86,29 +86,29 @@ export default async (
     const confirmationTransactionId = R.pipe(
       R.filter(
         (file: any) =>
-          file.category === "confirmation-statement" ||
-          file.category === "annual-return"
+          file.category === 'confirmation-statement' ||
+          file.category === 'annual-return',
       ),
       R.head,
-      file => (file ? getLastPath(file.links.document_metadata) : null)
+      file => (file ? getLastPath(file.links.document_metadata) : null),
     )(filingData)
 
     const getConfirmationPath = async (): Promise<any> => {
       if (confirmationTransactionId) {
         const { data: _confData, ...confirmation } = await axios(
           `https://document-api.companieshouse.gov.uk/document/${confirmationTransactionId}/content`,
-          { headers: { Accept: "application/pdf" }, ...authentication }
+          { headers: { Accept: 'application/pdf' }, ...authentication },
         )
 
         const { data: confirmationDocument } = await axios.get(
           confirmation.request.res.responseUrl,
           {
-            responseType: "stream",
-          }
+            responseType: 'stream',
+          },
         )
 
         const { path } = await file({
-          postfix: ".pdf",
+          postfix: '.pdf',
         })
 
         confirmationDocument.pipe(fs.createWriteStream(path))
@@ -136,13 +136,13 @@ export default async (
           },
           Nationality: nationalityToISO(ubo.nationality),
           Birthplace: {
-            City: "",
-            Country: "",
+            City: '',
+            Country: '',
           },
           Birthday: {
             year: ubo.date_of_birth.year,
             month: ubo.date_of_birth.month,
-            day: "",
+            day: '',
           },
         },
       }
@@ -157,19 +157,19 @@ export default async (
       Region: companyData.registered_office_address.locality,
       PostalCode: companyData.registered_office_address.postal_code,
       Country:
-        countryToISO(companyData.registered_office_address.country) || "GB",
+        countryToISO(companyData.registered_office_address.country) || 'GB',
       companyCodes: companyData.sic_codes,
       articlesOfAssociation: {
-        name: "CH_incorporation.pdf",
-        type: "application/pdf",
+        name: 'CH_incorporation.pdf',
+        type: 'application/pdf',
         size: 300000,
         fileOnServer: true,
         path: incorporationPath,
         webkitRelativePath: incorporationPath,
       },
       proofOfRegistration: {
-        name: confirmationPath ? "CH_registration.pdf" : "CH_incorporation.pdf",
-        type: "application/pdf",
+        name: confirmationPath ? 'CH_registration.pdf' : 'CH_incorporation.pdf',
+        type: 'application/pdf',
         size: 300000,
         fileOnServer: true,
         path: confirmationPath || incorporationPath,
@@ -180,6 +180,6 @@ export default async (
 
     res.json({ company })
   } catch (e) {
-    console.log("There was an error in /get-company-public endpoint: ", e) //eslint-disable-line no-console
+    console.log('There was an error in /get-company-public endpoint: ', e) //eslint-disable-line no-console
   }
 }

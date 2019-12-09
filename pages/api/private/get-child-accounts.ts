@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "../../../prisma/generated/ts/index"
-import gql from "graphql-tag"
+import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '../../../prisma/generated/ts/index'
+import gql from 'graphql-tag'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   try {
     // @ts-ignore
@@ -22,6 +22,6 @@ export default async (
 
     res.json(childAccounts)
   } catch (e) {
-    console.log("There was an error retrieving wallet balance: ", e) //eslint-disable-line no-console
+    console.log('There was an error retrieving wallet balance: ', e) //eslint-disable-line no-console
   }
 }

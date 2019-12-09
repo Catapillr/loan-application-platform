@@ -1,4 +1,4 @@
-import mango from "../../lib/mango"
+import mango from '../../lib/mango'
 
 const run = (): any => {
   mango.Hooks.getAll()
@@ -6,16 +6,16 @@ const run = (): any => {
       hooks.map(hook =>
         mango.Hooks.update({
           ...hook,
-          Url: "https://69373a40.eu.ngrok.io/api/listen-mango",
+          Url: 'https://69373a40.eu.ngrok.io/api/listen-mango',
           //@ts-ignore
-          Status: "ENABLED",
-        })
-      )
+          Status: 'ENABLED',
+        }),
+      ),
     )
     .then(hookPromises => Promise.all(hookPromises))
     .then(
       // eslint-disable-next-line
-      console.log
+      console.log,
     )
 }
 

@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import axios from "axios"
-import * as R from "ramda"
+import { NextApiRequest, NextApiResponse } from 'next'
+import axios from 'axios'
+import * as R from 'ramda'
 // import { validSicCodes } from "../../utils/constants"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -13,13 +13,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       {
         auth: {
           username: process.env.COMPANIES_HOUSE_API,
-          password: "",
+          password: '',
         },
-      }
+      },
     )
 
     const companies = R.map(
-      R.pickAll(["title", "company_number", "address_snippet"])
+      R.pickAll(['title', 'company_number', 'address_snippet']),
     )(items)
     res.status(200).json({ companies })
 
@@ -51,6 +51,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     //   })
     //   .catch(e => console.log("error getting company SIC codes", e));
   } catch (e) {
-    console.log("There was an error in /get-companies endpoint: ", e) //eslint-disable-line no-console
+    console.log('There was an error in /get-companies endpoint: ', e) //eslint-disable-line no-console
   }
 }
