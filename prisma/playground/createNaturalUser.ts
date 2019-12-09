@@ -4,6 +4,7 @@ import moment from "moment"
 import mangopay from "mangopay2-nodejs-sdk"
 import R from "ramda"
 import { sendLoanTransferDetails } from "../../utils/mailgunClient"
+import gql from "graphql-tag"
 import calculatePlatformFees from "../../utils/calculatePlatformFees"
 
 const Natural = "NATURAL"
@@ -11,9 +12,34 @@ const GBP = "GBP"
 
 const run = async (): Promise<any> => {
   try {
-    const employee: any = await prisma.user({
+    await prisma.deleteUser({ email: "ivan@infactcoop.com" })
+
+    const loanAmount = 400000
+    const platformFees = calculatePlatformFees({
+      loanAmount,
+      minimumLoanFee: 20000,
+    })
+
+    const ivan: any = await prisma.createUser({
+      firstName: "Ivan",
+      lastName: "Gonzalez",
       email: "ivan@infactcoop.com",
-    }).$fragment(`
+      phoneNumber: "+447939656400",
+      dob: new Date().toISOString(),
+      nationality: "GB",
+      employmentStartDate: new Date().toISOString(),
+      annualSalary: 4000000,
+      employer: { connect: { slug: "infact" } },
+      loan: {
+        create: {
+          amount: loanAmount,
+          terms: 7,
+          approved: true,
+          platformFees,
+        },
+      },
+      gdprConsent: true,
+    }).$fragment(gql`
       fragment EmployeeWithLoanPlayground on User {
         firstName
         lastName
@@ -22,6 +48,7 @@ const run = async (): Promise<any> => {
         nationality
         loan {
           amount
+          platformFees
         }
         employer {
           id
@@ -31,30 +58,25 @@ const run = async (): Promise<any> => {
     `)
 
     const { Id: newMangoUserId } = await mango.Users.create({
-      FirstName: employee.firstName,
-      LastName: employee.lastName,
-      Birthday: moment(employee.dob).unix(),
-      Nationality: employee.nationality as mangopay.CountryISO,
+      FirstName: ivan.firstName,
+      LastName: ivan.lastName,
+      Birthday: moment.utc(ivan.dob).unix(),
+      Nationality: ivan.nationality as mangopay.CountryISO,
       CountryOfResidence: "GB",
-      Email: employee.email,
+      Email: ivan.email,
       PersonType: Natural,
     })
 
     const { Id: newWalletId } = await mango.Wallets.create({
       Owners: [newMangoUserId],
-      Description: `Employee wallet - ${employee.firstName} ${employee.lastName} - mangoID: ${newMangoUserId}`,
+      Description: `Employee wallet - ${ivan.firstName} ${ivan.lastName} - mangoID: ${newMangoUserId}`,
       Currency: GBP,
-    })
-
-    const platformFees = calculatePlatformFees({
-      minimumLoanFee: employee.employer.minimumLoanFee,
-      loanAmount: employee.loan.amount,
     })
 
     const {
       Id: payInId,
-      BankAccount,
       WireReference,
+      BankAccount,
     } = await mango.PayIns.create({
       PaymentType: "BANK_WIRE",
       ExecutionType: "DIRECT",
@@ -63,11 +85,11 @@ const run = async (): Promise<any> => {
       CreditedWalletId: newWalletId,
       DeclaredDebitedFunds: {
         Currency: GBP,
-        Amount: employee.loan.amount + platformFees,
+        Amount: ivan.loan.amount + ivan.loan.platformFees,
       },
       DeclaredFees: {
         Currency: GBP,
-        Amount: platformFees,
+        Amount: ivan.loan.platformFees,
       },
     })
 
@@ -78,30 +100,36 @@ const run = async (): Promise<any> => {
         payIns: {
           create: [
             {
-              employer: { connect: { id: employee.employer.id } },
+              employer: { connect: { id: ivan.employer.id } },
               mangoPayInId: payInId,
             },
           ],
         },
+        loan: {
+          update: {
+            approved: true,
+          },
+        },
       },
       where: {
-        email: employee.email,
+        email: ivan.email,
       },
     })
 
     const [sortCode, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
 
+    // TODO: check this in production to see if it's being split properly
     sendLoanTransferDetails({
-      email: "ivan@infactcoop.com",
+      email: "hello@infactcoop.com",
       sortCode,
       accountNumber,
       bankOwnerName: BankAccount.OwnerName,
       WireReference,
-      loanAmount: employee.loan.amount,
-      employeeName: `${employee.firstName} ${employee.lastName}`,
-      fees: `${platformFees / 1.2}`,
-      feesPlusVAT: `${platformFees}`,
-      totalPayInAmount: employee.loan.amount + platformFees,
+      loanAmount: ivan.loan.amount,
+      employeeName: `${ivan.firstName} ${ivan.lastName}`,
+      fees: `${ivan.loan.platformFees / 1.2}`,
+      feesPlusVAT: ivan.loan.platformFees,
+      totalPayInAmount: ivan.loan.amount + ivan.loan.platformFees,
     })
     // eslint-disable-next-line
     console.log("Success!")
