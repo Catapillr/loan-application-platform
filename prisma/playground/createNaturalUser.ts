@@ -99,6 +99,7 @@ const run = async (): Promise<any> => {
       WireReference,
       loanAmount: employee.loan.amount,
       employeeName: `${employee.firstName} ${employee.lastName}`,
+      employeeId: employee.employeeId,
       fees: `${platformFees / 1.2}`,
       feesPlusVAT: `${platformFees}`,
       totalPayInAmount: employee.loan.amount + platformFees,
