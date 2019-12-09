@@ -580,6 +580,8 @@ export type LoanOrderByInput =
   | "amount_DESC"
   | "terms_ASC"
   | "terms_DESC"
+  | "platformFees_ASC"
+  | "platformFees_DESC"
   | "approved_ASC"
   | "approved_DESC"
   | "agreementURL_ASC"
@@ -678,6 +680,14 @@ export interface LoanWhereInput {
   terms_lte?: Maybe<Int>;
   terms_gt?: Maybe<Int>;
   terms_gte?: Maybe<Int>;
+  platformFees?: Maybe<Int>;
+  platformFees_not?: Maybe<Int>;
+  platformFees_in?: Maybe<Int[] | Int>;
+  platformFees_not_in?: Maybe<Int[] | Int>;
+  platformFees_lt?: Maybe<Int>;
+  platformFees_lte?: Maybe<Int>;
+  platformFees_gt?: Maybe<Int>;
+  platformFees_gte?: Maybe<Int>;
   approved?: Maybe<Boolean>;
   approved_not?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
@@ -1746,6 +1756,7 @@ export interface UserCreateWithoutLoanInput {
 export interface LoanUpdateWithoutUserDataInput {
   amount?: Maybe<Int>;
   terms?: Maybe<Int>;
+  platformFees?: Maybe<Int>;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
 }
@@ -2030,6 +2041,7 @@ export interface LoanCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   amount: Int;
   terms: Int;
+  platformFees: Int;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
 }
@@ -2434,6 +2446,7 @@ export interface EmployerUpsertWithoutUserInput {
 export interface LoanUpdateManyMutationInput {
   amount?: Maybe<Int>;
   terms?: Maybe<Int>;
+  platformFees?: Maybe<Int>;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
 }
@@ -2931,6 +2944,7 @@ export interface LoanUpdateInput {
   user?: Maybe<UserUpdateOneRequiredWithoutLoanInput>;
   amount?: Maybe<Int>;
   terms?: Maybe<Int>;
+  platformFees?: Maybe<Int>;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
 }
@@ -3106,6 +3120,7 @@ export interface LoanCreateInput {
   user: UserCreateOneWithoutLoanInput;
   amount: Int;
   terms: Int;
+  platformFees: Int;
   approved?: Maybe<Boolean>;
   agreementURL?: Maybe<String>;
 }
@@ -4439,6 +4454,7 @@ export interface Loan {
   id: ID_Output;
   amount: Int;
   terms: Int;
+  platformFees: Int;
   approved: Boolean;
   agreementURL?: String;
   updatedAt: DateTimeOutput;
@@ -4450,6 +4466,7 @@ export interface LoanPromise extends Promise<Loan>, Fragmentable {
   user: <T = UserPromise>() => T;
   amount: () => Promise<Int>;
   terms: () => Promise<Int>;
+  platformFees: () => Promise<Int>;
   approved: () => Promise<Boolean>;
   agreementURL: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -4463,6 +4480,7 @@ export interface LoanSubscription
   user: <T = UserSubscription>() => T;
   amount: () => Promise<AsyncIterator<Int>>;
   terms: () => Promise<AsyncIterator<Int>>;
+  platformFees: () => Promise<AsyncIterator<Int>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   agreementURL: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -4476,6 +4494,7 @@ export interface LoanNullablePromise
   user: <T = UserPromise>() => T;
   amount: () => Promise<Int>;
   terms: () => Promise<Int>;
+  platformFees: () => Promise<Int>;
   approved: () => Promise<Boolean>;
   agreementURL: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -4544,6 +4563,7 @@ export interface LoanPreviousValues {
   id: ID_Output;
   amount: Int;
   terms: Int;
+  platformFees: Int;
   approved: Boolean;
   agreementURL?: String;
   updatedAt: DateTimeOutput;
@@ -4556,6 +4576,7 @@ export interface LoanPreviousValuesPromise
   id: () => Promise<ID_Output>;
   amount: () => Promise<Int>;
   terms: () => Promise<Int>;
+  platformFees: () => Promise<Int>;
   approved: () => Promise<Boolean>;
   agreementURL: () => Promise<String>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -4568,6 +4589,7 @@ export interface LoanPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   amount: () => Promise<AsyncIterator<Int>>;
   terms: () => Promise<AsyncIterator<Int>>;
+  platformFees: () => Promise<AsyncIterator<Int>>;
   approved: () => Promise<AsyncIterator<Boolean>>;
   agreementURL: () => Promise<AsyncIterator<String>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;

@@ -9,6 +9,7 @@ import { Heading, Copy } from "../styles"
 import { TextInput, SelectInput, DateInput } from "../../Input"
 import nationalityOptions from "../nationalityOptions"
 import zeroIndexMonth from "../../../utils/zeroIndexMonth"
+import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 
 import providerProgress1 from "../../../static/images/providerProgress1.svg"
 
@@ -68,7 +69,7 @@ const validateDate = date => {
   }
 }
 
-const BusinessDetails = ({ values: { repDob } }) => (
+const BusinessDetails = ({ values: { repDob }, setFieldValue }) => (
   <Container>
     <Heading className="mb-5">
       We need a few details from you to verify you as an eligible provider.
@@ -184,6 +185,16 @@ const BusinessDetails = ({ values: { repDob } }) => (
           component: DateInput,
           custom: true,
           name: "repDob",
+          keepFieldCleanOnChangeDayMonth: keepFieldCleanOnChange(
+            setFieldValue,
+            R.__,
+            /^[0-9\b]{0,2}$/
+          ),
+          keepFieldCleanOnChangeYear: keepFieldCleanOnChange(
+            setFieldValue,
+            R.__,
+            /^[0-9\b]{0,4}$/
+          ),
           validate: () => validateDate(repDob),
         },
         {

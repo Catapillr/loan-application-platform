@@ -200,7 +200,8 @@ const Wizard = ({
                           isSubmitting,
                           setFieldValue,
                           company,
-                          Controls: (
+                          // eslint-disable-next-line react/display-name
+                          Controls: () => (
                             <Controls
                               {...{ pageIndex, decrementPage, pages }}
                             />

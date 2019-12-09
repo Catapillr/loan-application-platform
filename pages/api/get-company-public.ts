@@ -9,7 +9,10 @@ import countryToISO from "../../utils/countryToISO"
 import nationalityToISO from "../../utils/nationalityToISO"
 import getLastPath from "../../utils/getLastPath"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     const authentication = {
       auth: {
@@ -17,16 +20,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         password: "",
       },
     }
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
     const { company_number } = req.query
 
-    const { data: company_data } = await axios(
+    const { data: companyData } = await axios(
+      // eslint-disable-next-line @typescript-eslint/camelcase
       `https://api.companieshouse.gov.uk/company/${company_number}`,
       authentication
     )
 
     const {
-      data: { items: ubo_data },
+      data: { items: uboData },
     } = await axios(
+      // eslint-disable-next-line @typescript-eslint/camelcase
       `https://api.companieshouse.gov.uk/company/${company_number}/persons-with-significant-control`,
       authentication
     ).catch(e => {
@@ -34,13 +41,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (error === "company-psc-not-found") {
         return { data: { items: [] } }
       }
+
+      // eslint-disable-next-line no-console
       console.log("Error with pscs from companies house", e)
     })
 
     // Get filing list from Companies House
 
     const {
-      data: { items: filing_data },
+      data: { items: filingData },
     } = await axios(
       `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation%2Cannual-return%2Cconfirmation-statement`,
       authentication
@@ -48,14 +57,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Get Certificate of Incorporation
 
-    const incorporation_transaction_id = R.pipe(
+    const incorporationTransactionId = R.pipe(
       R.filter((file: any) => file.category === "incorporation"),
       R.head,
       file => getLastPath(file.links.document_metadata)
-    )(filing_data)
+    )(filingData)
 
-    const { data: _inc_data, ...incorporation } = await axios(
-      `https://document-api.companieshouse.gov.uk/document/${incorporation_transaction_id}/content`,
+    const { data: _incData, ...incorporation } = await axios(
+      `https://document-api.companieshouse.gov.uk/document/${incorporationTransactionId}/content`,
       { headers: { Accept: "application/pdf" }, ...authentication }
     )
 
@@ -66,14 +75,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     )
 
-    const { path: incorporation_path } = await file({
+    const { path: incorporationPath } = await file({
       postfix: ".pdf",
     })
-    incorporationDocument.pipe(fs.createWriteStream(incorporation_path))
+
+    incorporationDocument.pipe(fs.createWriteStream(incorporationPath))
 
     // Get Latest Confirmation Statement / Annual Return
 
-    const confirmation_transaction_id = R.pipe(
+    const confirmationTransactionId = R.pipe(
       R.filter(
         (file: any) =>
           file.category === "confirmation-statement" ||
@@ -81,12 +91,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ),
       R.head,
       file => (file ? getLastPath(file.links.document_metadata) : null)
-    )(filing_data)
+    )(filingData)
 
-    const getConfirmationPath = async () => {
-      if (confirmation_transaction_id) {
-        const { data: _conf_data, ...confirmation } = await axios(
-          `https://document-api.companieshouse.gov.uk/document/${confirmation_transaction_id}/content`,
+    const getConfirmationPath = async (): Promise<any> => {
+      if (confirmationTransactionId) {
+        const { data: _confData, ...confirmation } = await axios(
+          `https://document-api.companieshouse.gov.uk/document/${confirmationTransactionId}/content`,
           { headers: { Accept: "application/pdf" }, ...authentication }
         )
 
@@ -107,7 +117,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return null
     }
 
+<<<<<<< HEAD
     const confirmation_path = await getConfirmationPath()
+=======
+    const confirmationPath = getConfirmationPath()
+>>>>>>> staging
 
     // @ts-ignore
     const ubos = R_.reduceIndexed((acc: any, ubo: any, index: number) => {
@@ -136,38 +150,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       }
-    }, {})(ubo_data)
+    }, {})(uboData)
 
     const company = {
-      businessName: company_data.company_name,
-      companyNumber: company_data.company_number,
-      AddressLine1: company_data.registered_office_address.address_line_1,
-      AddressLine2: company_data.registered_office_address.address_line_2,
-      City: company_data.registered_office_address.locality,
-      Region: company_data.registered_office_address.locality,
-      PostalCode: company_data.registered_office_address.postal_code,
+      businessName: companyData.company_name,
+      companyNumber: companyData.company_number,
+      AddressLine1: companyData.registered_office_address.address_line_1,
+      AddressLine2: companyData.registered_office_address.address_line_2,
+      City: companyData.registered_office_address.locality,
+      Region: companyData.registered_office_address.locality,
+      PostalCode: companyData.registered_office_address.postal_code,
       Country:
-        countryToISO(company_data.registered_office_address.country) || "GB",
-      companyCodes: company_data.sic_codes,
+        countryToISO(companyData.registered_office_address.country) || "GB",
+      companyCodes: companyData.sic_codes,
       articlesOfAssociation: {
         name: "CH_incorporation.pdf",
         type: "application/pdf",
         size: 300000,
         fileOnServer: true,
-        path: incorporation_path,
-        webkitRelativePath: incorporation_path,
+        path: incorporationPath,
+        webkitRelativePath: incorporationPath,
       },
       proofOfRegistration: {
-        name: confirmation_path
-          ? "CH_registration.pdf"
-          : "CH_incorporation.pdf",
+        name: confirmationPath ? "CH_registration.pdf" : "CH_incorporation.pdf",
         type: "application/pdf",
         size: 300000,
         fileOnServer: true,
-        path: confirmation_path ? confirmation_path : incorporation_path,
-        webkitRelativePath: confirmation_path
-          ? confirmation_path
-          : incorporation_path,
+        path: confirmationPath || incorporationPath,
+        webkitRelativePath: confirmationPath || incorporationPath,
       },
       ...ubos,
     }

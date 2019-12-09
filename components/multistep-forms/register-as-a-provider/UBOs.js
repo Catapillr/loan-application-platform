@@ -10,6 +10,7 @@ import { Heading, Copy } from "../styles"
 import { TextInput, SelectInput, DateInput } from "../../Input"
 import nationalityOptions from "../nationalityOptions"
 import zeroIndexMonth from "../../../utils/zeroIndexMonth"
+import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 
 import providerProgress2 from "../../../static/images/providerProgress2.svg"
 
@@ -45,7 +46,7 @@ const validateDate = date => {
   }
 }
 
-const UBOQuestion = (ubo, index) => (
+const UBOQuestion = (setFieldValue, ubo, index) => (
   <Questions
     key={`ubo${index + 1}`}
     formWidth="100"
@@ -60,6 +61,16 @@ const UBOQuestion = (ubo, index) => (
         component: DateInput,
         disabled: { day: false, month: true, year: true },
         custom: true,
+        keepFieldCleanOnChangeDayMonth: keepFieldCleanOnChange(
+          setFieldValue,
+          R.__,
+          /^[0-9\b]{0,2}$/
+        ),
+        keepFieldCleanOnChangeYear: keepFieldCleanOnChange(
+          setFieldValue,
+          R.__,
+          /^[0-9\b]{0,4}$/
+        ),
         validate: () => validateDate(ubo.Birthday),
       },
       {
@@ -80,13 +91,13 @@ const UBOQuestion = (ubo, index) => (
   />
 )
 
-const UBOList = ubos =>
+const UBOList = (ubos, setFieldValue) =>
   R.pipe(
     R.filter(ubo => !!ubo),
-    R_.mapIndexed(UBOQuestion)
+    R_.mapIndexed(UBOQuestion(setFieldValue))
   )(ubos)
 
-const UBOs = ({ values: { ubo1, ubo2, ubo3, ubo4 } }) => (
+const UBOs = ({ values: { ubo1, ubo2, ubo3, ubo4 }, setFieldValue }) => (
   <Container>
     <Heading className="mb-5">
       We need a few details from you to verify you as an eligible provider.
@@ -96,7 +107,7 @@ const UBOs = ({ values: { ubo1, ubo2, ubo3, ubo4 } }) => (
       funds, securely and quickly, please complete all fields of information.
       See our FAQs if you want ot find out more.
     </Copy>
-    {UBOList([ubo1, ubo2, ubo3, ubo4])}
+    {UBOList([ubo1, ubo2, ubo3, ubo4], setFieldValue)}
   </Container>
 )
 

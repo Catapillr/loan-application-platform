@@ -1,10 +1,12 @@
 import * as Yup from "yup"
 import moment from "moment"
+import * as R from "ramda"
 
 import Questions from "../Questions"
 import { TextInput, DateInput } from "../../Input"
 
 import zeroIndexMonth from "../../../utils/zeroIndexMonth"
+import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
 
 import progress3 from "../../../static/images/progress3.svg"
 
@@ -42,7 +44,7 @@ const validateDate = date => {
   }
 }
 
-const Personal = ({ values: { dob } }) => (
+const Personal = ({ values: { dob }, setFieldValue }) => (
   <Questions
     formWidth="65"
     title="3.1 Your personal details"
@@ -66,6 +68,16 @@ const Personal = ({ values: { dob } }) => (
         name: "dob",
         component: DateInput,
         custom: true,
+        keepFieldCleanOnChangeDayMonth: keepFieldCleanOnChange(
+          setFieldValue,
+          R.__,
+          /^[0-9\b]{0,2}$/
+        ),
+        keepFieldCleanOnChangeYear: keepFieldCleanOnChange(
+          setFieldValue,
+          R.__,
+          /^[0-9\b]{0,4}$/
+        ),
         validate: () => validateDate(dob),
       },
     ]}
