@@ -35,6 +35,20 @@
     "staging:up": "env-cmd -f ./.config/staging.env npm run up",
     "staging:down": "env-cmd -f ./.config/staging.env npm run down"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "jest-runner-eslint": {
+    "cliOptions": {
+      "fix": true,
+      "ext": [
+        ".js",
+        ".ts"
+      ]
+    }
+  },
   "dependencies": {
     "@types/currency-formatter": "^1.3.0",
     "@zeit/next-css": "^1.0.1",
@@ -96,13 +110,16 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.1.0",
     "jest": "^24.9.0",
     "jest-runner-eslint": "^0.7.5",
     "jest-watch-select-projects": "^1.0.0",
     "jest-watch-typeahead": "^0.4.2",
+    "lint-staged": "^9.5.0",
     "nodemon": "^1.19.2",
     "postcss-import": "^12.0.1",
     "prettier": "^1.18.2",
+    "shell-quote": "^1.7.2",
     "tachyons": "^4.11.1",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.2"
