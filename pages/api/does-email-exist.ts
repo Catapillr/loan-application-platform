@@ -3,8 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "../../prisma/generated/ts"
 import { USER, CHILDCAREPROVIDER } from "../../utils/constants"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const accountTypeExists = (params: any) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
+  const accountTypeExists = (params: any): any => {
     switch (req.query.accountType as string) {
       case USER:
         return prisma.$exists.user(params)

@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect } from 'react'
 
 const useOnOutsideClick = ({ className, openState, setOpenState }) =>
   useEffect(() => {
@@ -10,10 +10,10 @@ const useOnOutsideClick = ({ className, openState, setOpenState }) =>
     }
 
     const removeClickListener = () => {
-      document.removeEventListener("click", outsideClickListener)
+      document.removeEventListener('click', outsideClickListener)
     }
     const addClickListener = () => {
-      document.addEventListener("click", outsideClickListener)
+      document.addEventListener('click', outsideClickListener)
     }
 
     openState && addClickListener()

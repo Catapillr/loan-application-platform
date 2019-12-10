@@ -1,32 +1,32 @@
-import { useState } from "react"
-import styled from "styled-components"
-import axios from "axios"
-import { Formik, Form } from "formik"
-import * as Yup from "yup"
-import { useRouter } from "next/router"
+import { useState } from 'react'
+import styled from 'styled-components'
+import axios from 'axios'
+import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
+import { useRouter } from 'next/router'
 
-import { formatToGBP, unformatFromGBP } from "../../../utils/currencyFormatter"
-import penniesToPounds from "../../../utils/penniesToPounds"
-import { Input, PriceInput, TextAreaInput } from "../../../components/Input"
+import { formatToGBP, unformatFromGBP } from '../../../utils/currencyFormatter'
+import penniesToPounds from '../../../utils/penniesToPounds'
+import { Input, PriceInput, TextAreaInput } from '../../../components/Input'
 
-import restrictAccess from "../../../utils/restrictAccess"
+import restrictAccess from '../../../utils/restrictAccess'
 
-import Header from "../../../components/Header"
-import Footer from "../../../components/Footer"
+import Header from '../../../components/Header'
+import Footer from '../../../components/Footer'
 
-import Tick from "../../../static/icons/tick-in-circle.svg"
+import Tick from '../../../static/icons/tick-in-circle.svg'
 
-import Pen from "../../../static/icons/pen.svg"
-import Nursery from "../../../static/icons/nursery.svg"
+import Pen from '../../../static/icons/pen.svg'
+import Nursery from '../../../static/icons/nursery.svg'
 
 const initialValues = {
-  amountToPay: "",
-  taxFreeChildReference: "",
+  amountToPay: '',
+  taxFreeChildReference: '',
 }
 
 const validationSchema = Yup.object().shape({
-  amountToPay: Yup.string().required("Required!"),
-  taxFreeChildReference: Yup.string().required("Required!"),
+  amountToPay: Yup.string().required('Required!'),
+  taxFreeChildReference: Yup.string().required('Required!'),
 })
 
 const PayIntoChildAccount = () => {
@@ -55,7 +55,7 @@ const PayIntoChildAccount = () => {
               <p className="mb-6">We need something here.</p>
               <p className="mb-6">To explain what it does.</p>
               <p>
-                Can't find who you want to pay?{" "}
+                Can't find who you want to pay?{' '}
                 <a
                   className="text-teal underline"
                   href="https://catapillr.com/contact-us/"
@@ -91,7 +91,7 @@ const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
       </_Controls>
       <Icon src={Nursery} />
       <p className="text-center">
-        You are making a payment to <span className="font-bold">{name}'s</span>{" "}
+        You are making a payment to <span className="font-bold">{name}'s</span>{' '}
         tax-free account
       </p>
 
@@ -103,23 +103,23 @@ const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
           onSubmit: async (values, actions) => {
             try {
               await axios.post(
-                "/api/private/pay-out-to-tax-free-account",
-                values
+                '/api/private/pay-out-to-tax-free-account',
+                values,
               )
               setFormSubmitted(true)
               actions.setSubmitting(false)
             } catch (err) {
               //eslint-disable-next-line no-console
-              console.error("Error sending tax free payment to server", err)
+              console.error('Error sending tax free payment to server', err)
               if (err.response) {
                 const { status, reason } = err.response.data
                 if (
-                  status === "FAILED" &&
-                  reason === "Unsufficient wallet balance"
+                  status === 'FAILED' &&
+                  reason === 'Unsufficient wallet balance'
                 ) {
                   actions.setFieldError(
-                    "amountToPay",
-                    "You don't have sufficient funds in your account"
+                    'amountToPay',
+                    "You don't have sufficient funds in your account",
                   )
                 }
               }
@@ -136,13 +136,13 @@ const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
               <Input
                 name="amountToPay"
                 onBlur={e => {
-                  setFieldValue("amountToPay", formatToGBP(e.target.value))
+                  setFieldValue('amountToPay', formatToGBP(e.target.value))
                 }}
                 validate={value => {
                   const amount = penniesToPounds(unformatFromGBP(value))
 
                   if (amount <= 0) {
-                    return "Amount must be more than 0"
+                    return 'Amount must be more than 0'
                   }
                 }}
                 component={PriceInput}
@@ -161,11 +161,11 @@ const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
               </Reference>
 
               <Submit
-                className={`mt-10 ${isSubmitting && "opacity-50"}`}
+                className={`mt-10 ${isSubmitting && 'opacity-50'}`}
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Submitting..." : "Send money now"}
+                {isSubmitting ? 'Submitting...' : 'Send money now'}
               </Submit>
             </Form>
           )
@@ -189,45 +189,45 @@ const Confirmation = ({ name }) => (
 )
 
 const Container = styled.div.attrs({
-  className: "w-full bg-lightgray min-h-screen flex flex-col justify-between",
+  className: 'w-full bg-lightgray min-h-screen flex flex-col justify-between',
 })``
 
 const Contents = styled.section.attrs({
-  className: "flex flex-grow justify-between pl-43 pr-12 py-18 h-full",
+  className: 'flex flex-grow justify-between pl-43 pr-12 py-18 h-full',
 })``
 
 const Main = styled.main.attrs({
-  className: "w-6/12",
+  className: 'w-6/12',
 })``
 
 const Aside = styled.aside.attrs({
-  className: "w-5/12 flex justify-center",
+  className: 'w-5/12 flex justify-center',
 })``
 
 const Tip = styled.aside.attrs({
-  className: "bg-white py-10 px-9 w-8/12 mt-27",
+  className: 'bg-white py-10 px-9 w-8/12 mt-27',
 })`
   height: fit-content;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
 
 const Title = styled.h1.attrs({
-  className: "font-bold font-3xl",
+  className: 'font-bold font-3xl',
 })``
 
 const Icon = styled.img.attrs(({ src }) => ({
-  className: "w-12 h-12 mb-3 m-auto",
+  className: 'w-12 h-12 mb-3 m-auto',
   src,
 }))``
 
 const FormContainer = styled.section.attrs({
-  className: "w-full block bg-white px-10 pb-10 pt-6",
+  className: 'w-full block bg-white px-10 pb-10 pt-6',
 })`
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
 `
 
 const ConfirmationContainer = styled.div.attrs({
-  className: "bg-white p-10 flex flex-col items-center",
+  className: 'bg-white p-10 flex flex-col items-center',
 })`
   max-width: 600px;
   margin-right: auto;
@@ -237,30 +237,30 @@ const ConfirmationContainer = styled.div.attrs({
 `
 
 const _Controls = styled.nav.attrs({
-  className: "flex justify-between items-center",
+  className: 'flex justify-between items-center',
 })``
 
 const Back = styled.a.attrs({
-  className: "cursor-pointer",
+  className: 'cursor-pointer',
 })``
 
 const Submit = styled.button.attrs({
   className:
-    "text-teal border border-teal rounded-full py-2 px-6 text-center block m-auto",
+    'text-teal border border-teal rounded-full py-2 px-6 text-center block m-auto',
 })``
 
 const Reference = styled.div.attrs({
   className:
-    "border-t border-b border-midgray py-10 flex items-center justify-center mb-10",
+    'border-t border-b border-midgray py-10 flex items-center justify-center mb-10',
 })``
 
 const Copy = styled.p.attrs({
-  className: "text-center",
+  className: 'text-center',
 })``
 
 const Edit = styled.img.attrs({
   src: Pen,
-  className: "mr-8",
+  className: 'mr-8',
 })``
 
 export default PayIntoChildAccount

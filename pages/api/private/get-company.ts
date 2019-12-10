@@ -1,11 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import axios from "axios"
+import { NextApiRequest, NextApiResponse } from 'next'
+import axios from 'axios'
 
-import { prisma } from "../../../prisma/generated/ts"
+import { prisma } from '../../../prisma/generated/ts'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   try {
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -17,9 +17,9 @@ export default async (
       {
         auth: {
           username: process.env.COMPANIES_HOUSE_API,
-          password: "",
+          password: '',
         },
-      }
+      },
     )
 
     const catapillrChildcareProvider = await prisma.childcareProvider({
@@ -31,6 +31,6 @@ export default async (
   } catch (e) {
     res.status(404)
     res.end()
-    console.log("There was an error in /get-company endpoint:", e) //eslint-disable-line no-console
+    console.log('There was an error in /get-company endpoint:', e) //eslint-disable-line no-console
   }
 }

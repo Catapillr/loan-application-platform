@@ -10,7 +10,10 @@ import zeroIndexMonth from "../../utils/zeroIndexMonth"
 
 const GBP = "GBP"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     const form = new formidable.IncomingForm()
     form.parse(req, async (err, fields, files) => {
@@ -52,10 +55,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // @ts-ignore
       const providerLegalUser = await mango.Users.create({
+        // @ts-ignore
         PersonType: "LEGAL",
         LegalPersonType: "BUSINESS",
         Name: businessName,
-        Email: childcareProviderEmail,
+        Email: childcareProviderEmail as string,
         HeadquartersAddress: {
           AddressLine1,
           AddressLine2,
@@ -71,7 +75,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         LegalRepresentativeFirstName: repFirstName,
         LegalRepresentativeLastName: repLastName,
         CompanyNumber: companyNumber,
-      }).catch(e => {
+      }).catch((e: any) => {
         const error = {
           error: e,
           url: `${process.env.HOST}/api/register-provider`,
@@ -79,6 +83,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           time: new Date().toISOString(),
         }
 
+        // eslint-disable-next-line no-console
         console.error(
           "Error in page /register-provider => Legal user creation error",
           error
@@ -93,7 +98,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         | "REGISTRATION_PROOF"
         | "ARTICLES_OF_ASSOCIATION"
 
-      const createDocumentWithPages = async (file: any, Type: KycDocument) => {
+      const createDocumentWithPages = async (
+        file: any,
+        Type: KycDocument
+      ): Promise<any> => {
         try {
           const document = await mango.Users.createKycDocument(
             providerLegalUser.Id,
@@ -127,6 +135,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             time: new Date().toISOString(),
           }
 
+          // eslint-disable-next-line no-console
           console.error(
             `Error in page /register-provider => Issue creating KYC document ${Type}`,
             error
@@ -156,6 +165,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const uboPromises: any[] = R.pipe(
           //@ts-ignore
           R.filter(ubo => !!ubo),
+          //@ts-ignore
           R.map((ubo: string) => JSON.parse(ubo)),
           R.map(async (ubo: any) => {
             // @ts-ignore
@@ -183,6 +193,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             time: new Date().toISOString(),
           }
 
+          // eslint-disable-next-line no-console
           console.error(
             "Error in page /register-provider => UBO creation error",
             error
@@ -195,7 +206,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Id: uboDeclaration.Id,
           Ubos,
           Status: "VALIDATION_ASKED",
-        }).catch(e => {
+        }).catch((e: any) => {
           const error = {
             error: e,
             url: `${process.env.HOST}/api/register-provider`,
@@ -204,6 +215,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             time: new Date().toISOString(),
           }
 
+          // eslint-disable-next-line no-console
           console.error(
             "Error in page /register-provider => UBO declaration update error",
             error
@@ -226,6 +238,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           time: new Date().toISOString(),
         }
 
+        // eslint-disable-next-line no-console
         console.error(
           "Error in page /register-provider => Wallet creation error",
           error
@@ -260,7 +273,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           // @ts-ignore
           AccountNumber: accountNumber,
         }
-      ).catch(e => {
+      ).catch((e: any) => {
         const error = {
           error: e,
           url: `${process.env.HOST}/api/register-provider`,
@@ -269,6 +282,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           time: new Date().toISOString(),
         }
 
+        // eslint-disable-next-line no-console
         console.error(
           "Error in page /register-provider => Bank account creation error",
           error
@@ -296,6 +310,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             time: new Date().toISOString(),
           }
 
+          // eslint-disable-next-line no-console
           console.error(
             "Error in page /register-provider => Provider update error",
             error

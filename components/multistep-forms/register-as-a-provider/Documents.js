@@ -1,81 +1,96 @@
-import * as Yup from "yup"
-import styled from "styled-components"
+import * as Yup from 'yup'
+import styled from 'styled-components'
 
-import { Heading, Copy } from "../styles"
-import Questions from "../Questions"
-import { FileInput } from "../../Input"
+import { Heading, Copy } from '../styles'
+import Questions from '../Questions'
+import { FileInput } from '../../Input'
 
-import providerProgress3 from "../../../static/images/providerProgress3.svg"
-import checkFileType from "../../../utils/checkFileType"
+import providerProgress3 from '../../../static/images/providerProgress3.svg'
+import checkFileType from '../../../utils/checkFileType'
 
 const validation = Yup.object().shape({
   repProofOfId: Yup.mixed()
     .test(
-      "Check file exists",
-      "You need to upload a Proof of ID for us to be able to continue",
-      value => (value ? !!value.name : true)
+      'Check file exists',
+      'You need to upload a Proof of ID for us to be able to continue',
+      value => (value ? !!value.name : true),
     )
     .test(
-      "Check file format is supported",
-      "The file format of your Proof of ID is not supported",
-      checkFileType(["application/pdf", "image/jpeg", "image/gif", "image/png"])
+      'Check file format is supported',
+      'The file format of your Proof of ID is not supported',
+      checkFileType([
+        'application/pdf',
+        'image/jpeg',
+        'image/gif',
+        'image/png',
+      ]),
     )
     .test(
-      "Check file format is large enough",
-      "Please upload a file larger than 1Kb!",
-      value => (value ? value.size > 1000 : true)
+      'Check file format is large enough',
+      'Please upload a file larger than 1Kb!',
+      value => (value ? value.size > 1000 : true),
     )
     .test(
       "Check file format isn't too big",
-      "That file is too big! Please upload a file smaller than 7Mb!",
-      value => (value ? value.size < 7000000 : true)
+      'That file is too big! Please upload a file smaller than 7Mb!',
+      value => (value ? value.size < 7000000 : true),
     ),
   articlesOfAssociation: Yup.mixed()
     .test(
-      "Check file exists",
-      "You need to upload your Articles of Association for us to be able to continue",
-      value => (value ? !!value.name : true)
+      'Check file exists',
+      'You need to upload your Articles of Association for us to be able to continue',
+      value => (value ? !!value.name : true),
     )
     .test(
-      "Check file format is supported",
-      "The file format of your Articles of Association is not supported",
-      checkFileType(["application/pdf", "image/jpeg", "image/gif", "image/png"])
+      'Check file format is supported',
+      'The file format of your Articles of Association is not supported',
+      checkFileType([
+        'application/pdf',
+        'image/jpeg',
+        'image/gif',
+        'image/png',
+      ]),
     )
     .test(
-      "Check file format is large enough",
-      "Please upload a file larger than 1Kb!",
-      value => (value ? value.size > 1000 : true)
+      'Check file format is large enough',
+      'Please upload a file larger than 1Kb!',
+      value => (value ? value.size > 1000 : true),
     )
     .test(
       "Check file format isn't too big",
-      "That file is too big! Please upload a file smaller than 7Mb!",
-      value => (value ? value.size < 7000000 : true)
+      'That file is too big! Please upload a file smaller than 7Mb!',
+      value => (value ? value.size < 7000000 : true),
     ),
   proofOfRegistration: Yup.mixed()
     .test(
-      "Check file exists",
-      "You need to upload a Proof of Registration for us to be able to continue",
-      value => (value ? !!value.name : true)
+      'Check file exists',
+      'You need to upload a Proof of Registration for us to be able to continue',
+      value => (value ? !!value.name : true),
     )
     .test(
-      "Check file format is supported",
-      "The file format of your Proof of Registration is not supported",
-      checkFileType(["application/pdf", "image/jpeg", "image/gif", "image/png"])
+      'Check file format is supported',
+      'The file format of your Proof of Registration is not supported',
+      checkFileType([
+        'application/pdf',
+        'image/jpeg',
+        'image/gif',
+        'image/png',
+      ]),
     )
     .test(
-      "Check file format is large enough",
-      "Please upload a file larger than 1Kb!",
-      value => (value ? value.size > 1000 : true)
+      'Check file format is large enough',
+      'Please upload a file larger than 1Kb!',
+      value => (value ? value.size > 1000 : true),
     )
     .test(
       "Check file format isn't too big",
-      "That file is too big! Please upload a file smaller than 7Mb!",
-      value => (value ? value.size < 7000000 : true)
+      'That file is too big! Please upload a file smaller than 7Mb!',
+      value => (value ? value.size < 7000000 : true),
     ),
 })
 
 const Container = styled.main.attrs({
-  className: "flex flex-col",
+  className: 'flex flex-col',
 })`
   width: 65%;
 `
@@ -106,42 +121,42 @@ const Documents = ({
         title="2.1 Your documents"
         questions={[
           {
-            text: "Proof of Identity (Passport or Driving license)",
-            name: "repProofOfId",
+            text: 'Proof of Identity (Passport or Driving license)',
+            name: 'repProofOfId',
             component: FileInput,
             file: repProofOfId,
             onChange: e => {
               setFieldValue(
-                "repProofOfIdURI",
-                URL.createObjectURL(e.currentTarget.files[0])
+                'repProofOfIdURI',
+                URL.createObjectURL(e.currentTarget.files[0]),
               )
-              setFieldValue("repProofOfId", e.currentTarget.files[0])
+              setFieldValue('repProofOfId', e.currentTarget.files[0])
             },
           },
           {
-            text: "Articles of Association",
-            name: "articlesOfAssociation",
+            text: 'Articles of Association',
+            name: 'articlesOfAssociation',
             component: FileInput,
             file: articlesOfAssociation,
             onChange: e => {
               setFieldValue(
-                "articlesOfAssociationURI",
-                URL.createObjectURL(e.currentTarget.files[0])
+                'articlesOfAssociationURI',
+                URL.createObjectURL(e.currentTarget.files[0]),
               )
-              setFieldValue("articlesOfAssociation", e.currentTarget.files[0])
+              setFieldValue('articlesOfAssociation', e.currentTarget.files[0])
             },
           },
           {
-            text: "Proof of Registration",
-            name: "proofOfRegistration",
+            text: 'Proof of Registration',
+            name: 'proofOfRegistration',
             component: FileInput,
             file: proofOfRegistration,
             onChange: e => {
               setFieldValue(
-                "proofOfRegistrationURI",
-                URL.createObjectURL(e.currentTarget.files[0])
+                'proofOfRegistrationURI',
+                URL.createObjectURL(e.currentTarget.files[0]),
               )
-              setFieldValue("proofOfRegistration", e.currentTarget.files[0])
+              setFieldValue('proofOfRegistration', e.currentTarget.files[0])
             },
           },
         ]}
@@ -152,6 +167,6 @@ const Documents = ({
 
 Documents.validationSchema = validation
 Documents.progressImg = providerProgress3
-Documents.componentName = "Documents"
+Documents.componentName = 'Documents'
 
 export default Documents

@@ -1,44 +1,44 @@
-import mango from "../../lib/mango"
-import fs from "fs"
+import mango from '../../lib/mango'
+import fs from 'fs'
 
-import { prisma } from "../generated/ts"
+import { prisma } from '../generated/ts'
 
 const run = async (): Promise<any> => {
   try {
     const legalUser = await mango.Users.create({
       HeadquartersAddress: {
-        AddressLine1: "Space4, 149 Fonthill Road",
+        AddressLine1: 'Space4, 149 Fonthill Road',
         AddressLine2: null,
-        City: "London",
-        Region: "London",
-        PostalCode: "N4 3HF",
-        Country: "GB",
+        City: 'London',
+        Region: 'London',
+        PostalCode: 'N4 3HF',
+        Country: 'GB',
       },
       LegalRepresentativeAddress: {
-        AddressLine1: "Space4, 149 Fonthill Road",
+        AddressLine1: 'Space4, 149 Fonthill Road',
         AddressLine2: null,
-        City: "London",
+        City: 'London',
         Region: null,
-        PostalCode: "N4 3HF",
-        Country: "GB",
+        PostalCode: 'N4 3HF',
+        Country: 'GB',
       },
-      Name: "Monday Cola",
-      LegalPersonType: "BUSINESS",
-      LegalRepresentativeFirstName: "Ivan",
-      LegalRepresentativeLastName: "Gonzalez",
-      LegalRepresentativeEmail: "ivan@infactcoop.com",
+      Name: 'Monday Cola',
+      LegalPersonType: 'BUSINESS',
+      LegalRepresentativeFirstName: 'Ivan',
+      LegalRepresentativeLastName: 'Gonzalez',
+      LegalRepresentativeEmail: 'ivan@infactcoop.com',
       LegalRepresentativeBirthday: 417225600,
-      LegalRepresentativeNationality: "GB",
-      LegalRepresentativeCountryOfResidence: "GB",
-      CompanyNumber: "11912270",
-      PersonType: "LEGAL",
-      Email: "ivan@infactcoop.com",
+      LegalRepresentativeNationality: 'GB',
+      LegalRepresentativeCountryOfResidence: 'GB',
+      CompanyNumber: '11912270',
+      PersonType: 'LEGAL',
+      Email: 'ivan@infactcoop.com',
     })
 
     const documents = [
-      "IDENTITY_PROOF",
-      "ARTICLES_OF_ASSOCIATION",
-      "REGISTRATION_PROOF",
+      'IDENTITY_PROOF',
+      'ARTICLES_OF_ASSOCIATION',
+      'REGISTRATION_PROOF',
     ]
 
     const [
@@ -50,18 +50,18 @@ const run = async (): Promise<any> => {
         async (Type: any) =>
           await mango.Users.createKycDocument(legalUser.Id, {
             Type,
-          })
-      )
+          }),
+      ),
     )
 
     const File = Buffer.from(
-      fs.readFileSync(`${__dirname}/mock-kyc.pdf`)
-    ).toString("base64")
+      fs.readFileSync(`${__dirname}/mock-kyc.pdf`),
+    ).toString('base64')
 
     await Promise.all(
       [proofId, associationId, proofRegId].map(
-        async id => await mango.Users.createKycPage(legalUser.Id, id, { File })
-      )
+        async id => await mango.Users.createKycPage(legalUser.Id, id, { File }),
+      ),
     )
 
     await Promise.all(
@@ -69,9 +69,9 @@ const run = async (): Promise<any> => {
         mango.Users.updateKycDocument(legalUser.Id, {
           //@ts-ignore
           Id: id,
-          Status: "VALIDATION_ASKED",
-        })
-      )
+          Status: 'VALIDATION_ASKED',
+        }),
+      ),
     )
 
     // @ts-ignore
@@ -79,21 +79,21 @@ const run = async (): Promise<any> => {
 
     // @ts-ignore
     await mango.UboDeclarations.createUbo(legalUser.Id, uboDeclaration.Id, {
-      FirstName: "John_NodejsSDK",
-      LastName: "Doe_NodejsSDK",
+      FirstName: 'John_NodejsSDK',
+      LastName: 'Doe_NodejsSDK',
       Address: {
-        AddressLine1: "4101 Reservoir Rd NW",
-        AddressLine2: "",
-        City: "Washington",
-        Region: "District of Columbia",
-        PostalCode: "SW3 9NG",
-        Country: "GB",
+        AddressLine1: '4101 Reservoir Rd NW',
+        AddressLine2: '',
+        City: 'Washington',
+        Region: 'District of Columbia',
+        PostalCode: 'SW3 9NG',
+        Country: 'GB',
       },
-      Nationality: "GB",
-      Birthday: new Date("12/21/1975").getTime(),
+      Nationality: 'GB',
+      Birthday: new Date('12/21/1975').getTime(),
       Birthplace: {
-        City: "Washington",
-        Country: "US",
+        City: 'Washington',
+        Country: 'US',
       },
     })
 
@@ -101,45 +101,45 @@ const run = async (): Promise<any> => {
     await mango.UboDeclarations.update(legalUser.Id, {
       //@ts-ignore
       Id: uboDeclaration.Id,
-      Status: "VALIDATION_ASKED",
+      Status: 'VALIDATION_ASKED',
       Ubos: {},
     })
 
     const legalUserWallet = await mango.Wallets.create({
       Owners: [legalUser.Id],
-      Description: "Legal User Wallet",
-      Currency: "GBP",
+      Description: 'Legal User Wallet',
+      Currency: 'GBP',
     })
 
     const legalUserBankAccount = await mango.Users.createBankAccount(
       legalUser.Id,
       {
         // @ts-ignore
-        Type: "GB",
+        Type: 'GB',
         // @ts-ignore
         OwnerName: legalUser.Name,
         // @ts-ignore
         OwnerAddress: {
-          AddressLine1: "Space4, 149 Fonthill Road",
+          AddressLine1: 'Space4, 149 Fonthill Road',
           AddressLine2: null,
-          City: "London",
-          Region: "London",
-          PostalCode: "N4 3HF",
-          Country: "GB",
+          City: 'London',
+          Region: 'London',
+          PostalCode: 'N4 3HF',
+          Country: 'GB',
         },
-        SortCode: "400216",
+        SortCode: '400216',
         // @ts-ignore
-        AccountNumber: "81533509",
-      }
+        AccountNumber: '81533509',
+      },
     )
 
     const employee = await prisma.user({
-      email: "ivan@infactcoop.com",
+      email: 'ivan@infactcoop.com',
     })
 
     await prisma.updateChildcareProvider({
       where: {
-        companyNumber: "11912270",
+        companyNumber: '11912270',
       },
       data: {
         mangoWalletId: legalUserWallet.Id,
@@ -150,8 +150,8 @@ const run = async (): Promise<any> => {
             {
               amountToPay: 1000,
               consentToPay: true,
-              expiresAt: new Date("2020-12-12").toISOString(),
-              reference: "Mock reference",
+              expiresAt: new Date('2020-12-12').toISOString(),
+              reference: 'Mock reference',
               user: {
                 connect: {
                   email: employee.email,
@@ -164,19 +164,19 @@ const run = async (): Promise<any> => {
     })
 
     // eslint-disable-next-line
-    console.log("Legal User: ", JSON.stringify(legalUser, undefined, 2))
+    console.log('Legal User: ', JSON.stringify(legalUser, undefined, 2))
     // eslint-disable-next-line
     console.log(
-      "Legal User wallet: ",
-      JSON.stringify(legalUserWallet, undefined, 2)
+      'Legal User wallet: ',
+      JSON.stringify(legalUserWallet, undefined, 2),
     )
     // eslint-disable-next-line
     console.log(
-      "Legal User bank account: ",
-      JSON.stringify(legalUserBankAccount, undefined, 2)
+      'Legal User bank account: ',
+      JSON.stringify(legalUserBankAccount, undefined, 2),
     )
     // eslint-disable-next-line
-    console.log("SUCCESS")
+    console.log('SUCCESS')
   } catch (err) {
     // eslint-disable-next-line
     console.error(err)

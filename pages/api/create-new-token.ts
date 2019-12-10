@@ -6,7 +6,10 @@ import { prisma } from "../../prisma/generated/ts"
 
 import { sendEmployeeEmailVerification } from "../../utils/mailgunClient"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     const { email, expiryHours = 24 } = req.body
     const random = crypto.randomBytes(6).toString("hex")

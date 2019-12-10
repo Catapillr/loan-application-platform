@@ -1,18 +1,18 @@
-import { prisma } from "../generated/ts"
-import mango from "../../lib/mango"
-import moment from "moment"
-import mangopay from "mangopay2-nodejs-sdk"
-import R from "ramda"
-import { sendLoanTransferDetails } from "../../utils/mailgunClient"
-import gql from "graphql-tag"
-import calculatePlatformFees from "../../utils/calculatePlatformFees"
+import { prisma } from '../generated/ts'
+import mango from '../../lib/mango'
+import moment from 'moment'
+import mangopay from 'mangopay2-nodejs-sdk'
+import R from 'ramda'
+import { sendLoanTransferDetails } from '../../utils/mailgunClient'
+import gql from 'graphql-tag'
+import calculatePlatformFees from '../../utils/calculatePlatformFees'
 
-const Natural = "NATURAL"
-const GBP = "GBP"
+const Natural = 'NATURAL'
+const GBP = 'GBP'
 
 const run = async (): Promise<any> => {
   try {
-    await prisma.deleteUser({ email: "ivan@infactcoop.com" })
+    await prisma.deleteUser({ email: 'ivan@infactcoop.com' })
 
     const loanAmount = 400000
     const platformFees = calculatePlatformFees({
@@ -21,15 +21,15 @@ const run = async (): Promise<any> => {
     })
 
     const ivan: any = await prisma.createUser({
-      firstName: "Ivan",
-      lastName: "Gonzalez",
-      email: "ivan@infactcoop.com",
-      phoneNumber: "+447939656400",
+      firstName: 'Ivan',
+      lastName: 'Gonzalez',
+      email: 'ivan@infactcoop.com',
+      phoneNumber: '+447939656400',
       dob: new Date().toISOString(),
-      nationality: "GB",
+      nationality: 'GB',
       employmentStartDate: new Date().toISOString(),
       annualSalary: 4000000,
-      employer: { connect: { slug: "infact" } },
+      employer: { connect: { slug: 'infact' } },
       loan: {
         create: {
           amount: loanAmount,
@@ -62,7 +62,7 @@ const run = async (): Promise<any> => {
       LastName: ivan.lastName,
       Birthday: moment.utc(ivan.dob).unix(),
       Nationality: ivan.nationality as mangopay.CountryISO,
-      CountryOfResidence: "GB",
+      CountryOfResidence: 'GB',
       Email: ivan.email,
       PersonType: Natural,
     })
@@ -78,8 +78,8 @@ const run = async (): Promise<any> => {
       WireReference,
       BankAccount,
     } = await mango.PayIns.create({
-      PaymentType: "BANK_WIRE",
-      ExecutionType: "DIRECT",
+      PaymentType: 'BANK_WIRE',
+      ExecutionType: 'DIRECT',
       AuthorId: newMangoUserId,
       CreditedUserId: newMangoUserId,
       CreditedWalletId: newWalletId,
@@ -120,19 +120,20 @@ const run = async (): Promise<any> => {
 
     // TODO: check this in production to see if it's being split properly
     sendLoanTransferDetails({
-      email: "hello@infactcoop.com",
+      email: 'hello@infactcoop.com',
       sortCode,
       accountNumber,
       bankOwnerName: BankAccount.OwnerName,
       WireReference,
       loanAmount: ivan.loan.amount,
       employeeName: `${ivan.firstName} ${ivan.lastName}`,
+      employeeId: ivan.employeeId,
       fees: `${ivan.loan.platformFees / 1.2}`,
       feesPlusVAT: ivan.loan.platformFees,
       totalPayInAmount: ivan.loan.amount + ivan.loan.platformFees,
     })
     // eslint-disable-next-line
-    console.log("Success!")
+    console.log('Success!')
   } catch (err) {
     // eslint-disable-next-line
     console.error(err)

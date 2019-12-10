@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react"
-import nextCookies from "next-cookies"
-import styled from "styled-components"
-import * as R from "ramda"
-import axios from "axios"
+import { useState, useEffect } from 'react'
+import nextCookies from 'next-cookies'
+import styled from 'styled-components'
+import * as R from 'ramda'
+import axios from 'axios'
 
 // import { NURSERY, CLUB } from "../../utils/constants"
-import restrictAccess from "../../utils/restrictAccess"
+import restrictAccess from '../../utils/restrictAccess'
 
-import Header from "../../components/Header"
-import Footer from "../../components/Footer"
-import Payee from "../../components/Payee"
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+import Payee from '../../components/Payee'
 
 const MakeAPayment = ({ recentPayeesByMangoId }) => {
   return (
@@ -47,7 +47,7 @@ const MakeAPayment = ({ recentPayeesByMangoId }) => {
               would like to use their services through the catapillr scheme.
             </p>
             <p>
-              Can't find who you want to pay?{" "}
+              Can't find who you want to pay?{' '}
               <a
                 className="text-teal underline"
                 href="https://catapillr.com/contact-us/"
@@ -76,7 +76,7 @@ MakeAPayment.getInitialProps = async ctx => {
   const serializedCookies = R.pipe(
     R.mapObjIndexed((val, key) => `${key}=${val};`),
     R.values,
-    R.join(" ")
+    R.join(' '),
   )(cookies)
 
   try {
@@ -88,12 +88,12 @@ MakeAPayment.getInitialProps = async ctx => {
       `${process.env.HOST}/api/private/list-user-transactions?mangoId=${user.mangoUserId}`,
       {
         headers: { Cookie: serializedCookies },
-      }
+      },
     )
     return { user, recentPayeesByMangoId }
   } catch (err) {
     // eslint-disable-next-line
-    console.error("Error in make-a-payment getInitProps: ", err)
+    console.error('Error in make-a-payment getInitProps: ', err)
     return {}
   }
 }
@@ -112,7 +112,7 @@ const Company = ({ title, company_number, address_snippet }) => (
 )
 
 const Search = () => {
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
   const [companies, setCompanies] = useState([])
 
   useEffect(() => {
@@ -146,66 +146,66 @@ const Search = () => {
 }
 
 const Container = styled.div.attrs({
-  className: "w-full bg-lightgray min-h-screen flex flex-col justify-between",
+  className: 'w-full bg-lightgray min-h-screen flex flex-col justify-between',
 })``
 
 const Contents = styled.section.attrs({
-  className: "flex flex-grow justify-between pl-43 pr-12 py-18 h-full",
+  className: 'flex flex-grow justify-between pl-43 pr-12 py-18 h-full',
 })``
 const Main = styled.main.attrs({
-  className: "w-6/12",
+  className: 'w-6/12',
 })``
 
 const Aside = styled.aside.attrs({
-  className: "w-5/12 flex justify-center",
+  className: 'w-5/12 flex justify-center',
 })``
 
 const Tip = styled.aside.attrs({
-  className: "bg-white py-10 px-9 w-8/12 mt-27",
+  className: 'bg-white py-10 px-9 w-8/12 mt-27',
 })`
   height: fit-content;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
 
 const Subtitle = styled.h2.attrs({
-  className: "font-2xl font-bold",
+  className: 'font-2xl font-bold',
 })``
 
 const Title = styled.h1.attrs({
-  className: "font-bold font-3xl",
+  className: 'font-bold font-3xl',
 })``
 
 const PayeesContainer = styled.section.attrs({
-  className: "",
+  className: '',
 })`
   display: grid;
-  grid-column-gap: ${cssTheme("spacing.5")};
-  grid-row-gap: ${cssTheme("spacing.5")};
+  grid-column-gap: ${cssTheme('spacing.5')};
+  grid-row-gap: ${cssTheme('spacing.5')};
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
 `
 
 const SearchContainer = styled.section.attrs({
-  className: "w-full block",
+  className: 'w-full block',
 })``
 
 const SearchTitle = styled.label.attrs({
-  className: "mb-5 block",
+  className: 'mb-5 block',
 })``
 
 const _Search = styled.input.attrs({
   className:
-    "border-2 w-full bg-lightgray block border-midgray rounded-full py-3 pl-6 pr-7",
+    'border-2 w-full bg-lightgray block border-midgray rounded-full py-3 pl-6 pr-7',
 })``
 
 const CompaniesList = styled.ul.attrs({
-  className: "bg-white pt-1d5 pb-4d5 px-1",
+  className: 'bg-white pt-1d5 pb-4d5 px-1',
 })`
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
 `
 
 const _Company = styled.li.attrs({
-  className: "py-4d5 pl-5d5 pr-12 cursor-pointer",
+  className: 'py-4d5 pl-5d5 pr-12 cursor-pointer',
 })`
   &:hover {
     background-color: #f3fbfc;

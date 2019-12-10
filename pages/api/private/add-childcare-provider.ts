@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import moment from "moment"
+import { NextApiRequest, NextApiResponse } from 'next'
+import moment from 'moment'
 
-import poundsToPennies from "../../../utils/poundsToPennies"
-import { prisma } from "../../../prisma/generated/ts"
-import { sendProviderRegistrationLink } from "../../../utils/mailgunClient"
+import poundsToPennies from '../../../utils/poundsToPennies'
+import { prisma } from '../../../prisma/generated/ts'
+import { sendProviderRegistrationLink } from '../../../utils/mailgunClient'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   try {
     // @ts-ignore
@@ -22,7 +22,7 @@ export default async (
     } = req.body
 
     const expiresAt = moment()
-      .add(expiryDays, "days")
+      .add(expiryDays, 'days')
       .toDate()
 
     const newChildcareProvider = await prisma.createChildcareProvider({
@@ -59,6 +59,6 @@ export default async (
     res.status(200).json({ childcareProviderId: newChildcareProvider.id })
   } catch (err) {
     //eslint-disable-next-line no-console
-    console.error("Error in add-childcare-provider", err)
+    console.error('Error in add-childcare-provider', err)
   }
 }

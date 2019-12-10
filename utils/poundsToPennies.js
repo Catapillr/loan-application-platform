@@ -1,6 +1,6 @@
-import { unformatFromGBP } from "./currencyFormatter"
+import { unformatFromGBP } from './currencyFormatter'
 
 export default amountInPounds =>
-  typeof amountInPounds === "string"
+  typeof amountInPounds === 'string'
     ? unformatFromGBP(amountInPounds) * 100
     : amountInPounds * 100

@@ -1,8 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import * as R from "ramda"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  var file = R.pipe(
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
+  const file = R.pipe(
     R.keys,
     R.head
   )(req.query)

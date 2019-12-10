@@ -1,15 +1,14 @@
 ---
 name: Job story template
 about: To make adding job stories easy as pie
-title: "[Job Story] ** enter summary here **"
+title: '[Job Story] ** enter summary here **'
 labels: job-story
 assignees: ''
-
 ---
 
 ## Job story
 
-**User**: 
+**User**:
 
 **Situation**: When...
 
@@ -17,7 +16,7 @@ assignees: ''
 
 **Expected outcome**: So I can...
 
-## Acceptance criteria 
+## Acceptance criteria
 
 - [ ] criterion 1
 - [ ] criterion 2

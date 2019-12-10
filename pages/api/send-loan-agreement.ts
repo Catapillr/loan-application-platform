@@ -1,14 +1,14 @@
-import hellosign from "hellosign-sdk"
-import { NextApiRequest, NextApiResponse } from "next"
-import moment from "moment"
-import R_ from "../../utils/R_"
+import hellosign from 'hellosign-sdk'
+import { NextApiRequest, NextApiResponse } from 'next'
+import moment from 'moment'
+import R_ from '../../utils/R_'
 
-import zeroIndexMonth from "../../utils/zeroIndexMonth"
-import poundsToPennies from "../../utils/poundsToPennies"
-import { formatToGBP, unformatFromGBP } from "../../utils/currencyFormatter"
+import zeroIndexMonth from '../../utils/zeroIndexMonth'
+import poundsToPennies from '../../utils/poundsToPennies'
+import { formatToGBP, unformatFromGBP } from '../../utils/currencyFormatter'
 
-import { prisma } from "../../prisma/generated/ts"
-import calculatePlatformFees from "../../utils/calculatePlatformFees"
+import { prisma } from '../../prisma/generated/ts'
+import calculatePlatformFees from '../../utils/calculatePlatformFees'
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
@@ -16,7 +16,7 @@ const helloSignClient = hellosign({
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   const {
     employmentStartDate,
@@ -65,13 +65,13 @@ export default async (
       gdprConsent,
     })
     .catch(e => {
-      console.error("Error creating prisma user: ", e) //eslint-disable-line no-console
+      console.error('Error creating prisma user: ', e) //eslint-disable-line no-console
     })
 
   const loanOptions = (
     loanAmount: number,
     loanTerms: number,
-    maximumTerms = 11
+    maximumTerms = 11,
   ): { name: string; value: any }[] => {
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
     const remainder = loanAmount % loanTerms
@@ -79,15 +79,15 @@ export default async (
 
     const loanDetails = [
       {
-        name: "loanAmount",
+        name: 'loanAmount',
         value: unformatFromGBP(loanAmount),
       },
       {
-        name: "loanTerms",
+        name: 'loanTerms',
         value: loanTerms,
       },
       {
-        name: "loanMonthlyRepayment",
+        name: 'loanMonthlyRepayment',
         value: unformatFromGBP(monthlyRepayment),
       },
     ]
@@ -105,7 +105,7 @@ export default async (
     // @ts-ignore
     const defaultMonths = R_.mapIndexed((_: any, index: any) => ({
       name: `loanMonth${loanTerms + index + 1}`,
-      value: "n/a",
+      value: 'n/a',
     }))([...Array(maximumTerms - loanTerms)])
 
     // @ts-ignore
@@ -116,55 +116,55 @@ export default async (
     // eslint-disable-next-line @typescript-eslint/camelcase
     test_mode: 1 as hellosign.Flag,
     // eslint-disable-next-line @typescript-eslint/camelcase
-    template_id: "f7d22e065f90856421dc4d0f4b0257783a22c356",
-    title: "Employee CCAS loan agreement",
-    subject: "Employee CCAS loan agreement",
+    template_id: 'f7d22e065f90856421dc4d0f4b0257783a22c356',
+    title: 'Employee CCAS loan agreement',
+    subject: 'Employee CCAS loan agreement',
     signers: [
       {
         // eslint-disable-next-line @typescript-eslint/camelcase
         email_address: email,
         name: `${firstName} ${lastName} `,
-        role: "Employee",
+        role: 'Employee',
       },
       {
         // eslint-disable-next-line @typescript-eslint/camelcase
         email_address: employer.signerEmail,
         name: employer.name,
-        role: "Employer",
+        role: 'Employer',
       },
     ],
     // eslint-disable-next-line @typescript-eslint/camelcase
     custom_fields: [
       {
-        name: "employerName",
+        name: 'employerName',
         value: employer.name,
       },
       {
-        name: "employerCompanyNumber",
-        value: employer.companyNumber || "n/a",
+        name: 'employerCompanyNumber',
+        value: employer.companyNumber || 'n/a',
       },
       {
-        name: "employerAddress",
+        name: 'employerAddress',
         value: employer.address,
       },
       {
-        name: "employerMinimumService",
+        name: 'employerMinimumService',
         value: employer.minimumServiceLength,
       },
       {
-        name: "userName",
+        name: 'userName',
         value: `${firstName} ${lastName} `,
       },
       {
-        name: "userEmployeeID",
-        value: `${employeeId && employeeId !== "" ? employeeId : "n/a"} `,
+        name: 'userEmployeeID',
+        value: `${employeeId && employeeId !== '' ? employeeId : 'n/a'} `,
       },
       ...loanOptions(parseInt(loanAmount), parseInt(loanTerms)),
     ],
   }
 
   helloSignClient.signatureRequest.sendWithTemplate(opts).catch(e => {
-    console.error("Sending loan agreement Hellosign error: ", e) //eslint-disable-line no-console
+    console.error('Sending loan agreement Hellosign error: ', e) //eslint-disable-line no-console
   })
 
   res.status(200).end()

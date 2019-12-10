@@ -51,6 +51,7 @@ export default async (
     const {
       data: { items: filingData },
     } = await axios(
+      // eslint-disable-next-line @typescript-eslint/camelcase
       `https://api.companieshouse.gov.uk/company/${company_number}/filing-history?category=incorporation%2Cannual-return%2Cconfirmation-statement`,
       authentication
     )

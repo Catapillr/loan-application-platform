@@ -1,6 +1,6 @@
-import { Heading, Copy, Button } from "../styles"
+import { Heading, Copy, Button } from '../styles'
 
-import progress3 from "../../../static/images/progress3.svg"
+import progress3 from '../../../static/images/progress3.svg'
 
 const Accuracy = ({ incrementPage }) => (
   <main className="flex justify-center items-center flex-col w-7/12 m-auto">
@@ -13,7 +13,7 @@ const Accuracy = ({ incrementPage }) => (
     </Copy>
     <Copy className="mb-12">
       This information will form the basis of the loan agreement and any
-      inaccuracies may lead to{" "}
+      inaccuracies may lead to{' '}
       <span className="font-bold">internal disciplinary action</span>. In the
       next section you will fill your personal details and confirm that you
       understand and accept this notice.
@@ -29,6 +29,6 @@ const Accuracy = ({ incrementPage }) => (
 
 Accuracy.hideNext = true
 Accuracy.progressImg = progress3
-Accuracy.componentName = "Accuracy"
+Accuracy.componentName = 'Accuracy'
 
 export default Accuracy

@@ -1,14 +1,14 @@
-import { useState } from "react"
-import styled from "styled-components"
-import { useRouter } from "next/router"
+import { useState } from 'react'
+import styled from 'styled-components'
+import { useRouter } from 'next/router'
 
-import useOnOutsideClick from "../hooks/useOnOutsideClick"
-import { useAuth } from "../context/auth-context"
+import useOnOutsideClick from '../hooks/useOnOutsideClick'
+import { useAuth } from '../context/auth-context'
 
-import logo from "../static/icons/catapillr-orange.svg"
-import avatar from "../static/icons/avatar.svg"
-import logoutIcon from "../static/icons/logout.svg"
-import downChevron from "../static/icons/down-chevron.svg"
+import logo from '../static/icons/catapillr-orange.svg'
+import avatar from '../static/icons/avatar.svg'
+import logoutIcon from '../static/icons/logout.svg'
+import downChevron from '../static/icons/down-chevron.svg'
 
 const Header = () => {
   const { pathname } = useRouter()
@@ -23,13 +23,13 @@ const Header = () => {
     setPaymentDropdownOpen(prevState => !prevState)
 
   useOnOutsideClick({
-    className: "logout-dropdown",
+    className: 'logout-dropdown',
     openState: logoutDropdownOpen,
     setOpenState: setLogoutDropdownOpen,
   })
 
   useOnOutsideClick({
-    className: "payment-dropdown",
+    className: 'payment-dropdown',
     openState: paymentDropdownOpen,
     setOpenState: setPaymentDropdownOpen,
   })
@@ -95,7 +95,7 @@ const Header = () => {
 
 const PaymentDropdownLink = styled.a`
   background-color: ${({ pathname, href }) =>
-    pathname === href ? "rgba(252, 143, 20, 0.05)" : "inherit"};
+    pathname === href ? 'rgba(252, 143, 20, 0.05)' : 'inherit'};
 `
 
 const DownChevron = styled.img`
@@ -104,17 +104,17 @@ const DownChevron = styled.img`
 `
 
 const Container = styled.section.attrs({
-  className: "bg-white w-full py-8 px-12 relative",
+  className: 'bg-white w-full py-8 px-12 relative',
 })`
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
 `
 
 const Nav = styled.nav.attrs({
-  className: "flex justify-between items-center",
+  className: 'flex justify-between items-center',
 })``
 
 const Logo = styled.a.attrs({
-  className: "mr-10d5",
+  className: 'mr-10d5',
 })`
   background: url(${logo});
   width: 70px;
@@ -128,7 +128,7 @@ const Avatar = styled.div`
 `
 
 const Links = styled.div.attrs({
-  className: "flex justify-between mr-auto",
+  className: 'flex justify-between mr-auto',
 })`
   &::first-child {
     margin-right: 40px;
@@ -137,50 +137,50 @@ const Links = styled.div.attrs({
 `
 
 const HeaderLink = styled.a.attrs({
-  className: "mr-5 font-lg font-bold",
+  className: 'mr-5 font-lg font-bold',
 })`
   box-shadow: ${({ href, pathname }) =>
-    href === pathname ? `inset 0 -10px 0 0 #FFC67E` : "inherit"};
+    href === pathname ? `inset 0 -10px 0 0 #FFC67E` : 'inherit'};
 `
 
-const PaymentLink = styled(HeaderLink).attrs({ as: "div" })`
-  margin-right: ${cssTheme("spacing.2")};
+const PaymentLink = styled(HeaderLink).attrs({ as: 'div' })`
+  margin-right: ${cssTheme('spacing.2')};
   box-shadow: ${({ pathname }) =>
-    ["/make-a-payment", "/tax-free-childcare/pay"].some(
-      path => pathname === path
+    ['/make-a-payment', '/tax-free-childcare/pay'].some(
+      path => pathname === path,
     )
       ? `inset 0 -10px 0 0 #FFC67E`
-      : "inherit"};
+      : 'inherit'};
 `
 
 const LogoutDropdownContainer = styled.div.attrs({
-  className: "absolute px-12 w-full flex justify-end",
+  className: 'absolute px-12 w-full flex justify-end',
 })`
   bottom: -40px;
   right: 0;
 `
 
 const PaymentDropdownContainer = styled.div.attrs({
-  className: "absolute w-full flex justify-start",
+  className: 'absolute w-full flex justify-start',
 })`
   top: 10px;
 `
 
 const LogoutDropdown = styled.div.attrs({
-  className: "px-4 flex items-center bg-white cursor-pointer",
+  className: 'px-4 flex items-center bg-white cursor-pointer',
 })`
   height: 40px;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
   display: ${({ logoutDropdownOpen }) =>
-    logoutDropdownOpen ? "flex" : "none"};
+    logoutDropdownOpen ? 'flex' : 'none'};
 `
 
 const PaymentDropdown = styled.div.attrs({
-  className: "flex bg-white cursor-pointer w-full",
+  className: 'flex bg-white cursor-pointer w-full',
 })`
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
   display: ${({ paymentDropdownOpen }) =>
-    paymentDropdownOpen ? "flex" : "none"};
+    paymentDropdownOpen ? 'flex' : 'none'};
 `
 
 export default Header

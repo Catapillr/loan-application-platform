@@ -4,7 +4,10 @@ import * as R from "ramda"
 
 import { prisma } from "../../prisma/generated/ts"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   const response = await prisma.verificationToken({
     email: req.query.email as string,
   })

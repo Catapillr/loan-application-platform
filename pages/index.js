@@ -1,8 +1,8 @@
-import Head from "next/head"
-import styled from "styled-components"
-import Link from "next/link"
+import Head from 'next/head'
+import styled from 'styled-components'
+import Link from 'next/link'
 
-import { useAuth } from "../context/auth-context"
+import { useAuth } from '../context/auth-context'
 
 const Container = styled.div``
 

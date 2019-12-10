@@ -1,6 +1,6 @@
-import { Heading, Copy, Button } from "../styles"
+import { Heading, Copy, Button } from '../styles'
 
-import progress1 from "../../../static/images/progress1.svg"
+import progress1 from '../../../static/images/progress1.svg'
 
 const Welcome = ({ incrementPage, employer }) => (
   <main className="flex justify-center items-center flex-col w-5/12 m-auto">
@@ -32,6 +32,6 @@ const Welcome = ({ incrementPage, employer }) => (
 
 Welcome.hideControls = true
 Welcome.progressImg = progress1
-Welcome.componentName = "Welcome"
+Welcome.componentName = 'Welcome'
 
 export default Welcome

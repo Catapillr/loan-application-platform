@@ -1,7 +1,7 @@
-export const Welcome = "Welcome"
-export const BusinessDetails = "BusinessDetails"
-export const UBOs = "UBOs"
-export const Documents = "Documents"
-export const BankDetails = "BankDetails"
-export const Summary = "Summary"
-export const Confirmation = "Confirmation"
+export const Welcome = 'Welcome'
+export const BusinessDetails = 'BusinessDetails'
+export const UBOs = 'UBOs'
+export const Documents = 'Documents'
+export const BankDetails = 'BankDetails'
+export const Summary = 'Summary'
+export const Confirmation = 'Confirmation'

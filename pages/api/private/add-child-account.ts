@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from 'next'
 
-import { prisma } from "../../../prisma/generated/ts"
+import { prisma } from '../../../prisma/generated/ts'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   try {
     // @ts-ignore
@@ -26,15 +26,15 @@ export default async (
   } catch (err) {
     //eslint-disable-next-line no-console
     console.error(
-      "Error when adding child tax free details on server: ",
-      JSON.stringify(err, undefined, 2)
+      'Error when adding child tax free details on server: ',
+      JSON.stringify(err, undefined, 2),
     )
 
     if (
-      err.message.includes("unique") &&
-      err.message.includes("taxFreeChildReference")
+      err.message.includes('unique') &&
+      err.message.includes('taxFreeChildReference')
     ) {
-      res.status(400).json({ unique: false, field: "taxFreeChildReference" })
+      res.status(400).json({ unique: false, field: 'taxFreeChildReference' })
     }
   }
 }

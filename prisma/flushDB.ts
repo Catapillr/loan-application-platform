@@ -1,4 +1,4 @@
-import { prisma } from "./generated/ts"
+import { prisma } from './generated/ts'
 
 const flushDB = async () => {
   const deletePaymentRequests = await prisma.deleteManyPaymentRequests({
@@ -32,7 +32,6 @@ const flushDB = async () => {
   const deleteVerificationTokens = await prisma.deleteManyVerificationTokens({
     id_not: 0,
   })
-
 
   console.log(JSON.stringify(deleteChildcareProviders, undefined, 2)) //eslint-disable-line no-console
   console.log(JSON.stringify(deletePaymentRequests, undefined, 2)) //eslint-disable-line no-console

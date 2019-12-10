@@ -1,4 +1,4 @@
-import R from "ramda"
+import R from 'ramda'
 
 const loanBuckets = [
   [0, 100000],
@@ -23,7 +23,7 @@ const calculatePlatformFees = ({
   minimumLoanFee,
 }: Options): number => {
   const bucketIndex = R.findIndex(
-    (bucket: any[]) => loanAmount >= bucket[0] && loanAmount <= bucket[1]
+    (bucket: any[]) => loanAmount >= bucket[0] && loanAmount <= bucket[1],
   )(loanBuckets)
 
   const fee =

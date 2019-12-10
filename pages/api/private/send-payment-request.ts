@@ -1,18 +1,18 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from 'next'
 
-import mango from "../../../lib/mango"
+import mango from '../../../lib/mango'
 
-import { prisma } from "../../../prisma/generated/ts"
+import { prisma } from '../../../prisma/generated/ts'
 
 import {
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
-} from "../../../utils/mailgunClient"
-import poundsToPennies from "../../../utils/poundsToPennies"
+} from '../../../utils/mailgunClient'
+import poundsToPennies from '../../../utils/poundsToPennies'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   // @ts-ignore
   const user = req.user
@@ -26,11 +26,11 @@ export default async (
     await mango.Transfers.create({
       AuthorId: user.mangoUserId,
       DebitedFunds: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: poundsToPennies(amountToPay),
       },
       Fees: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: 0,
       },
       DebitedWalletId: user.mangoWalletId,
@@ -39,24 +39,24 @@ export default async (
 
     const bankAccount = await mango.Users.getBankAccount(
       childcareProvider.mangoLegalUserId,
-      childcareProvider.mangoBankAccountId
+      childcareProvider.mangoBankAccountId,
     )
 
     await mango.PayOuts.create({
       AuthorId: childcareProvider.mangoLegalUserId,
       DebitedFunds: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: poundsToPennies(amountToPay),
       },
       Fees: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: 0,
       },
       BankAccountId: bankAccount.Id,
       DebitedWalletId: childcareProvider.mangoWalletId,
       BankWireRef: reference,
       // @ts-ignore
-      PaymentType: "BANK_WIRE",
+      PaymentType: 'BANK_WIRE',
     })
 
     sendProviderPaymentNotification({
