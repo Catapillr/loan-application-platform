@@ -8,9 +8,7 @@ module.exports = {
       .join(' ')
     return [
       `prettier --write ${escapedFileNames}`,
-      `jest --config test/jest.lint.js --passWithNoTests ${filenames
-        .map(f => `"${f}"`)
-        .join(' ')}`,
+      `jest --config test/jest.lint.js --passWithNoTests ${escapedFileNames}`,
       `git add ${escapedFileNames}`,
     ]
   },
