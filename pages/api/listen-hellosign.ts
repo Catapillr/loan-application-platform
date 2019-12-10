@@ -173,6 +173,7 @@ export default async (
           WireReference,
           loanAmount: employee.loan.amount,
           employeeName: `${employee.firstName} ${employee.lastName}`,
+          employeeId: employee.employeeId,
           fees: `${employee.loan.platformFees / 1.2}`,
           feesPlusVAT: employee.loan.platformFees,
           totalPayInAmount: employee.loan.amount + employee.loan.platformFees,

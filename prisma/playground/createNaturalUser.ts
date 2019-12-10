@@ -127,6 +127,7 @@ const run = async (): Promise<any> => {
       WireReference,
       loanAmount: ivan.loan.amount,
       employeeName: `${ivan.firstName} ${ivan.lastName}`,
+      employeeId: ivan.employeeId,
       fees: `${ivan.loan.platformFees / 1.2}`,
       feesPlusVAT: ivan.loan.platformFees,
       totalPayInAmount: ivan.loan.amount + ivan.loan.platformFees,
