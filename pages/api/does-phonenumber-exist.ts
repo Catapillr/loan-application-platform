@@ -1,8 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next"
 
-import { prisma } from '../../prisma/generated/ts'
+import { prisma } from "../../prisma/generated/ts"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   const doesPhoneNumberExist = await prisma.$exists.user({
     phoneNumber: req.query.phonenumber as string,
   })

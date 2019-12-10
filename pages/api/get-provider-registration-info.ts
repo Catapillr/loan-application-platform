@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../prisma/generated/ts'
-import gql from 'graphql-tag'
+import { NextApiRequest, NextApiResponse } from "next"
+import { prisma } from "../../prisma/generated/ts"
+import gql from "graphql-tag"
 
 const hydratePaymentRequest = gql`
   fragment paymentRequestHydrated on PaymentRequest {
@@ -23,7 +23,10 @@ const hydratePaymentRequest = gql`
   }
 `
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     const { childcareProviderId } = req.query
 
@@ -31,6 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .paymentRequests({
         where: {
           childcareProvider: { id: childcareProviderId as string },
+          // eslint-disable-next-line @typescript-eslint/camelcase
           expiresAt_gt: new Date().toISOString(),
         },
       })
@@ -42,7 +46,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       paymentRequest,
     })
   } catch (error) {
-    console.error('Error in get-provider-registration-info: ', error)
+    // eslint-disable-next-line no-console
+    console.error("Error in get-provider-registration-info: ", error)
     return res.status(404).json({
       error,
     })

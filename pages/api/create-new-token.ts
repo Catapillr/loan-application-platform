@@ -1,17 +1,20 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import moment from 'moment'
-import * as crypto from 'crypto'
+import { NextApiRequest, NextApiResponse } from "next"
+import moment from "moment"
+import * as crypto from "crypto"
 
-import { prisma } from '../../prisma/generated/ts'
+import { prisma } from "../../prisma/generated/ts"
 
-import { sendEmployeeEmailVerification } from '../../utils/mailgunClient'
+import { sendEmployeeEmailVerification } from "../../utils/mailgunClient"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<any> => {
   try {
     const { email, expiryHours = 24 } = req.body
-    const random = crypto.randomBytes(6).toString('hex')
+    const random = crypto.randomBytes(6).toString("hex")
     const expiresAt = moment()
-      .add(expiryHours, 'hours')
+      .add(expiryHours, "hours")
       .toDate()
 
     const tokenExists = await prisma.$exists.verificationToken({ email })
@@ -36,6 +39,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json({ token })
   } catch (e) {
-    console.log('There was an error creating an email token: ', e) //eslint-disable-line no-console
+    console.log("There was an error creating an email token: ", e) //eslint-disable-line no-console
   }
 }
