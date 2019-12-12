@@ -43,6 +43,7 @@ type User {
   mangoUserId: String @unique
   paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)
   payIns: [PayIn!] @relation(onDelete: CASCADE)
+  childAccounts: [ChildAccount!] @relation(onDelete: CASCADE)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
@@ -61,6 +62,7 @@ type Loan {
   user: User!
   amount: Int!
   terms: Int!
+  platformFees: Int!
   approved: Boolean! @default(value: false)
   agreementURL: String
   updatedAt: DateTime! @updatedAt
@@ -98,6 +100,15 @@ type PayIn {
   user: User!
   employer: Employer!
   mangoPayInId: String! @unique
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type ChildAccount {
+  id: ID! @id
+  parent: User!
+  name: String!
+  taxFreeChildReference: String! @unique
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }

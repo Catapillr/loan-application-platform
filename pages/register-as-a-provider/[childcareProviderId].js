@@ -1,66 +1,66 @@
-import React, { useState, useEffect } from "react"
-import { Formik, Form, Field } from "formik"
-import styled from "styled-components"
-import axios from "axios"
-import * as R from "ramda"
+import React, { useState, useEffect } from 'react'
+import { Formik, Form, Field } from 'formik'
+import styled from 'styled-components'
+import axios from 'axios'
+import * as R from 'ramda'
 
-import getLastPath from "../../utils/getLastPath"
+import getLastPath from '../../utils/getLastPath'
 
-import createFormData from "../../utils/createFormData"
+import createFormData from '../../utils/createFormData'
 
-import * as Steps from "../../components/multistep-forms/register-as-a-provider/stepNames"
-import Welcome from "../../components/multistep-forms/register-as-a-provider/Welcome"
-import BusinessDetails from "../../components/multistep-forms/register-as-a-provider/BusinessDetails"
-import UBOs from "../../components/multistep-forms/register-as-a-provider/UBOs"
-import BankDetails from "../../components/multistep-forms/register-as-a-provider/BankDetails"
-import Documents from "../../components/multistep-forms/register-as-a-provider/Documents"
-import Summary from "../../components/multistep-forms/register-as-a-provider/Summary"
-import Confirmation from "../../components/multistep-forms/register-as-a-provider/Confirmation"
+import * as Steps from '../../components/multistep-forms/register-as-a-provider/stepNames'
+import Welcome from '../../components/multistep-forms/register-as-a-provider/Welcome'
+import BusinessDetails from '../../components/multistep-forms/register-as-a-provider/BusinessDetails'
+import UBOs from '../../components/multistep-forms/register-as-a-provider/UBOs'
+import BankDetails from '../../components/multistep-forms/register-as-a-provider/BankDetails'
+import Documents from '../../components/multistep-forms/register-as-a-provider/Documents'
+import Summary from '../../components/multistep-forms/register-as-a-provider/Summary'
+import Confirmation from '../../components/multistep-forms/register-as-a-provider/Confirmation'
 
-import DebugFormik from "../../components/DebugFormik"
-import { Button } from "../../components/multistep-forms/styles"
+import DebugFormik from '../../components/DebugFormik'
+import { Button } from '../../components/multistep-forms/styles'
 
-import orangeLogo from "../../static/logo_orange.svg"
+import orangeLogo from '../../static/logo_orange.svg'
 
 const initialValues = {
-  businessName: "",
-  businessEmail: "",
-  companyNumber: "",
-  repFirstName: "",
-  repLastName: "",
-  repDob: { day: "", month: "", year: "" },
-  repCountryOfResidence: "GB",
-  repNationality: "GB",
+  businessName: '',
+  businessEmail: '',
+  companyNumber: '',
+  repFirstName: '',
+  repLastName: '',
+  repDob: { day: '', month: '', year: '' },
+  repCountryOfResidence: 'GB',
+  repNationality: 'GB',
   repProofOfId: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
+    name: '',
+    lastModified: '',
+    lastModifiedDate: '',
+    webkitRelativePath: '',
   },
   articlesOfAssociation: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
+    name: '',
+    lastModified: '',
+    lastModifiedDate: '',
+    webkitRelativePath: '',
   },
   proofOfRegistration: {
-    name: "",
-    lastModified: "",
-    lastModifiedDate: "",
-    webkitRelativePath: "",
+    name: '',
+    lastModified: '',
+    lastModifiedDate: '',
+    webkitRelativePath: '',
   },
-  accountNumber: "",
+  accountNumber: '',
   sortCode: {
-    firstSection: "",
-    secondSection: "",
-    thirdSection: "",
+    firstSection: '',
+    secondSection: '',
+    thirdSection: '',
   },
-  AddressLine1: "",
-  AddressLine2: "",
-  City: "",
-  Region: "",
-  PostalCode: "",
-  Country: "",
+  AddressLine1: '',
+  AddressLine2: '',
+  City: '',
+  Region: '',
+  PostalCode: '',
+  Country: '',
   confirmation: false,
 }
 //
@@ -114,7 +114,7 @@ const Submit = ({ isSubmitting, submitForm }) => (
     disabled={isSubmitting}
     onClick={submitForm}
   >
-    {isSubmitting ? "Submitting..." : "Submit"}
+    {isSubmitting ? 'Submitting...' : 'Submit'}
   </Button>
 )
 
@@ -134,7 +134,7 @@ const Next = ({
         onClick={isValid ? onClick : displayErrors}
         disabled={isSubmitting}
       >
-        {formCompleted ? "Summary" : "Next"}
+        {formCompleted ? 'Summary' : 'Next'}
       </Button>
     )}
   </div>
@@ -197,7 +197,7 @@ const onSubmit = ({
 }) => async values => {
   try {
     //eslint-disable-next-line no-console
-    console.log("Register-as-a-provider form submitted")
+    console.log('Register-as-a-provider form submitted')
 
     if (!formCompleted) incrementPage()
 
@@ -206,14 +206,14 @@ const onSubmit = ({
       childcareProviderEmail,
     })
 
-    axios.post("/api/register-provider", form)
+    axios.post('/api/register-provider', form)
 
     incrementPage()
   } catch (e) {
     // TODO: trigger submit error (maybe with toast error)
 
     //eslint-disable-next-line no-console
-    console.error("Loan agreement sending error", e)
+    console.error('Loan agreement sending error', e)
   }
 }
 
@@ -230,7 +230,7 @@ const Wizard = ({
 
   const steps = React.Children.toArray(children)
   const pages = steps.map(step => step.type.componentName)
-  const activePage = R.find(R.pathEq(["type", "componentName"], page))(steps)
+  const activePage = R.find(R.pathEq(['type', 'componentName'], page))(steps)
 
   const {
     validationSchema,
@@ -279,7 +279,7 @@ const Wizard = ({
 
         return (
           <Container>
-            <Header activeHref="make-a-payment">
+            <Header>
               <Logo />
             </Header>
             <StyledForm>
@@ -377,7 +377,7 @@ const ProviderOnboarding = ({
 }
 
 const Container = styled.div.attrs({
-  className: "bg-white flex flex-col items-center justify-between",
+  className: 'bg-white flex flex-col items-center justify-between',
 })`
   width: 90%;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
@@ -385,16 +385,16 @@ const Container = styled.div.attrs({
 `
 
 const Header = styled.div.attrs({
-  className: "pl-10 pt-8  w-full",
+  className: 'pl-10 pt-8  w-full',
 })``
 
-const Footer = styled.div.attrs({ className: "w-full bg-white" })`
+const Footer = styled.div.attrs({ className: 'w-full bg-white' })`
   transform: rotate(-180deg);
   box-shadow: 0 28px 34px 0 #f7f8fb;
 `
 
 const StyledForm = styled(Form).attrs({
-  className: "pt-10 pb-20 flex justify-center items-center",
+  className: 'pt-10 pb-20 flex justify-center items-center',
 })`
   width: 70%;
   min-height: 55vh;
@@ -406,7 +406,7 @@ const Logo = styled.img.attrs({
 })``
 
 const ErrorDiv = styled.div.attrs({
-  className: "w-auto block bg-white px-10 pb-10 pt-6",
+  className: 'w-auto block bg-white px-10 pb-10 pt-6',
 })`
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
 `
@@ -426,7 +426,7 @@ ProviderOnboarding.getInitialProps = async ctx => {
       data: { paymentRequest, childcareProvider, employee },
     } = await axios
       .get(
-        `${process.env.HOST}/api/get-provider-registration-info?childcareProviderId=${childcareProviderId}`
+        `${process.env.HOST}/api/get-provider-registration-info?childcareProviderId=${childcareProviderId}`,
       )
       .catch(e => {
         const error = {
@@ -437,8 +437,8 @@ ProviderOnboarding.getInitialProps = async ctx => {
         }
         //eslint-disable-next-line
         console.error(
-          "Error in page /register-as-a-provider => /api/get-provider-registration-info api call: ",
-          error
+          'Error in page /register-as-a-provider => /api/get-provider-registration-info api call: ',
+          error,
         )
         throw e
       })
@@ -447,7 +447,7 @@ ProviderOnboarding.getInitialProps = async ctx => {
       data: { company },
     } = await axios
       .get(
-        `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`
+        `${process.env.HOST}/api/get-company-public?company_number=${childcareProvider.companyNumber}`,
       )
       .catch(e => {
         const error = {
@@ -458,8 +458,8 @@ ProviderOnboarding.getInitialProps = async ctx => {
         }
         //eslint-disable-next-line
         console.error(
-          "Error in page /register-as-a-provider => /api/get-company-public api call: ",
-          error
+          'Error in page /register-as-a-provider => /api/get-company-public api call: ',
+          error,
         )
         throw e
       })
@@ -467,10 +467,10 @@ ProviderOnboarding.getInitialProps = async ctx => {
     return { paymentRequest, childcareProvider, employee, company }
   } catch (error) {
     //eslint-disable-next-line
-    console.error("Error in page /register-as-a-provider getInitProps: ", error)
+    console.error('Error in page /register-as-a-provider getInitProps: ', error)
     return {
       error:
-        "Sorry, there seems to have been a problem retrieving that page. Please check that the link is correct and try again!",
+        'Sorry, there seems to have been a problem retrieving that page. Please check that the link is correct and try again!',
     }
   }
 }

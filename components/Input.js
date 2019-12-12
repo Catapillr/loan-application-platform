@@ -1,25 +1,20 @@
-import { ErrorMessage, Field } from "formik"
-import styled, { css } from "styled-components"
-import TextArea from "react-autosize-textarea"
-import * as R from "ramda"
+import { ErrorMessage, Field } from 'formik'
+import styled, { css } from 'styled-components'
+import TextArea from 'react-autosize-textarea'
+import * as R from 'ramda'
 
-import slider from "../static/icons/slider.svg"
-import tick from "../static/icons/tick.svg"
-import dropdown from "../static/icons/dropdown.svg"
-import document from "../static/icons/document.svg"
-import upload from "../static/icons/upload.svg"
+import slider from '../static/icons/slider.svg'
+import tick from '../static/icons/tick.svg'
+import dropdown from '../static/icons/dropdown.svg'
+import document from '../static/icons/document.svg'
+import upload from '../static/icons/upload.svg'
+import { formatToGBP } from '../utils/currencyFormatter'
 
 const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
   return (
     <Container {...{ text, width, margin, direction }}>
       {text && <LabelAndLink name={name} link={link} text={text} />}
-      {attrs.component === NumberInput && attrs.currency ? (
-        <InputWrap name={name}>
-          <Field {...{ name, direction, id: name, ...attrs }} />
-        </InputWrap>
-      ) : (
-        <Field {...{ name, direction, id: name, ...attrs }} />
-      )}
+      <Field {...{ name, direction, id: name, ...attrs }} />
       <div className="relative">
         <ErrorMessage
           name={name}
@@ -27,7 +22,7 @@ const Input = ({ text, width, name, margin, direction, link, ...attrs }) => {
             <Error
               direction={direction}
               className={
-                (name === "confirmation" || name === "gdprConsent") && "pl-11d5"
+                (name === 'confirmation' || name === 'gdprConsent') && 'pl-11d5'
               }
             >
               {msg}
@@ -43,29 +38,29 @@ const TextInput = styled.input.attrs(
   ({ field, width, form: { errors, touched } }) => {
     const { name } = field
     return {
-      className: `${(!width || width === "full") &&
-        "mr-10"} border-solid border-2 rounded-full py-2d5 px-9 ${
-        errors[name] && touched[name] ? "border-red" : "border-midgray"
+      className: `${(!width || width === 'full') &&
+        'mr-10'} border-solid border-2 rounded-full py-2d5 px-9 ${
+        errors[name] && touched[name] ? 'border-red' : 'border-midgray'
       }`,
       ...field,
     }
-  }
+  },
 )``
 
 const _FileInput = styled.input.attrs({
-  type: "file",
-  className: "hidden",
+  type: 'file',
+  className: 'hidden',
 })``
 
 const _FileLabel = styled.label.attrs(
   ({ field: { name }, width, form: { errors, touched } }) => ({
     className: `w-${width ||
-      "full"} border-2 border-dashed rounded-11 flex flex-col justify-center py-11 ${
-      errors[name] && touched[name] ? "border-red" : "border-midgray"
+      'full'} border-2 border-dashed rounded-11 flex flex-col justify-center py-11 ${
+      errors[name] && touched[name] ? 'border-red' : 'border-midgray'
     }`,
     htmlFor: name,
-    type: "file",
-  })
+    type: 'file',
+  }),
 )``
 
 const FileInput = attrs => {
@@ -77,7 +72,7 @@ const FileInput = attrs => {
       <_FileLabel {...attrs}>
         <img src={file && file.name ? document : upload} className="mb-2"></img>
         <div className="text-center">
-          {(file && file.name) || "Browse files"}
+          {(file && file.name) || 'Browse files'}
         </div>
       </_FileLabel>
     </>
@@ -86,7 +81,7 @@ const FileInput = attrs => {
 
 const TextAreaInput = styled(TextArea).attrs(({ field, disabled }) => {
   return {
-    className: "border-0 w-full",
+    className: 'border-0 w-full',
     disabled,
     ...field,
   }
@@ -98,11 +93,11 @@ const PriceInput = styled.input.attrs(
     return {
       className: `font-subheader ${errors[name] &&
         touched[name] &&
-        "border-red"}`,
+        'border-red'}`,
       disabled,
       ...field,
     }
-  }
+  },
 )``
 
 const CheckboxInput = ({
@@ -113,7 +108,7 @@ const CheckboxInput = ({
   id,
 }) => {
   const { name } = field
-  const horizontal = direction === "flex-row-reverse"
+  const horizontal = direction === 'flex-row-reverse'
 
   return (
     <CheckboxContainer {...{ errors, touched, name }}>
@@ -140,7 +135,7 @@ const SortCodeInput = ({
         name={`${name}.firstSection`}
         component={NumberInput}
         maxLength={2}
-        placeholder={"00"}
+        placeholder={'00'}
         onChange={keepFieldCleanOnChange(`${name}.firstSection`)}
         {...{ className }}
       />
@@ -148,7 +143,7 @@ const SortCodeInput = ({
         name={`${name}.secondSection`}
         component={NumberInput}
         maxLength={2}
-        placeholder={"00"}
+        placeholder={'00'}
         onChange={keepFieldCleanOnChange(`${name}.secondSection`)}
         {...{ className }}
       />
@@ -156,7 +151,7 @@ const SortCodeInput = ({
         name={`${name}.thirdSection`}
         component={NumberInput}
         maxLength={2}
-        placeholder={"00"}
+        placeholder={'00'}
         onChange={keepFieldCleanOnChange(`${name}.thirdSection`)}
         {...{ className, validate }}
       />
@@ -176,6 +171,8 @@ const DateInput = ({
   validate,
   name,
   disabled = { day: false, month: false, year: false },
+  keepFieldCleanOnChangeDayMonth,
+  keepFieldCleanOnChangeYear,
 }) => (
   <Container>
     {text && <Label htmlFor={name}>{text}</Label>}
@@ -185,27 +182,27 @@ const DateInput = ({
         id={name}
         name={`${name}.day`}
         component={NumberInput}
-        placeholder={"DD"}
-        type="number"
+        placeholder={'DD'}
+        onChange={keepFieldCleanOnChangeDayMonth(`${name}.day`)}
         disabled={disabled.day}
-        className={disabled.day && "bg-lightgray"}
+        className={disabled.day && 'bg-lightgray'}
       />
       <Field
         name={`${name}.month`}
         component={NumberInput}
-        placeholder={"MM"}
-        type="number"
+        placeholder={'MM'}
+        onChange={keepFieldCleanOnChangeDayMonth(`${name}.month`)}
         disabled={disabled.month}
-        className={disabled.month && "bg-lightgray"}
+        className={disabled.month && 'bg-lightgray'}
       />
       <Field
         name={`${name}.year`}
         component={NumberInput}
-        placeholder={"YYYY"}
+        placeholder={'YYYY'}
         validate={validate}
-        type="number"
+        onChange={keepFieldCleanOnChangeYear(`${name}.year`)}
         disabled={disabled.year}
-        className={disabled.year && "bg-lightgray"}
+        className={disabled.year && 'bg-lightgray'}
       />
     </div>
 
@@ -218,34 +215,19 @@ const DateInput = ({
   </Container>
 )
 
-const InputWrap = styled.span.attrs({
-  className: "w-full",
-})`
-  margin-top: -20px;
-
-  ::before {
-      position: relative;
-      content: "£";
-      left: 36px;
-      ${({ name }) => name === "annualSalary" && "top: 32px"};
-    }
-  }
-
-`
-
 const NumberInput = styled.input.attrs(
   ({ field, form: { errors, touched } }) => {
     const { name } = field
 
-    const pathToField = R.split(".", name)
+    const pathToField = R.split('.', name)
     const rootField = pathToField[0]
 
     const showErrors =
       R.path(pathToField, errors) && R.path(pathToField, touched)
 
     const showDateErrors = (() => {
-      if ([".day", ".month"].some(suffix => name.includes(suffix))) {
-        const pathToYearSubField = [rootField, "year"]
+      if (['.day', '.month'].some(suffix => name.includes(suffix))) {
+        const pathToYearSubField = [rootField, 'year']
         return (
           R.path(pathToYearSubField, errors) &&
           R.path(pathToYearSubField, touched)
@@ -255,11 +237,11 @@ const NumberInput = styled.input.attrs(
 
     const showSortCodeErrors = (() => {
       if (
-        [".firstSection", ".secondSection"].some(suffix =>
-          name.includes(suffix)
+        ['.firstSection', '.secondSection'].some(suffix =>
+          name.includes(suffix),
         )
       ) {
-        const pathToThirdSectionSubField = [rootField, "thirdSection"]
+        const pathToThirdSectionSubField = [rootField, 'thirdSection']
         return (
           R.path(pathToThirdSectionSubField, errors) &&
           R.path(pathToThirdSectionSubField, touched)
@@ -268,22 +250,31 @@ const NumberInput = styled.input.attrs(
     })()
 
     return {
-      className: `${name === "annualSalary" &&
-        "w-full"} border-solid border-2 border-${
-        showErrors || showDateErrors || showSortCodeErrors ? "red" : "midgray"
+      className: `${name === 'annualSalary' &&
+        'w-full'} border-solid border-2 border-${
+        showErrors || showDateErrors || showSortCodeErrors ? 'red' : 'midgray'
       } rounded-full py-2d5 text-center mr-2`,
-      type: "text",
+      type: 'text',
 
-      pattern: "\\d*",
+      pattern: '\\d*',
       ...field,
     }
-  }
+  },
 )``
+
+const Max = styled.span`
+  margin-right: -15px;
+`
+const Zero = styled.span``
 
 const RangeInput = ({ field, ...attrs }) => {
   return (
     <>
       <Range {...field} {...attrs} />
+      <div className="flex mt-1 justify-between relative">
+        <Zero>0</Zero>
+        <Max>{formatToGBP(attrs.max)}</Max>
+      </div>
     </>
   )
 }
@@ -335,12 +326,12 @@ const Select = styled.select.attrs(
     const { name } = field
     return {
       className: `border-2 border-${
-        errors[name] && touched[name] ? "red" : "midgray"
+        errors[name] && touched[name] ? 'red' : 'midgray'
       } bg-white rounded-full py-3 px-9 mt-6 w-${width} text-center ${className}`,
       disabled,
       ...field,
     }
-  }
+  },
 )`
   display: block;
   line-height: 1.3;
@@ -355,16 +346,16 @@ const Select = styled.select.attrs(
 `
 
 const Container = styled.div.attrs(
-  ({ text, width, margin = "mb-10", direction = "flex-col" }) => ({
-    className: `${text && `flex ${direction}`} w-${width || "full"} ${margin}`,
-  })
+  ({ text, width, margin = 'mb-10', direction = 'flex-col' }) => ({
+    className: `${text && `flex ${direction}`} w-${width || 'full'} ${margin}`,
+  }),
 )``
 
 const Error = styled.span.attrs({
   className: `text-red absolute mt-1`,
 })`
  ${({ direction }) =>
-   direction === "flex-row-reverse" &&
+   direction === 'flex-row-reverse' &&
    css`
      margin-top: 72px;
      width: 100vw;
@@ -373,7 +364,7 @@ const Error = styled.span.attrs({
 `
 
 const Label = styled.label.attrs(({ name, link }) => ({
-  className: `block ${link ? "mb-2" : "mb-5"}`,
+  className: `block ${link ? 'mb-2' : 'mb-5'}`,
   htmlFor: name,
 }))``
 
@@ -394,14 +385,16 @@ const AddHeight = styled.div`
   height: 30px;
 `
 const AddWidth = styled.div.attrs({
-  className: "mr-4",
+  className: 'mr-4',
 })`
   width: 30px;
 `
 
 const CheckboxContainer = styled.label.attrs({
-  className: "block relative cursor-pointer select-none",
+  className: 'block relative cursor-pointer select-none',
 })`
+  width: fit-content;
+
   /* Hide the browser's default checkbox */
   input {
     position: absolute;
@@ -422,19 +415,19 @@ const CheckboxContainer = styled.label.attrs({
     border: 2px solid
       ${({ errors, touched, name }) =>
         errors[name] && touched[name]
-          ? cssTheme("colors.red")
-          : cssTheme("colors.midgray")};
+          ? cssTheme('colors.red')
+          : cssTheme('colors.midgray')};
   }
 
   /* When the checkbox is checked, add a blue background */
   input:checked ~ .checkmark {
-    background-color: ${cssTheme("colors.teal")};
+    background-color: ${cssTheme('colors.teal')};
     border: none;
   }
 
   /* Create the checkmark/indicator (hidden when not checked) */
   .checkmark:after {
-    content: "";
+    content: '';
     position: absolute;
     display: none;
   }

@@ -12,21 +12,21 @@ test("platform fees are calculated correctly", () => {
     minimumLoanFee: 10000,
     loanAmount: 350000,
   })
-  expected = 13900
+  expected = 13920
   expect(actual).toBe(expected)
 
   actual = calculatePlatformFees({
     minimumLoanFee: 10000,
     loanAmount: 749000,
   })
-  expected = 16900
+  expected = 16920
   expect(actual).toBe(expected)
 
   actual = calculatePlatformFees({
     minimumLoanFee: 10000,
     loanAmount: 900000,
   })
-  expected = 17800
+  expected = 17760
   expect(actual).toBe(expected)
 
   actual = calculatePlatformFees({
@@ -49,27 +49,27 @@ test("platform fees are calculated correctly when minimum loan fee is different"
     minimumLoanFee: 15000,
     loanAmount: 350000,
   })
-  expected = 20900
+  expected = 20880
   expect(actual).toBe(expected)
 
   actual = calculatePlatformFees({
     minimumLoanFee: 12500,
     loanAmount: 749000,
   })
-  expected = 21100
+  expected = 21120
   expect(actual).toBe(expected)
 
   actual = calculatePlatformFees({
     minimumLoanFee: 11000,
     loanAmount: 900000,
   })
-  expected = 19600
+  expected = 19560
   expect(actual).toBe(expected)
 
   actual = calculatePlatformFees({
     minimumLoanFee: 25000,
     loanAmount: 900100,
   })
-  expected = 46600
+  expected = 46560
   expect(actual).toBe(expected)
 })

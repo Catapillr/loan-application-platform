@@ -1,18 +1,18 @@
-import React from "react"
-import Router from "next/router"
+import React from 'react'
+import Router from 'next/router'
 
 const AuthContext = React.createContext()
 
 const AuthProvider = props => {
   const login = () => {
     // cookie.set("sessionToken", "logged-in", { expires: 1 })
-    Router.push("/login")
+    Router.push('/login')
   }
 
   // const register = () => {} // register the user
   const logout = () => {
     // cookie.remove("sessionToken")
-    Router.push("/logout")
+    Router.push('/logout')
   }
 
   return <AuthContext.Provider value={{ login, logout }} {...props} />

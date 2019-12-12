@@ -1,33 +1,34 @@
-import { useEffect } from "react"
-import * as Yup from "yup"
-import R_ from "../../../utils/R_.js"
+import { useEffect } from 'react'
+import * as Yup from 'yup'
+import R_ from '../../../utils/R_.js'
 
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import Questions from "../Questions"
+import Questions from '../Questions'
 
-import { RangeInput, SelectInput, NumberInput } from "../../Input"
+import { RangeInput, SelectInput, NumberInput } from '../../Input'
 
-import progress2 from "../../../static/images/progress2.svg"
+import progress2 from '../../../static/images/progress2.svg'
 
-import penniesToPounds from "../../../utils/penniesToPounds"
-import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
-import addThousandsSeperator from "../../../utils/addThousandsSeperator"
+import penniesToPounds from '../../../utils/penniesToPounds'
+import { formatToGBP, unformatFromGBP } from '../../../utils/currencyFormatter'
 
 const validation = Yup.object().shape({
-  loanAmount: Yup.number()
-    .typeError("Please enter digits only in this box")
-    .moreThan(0, "Please choose a loan amount using the slider")
-    .required("Required"),
+  loanAmount: Yup.string().required('Required'),
 
   loanTerms: Yup.number()
-    .typeError("Please enter digits only in this box")
-    .required("Required"),
+    .typeError('Please enter digits only in this box')
+    .required('Required'),
 })
 
 const validateLoanAmount = (value, maxLoan) => {
   let error
-  if (value > maxLoan) {
+
+  if (unformatFromGBP(value) <= 0) {
+    error = 'Please choose a loan amount'
+  }
+
+  if (unformatFromGBP(value) > maxLoan) {
     error = "Sorry, you can't borrow that much"
   }
 
@@ -35,10 +36,10 @@ const validateLoanAmount = (value, maxLoan) => {
 }
 
 const Divider = styled.div.attrs({
-  className: "my-1",
+  className: 'my-1',
 })`
   height: 3px;
-  background-color: ${cssTheme("colors.midgray")};
+  background-color: ${cssTheme('colors.midgray')};
   width: 100%;
   opacity: 0.5;
 `
@@ -50,8 +51,8 @@ const Loan = ({
 }) => {
   const { annualSalary, loanAmount, loanTerms } = values
   const maxLoan = Math.min(
-    annualSalary * maxSalaryPercentage * 0.01,
-    penniesToPounds(maximumAmount)
+    unformatFromGBP(annualSalary) * maxSalaryPercentage * 0.01,
+    penniesToPounds(maximumAmount),
   ).toFixed(0)
 
   const monthlyRepayment = Math.floor(loanAmount / (loanTerms || 11))
@@ -59,7 +60,8 @@ const Loan = ({
   const firstMonth = monthlyRepayment + remainder
 
   useEffect(() => {
-    setFieldValue("loanAmount", maxLoan)
+    setFieldValue('loanAmount', maxLoan)
+    setFieldValue('loanAmountBox', formatToGBP(maxLoan))
   }, [])
 
   return (
@@ -67,44 +69,52 @@ const Loan = ({
       <Questions
         values={values}
         formWidth="60"
-        title="Success! Let's start your loan application process."
+        title="Please now select the loan amount required"
+        subheader="The maximum amount you can borrow has been calculated in the box below. You can either keep this amount or use the slider to select the loan you require. "
         questions={[
           {
-            text: "How much would you like to borrow?",
-            name: "loanAmount",
+            text: 'How much would you like to borrow?',
+            name: 'loanAmount',
             component: RangeInput,
-            type: "range",
-            width: "full",
+            type: 'range',
+            width: 'full',
             max: maxLoan,
             min: 0,
             step: 5,
+            onChange: e => {
+              setFieldValue('loanAmount', e.target.value)
+              setFieldValue('loanAmountBox', formatToGBP(e.target.value))
+            },
             validate: value => validateLoanAmount(value, maxLoan),
           },
           {
-            name: "loanAmount",
+            name: 'loanAmountBox',
             component: NumberInput,
             currency: true,
-            onChange: keepFieldCleanOnChange(
-              setFieldValue,
-              "loanAmount",
-              /^[0-9\b]+$/
-            ),
-            width: "full",
+            onBlur: e => {
+              setFieldValue('loanAmountBox', formatToGBP(e.target.value))
+              setFieldValue('loanAmount', unformatFromGBP(e.target.value))
+            },
+            onInput: e => {
+              setFieldValue('loanAmountBox', formatToGBP(e.target.value))
+              setFieldValue('loanAmount', unformatFromGBP(e.target.value))
+            },
+            width: 'full',
             max: maxLoan,
             min: 0,
             validate: value => validateLoanAmount(value, maxLoan),
           },
           {
-            text: "How long would you like to pay it back over?",
-            name: "loanTerms",
+            text: 'How long would you like to pay it back over?',
+            name: 'loanTerms',
             options: R_.mapIndexed((_, index) => ({
               label: index + 1,
               value: index + 1,
             }))([...Array(11)]),
-            placeholder: "Select months",
-            type: "select",
+            placeholder: 'Select months',
+            type: 'select',
             component: SelectInput,
-            width: "5/6",
+            width: '5/6',
           },
         ]}
       />
@@ -114,28 +124,26 @@ const Loan = ({
           <div>
             <div className="flex justify-between mb-3">
               <p>Loan:</p>
-              <p>£{addThousandsSeperator(loanAmount)}</p>
-            </div>{" "}
+              <p>{formatToGBP(loanAmount)}</p>
+            </div>{' '}
             <div className="flex justify-between mb-3">
               <p>Repayment months:</p>
               <p>{loanTerms || 11}</p>
-            </div>{" "}
+            </div>{' '}
             <div className="flex justify-between mb-3">
               <p>First month:</p>
-              <p>£{addThousandsSeperator(firstMonth)}</p>
-            </div>{" "}
+              <p>{formatToGBP(firstMonth)}</p>
+            </div>{' '}
             <div className="flex justify-between mb-3">
               <p>Repayment per month:</p>
-              <p>£{addThousandsSeperator(monthlyRepayment)}</p>
+              <p>{formatToGBP(monthlyRepayment)}</p>
             </div>
           </div>
           <Divider />
-          <p className="text-right">
-            Total £{addThousandsSeperator(loanAmount)}
-          </p>
+          <p className="text-right">Total {formatToGBP(loanAmount)}</p>
         </div>
         <p>
-          Have more questions? Why not check out our{" "}
+          If you have any questions, please check out our{' '}
           <a
             href="https://catapillr.com/faq/"
             target="_blank"
@@ -153,6 +161,6 @@ const Loan = ({
 
 Loan.validationSchema = validation
 Loan.progressImg = progress2
-Loan.componentName = "Loan"
+Loan.componentName = 'Loan'
 
 export default Loan

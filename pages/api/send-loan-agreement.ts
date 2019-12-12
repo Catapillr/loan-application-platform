@@ -1,19 +1,23 @@
-import hellosign from "hellosign-sdk"
-import { NextApiRequest, NextApiResponse } from "next"
-import moment from "moment"
-import R_ from "../../utils/R_"
+import hellosign from 'hellosign-sdk'
+import { NextApiRequest, NextApiResponse } from 'next'
+import moment from 'moment'
+import R_ from '../../utils/R_'
 
-import zeroIndexMonth from "../../utils/zeroIndexMonth"
-import poundsToPennies from "../../utils/poundsToPennies"
-import currencyFormatter from "currency-formatter"
+import zeroIndexMonth from '../../utils/zeroIndexMonth'
+import poundsToPennies from '../../utils/poundsToPennies'
+import { formatToGBP, unformatFromGBP } from '../../utils/currencyFormatter'
 
-import { prisma } from "../../prisma/generated/ts"
+import { prisma } from '../../prisma/generated/ts'
+import calculatePlatformFees from '../../utils/calculatePlatformFees'
 
 const helloSignClient = hellosign({
   key: process.env.HELLOSIGN_KEY,
 })
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<any> => {
   const {
     employmentStartDate,
     email,
@@ -26,11 +30,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     nationality,
     employeeId,
     phoneNumber,
-    employer,
+    employer: { slug },
     gdprConsent,
   } = req.body
 
-  prisma
+  const employer = await prisma.employer({ slug })
+
+  const platformFees = calculatePlatformFees({
+    minimumLoanFee: employer.minimumLoanFee,
+    loanAmount: poundsToPennies(loanAmount),
+  })
+
+  await prisma
     .createUser({
       firstName,
       lastName,
@@ -42,24 +53,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         .utc(zeroIndexMonth(employmentStartDate))
         .toDate(),
       employeeId,
-      annualSalary: poundsToPennies(parseFloat(annualSalary)),
+      annualSalary: poundsToPennies(annualSalary),
       employer: { connect: { slug: employer.slug } },
       loan: {
         create: {
           amount: poundsToPennies(loanAmount),
           terms: parseInt(loanTerms),
+          platformFees,
         },
       },
       gdprConsent,
     })
     .catch(e => {
-      console.error("Error creating prisma user: ", e) //eslint-disable-line no-console
+      console.error('Error creating prisma user: ', e) //eslint-disable-line no-console
     })
 
   const loanOptions = (
     loanAmount: number,
     loanTerms: number,
-    maximumTerms: number = 11
+    maximumTerms = 11,
   ): { name: string; value: any }[] => {
     const monthlyRepayment = Math.floor(loanAmount / loanTerms)
     const remainder = loanAmount % loanTerms
@@ -67,16 +79,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const loanDetails = [
       {
-        name: "loanAmount",
-        value: currencyFormatter.format(loanAmount, { code: "GBP" }),
+        name: 'loanAmount',
+        value: unformatFromGBP(loanAmount),
       },
       {
-        name: "loanTerms",
+        name: 'loanTerms',
         value: loanTerms,
       },
       {
-        name: "loanMonthlyRepayment",
-        value: currencyFormatter.format(monthlyRepayment, { code: "GBP" }),
+        name: 'loanMonthlyRepayment',
+        value: unformatFromGBP(monthlyRepayment),
       },
     ]
 
@@ -85,15 +97,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       name: `loanMonth${index + 1}`,
       value: `${
         index === 0
-          ? `${currencyFormatter.format(firstMonth, { code: "GBP" })}`
-          : `${currencyFormatter.format(monthlyRepayment, { code: "GBP" })}`
+          ? `${formatToGBP(firstMonth)}`
+          : `${formatToGBP(monthlyRepayment)}`
       }`,
     }))([...Array(loanTerms)])
 
     // @ts-ignore
     const defaultMonths = R_.mapIndexed((_: any, index: any) => ({
       name: `loanMonth${loanTerms + index + 1}`,
-      value: "n/a",
+      value: 'n/a',
     }))([...Array(maximumTerms - loanTerms)])
 
     // @ts-ignore
@@ -101,53 +113,58 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const opts = {
+    // eslint-disable-next-line @typescript-eslint/camelcase
     test_mode: 1 as hellosign.Flag,
-    template_id: "f7d22e065f90856421dc4d0f4b0257783a22c356",
-    title: "Employee CCAS loan agreement",
-    subject: "Employee CCAS loan agreement",
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    template_id: 'f7d22e065f90856421dc4d0f4b0257783a22c356',
+    title: 'Employee CCAS loan agreement',
+    subject: 'Employee CCAS loan agreement',
     signers: [
       {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         email_address: email,
         name: `${firstName} ${lastName} `,
-        role: "Employee",
+        role: 'Employee',
       },
       {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         email_address: employer.signerEmail,
         name: employer.name,
-        role: "Employer",
+        role: 'Employer',
       },
     ],
+    // eslint-disable-next-line @typescript-eslint/camelcase
     custom_fields: [
       {
-        name: "employerName",
+        name: 'employerName',
         value: employer.name,
       },
       {
-        name: "employerCompanyNumber",
-        value: employer.companyNumber || "n/a",
+        name: 'employerCompanyNumber',
+        value: employer.companyNumber || 'n/a',
       },
       {
-        name: "employerAddress",
+        name: 'employerAddress',
         value: employer.address,
       },
       {
-        name: "employerMinimumService",
+        name: 'employerMinimumService',
         value: employer.minimumServiceLength,
       },
       {
-        name: "userName",
+        name: 'userName',
         value: `${firstName} ${lastName} `,
       },
       {
-        name: "userEmployeeID",
-        value: `${employeeId && employeeId !== "" ? employeeId : "n/a"} `,
+        name: 'userEmployeeID',
+        value: `${employeeId && employeeId !== '' ? employeeId : 'n/a'} `,
       },
       ...loanOptions(parseInt(loanAmount), parseInt(loanTerms)),
     ],
   }
 
   helloSignClient.signatureRequest.sendWithTemplate(opts).catch(e => {
-    console.error("Sending loan agreement Hellosign error: ", e) //eslint-disable-line no-console
+    console.error('Sending loan agreement Hellosign error: ', e) //eslint-disable-line no-console
   })
 
   res.status(200).end()

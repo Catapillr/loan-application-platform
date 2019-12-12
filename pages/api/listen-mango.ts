@@ -1,11 +1,11 @@
-import axios from "axios"
-import gql from "graphql-tag"
-import moment from "moment"
-import { NextApiRequest, NextApiResponse } from "next"
-import R from "ramda"
+import axios from 'axios'
+import gql from 'graphql-tag'
+import moment from 'moment'
+import { NextApiRequest, NextApiResponse } from 'next'
+import R from 'ramda'
 
-import mango from "../../lib/mango"
-import { prisma } from "../../prisma/generated/ts"
+import mango from '../../lib/mango'
+import { prisma } from '../../prisma/generated/ts'
 import {
   sendEmployeeLoanPaymentNotification,
   sendEmployerPaymentNotification,
@@ -13,24 +13,27 @@ import {
   sendKYCorUBOFailure,
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
-} from "../../utils/mailgunClient"
+} from '../../utils/mailgunClient'
 
-const PAYIN_SUCCEEDED = "PAYIN_NORMAL_SUCCEEDED"
-const KYC_SUCCEEDED = "KYC_SUCCEEDED"
-const KYC_FAILED = "KYC_FAILED"
+const PAYIN_SUCCEEDED = 'PAYIN_NORMAL_SUCCEEDED'
+const KYC_SUCCEEDED = 'KYC_SUCCEEDED'
+const KYC_FAILED = 'KYC_FAILED'
 
-const UBO_DECLARATION_REFUSED = "UBO_DECLARATION_REFUSED"
-const UBO_DECLARATION_VALIDATED = "UBO_DECLARATION_VALIDATED"
-const UBO_DECLARATION_INCOMPLETE = "UBO_DECLARATION_INCOMPLETE"
+const UBO_DECLARATION_REFUSED = 'UBO_DECLARATION_REFUSED'
+const UBO_DECLARATION_VALIDATED = 'UBO_DECLARATION_VALIDATED'
+const UBO_DECLARATION_INCOMPLETE = 'UBO_DECLARATION_INCOMPLETE'
 
 // KYC_CREATED, KYC_SUCCEEDED, KYC_FAILED, KYC_VALIDATION_ASKED
 // UBO_DECLARATION_CREATED, UBO_DECLARATION_VALIDATION_ASKED, UBO_DECLARATION_REFUSED, UBO_DECLARATION_VALIDATED, UBO_DECLARATION_INCOMPLETE
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<any> => {
   try {
     const { EventType, RessourceId } = req.query
 
-    const handleEvents: any = (() => {
+    const handleEvents: any = ((): any => {
       switch (EventType) {
         case PAYIN_SUCCEEDED:
           return handleSuccesfulPayIn
@@ -45,31 +48,32 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         case UBO_DECLARATION_INCOMPLETE:
           return handleUBO
         default:
-          return () => () => res.status(200).end()
+          return () => (): any => res.status(200).end()
       }
     })()
 
     handleEvents(res)({ RessourceId, EventType })
   } catch (err) {
-    console.error("Mango listen hook error: ", err)
+    // eslint-disable-next-line no-console
+    console.error('Mango listen hook error: ', err)
   }
 }
 
 const handleUBO = (res: NextApiResponse) => async ({
   RessourceId,
   EventType,
-}) => {
+}): Promise<any> => {
   try {
     const { data: resource } = await axios.get(
       `${process.env.MANGO_URL}/v2.01/${process.env.MANGO_CLIENT_ID}/kyc/ubodeclarations/${RessourceId}`,
       {
         headers: {
-          "content-type": "application/json",
+          'content-type': 'application/json',
           Authorization: `Basic ${Buffer.from(
-            `${process.env.MANGO_CLIENT_ID}:${process.env.MANGO_KEY}`
-          ).toString("base64")}`,
+            `${process.env.MANGO_CLIENT_ID}:${process.env.MANGO_KEY}`,
+          ).toString('base64')}`,
         },
-      }
+      },
     )
 
     if (
@@ -82,20 +86,21 @@ const handleUBO = (res: NextApiResponse) => async ({
 
     const mangoLegalUser = await mango.Users.get(resource.UserId)
 
-    if (mangoLegalUser.KYCLevel === "REGULAR") {
+    if (mangoLegalUser.KYCLevel === 'REGULAR') {
       await processPaymentRequest(mangoLegalUser.Id)
     }
 
     res.status(200).end()
   } catch (err) {
-    console.error("Error with UBO hook: ", err)
+    // eslint-disable-next-line no-console
+    console.error('Error with UBO hook: ', err)
   }
 }
 
 const handleKYC = (res: NextApiResponse) => async ({
   RessourceId,
   EventType,
-}) => {
+}): Promise<any> => {
   try {
     const resource = await mango.KycDocuments.get(RessourceId)
     if (EventType === KYC_FAILED) {
@@ -105,25 +110,32 @@ const handleKYC = (res: NextApiResponse) => async ({
 
     const mangoLegalUser = await mango.Users.get(resource.UserId)
 
-    if (mangoLegalUser.KYCLevel === "REGULAR") {
+    if (mangoLegalUser.KYCLevel === 'REGULAR') {
       await processPaymentRequest(mangoLegalUser.Id)
     }
 
     res.status(200).end()
   } catch (err) {
-    console.error("Error with KYC hook: ", err)
+    // eslint-disable-next-line no-console
+    console.error('Error with KYC hook: ', err)
   }
 }
 
-const processPaymentRequest = async (mangoLegalUserId: string) => {
+const processPaymentRequest = async (
+  mangoLegalUserId: string,
+): Promise<any> => {
   const provider = await prisma.childcareProvider({
     mangoLegalUserId,
   })
 
   const paymentRequests: any = await prisma
     .childcareProvider({ mangoLegalUserId })
-    .paymentRequests({ where: { expiresAt_gt: new Date().toISOString() } })
-    .$fragment(gql`
+    .paymentRequests({
+      where: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        expiresAt_gt: new Date().toISOString(),
+      },
+    }).$fragment(gql`
     fragment paymentRequestWithUser on PaymentRequest {
       id
       amountToPay
@@ -138,15 +150,15 @@ const processPaymentRequest = async (mangoLegalUserId: string) => {
     }
   `)
 
-  const processPayout = async (paymentRequest: any) => {
+  const processPayout = async (paymentRequest: any): Promise<any> => {
     await mango.Transfers.create({
       AuthorId: paymentRequest.user.mangoUserId,
       DebitedFunds: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: paymentRequest.amountToPay,
       },
       Fees: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: 0,
       },
       DebitedWalletId: paymentRequest.user.mangoWalletId,
@@ -156,18 +168,18 @@ const processPaymentRequest = async (mangoLegalUserId: string) => {
     await mango.PayOuts.create({
       AuthorId: provider.mangoLegalUserId,
       DebitedFunds: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: paymentRequest.amountToPay,
       },
       Fees: {
-        Currency: "GBP",
+        Currency: 'GBP',
         Amount: 0,
       },
       BankAccountId: provider.mangoBankAccountId,
       DebitedWalletId: provider.mangoWalletId,
       BankWireRef: paymentRequest.reference,
       // @ts-ignore
-      PaymentType: "BANK_WIRE",
+      PaymentType: 'BANK_WIRE',
     })
 
     await prisma.deletePaymentRequest({ id: paymentRequest.id })
@@ -189,7 +201,7 @@ const processPaymentRequest = async (mangoLegalUserId: string) => {
 
 const handleSuccesfulPayIn = (res: NextApiResponse) => async ({
   RessourceId,
-}) => {
+}): Promise<any> => {
   try {
     const {
       DebitedFunds,
@@ -215,11 +227,12 @@ const handleSuccesfulPayIn = (res: NextApiResponse) => async ({
       payInId: RessourceId,
       dateOfPayment: moment
         .utc(ExecutionDate)
-        .format("Do MMMM YYYY, h:mm:ss a"),
+        .format('Do MMMM YYYY, h:mm:ss a'),
       discrepancy: DebitedFunds.Amount - loan.amount,
     }
 
-    const isPayInEqualToLoan = loan.amount === DebitedFunds.Amount
+    const isPayInEqualToLoan =
+      loan.amount + loan.platformFees === DebitedFunds.Amount
 
     if (!isPayInEqualToLoan) {
       sendIncorrectPaymentNotification({
@@ -245,6 +258,7 @@ const handleSuccesfulPayIn = (res: NextApiResponse) => async ({
       return res.status(200).send(`Loan sucessfully paid by employer`)
     }
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error("Payin listen didn't work: ", err)
   }
 }

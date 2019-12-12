@@ -1,15 +1,15 @@
-import * as Yup from "yup"
-import * as R from "ramda"
-import styled from "styled-components"
-import UkModulusChecking from "uk-modulus-checking"
+import * as Yup from 'yup'
+import * as R from 'ramda'
+import styled from 'styled-components'
+import UkModulusChecking from 'uk-modulus-checking'
 
-import { Heading, Copy } from "../styles"
-import Questions from "../Questions"
-import { SortCodeInput, NumberInput } from "../../Input"
+import { Heading, Copy } from '../styles'
+import Questions from '../Questions'
+import { SortCodeInput, NumberInput } from '../../Input'
 
-import keepFieldCleanOnChange from "../../../utils/keepFieldCleanOnChange"
+import keepFieldCleanOnChange from '../../../utils/keepFieldCleanOnChange'
 
-import providerProgress4 from "../../../static/images/providerProgress4.svg"
+import providerProgress4 from '../../../static/images/providerProgress4.svg'
 
 const validation = Yup.object().shape({
   accountNumber: Yup.string().required(),
@@ -17,14 +17,14 @@ const validation = Yup.object().shape({
 })
 
 const Container = styled.main.attrs({
-  className: "flex flex-col",
+  className: 'flex flex-col',
 })`
   width: 65%;
 `
 
 const validateUKBankAccount = (
   accountNumber,
-  { firstSection, secondSection, thirdSection }
+  { firstSection, secondSection, thirdSection },
 ) => {
   let error
   const isValid = new UkModulusChecking({
@@ -34,7 +34,7 @@ const validateUKBankAccount = (
 
   if (!isValid) {
     error =
-      "Your UK bank account details are invalid. Please double-check them!"
+      'Your UK bank account details are invalid. Please double-check them!'
   }
   return error
 }
@@ -55,28 +55,28 @@ const BankDetails = ({
       title="3 Bank Details"
       questions={[
         {
-          text: "Account Number",
-          name: "accountNumber",
+          text: 'Account Number',
+          name: 'accountNumber',
           component: NumberInput,
           maxLength: 8,
           onChange: keepFieldCleanOnChange(
             setFieldValue,
-            "accountNumber",
-            /^[0-9\b]+$/
+            'accountNumber',
+            /^[0-9\b]+$/,
           ),
-          width: "1/2",
+          width: '1/2',
         },
         {
-          text: "Sort Code",
+          text: 'Sort Code',
           component: SortCodeInput,
           custom: true,
-          name: "sortCode",
+          name: 'sortCode',
           keepFieldCleanOnChange: keepFieldCleanOnChange(
             setFieldValue,
             R.__,
-            /^[0-9\b]+$/
+            /^[0-9\b]+$/,
           ),
-          width: "full",
+          width: 'full',
           validate: () => validateUKBankAccount(accountNumber, sortCode),
         },
       ]}
@@ -86,6 +86,6 @@ const BankDetails = ({
 
 BankDetails.validationSchema = validation
 BankDetails.progressImg = providerProgress4
-BankDetails.componentName = "BankDetails"
+BankDetails.componentName = 'BankDetails'
 
 export default BankDetails
