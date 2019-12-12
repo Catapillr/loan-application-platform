@@ -118,8 +118,10 @@ const sendLoanTransferDetails = ({
   fees,
   feesPlusVAT,
   totalPayInAmount,
-}): any =>
-  mailgunEmailTemplate({
+}): any => {
+  employeeId = employeeId ? { 'v:employeeId': employeeId } : {}
+
+  return mailgunEmailTemplate({
     email,
     subject: 'Loan transfer details',
     template: 'loan-transfer-details',
@@ -130,12 +132,13 @@ const sendLoanTransferDetails = ({
       'v:loanAmount': formatToGBP(penniesToPounds(loanAmount)),
       'v:WireReference': WireReference,
       'v:employeeName': employeeName,
-      'v:employeeId': employeeId,
       'v:fees': formatToGBP(penniesToPounds(fees)),
       'v:feesPlusVAT': formatToGBP(penniesToPounds(feesPlusVAT)),
       'v:totalPayInAmount': formatToGBP(penniesToPounds(totalPayInAmount)),
+      ...employeeId,
     },
   })
+}
 
 const sendProviderRegistrationLink = ({
   user,
