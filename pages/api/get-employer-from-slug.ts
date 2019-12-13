@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import gql from "graphql-tag"
-import { prisma } from "../../prisma/generated/ts"
+import { NextApiRequest, NextApiResponse } from 'next'
+import gql from 'graphql-tag'
+import { prisma } from '../../prisma/generated/ts'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   const slug = req.query.slug as string
 
