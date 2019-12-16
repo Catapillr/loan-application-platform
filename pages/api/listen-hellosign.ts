@@ -162,9 +162,9 @@ export default async (
           },
         })
 
-        const [sortCode, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
+        const [rest, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
+        const [, sortCode] = R.splitAt(-6, rest)
 
-        // TODO: check this in production to see if it's being split properly
         sendLoanTransferDetails({
           email: employerEmail,
           sortCode,
