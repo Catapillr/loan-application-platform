@@ -126,8 +126,7 @@ export default async (
 
     const confirmationPath = await getConfirmationPath()
 
-    // @ts-ignore
-    const ubos = R_.reduceIndexed((acc: any, ubo: any, index: number) => {
+    const ubos: any = R_.reduceIndexed((acc: any, ubo: any, index: number) => {
       return {
         ...acc,
         [`ubo${index + 1}`]: {
