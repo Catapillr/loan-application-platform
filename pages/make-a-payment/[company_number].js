@@ -126,7 +126,7 @@ const Wizard = ({
   const pageIndex = R.findIndex(R.equals(page))(pages)
   const activePage = R.find(R.pathEq(['type', 'componentName'], page))(steps)
 
-  const { validationSchema } = activePage && activePage.type
+  const { validationSchema, asideContents } = activePage && activePage.type
 
   const incrementPage = () => {
     setPage(pages[pageIndex + 1])
@@ -214,30 +214,11 @@ const Wizard = ({
                   </Form>
                 )}
               </Main>
-              {!formCompleted && company && (
+              {!formCompleted && company && asideContents && (
                 <Aside>
                   <Tip>
                     <h2 className="font-bold mb-6">How does this work?</h2>
-                    <p className="mb-6">
-                      {isProviderRegistered
-                        ? 'Enter the amount you would like to pay for the service you are interested in.'
-                        : 'Unfortunately, the childcare provider you selected is not yet on our database.'}
-                    </p>
-                    <p className="mb-6">
-                      {isProviderRegistered
-                        ? 'Tell us what the amount is going towards.'
-                        : 'The good news is that we can send them an email invite with a magic link containing the amount you would like to pay.'}
-                    </p>
-
-                    {isProviderRegistered && (
-                      <p className="mb-6">Send the payment and that’s it!</p>
-                    )}
-
-                    <p className="mb-6">
-                      {isProviderRegistered
-                        ? 'You will be notified as soon as the provider accepts the payment and claims the amount.'
-                        : 'As soon as they sign up, they will be able to easily claim the amount, and you will be notified!'}
-                    </p>
+                    {asideContents}
                   </Tip>
                 </Aside>
               )}
