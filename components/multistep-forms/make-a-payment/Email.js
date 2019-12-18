@@ -14,8 +14,8 @@ const Email = ({ incrementPage, company, Controls, submitForm, isValid }) => (
     <Title>{company.company_name}</Title>
 
     <Error>
-      Unfortunately, this provider is not yet registered to the Catapillr
-      scheme.
+      Unfortunately, this provider is not yet registered with the Catapillr Cash
+      Advance Scheme.
     </Error>
     <p>
       Please read the <span className="font-bold">How does this work? </span>
@@ -40,7 +40,25 @@ const validation = Yup.object().shape({
     .required('Required!'),
 })
 
+const AsideContents = () => (
+  <>
+    <p className="mb-6">
+      The company you are trying to add is not yet set up to receive payments.
+    </p>
+    <p className="mb-6">
+      The good news is that we can send them an email invite with a magic link,
+      containing the amount you would like to pay them.
+    </p>
+    <p className="mb-6">
+      The process is simple for them to complete and once approved, payment will
+      usually be made within 24 hours.
+    </p>
+    <p>Once they have signed up, we will send you an email notification.</p>
+  </>
+)
+
 Email.validationSchema = validation
+Email.AsideContents = AsideContents
 Email.componentName = 'Email'
 
 const doesEmailExist = async ({ email }) => {
