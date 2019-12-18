@@ -88,6 +88,7 @@ const seedDatabase = async () => {
         create: {
           amount: 200000,
           terms: 12,
+          platformFees: 1000,
           approved: true,
         },
       },

@@ -1,24 +1,24 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import * as R from "ramda"
-import moment from "moment"
-import formidable from "formidable"
+import { NextApiRequest, NextApiResponse } from 'next'
+import * as R from 'ramda'
+import moment from 'moment'
+import formidable from 'formidable'
 
-import mango from "../../lib/mango"
-import { prisma } from "../../prisma/generated/ts"
-import { sendProviderApplicationCompleteConfirmation } from "../../utils/mailgunClient"
-import zeroIndexMonth from "../../utils/zeroIndexMonth"
+import mango from '../../lib/mango'
+import { prisma } from '../../prisma/generated/ts'
+import { sendProviderApplicationCompleteConfirmation } from '../../utils/mailgunClient'
+import zeroIndexMonth from '../../utils/zeroIndexMonth'
 
-const GBP = "GBP"
+const GBP = 'GBP'
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<any> => {
   try {
     const form = new formidable.IncomingForm()
     form.parse(req, async (err, fields, files) => {
       if (err) {
-        return console.error("Listen for signEvent error", err) //eslint-disable-line no-console
+        return console.error('Listen for signEvent error', err) //eslint-disable-line no-console
       }
 
       const {
@@ -56,8 +56,8 @@ export default async (
       // @ts-ignore
       const providerLegalUser = await mango.Users.create({
         // @ts-ignore
-        PersonType: "LEGAL",
-        LegalPersonType: "BUSINESS",
+        PersonType: 'LEGAL',
+        LegalPersonType: 'BUSINESS',
         Name: businessName,
         Email: childcareProviderEmail as string,
         HeadquartersAddress: {
@@ -85,8 +85,8 @@ export default async (
 
         // eslint-disable-next-line no-console
         console.error(
-          "Error in page /register-provider => Legal user creation error",
-          error
+          'Error in page /register-provider => Legal user creation error',
+          error,
         )
         throw e
       })
@@ -94,35 +94,35 @@ export default async (
       // 2. Upload KYC Documents
 
       type KycDocument =
-        | "IDENTITY_PROOF"
-        | "REGISTRATION_PROOF"
-        | "ARTICLES_OF_ASSOCIATION"
+        | 'IDENTITY_PROOF'
+        | 'REGISTRATION_PROOF'
+        | 'ARTICLES_OF_ASSOCIATION'
 
       const createDocumentWithPages = async (
         file: any,
-        Type: KycDocument
+        Type: KycDocument,
       ): Promise<any> => {
         try {
           const document = await mango.Users.createKycDocument(
             providerLegalUser.Id,
             {
               Type,
-            }
+            },
           )
 
           await mango.Users.createKycPageFromFile(
             providerLegalUser.Id,
             document.Id,
-            file.path
+            file.path,
           )
 
           const updateDocument = await mango.Users.updateKycDocument(
             providerLegalUser.Id,
             {
-              Status: "VALIDATION_ASKED",
+              Status: 'VALIDATION_ASKED',
               // @ts-ignore
               Id: document.Id,
-            }
+            },
           )
 
           return updateDocument
@@ -138,28 +138,28 @@ export default async (
           // eslint-disable-next-line no-console
           console.error(
             `Error in page /register-provider => Issue creating KYC document ${Type}`,
-            error
+            error,
           )
           throw e
         }
       }
 
-      createDocumentWithPages(files.repProofOfId, "IDENTITY_PROOF")
+      createDocumentWithPages(files.repProofOfId, 'IDENTITY_PROOF')
       createDocumentWithPages(
         files.proofOfRegistration || JSON.parse(proofOfRegistration as string),
-        "REGISTRATION_PROOF"
+        'REGISTRATION_PROOF',
       )
       createDocumentWithPages(
         files.articlesOfAssociation ||
           JSON.parse(articlesOfAssociation as string),
-        "ARTICLES_OF_ASSOCIATION"
+        'ARTICLES_OF_ASSOCIATION',
       )
 
       // 3. Create and submit UBO declaration
       if (ubo1 || ubo2 || ubo3 || ubo4) {
         //@ts-ignore
         const uboDeclaration = await mango.UboDeclarations.create(
-          providerLegalUser.Id
+          providerLegalUser.Id,
         )
 
         const uboPromises: any[] = R.pipe(
@@ -179,9 +179,9 @@ export default async (
                 Birthday: moment.utc(zeroIndexMonth(ubo.Birthday)).unix(),
                 Address: ubo.Address,
                 Birthplace: ubo.Birthplace,
-              }
+              },
             )
-          })
+          }),
         )([ubo1, ubo2, ubo3, ubo4])
 
         const Ubos = await Promise.all(uboPromises).catch(e => {
@@ -195,8 +195,8 @@ export default async (
 
           // eslint-disable-next-line no-console
           console.error(
-            "Error in page /register-provider => UBO creation error",
-            error
+            'Error in page /register-provider => UBO creation error',
+            error,
           )
           throw e
         })
@@ -205,7 +205,7 @@ export default async (
           //@ts-ignore
           Id: uboDeclaration.Id,
           Ubos,
-          Status: "VALIDATION_ASKED",
+          Status: 'VALIDATION_ASKED',
         }).catch((e: any) => {
           const error = {
             error: e,
@@ -217,8 +217,8 @@ export default async (
 
           // eslint-disable-next-line no-console
           console.error(
-            "Error in page /register-provider => UBO declaration update error",
-            error
+            'Error in page /register-provider => UBO declaration update error',
+            error,
           )
           throw e
         })
@@ -240,8 +240,8 @@ export default async (
 
         // eslint-disable-next-line no-console
         console.error(
-          "Error in page /register-provider => Wallet creation error",
-          error
+          'Error in page /register-provider => Wallet creation error',
+          error,
         )
         throw e
       })
@@ -250,14 +250,14 @@ export default async (
       const sortCodeString = R.pipe(
         JSON.parse,
         ({ firstSection, secondSection, thirdSection }) =>
-          `${firstSection}${secondSection}${thirdSection}`
+          `${firstSection}${secondSection}${thirdSection}`,
       )(sortCode as string)
 
       const providerBankAccount = await mango.Users.createBankAccount(
         providerLegalUser.Id,
         {
           // @ts-ignore
-          Type: "GB",
+          Type: 'GB',
           // @ts-ignore
           OwnerName: businessName,
           // @ts-ignore
@@ -272,7 +272,7 @@ export default async (
           SortCode: sortCodeString,
           // @ts-ignore
           AccountNumber: accountNumber,
-        }
+        },
       ).catch((e: any) => {
         const error = {
           error: e,
@@ -284,8 +284,8 @@ export default async (
 
         // eslint-disable-next-line no-console
         console.error(
-          "Error in page /register-provider => Bank account creation error",
-          error
+          'Error in page /register-provider => Bank account creation error',
+          error,
         )
         throw e
       })
@@ -312,8 +312,8 @@ export default async (
 
           // eslint-disable-next-line no-console
           console.error(
-            "Error in page /register-provider => Provider update error",
-            error
+            'Error in page /register-provider => Provider update error',
+            error,
           )
           throw e
         })
@@ -326,7 +326,7 @@ export default async (
       res.status(200).json({ childcareProviderId: updateChildcareProvider.id })
     })
   } catch (e) {
-    console.log("There was an error registering this childcare provider: ", e) //eslint-disable-line no-console
+    console.log('There was an error registering this childcare provider: ', e) //eslint-disable-line no-console
   }
 }
 

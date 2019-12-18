@@ -42,22 +42,6 @@ const sendEmployeeEmailVerification = ({ email, random }): any =>
     },
   })
 
-const sendEmployeeApplicationCompleteConfirmation = (email: string): any =>
-  mailgunEmailTemplate({
-    email,
-    subject: 'Your application is complete',
-    template: 'employee-application-complete',
-    data: {},
-  })
-
-const sendEmployeeLoanApproval = (email: string): any =>
-  mailgunEmailTemplate({
-    email,
-    subject: 'Congratulations, your loan has been approved',
-    template: 'loan-approval',
-    data: {},
-  })
-
 const sendIncorrectPaymentNotification = ({ payment, user, employer }): any =>
   mailgunEmailTemplate({
     email: process.env.ADMIN_EMAIL,
@@ -212,13 +196,11 @@ const sendKYCorUBOFailure = (failureReasons: any): any =>
 export {
   mailgunEmailTemplate,
   sendEmployeeEmailVerification,
-  sendEmployeeLoanApproval,
   sendLoanTransferDetails,
   sendIncorrectPaymentNotification,
   sendEmployerPaymentNotification,
   sendEmployeeLoanPaymentNotification,
   sendProviderRegistrationLink,
-  sendEmployeeApplicationCompleteConfirmation,
   sendProviderPaymentNotification,
   sendEmployeeOutgoingPaymentNotification,
   sendKYCorUBOFailure,

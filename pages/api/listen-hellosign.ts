@@ -9,16 +9,12 @@ import crypto from 'crypto'
 import mango from '../../lib/mango'
 
 import { prisma } from '../../prisma/generated/ts'
-import {
-  sendEmployeeLoanApproval,
-  sendLoanTransferDetails,
-  sendEmployeeApplicationCompleteConfirmation,
-} from '../../utils/mailgunClient'
+import { sendLoanTransferDetails } from '../../utils/mailgunClient'
 
 // Hellosign constants
 const Signed = 'signed'
 const SignatureRequestSigned = 'signature_request_signed'
-const AwaitingSignature = 'awaiting_signature'
+// const AwaitingSignature = 'awaiting_signature'
 const Employer = 'Employer'
 const Employee = 'Employee'
 const Natural = 'NATURAL'
@@ -69,17 +65,7 @@ export default async (
     const employeeEmail = employeeSignatureInfo.signer_email_address
     const employerEmail = employerSignatureInfo.signer_email_address
 
-    if (
-      employeeSignatureInfo.status_code === Signed &&
-      employerSignatureInfo.status_code === AwaitingSignature
-    ) {
-      sendEmployeeApplicationCompleteConfirmation(employeeEmail)
-      return res.status(200).send('Hello API Event Received')
-    }
-
     if (employerSignatureInfo.status_code === Signed) {
-      sendEmployeeLoanApproval(employeeEmail)
-
       // TODO: maybe add https://github.com/firede/ts-transform-graphql-tag
       try {
         const employee: any = await prisma.user({
@@ -162,9 +148,9 @@ export default async (
           },
         })
 
-        const [sortCode, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
+        const [rest, accountNumber] = R.splitAt(-8, BankAccount.IBAN)
+        const [, sortCode] = R.splitAt(-6, rest)
 
-        // TODO: check this in production to see if it's being split properly
         sendLoanTransferDetails({
           email: employerEmail,
           sortCode,
