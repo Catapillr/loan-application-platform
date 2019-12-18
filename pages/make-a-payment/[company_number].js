@@ -126,7 +126,7 @@ const Wizard = ({
   const pageIndex = R.findIndex(R.equals(page))(pages)
   const activePage = R.find(R.pathEq(['type', 'componentName'], page))(steps)
 
-  const { validationSchema, asideContents } = activePage && activePage.type
+  const { validationSchema, AsideContents } = activePage && activePage.type
 
   const incrementPage = () => {
     setPage(pages[pageIndex + 1])
@@ -214,11 +214,11 @@ const Wizard = ({
                   </Form>
                 )}
               </Main>
-              {!formCompleted && company && asideContents && (
+              {!formCompleted && company && AsideContents && (
                 <Aside>
                   <Tip>
                     <h2 className="font-bold mb-6">How does this work?</h2>
-                    {asideContents}
+                    <AsideContents />
                   </Tip>
                 </Aside>
               )}

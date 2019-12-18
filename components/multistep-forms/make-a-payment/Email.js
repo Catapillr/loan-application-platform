@@ -40,7 +40,7 @@ const validation = Yup.object().shape({
     .required('Required!'),
 })
 
-const asideContents = (
+const AsideContents = () => (
   <>
     <p className="mb-6">
       The company you are trying to add is not yet set up to receive payments.
@@ -53,14 +53,12 @@ const asideContents = (
       The process is simple for them to complete and once approved, payment will
       usually be made within 24 hours.
     </p>
-    <p className="mb-6">
-      Once they have signed up, we will send you an email notification.
-    </p>
+    <p>Once they have signed up, we will send you an email notification.</p>
   </>
 )
 
 Email.validationSchema = validation
-Email.asideContents = asideContents
+Email.AsideContents = AsideContents
 Email.componentName = 'Email'
 
 const doesEmailExist = async ({ email }) => {

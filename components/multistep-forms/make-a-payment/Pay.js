@@ -8,12 +8,12 @@ import penniesToPounds from '../../../utils/penniesToPounds'
 import Pen from '../../../static/icons/pen.svg'
 import Nursery from '../../../static/icons/nursery.svg'
 
-const asideContents = (
+const AsideContents = () => (
   <>
     <p className="mb-6">
       Please enter the amount you wish to pay to the childcare company.
     </p>
-    <p className="mb-6">
+    <p>
       Then add a relevant reference, such as your name, child's name and/or
       invoice number.
     </p>
@@ -84,7 +84,7 @@ const Pay = ({
 )
 
 Pay.validationSchema = validation
-Pay.asideContents = asideContents
+Pay.AsideContents = AsideContents
 Pay.componentName = 'Pay'
 
 const Container = styled.section.attrs({
