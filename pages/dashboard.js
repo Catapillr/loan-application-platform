@@ -14,77 +14,88 @@ import Footer from '../components/Footer'
 import Transaction from '../components/Transaction'
 import Payee from '../components/Payee'
 import penniesToPounds from '../utils/penniesToPounds'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 const Transfer = 'TRANSFER'
 const PayIn = 'PAYIN'
 
-const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => (
-  <Container>
-    <Header />
-    <Contents>
-      <Main>
-        <Title className="mb-12">My payments</Title>
-        <Subtitle className="mb-10">Recent payees</Subtitle>
-        <PayeesContainer>
-          {R.values(recentPayeesByMangoId).map(payee => (
-            <Payee
-              name={payee.Name}
-              key={payee.Id}
-              href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
-            />
-          ))}
-        </PayeesContainer>
-      </Main>
-      <Aside>
-        <BalanceContainer>
-          <Subtitle>Balance</Subtitle>
-          <Title>{formatAmounts(userWalletBalance)}</Title>
-        </BalanceContainer>
-        <TransactionContainer>
-          <Subtitle className="mb-10">My transactions</Subtitle>
+const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => {
+  return (
+    <Container>
+      <Header />
+      <ErrorBoundary shadowed>
+        <Contents>
+          <Main>
+            <Title className="mb-12">My payments</Title>
+            <Subtitle className="mb-10">Recent payees</Subtitle>
 
-          {//eslint-disable-next-line array-callback-return
-          transactions.map(transaction => {
-            switch (transaction.Type) {
-              case Transfer:
-                return (
-                  <Transaction
-                    key={transaction.Id}
-                    name={
-                      recentPayeesByMangoId[transaction.CreditedUserId].Name
-                    }
-                    amount={`-${formatAmounts(
-                      transaction.DebitedFunds.Amount,
-                    )}`}
-                    date={moment
-                      .unix(transaction.ExecutionDate) //eslint-disable-line import/namespace
-                      .format('D MMMM YYYY')}
+            <ErrorBoundary shadowed>
+              <PayeesContainer>
+                {R.values(recentPayeesByMangoId).map(payee => (
+                  <Payee
+                    name={payee.Name}
+                    key={payee.Id}
+                    href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
                   />
-                )
-              case PayIn:
-                return (
-                  <Transaction
-                    key={transaction.Id}
-                    name={transaction.debitedUserName}
-                    amount={`+${formatAmounts(
-                      transaction.CreditedFunds.Amount,
-                    )}`}
-                    date={moment
-                      .unix(transaction.ExecutionDate) //eslint-disable-line import/namespace
-                      .format('D MMMM YYYY')}
-                  />
-                )
-              default:
-                return <div key={transaction.Id}></div>
-            }
-          })}
-        </TransactionContainer>
-      </Aside>
-    </Contents>
-    <Footer />
-  </Container>
-)
+                ))}
+              </PayeesContainer>
+            </ErrorBoundary>
+          </Main>
+          <Aside>
+            <BalanceContainer>
+              <Subtitle>Balance</Subtitle>
+              <Title>{formatAmounts(userWalletBalance)}</Title>
+            </BalanceContainer>
 
+            <ErrorBoundary>
+              <TransactionContainer>
+                <Subtitle className="mb-10">My transactions</Subtitle>
+
+                {// eslint-disable-next-line array-callback-return
+                transactions.map(transaction => {
+                  switch (transaction.Type) {
+                    case Transfer:
+                      return (
+                        <Transaction
+                          key={transaction.Id}
+                          name={
+                            recentPayeesByMangoId[transaction.CreditedUserId]
+                              .Name
+                          }
+                          amount={`-${formatAmounts(
+                            transaction.DebitedFunds.Amount,
+                          )}`}
+                          date={moment
+                            .unix(transaction.ExecutionDate) // eslint-disable-line import/namespace
+                            .format('D MMMM YYYY')}
+                        />
+                      )
+                    case PayIn:
+                      return (
+                        <Transaction
+                          key={transaction.Id}
+                          name={transaction.debitedUserName}
+                          amount={`+${formatAmounts(
+                            transaction.CreditedFunds.Amount,
+                          )}`}
+                          date={moment
+                            .unix(transaction.ExecutionDate) // eslint-disable-line import/namespace
+                            .format('D MMMM YYYY')}
+                        />
+                      )
+                    default:
+                      return <div key={transaction.Id}></div>
+                  }
+                })}
+              </TransactionContainer>
+            </ErrorBoundary>
+          </Aside>
+        </Contents>
+      </ErrorBoundary>
+      <Footer />
+    </Container>
+  )
+}
 Dash.getInitialProps = async ctx => {
   const { req } = ctx
 

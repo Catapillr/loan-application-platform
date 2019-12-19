@@ -1,6 +1,9 @@
 import React from 'react'
 import App from 'next/app'
 import styled, { ThemeProvider } from 'styled-components'
+
+import ErrorBoundary from '../components/ErrorBoundary'
+
 import { AuthProvider } from '../context/auth-context'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -44,7 +47,9 @@ class MyApp extends App {
       <AuthProvider>
         <ThemeProvider theme={theme}>
           <Container>
-            <Component {...pageProps} />
+            <ErrorBoundary shadowed>
+              <Component {...pageProps} />
+            </ErrorBoundary>
           </Container>
         </ThemeProvider>
       </AuthProvider>

@@ -9,6 +9,7 @@ import axios from 'axios'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import ErrorBoundary from '../../components/ErrorBoundary'
 
 import Nursery from '../../static/icons/nursery.svg'
 import Tick from '../../static/icons/tick-in-circle.svg'
@@ -32,35 +33,39 @@ const AddChild = () => {
     <Container>
       <Header />
       {!formSubmitted ? (
-        <Contents>
-          <Main>
-            <Title className="mb-12">Make a payment</Title>
-            <FormContainer>
-              <ChildDetailsForm
-                setFormSubmitted={setFormSubmitted}
-                setName={setName}
-              ></ChildDetailsForm>
-            </FormContainer>
-          </Main>
-          <Aside>
-            <Tip>
-              <h2 className="font-bold mb-6">How does this work?</h2>
-              <p className="mb-6">We need something here.</p>
-              <p className="mb-6">To explain what it does.</p>
-              <p>
-                Can't find who you want to pay?{' '}
-                <a
-                  className="text-teal underline"
-                  href="https://catapillr.com/contact-us/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Send us an email now.
-                </a>
-              </p>
-            </Tip>
-          </Aside>
-        </Contents>
+        <ErrorBoundary shadowed>
+          <Contents>
+            <Main>
+              <Title className="mb-12">Make a payment</Title>
+              <ErrorBoundary shadowed>
+                <FormContainer>
+                  <ChildDetailsForm
+                    setFormSubmitted={setFormSubmitted}
+                    setName={setName}
+                  ></ChildDetailsForm>
+                </FormContainer>
+              </ErrorBoundary>
+            </Main>
+            <Aside>
+              <Tip>
+                <h2 className="font-bold mb-6">How does this work?</h2>
+                <p className="mb-6">We need something here.</p>
+                <p className="mb-6">To explain what it does.</p>
+                <p>
+                  Can't find who you want to pay?{' '}
+                  <a
+                    className="text-teal underline"
+                    href="https://catapillr.com/contact-us/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Send us an email now.
+                  </a>
+                </p>
+              </Tip>
+            </Aside>
+          </Contents>
+        </ErrorBoundary>
       ) : (
         <Confirmation name={name}></Confirmation>
       )}
