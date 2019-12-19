@@ -1,4 +1,5 @@
 import React from 'react'
+import * as Sentry from '@sentry/browser'
 import App from 'next/app'
 import styled, { ThemeProvider } from 'styled-components'
 
@@ -25,6 +26,12 @@ const Container = styled.div.attrs(() => ({
 `
 
 const { theme } = resolveConfig(tailwindConfig)
+
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({
+    dsn: 'https://39d01db481af4bdf8e42dcb74b67219d@sentry.io/1862539',
+  })
+}
 
 toast.configure()
 
