@@ -16,6 +16,7 @@ import Email from '../../components/multistep-forms/make-a-payment/Email'
 import Pay from '../../components/multistep-forms/make-a-payment/Pay'
 import Summary from '../../components/multistep-forms/make-a-payment/Summary'
 import Confirmation from '../../components/multistep-forms/make-a-payment/Confirmation'
+import ErrorBoundary from '../../components/ErrorBoundary'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -164,65 +165,69 @@ const Wizard = ({
           setFieldValue,
         }) => {
           return (
-            <Contents formCompleted={formCompleted}>
-              <Main>
-                <Title
-                  className={`mb-12 ${
-                    formCompleted ? 'text-center' : 'text-left'
-                  }`}
-                >
-                  {formCompleted ? 'Thank you!' : 'Make a payment'}
-                </Title>
+            <ErrorBoundary shadowed>
+              <Contents formCompleted={formCompleted}>
+                <Main>
+                  <Title
+                    className={`mb-12 ${
+                      formCompleted ? 'text-center' : 'text-left'
+                    }`}
+                  >
+                    {formCompleted ? 'Thank you!' : 'Make a payment'}
+                  </Title>
 
-                {!company ? (
-                  <ErrorBox>
-                    That's not a valid company number, sorry! Try{' '}
-                    <Link href="/make-a-payment">
-                      <span className="underline text-teal cursor-pointer">
-                        searching again
-                      </span>
-                    </Link>
-                    .
-                  </ErrorBox>
-                ) : (
-                  <Form>
-                    <RenderStep
-                      {...{
-                        validateForm,
-                        page,
-                        setTouched,
-                        component: React.cloneElement(activePage, {
-                          setPage,
-                          values,
-                          incrementPage,
-                          submitForm,
-                          isValid,
-                          isSubmitting,
-                          setFieldValue,
-                          company,
-                          // eslint-disable-next-line react/display-name
-                          Controls: () => (
-                            <Controls
-                              {...{ pageIndex, decrementPage, pages }}
-                            />
-                          ),
-                          isProviderRegistered,
-                          userWalletBalance,
-                        }),
-                      }}
-                    ></RenderStep>
-                  </Form>
+                  {!company ? (
+                    <ErrorBox>
+                      That's not a valid company number, sorry! Try{' '}
+                      <Link href="/make-a-payment">
+                        <span className="underline text-teal cursor-pointer">
+                          searching again
+                        </span>
+                      </Link>
+                      .
+                    </ErrorBox>
+                  ) : (
+                    <Form>
+                      <ErrorBoundary shadowed>
+                        <RenderStep
+                          {...{
+                            validateForm,
+                            page,
+                            setTouched,
+                            component: React.cloneElement(activePage, {
+                              setPage,
+                              values,
+                              incrementPage,
+                              submitForm,
+                              isValid,
+                              isSubmitting,
+                              setFieldValue,
+                              company,
+                              // eslint-disable-next-line react/display-name
+                              Controls: () => (
+                                <Controls
+                                  {...{ pageIndex, decrementPage, pages }}
+                                />
+                              ),
+                              isProviderRegistered,
+                              userWalletBalance,
+                            }),
+                          }}
+                        ></RenderStep>
+                      </ErrorBoundary>
+                    </Form>
+                  )}
+                </Main>
+                {!formCompleted && company && AsideContents && (
+                  <Aside>
+                    <Tip>
+                      <h2 className="font-bold mb-6">How does this work?</h2>
+                      <AsideContents />
+                    </Tip>
+                  </Aside>
                 )}
-              </Main>
-              {!formCompleted && company && AsideContents && (
-                <Aside>
-                  <Tip>
-                    <h2 className="font-bold mb-6">How does this work?</h2>
-                    <AsideContents />
-                  </Tip>
-                </Aside>
-              )}
-            </Contents>
+              </Contents>
+            </ErrorBoundary>
           )
         }}
       </Formik>

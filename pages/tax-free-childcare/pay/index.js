@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import restrictAccess from '../../../utils/restrictAccess'
 
+import ErrorBoundary from '../../../components/ErrorBoundary'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
 import Payee from '../../../components/Payee'
@@ -12,51 +13,60 @@ import Payee from '../../../components/Payee'
 const PayTFC = ({ childAccounts }) => (
   <Container>
     <Header />
-    <Contents>
-      <Main>
-        <Title className="mb-12">Make a payment</Title>
+    <ErrorBoundary shadowed>
+      <Contents>
+        <Main>
+          <Title className="mb-12">Make a payment</Title>
 
-        {!R.isEmpty(childAccounts) && (
-          <>
-            <Subtitle className="mb-10">Your accounts</Subtitle>
-            <PayeesContainer>
-              {childAccounts.map(account => (
-                <Payee
-                  name={account.name}
-                  key={account.name}
-                  href={`/tax-free-childcare/pay/${account.taxFreeChildReference}?name=${account.name}`}
-                />
-              ))}
-            </PayeesContainer>
-          </>
-        )}
+          {!R.isEmpty(childAccounts) && (
+            <>
+              <Subtitle className="mb-10">Your accounts</Subtitle>
+              <PayeesContainer>
+                {childAccounts.map(account => (
+                  <Payee
+                    name={account.name}
+                    key={account.name}
+                    href={`/tax-free-childcare/pay/${account.taxFreeChildReference}?name=${account.name}`}
+                  />
+                ))}
+              </PayeesContainer>
+            </>
+          )}
 
-        <Subtitle className="mb-10">Add an account</Subtitle>
-        <PayeesContainer>
-          <Tile as="a" href="/tax-free-childcare/add">
-            +
-          </Tile>
-        </PayeesContainer>
-      </Main>
-      <Aside>
-        <Tip>
-          <h2 className="font-bold mb-6">How does this work?</h2>
-          <p className="mb-6">We need something in here.</p>
-          <p className="mb-6">To explain what this does.</p>
-          <p>
-            Can't find who you want to pay?{' '}
-            <a
-              className="text-teal underline"
-              href="https://catapillr.com/contact-us/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Send us an email now.
-            </a>
-          </p>
-        </Tip>
-      </Aside>
-    </Contents>
+          <Subtitle className="mb-10">Add an account</Subtitle>
+          <PayeesContainer>
+            <Tile as="a" href="/tax-free-childcare/add">
+              +
+            </Tile>
+          </PayeesContainer>
+        </Main>
+        <Aside>
+          <Tip>
+            <h2 className="font-bold mb-6">How does this work?</h2>
+            <p className="mb-6">
+              If you need to make a payment to a Tax-Free Childcare account,
+              simply click on the "Pay" button of the account you wish to
+              transfer money to.
+            </p>
+            <p className="mb-6">
+              If you need to add a Tax-Free Childcare account for the first
+              time, please click on the + button below.
+            </p>
+            <p>
+              Need help?{' '}
+              <a
+                className="text-teal underline"
+                href="https://catapillr.com/contact-us/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Send us an email now.
+              </a>
+            </p>
+          </Tip>
+        </Aside>
+      </Contents>
+    </ErrorBoundary>
     <Footer />
   </Container>
 )

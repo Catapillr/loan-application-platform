@@ -17,6 +17,7 @@ import Contact from '../../components/multistep-forms/employee/Contact'
 import Summary from '../../components/multistep-forms/employee/Summary'
 import Confirmation from '../../components/multistep-forms/employee/Confirmation'
 
+import ErrorBoundary from '../../components/ErrorBoundary'
 import DebugFormik from '../../components/DebugFormik'
 import { Button } from '../../components/multistep-forms/styles'
 
@@ -280,59 +281,61 @@ const Wizard = ({ children, employer }) => {
 
         return (
           <Container>
-            <Header>
-              <Logo />
-            </Header>
-            <StyledForm>
-              <RenderStep
-                {...{
-                  validateForm,
-                  page,
-                  setTouched,
-                  component: React.cloneElement(activePage, {
-                    setPage,
-                    employer,
-                    values,
-                    emailVerificationError,
-                    incrementPage,
-                    setFieldValue,
-                  }),
-                }}
-              ></RenderStep>
-            </StyledForm>
-            <Footer>
-              {!hideControls && (
-                <Controls
+            <ErrorBoundary shadowed>
+              <Header>
+                <Logo />
+              </Header>
+              <StyledForm>
+                <RenderStep
                   {...{
-                    page,
-                    isValid,
-                    isSubmitting,
-                    values,
                     validateForm,
-                    submitForm,
-                    formCompleted,
-                    setFormCompleted,
-                    setEmailVerificationError,
-                    hideNext,
-                    hidePrevious,
-                    progressImg,
-                    incrementPage,
-                    decrementPage,
-                    goToSummaryPage,
+                    page,
+                    setTouched,
+                    component: React.cloneElement(activePage, {
+                      setPage,
+                      employer,
+                      values,
+                      emailVerificationError,
+                      incrementPage,
+                      setFieldValue,
+                    }),
                   }}
-                />
-              )}
-            </Footer>
-
-            {debugging && (
-              <Field>
-                {({ field }) => (
-                  <DebugFormik title="Stored Formik values">
-                    {JSON.stringify(field.value, null, 2)}
-                  </DebugFormik>
+                ></RenderStep>
+              </StyledForm>
+              <Footer>
+                {!hideControls && (
+                  <Controls
+                    {...{
+                      page,
+                      isValid,
+                      isSubmitting,
+                      values,
+                      validateForm,
+                      submitForm,
+                      formCompleted,
+                      setFormCompleted,
+                      setEmailVerificationError,
+                      hideNext,
+                      hidePrevious,
+                      progressImg,
+                      incrementPage,
+                      decrementPage,
+                      goToSummaryPage,
+                    }}
+                  />
                 )}
-              </Field>
-            )}
+              </Footer>
+
+              {debugging && (
+                <Field>
+                  {({ field }) => (
+                    <DebugFormik title="Stored Formik values">
+                      {JSON.stringify(field.value, null, 2)}
+                    </DebugFormik>
+                  )}
+                </Field>
+              )}
+            </ErrorBoundary>
           </Container>
         )
       }}
