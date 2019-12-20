@@ -32,6 +32,7 @@ const validationSchema = Yup.object().shape({
 
 const PayIntoChildAccount = () => {
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [amount, setAmount] = useState()
 
   const router = useRouter()
   const { taxFreeChildReference, name } = router.query
@@ -46,6 +47,7 @@ const PayIntoChildAccount = () => {
               <FormContainer>
                 <PaymentForm
                   setFormSubmitted={setFormSubmitted}
+                  setAmount={setAmount}
                   name={name}
                   taxFreeChildReference={taxFreeChildReference}
                 ></PaymentForm>
@@ -54,10 +56,12 @@ const PayIntoChildAccount = () => {
             <Aside>
               <Tip>
                 <h2 className="font-bold mb-6">How does this work?</h2>
-                <p className="mb-6">We need something here.</p>
-                <p className="mb-6">To explain what it does.</p>
+                <p className="mb-6">
+                  Add the amount you wish to transfer to your Tax-free Childcare
+                  account and press "Send money now"{' '}
+                </p>
                 <p>
-                  Can't find who you want to pay?{' '}
+                  Need help?{' '}
                   <a
                     className="text-teal underline"
                     href="https://catapillr.com/contact-us/"
@@ -72,7 +76,7 @@ const PayIntoChildAccount = () => {
           </Contents>
         </ErrorBoundary>
       ) : (
-        <Confirmation name={name}></Confirmation>
+        <Confirmation name={name} amount={amount}></Confirmation>
       )}
       <Footer />
     </Container>
@@ -86,7 +90,12 @@ PayIntoChildAccount.getInitialProps = async ctx => {
   return {}
 }
 
-const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
+const PaymentForm = ({
+  setFormSubmitted,
+  name,
+  taxFreeChildReference,
+  setAmount,
+}) => {
   return (
     <>
       <_Controls>
@@ -109,6 +118,7 @@ const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
                 '/api/private/pay-out-to-tax-free-account',
                 values,
               )
+              setAmount(values.amountToPay)
               setFormSubmitted(true)
               actions.setSubmitting(false)
             } catch (err) {
@@ -178,12 +188,14 @@ const PaymentForm = ({ setFormSubmitted, name, taxFreeChildReference }) => {
   )
 }
 
-const Confirmation = ({ name }) => (
+const Confirmation = ({ name, amount }) => (
   <ConfirmationContainer>
     <Icon src={Tick} />
     <p className="text-center uppercase">Great news!</p>
     <p className="text-center mb-4">
-      You added <span className="font-bold">{name}'s</span> tax free account
+      You made a payment of{' '}
+      <span className="font-bold">{formatToGBP(amount)}</span> into{' '}
+      <span className="font-bold">{name}'s</span> tax free account.
     </p>
     <Submit as="a" href="/tax-free-childcare/pay">
       Go back
