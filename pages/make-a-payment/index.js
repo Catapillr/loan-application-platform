@@ -28,13 +28,17 @@ const MakeAPayment = ({ recentPayeesByMangoId }) => {
             <Subtitle className="mb-10">Recent payees</Subtitle>
             <ErrorBoundary shadowed>
               <PayeesContainer>
-                {R.values(recentPayeesByMangoId).map(payee => (
-                  <Payee
-                    name={payee.Name}
-                    key={payee.Id}
-                    href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
-                  />
-                ))}
+                {R.values(recentPayeesByMangoId)
+                  .filter(
+                    ({ Id }) => Id !== process.env.TAX_FREE_ACCOUNT_USER_ID,
+                  )
+                  .map(payee => (
+                    <Payee
+                      name={payee.Name}
+                      key={payee.Id}
+                      href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
+                    />
+                  ))}
               </PayeesContainer>
             </ErrorBoundary>
           </Main>

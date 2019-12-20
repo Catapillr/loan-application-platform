@@ -8,6 +8,8 @@
 // import { prisma } from "../generated/ts"
 // import mango from "../../lib/mango"
 
+// mango.Users.get(process.env.TAX_FREE_ACCOUNT_USER_ID).then(console.log)
+
 // import poundsToPennies from "../../utils/poundsToPennies"
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
