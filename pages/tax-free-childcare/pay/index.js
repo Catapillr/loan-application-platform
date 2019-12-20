@@ -43,10 +43,17 @@ const PayTFC = ({ childAccounts }) => (
         <Aside>
           <Tip>
             <h2 className="font-bold mb-6">How does this work?</h2>
-            <p className="mb-6">We need something in here.</p>
-            <p className="mb-6">To explain what this does.</p>
+            <p className="mb-6">
+              If you need to make a payment to a Tax-Free Childcare account,
+              simply click on the "Pay" button of the account you wish to
+              transfer money to.
+            </p>
+            <p className="mb-6">
+              If you need to add a Tax-Free Childcare account for the first
+              time, please click on the + button below.
+            </p>
             <p>
-              Can't find who you want to pay?{' '}
+              Need help?{' '}
               <a
                 className="text-teal underline"
                 href="https://catapillr.com/contact-us/"

@@ -49,10 +49,13 @@ const AddChild = () => {
             <Aside>
               <Tip>
                 <h2 className="font-bold mb-6">How does this work?</h2>
-                <p className="mb-6">We need something here.</p>
-                <p className="mb-6">To explain what it does.</p>
+                <p className="mb-6">To set up a Tax-Free childcare account -</p>
+                <p className="mb-6">
+                  Add the name of the child's account and their 13 digit
+                  reference number. Then click "Add Account".
+                </p>
                 <p>
-                  Can't find who you want to pay?{' '}
+                  Need help?{' '}
                   <a
                     className="text-teal underline"
                     href="https://catapillr.com/contact-us/"

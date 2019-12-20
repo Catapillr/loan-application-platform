@@ -5,7 +5,7 @@ const withImages = require('next-images')
 const withCSS = require('@zeit/next-css')
 const withFonts = require('next-fonts')
 
-const FRONTEND_ENV_KEYS = ['NODE_ENV', 'HOST']
+const FRONTEND_ENV_KEYS = ['NODE_ENV', 'HOST', 'TAX_FREE_ACCOUNT_USER_ID']
 
 const envPlugin = FRONTEND_ENV_KEYS.reduce(
   (result, key) =>
