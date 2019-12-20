@@ -1,4 +1,5 @@
 const express = require('express')
+const Sentry = require('@sentry/node')
 const next = require('next')
 const session = require('express-session')
 const passport = require('passport')
@@ -32,8 +33,15 @@ const {
   PORT,
 } = process.env
 
-const port = parseInt(PORT, 10) || 3000
 const dev = NODE_ENV !== 'production'
+
+if (!dev) {
+  Sentry.init({
+    dsn: 'https://39d01db481af4bdf8e42dcb74b67219d@sentry.io/1862539',
+  })
+}
+
+const port = parseInt(PORT, 10) || 3000
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
@@ -63,6 +71,7 @@ app.prepare().then(() => {
   if (dev) {
     server.use(require('cors')())
   } else {
+    server.use(Sentry.Handlers.requestHandler())
     const client = redis.createClient(process.env.REDIS_URL)
     const RedisStore = connectRedis(session)
 
@@ -136,14 +145,6 @@ app.prepare().then(() => {
   // server.get("/test", restrictAccessPage)
   // server.get("/api/test", restrictAccessAPI)
 
-  if (!dev) {
-    cron.schedule('0 0 */1 * *', () => {
-      cleanUpChildcareProviders()
-      cleanUpPaymentRequests()
-      cleanUpVerificationTokens()
-    })
-  }
-
   server.get('/', (_req, res) => {
     dev
       ? res.redirect('/dashboard')
@@ -159,6 +160,15 @@ app.prepare().then(() => {
   server.post('*', (req, res) => {
     return handle(req, res)
   })
+
+  if (!dev) {
+    server.use(Sentry.Handlers.errorHandler())
+    cron.schedule('0 0 */1 * *', () => {
+      cleanUpChildcareProviders()
+      cleanUpPaymentRequests()
+      cleanUpVerificationTokens()
+    })
+  }
 
   server.listen(port, err => {
     if (err) throw err

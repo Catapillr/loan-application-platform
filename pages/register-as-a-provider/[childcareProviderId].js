@@ -5,6 +5,7 @@ import axios from 'axios'
 import * as R from 'ramda'
 
 import getLastPath from '../../utils/getLastPath'
+import ErrorBoundary from '../../components/ErrorBoundary'
 
 import createFormData from '../../utils/createFormData'
 
@@ -279,62 +280,64 @@ const Wizard = ({
 
         return (
           <Container>
-            <Header>
-              <Logo />
-            </Header>
-            <StyledForm>
-              <RenderStep
-                {...{
-                  validateForm,
-                  page,
-                  setTouched,
-                  component: React.cloneElement(activePage, {
-                    setPage,
-                    paymentRequest,
-                    childcareProvider,
-                    employee,
-                    values,
-                    emailVerificationError,
-                    incrementPage,
-                    setFieldValue,
-                    errors,
-                  }),
-                }}
-              ></RenderStep>
-            </StyledForm>
-            <Footer>
-              {!hideControls && (
-                <Controls
+            <ErrorBoundary shadowed>
+              <Header>
+                <Logo />
+              </Header>
+              <StyledForm>
+                <RenderStep
                   {...{
-                    page,
-                    isValid,
-                    isSubmitting,
-                    values,
                     validateForm,
-                    submitForm,
-                    formCompleted,
-                    setFormCompleted,
-                    setEmailVerificationError,
-                    hideNext,
-                    hidePrevious,
-                    progressImg,
-                    incrementPage,
-                    decrementPage,
-                    goToSummaryPage,
+                    page,
+                    setTouched,
+                    component: React.cloneElement(activePage, {
+                      setPage,
+                      paymentRequest,
+                      childcareProvider,
+                      employee,
+                      values,
+                      emailVerificationError,
+                      incrementPage,
+                      setFieldValue,
+                      errors,
+                    }),
                   }}
-                />
-              )}
-            </Footer>
-
-            {debugging && (
-              <Field>
-                {({ field }) => (
-                  <DebugFormik title="Stored Formik values">
-                    {JSON.stringify(field.value, null, 2)}
-                  </DebugFormik>
+                ></RenderStep>
+              </StyledForm>
+              <Footer>
+                {!hideControls && (
+                  <Controls
+                    {...{
+                      page,
+                      isValid,
+                      isSubmitting,
+                      values,
+                      validateForm,
+                      submitForm,
+                      formCompleted,
+                      setFormCompleted,
+                      setEmailVerificationError,
+                      hideNext,
+                      hidePrevious,
+                      progressImg,
+                      incrementPage,
+                      decrementPage,
+                      goToSummaryPage,
+                    }}
+                  />
                 )}
-              </Field>
-            )}
+              </Footer>
+
+              {debugging && (
+                <Field>
+                  {({ field }) => (
+                    <DebugFormik title="Stored Formik values">
+                      {JSON.stringify(field.value, null, 2)}
+                    </DebugFormik>
+                  )}
+                </Field>
+              )}
+            </ErrorBoundary>
           </Container>
         )
       }}

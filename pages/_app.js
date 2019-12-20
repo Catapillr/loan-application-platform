@@ -1,6 +1,10 @@
 import React from 'react'
+import * as Sentry from '@sentry/browser'
 import App from 'next/app'
 import styled, { ThemeProvider } from 'styled-components'
+
+import ErrorBoundary from '../components/ErrorBoundary'
+
 import { AuthProvider } from '../context/auth-context'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -23,6 +27,12 @@ const Container = styled.div.attrs(() => ({
 
 const { theme } = resolveConfig(tailwindConfig)
 
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({
+    dsn: 'https://39d01db481af4bdf8e42dcb74b67219d@sentry.io/1862539',
+  })
+}
+
 toast.configure()
 
 class MyApp extends App {
@@ -44,7 +54,9 @@ class MyApp extends App {
       <AuthProvider>
         <ThemeProvider theme={theme}>
           <Container>
-            <Component {...pageProps} />
+            <ErrorBoundary shadowed>
+              <Component {...pageProps} />
+            </ErrorBoundary>
           </Container>
         </ThemeProvider>
       </AuthProvider>
