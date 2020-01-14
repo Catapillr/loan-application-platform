@@ -39,6 +39,14 @@ var models = [
   {
     name: "ChildAccount",
     embedded: false
+  },
+  {
+    name: "SchoolHolidayClubs",
+    embedded: false
+  },
+  {
+    name: "Location",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

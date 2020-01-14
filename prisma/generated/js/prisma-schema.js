@@ -19,11 +19,19 @@ type AggregateLoan {
   count: Int!
 }
 
+type AggregateLocation {
+  count: Int!
+}
+
 type AggregatePayIn {
   count: Int!
 }
 
 type AggregatePaymentRequest {
+  count: Int!
+}
+
+type AggregateSchoolHolidayClubs {
   count: Int!
 }
 
@@ -1248,6 +1256,229 @@ input LoanWhereUniqueInput {
   id: ID
 }
 
+type Location {
+  id: ID!
+  location: String!
+  schoolHolidayClubs(where: SchoolHolidayClubsWhereInput, orderBy: SchoolHolidayClubsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SchoolHolidayClubs!]
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type LocationConnection {
+  pageInfo: PageInfo!
+  edges: [LocationEdge]!
+  aggregate: AggregateLocation!
+}
+
+input LocationCreateInput {
+  id: ID
+  location: String!
+  schoolHolidayClubs: SchoolHolidayClubsCreateManyWithoutLocationInput
+}
+
+input LocationCreateManyWithoutSchoolHolidayClubsInput {
+  create: [LocationCreateWithoutSchoolHolidayClubsInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+input LocationCreateWithoutSchoolHolidayClubsInput {
+  id: ID
+  location: String!
+}
+
+type LocationEdge {
+  node: Location!
+  cursor: String!
+}
+
+enum LocationOrderByInput {
+  id_ASC
+  id_DESC
+  location_ASC
+  location_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LocationPreviousValues {
+  id: ID!
+  location: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+input LocationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  location: String
+  location_not: String
+  location_in: [String!]
+  location_not_in: [String!]
+  location_lt: String
+  location_lte: String
+  location_gt: String
+  location_gte: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [LocationScalarWhereInput!]
+  OR: [LocationScalarWhereInput!]
+  NOT: [LocationScalarWhereInput!]
+}
+
+type LocationSubscriptionPayload {
+  mutation: MutationType!
+  node: Location
+  updatedFields: [String!]
+  previousValues: LocationPreviousValues
+}
+
+input LocationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LocationWhereInput
+  AND: [LocationSubscriptionWhereInput!]
+  OR: [LocationSubscriptionWhereInput!]
+  NOT: [LocationSubscriptionWhereInput!]
+}
+
+input LocationUpdateInput {
+  location: String
+  schoolHolidayClubs: SchoolHolidayClubsUpdateManyWithoutLocationInput
+}
+
+input LocationUpdateManyDataInput {
+  location: String
+}
+
+input LocationUpdateManyMutationInput {
+  location: String
+}
+
+input LocationUpdateManyWithoutSchoolHolidayClubsInput {
+  create: [LocationCreateWithoutSchoolHolidayClubsInput!]
+  delete: [LocationWhereUniqueInput!]
+  connect: [LocationWhereUniqueInput!]
+  set: [LocationWhereUniqueInput!]
+  disconnect: [LocationWhereUniqueInput!]
+  update: [LocationUpdateWithWhereUniqueWithoutSchoolHolidayClubsInput!]
+  upsert: [LocationUpsertWithWhereUniqueWithoutSchoolHolidayClubsInput!]
+  deleteMany: [LocationScalarWhereInput!]
+  updateMany: [LocationUpdateManyWithWhereNestedInput!]
+}
+
+input LocationUpdateManyWithWhereNestedInput {
+  where: LocationScalarWhereInput!
+  data: LocationUpdateManyDataInput!
+}
+
+input LocationUpdateWithoutSchoolHolidayClubsDataInput {
+  location: String
+}
+
+input LocationUpdateWithWhereUniqueWithoutSchoolHolidayClubsInput {
+  where: LocationWhereUniqueInput!
+  data: LocationUpdateWithoutSchoolHolidayClubsDataInput!
+}
+
+input LocationUpsertWithWhereUniqueWithoutSchoolHolidayClubsInput {
+  where: LocationWhereUniqueInput!
+  update: LocationUpdateWithoutSchoolHolidayClubsDataInput!
+  create: LocationCreateWithoutSchoolHolidayClubsInput!
+}
+
+input LocationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  location: String
+  location_not: String
+  location_in: [String!]
+  location_not_in: [String!]
+  location_lt: String
+  location_lte: String
+  location_gt: String
+  location_gte: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  schoolHolidayClubs_every: SchoolHolidayClubsWhereInput
+  schoolHolidayClubs_some: SchoolHolidayClubsWhereInput
+  schoolHolidayClubs_none: SchoolHolidayClubsWhereInput
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [LocationWhereInput!]
+  OR: [LocationWhereInput!]
+  NOT: [LocationWhereInput!]
+}
+
+input LocationWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
@@ -1275,6 +1506,12 @@ type Mutation {
   upsertLoan(where: LoanWhereUniqueInput!, create: LoanCreateInput!, update: LoanUpdateInput!): Loan!
   deleteLoan(where: LoanWhereUniqueInput!): Loan
   deleteManyLoans(where: LoanWhereInput): BatchPayload!
+  createLocation(data: LocationCreateInput!): Location!
+  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
+  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
+  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
+  deleteLocation(where: LocationWhereUniqueInput!): Location
+  deleteManyLocations(where: LocationWhereInput): BatchPayload!
   createPayIn(data: PayInCreateInput!): PayIn!
   updatePayIn(data: PayInUpdateInput!, where: PayInWhereUniqueInput!): PayIn
   updateManyPayIns(data: PayInUpdateManyMutationInput!, where: PayInWhereInput): BatchPayload!
@@ -1287,6 +1524,12 @@ type Mutation {
   upsertPaymentRequest(where: PaymentRequestWhereUniqueInput!, create: PaymentRequestCreateInput!, update: PaymentRequestUpdateInput!): PaymentRequest!
   deletePaymentRequest(where: PaymentRequestWhereUniqueInput!): PaymentRequest
   deleteManyPaymentRequests(where: PaymentRequestWhereInput): BatchPayload!
+  createSchoolHolidayClubs(data: SchoolHolidayClubsCreateInput!): SchoolHolidayClubs!
+  updateSchoolHolidayClubs(data: SchoolHolidayClubsUpdateInput!, where: SchoolHolidayClubsWhereUniqueInput!): SchoolHolidayClubs
+  updateManySchoolHolidayClubses(data: SchoolHolidayClubsUpdateManyMutationInput!, where: SchoolHolidayClubsWhereInput): BatchPayload!
+  upsertSchoolHolidayClubs(where: SchoolHolidayClubsWhereUniqueInput!, create: SchoolHolidayClubsCreateInput!, update: SchoolHolidayClubsUpdateInput!): SchoolHolidayClubs!
+  deleteSchoolHolidayClubs(where: SchoolHolidayClubsWhereUniqueInput!): SchoolHolidayClubs
+  deleteManySchoolHolidayClubses(where: SchoolHolidayClubsWhereInput): BatchPayload!
   createSuffix(data: SuffixCreateInput!): Suffix!
   updateSuffix(data: SuffixUpdateInput!, where: SuffixWhereUniqueInput!): Suffix
   updateManySuffixes(data: SuffixUpdateManyMutationInput!, where: SuffixWhereInput): BatchPayload!
@@ -1942,12 +2185,18 @@ type Query {
   loan(where: LoanWhereUniqueInput!): Loan
   loans(where: LoanWhereInput, orderBy: LoanOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Loan]!
   loansConnection(where: LoanWhereInput, orderBy: LoanOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoanConnection!
+  location(where: LocationWhereUniqueInput!): Location
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
+  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
   payIn(where: PayInWhereUniqueInput!): PayIn
   payIns(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PayIn]!
   payInsConnection(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PayInConnection!
   paymentRequest(where: PaymentRequestWhereUniqueInput!): PaymentRequest
   paymentRequests(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PaymentRequest]!
   paymentRequestsConnection(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentRequestConnection!
+  schoolHolidayClubs(where: SchoolHolidayClubsWhereUniqueInput!): SchoolHolidayClubs
+  schoolHolidayClubses(where: SchoolHolidayClubsWhereInput, orderBy: SchoolHolidayClubsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SchoolHolidayClubs]!
+  schoolHolidayClubsesConnection(where: SchoolHolidayClubsWhereInput, orderBy: SchoolHolidayClubsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SchoolHolidayClubsConnection!
   suffix(where: SuffixWhereUniqueInput!): Suffix
   suffixes(where: SuffixWhereInput, orderBy: SuffixOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Suffix]!
   suffixesConnection(where: SuffixWhereInput, orderBy: SuffixOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SuffixConnection!
@@ -1960,13 +2209,356 @@ type Query {
   node(id: ID!): Node
 }
 
+type SchoolHolidayClubs {
+  id: ID!
+  companyName: String!
+  companyNumber: String!
+  websiteURL: String!
+  imgURL: String!
+  location(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type SchoolHolidayClubsConnection {
+  pageInfo: PageInfo!
+  edges: [SchoolHolidayClubsEdge]!
+  aggregate: AggregateSchoolHolidayClubs!
+}
+
+input SchoolHolidayClubsCreateInput {
+  id: ID
+  companyName: String!
+  companyNumber: String!
+  websiteURL: String!
+  imgURL: String!
+  location: LocationCreateManyWithoutSchoolHolidayClubsInput
+}
+
+input SchoolHolidayClubsCreateManyWithoutLocationInput {
+  create: [SchoolHolidayClubsCreateWithoutLocationInput!]
+  connect: [SchoolHolidayClubsWhereUniqueInput!]
+}
+
+input SchoolHolidayClubsCreateWithoutLocationInput {
+  id: ID
+  companyName: String!
+  companyNumber: String!
+  websiteURL: String!
+  imgURL: String!
+}
+
+type SchoolHolidayClubsEdge {
+  node: SchoolHolidayClubs!
+  cursor: String!
+}
+
+enum SchoolHolidayClubsOrderByInput {
+  id_ASC
+  id_DESC
+  companyName_ASC
+  companyName_DESC
+  companyNumber_ASC
+  companyNumber_DESC
+  websiteURL_ASC
+  websiteURL_DESC
+  imgURL_ASC
+  imgURL_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type SchoolHolidayClubsPreviousValues {
+  id: ID!
+  companyName: String!
+  companyNumber: String!
+  websiteURL: String!
+  imgURL: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+input SchoolHolidayClubsScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  companyName: String
+  companyName_not: String
+  companyName_in: [String!]
+  companyName_not_in: [String!]
+  companyName_lt: String
+  companyName_lte: String
+  companyName_gt: String
+  companyName_gte: String
+  companyName_contains: String
+  companyName_not_contains: String
+  companyName_starts_with: String
+  companyName_not_starts_with: String
+  companyName_ends_with: String
+  companyName_not_ends_with: String
+  companyNumber: String
+  companyNumber_not: String
+  companyNumber_in: [String!]
+  companyNumber_not_in: [String!]
+  companyNumber_lt: String
+  companyNumber_lte: String
+  companyNumber_gt: String
+  companyNumber_gte: String
+  companyNumber_contains: String
+  companyNumber_not_contains: String
+  companyNumber_starts_with: String
+  companyNumber_not_starts_with: String
+  companyNumber_ends_with: String
+  companyNumber_not_ends_with: String
+  websiteURL: String
+  websiteURL_not: String
+  websiteURL_in: [String!]
+  websiteURL_not_in: [String!]
+  websiteURL_lt: String
+  websiteURL_lte: String
+  websiteURL_gt: String
+  websiteURL_gte: String
+  websiteURL_contains: String
+  websiteURL_not_contains: String
+  websiteURL_starts_with: String
+  websiteURL_not_starts_with: String
+  websiteURL_ends_with: String
+  websiteURL_not_ends_with: String
+  imgURL: String
+  imgURL_not: String
+  imgURL_in: [String!]
+  imgURL_not_in: [String!]
+  imgURL_lt: String
+  imgURL_lte: String
+  imgURL_gt: String
+  imgURL_gte: String
+  imgURL_contains: String
+  imgURL_not_contains: String
+  imgURL_starts_with: String
+  imgURL_not_starts_with: String
+  imgURL_ends_with: String
+  imgURL_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [SchoolHolidayClubsScalarWhereInput!]
+  OR: [SchoolHolidayClubsScalarWhereInput!]
+  NOT: [SchoolHolidayClubsScalarWhereInput!]
+}
+
+type SchoolHolidayClubsSubscriptionPayload {
+  mutation: MutationType!
+  node: SchoolHolidayClubs
+  updatedFields: [String!]
+  previousValues: SchoolHolidayClubsPreviousValues
+}
+
+input SchoolHolidayClubsSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SchoolHolidayClubsWhereInput
+  AND: [SchoolHolidayClubsSubscriptionWhereInput!]
+  OR: [SchoolHolidayClubsSubscriptionWhereInput!]
+  NOT: [SchoolHolidayClubsSubscriptionWhereInput!]
+}
+
+input SchoolHolidayClubsUpdateInput {
+  companyName: String
+  companyNumber: String
+  websiteURL: String
+  imgURL: String
+  location: LocationUpdateManyWithoutSchoolHolidayClubsInput
+}
+
+input SchoolHolidayClubsUpdateManyDataInput {
+  companyName: String
+  companyNumber: String
+  websiteURL: String
+  imgURL: String
+}
+
+input SchoolHolidayClubsUpdateManyMutationInput {
+  companyName: String
+  companyNumber: String
+  websiteURL: String
+  imgURL: String
+}
+
+input SchoolHolidayClubsUpdateManyWithoutLocationInput {
+  create: [SchoolHolidayClubsCreateWithoutLocationInput!]
+  delete: [SchoolHolidayClubsWhereUniqueInput!]
+  connect: [SchoolHolidayClubsWhereUniqueInput!]
+  set: [SchoolHolidayClubsWhereUniqueInput!]
+  disconnect: [SchoolHolidayClubsWhereUniqueInput!]
+  update: [SchoolHolidayClubsUpdateWithWhereUniqueWithoutLocationInput!]
+  upsert: [SchoolHolidayClubsUpsertWithWhereUniqueWithoutLocationInput!]
+  deleteMany: [SchoolHolidayClubsScalarWhereInput!]
+  updateMany: [SchoolHolidayClubsUpdateManyWithWhereNestedInput!]
+}
+
+input SchoolHolidayClubsUpdateManyWithWhereNestedInput {
+  where: SchoolHolidayClubsScalarWhereInput!
+  data: SchoolHolidayClubsUpdateManyDataInput!
+}
+
+input SchoolHolidayClubsUpdateWithoutLocationDataInput {
+  companyName: String
+  companyNumber: String
+  websiteURL: String
+  imgURL: String
+}
+
+input SchoolHolidayClubsUpdateWithWhereUniqueWithoutLocationInput {
+  where: SchoolHolidayClubsWhereUniqueInput!
+  data: SchoolHolidayClubsUpdateWithoutLocationDataInput!
+}
+
+input SchoolHolidayClubsUpsertWithWhereUniqueWithoutLocationInput {
+  where: SchoolHolidayClubsWhereUniqueInput!
+  update: SchoolHolidayClubsUpdateWithoutLocationDataInput!
+  create: SchoolHolidayClubsCreateWithoutLocationInput!
+}
+
+input SchoolHolidayClubsWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  companyName: String
+  companyName_not: String
+  companyName_in: [String!]
+  companyName_not_in: [String!]
+  companyName_lt: String
+  companyName_lte: String
+  companyName_gt: String
+  companyName_gte: String
+  companyName_contains: String
+  companyName_not_contains: String
+  companyName_starts_with: String
+  companyName_not_starts_with: String
+  companyName_ends_with: String
+  companyName_not_ends_with: String
+  companyNumber: String
+  companyNumber_not: String
+  companyNumber_in: [String!]
+  companyNumber_not_in: [String!]
+  companyNumber_lt: String
+  companyNumber_lte: String
+  companyNumber_gt: String
+  companyNumber_gte: String
+  companyNumber_contains: String
+  companyNumber_not_contains: String
+  companyNumber_starts_with: String
+  companyNumber_not_starts_with: String
+  companyNumber_ends_with: String
+  companyNumber_not_ends_with: String
+  websiteURL: String
+  websiteURL_not: String
+  websiteURL_in: [String!]
+  websiteURL_not_in: [String!]
+  websiteURL_lt: String
+  websiteURL_lte: String
+  websiteURL_gt: String
+  websiteURL_gte: String
+  websiteURL_contains: String
+  websiteURL_not_contains: String
+  websiteURL_starts_with: String
+  websiteURL_not_starts_with: String
+  websiteURL_ends_with: String
+  websiteURL_not_ends_with: String
+  imgURL: String
+  imgURL_not: String
+  imgURL_in: [String!]
+  imgURL_not_in: [String!]
+  imgURL_lt: String
+  imgURL_lte: String
+  imgURL_gt: String
+  imgURL_gte: String
+  imgURL_contains: String
+  imgURL_not_contains: String
+  imgURL_starts_with: String
+  imgURL_not_starts_with: String
+  imgURL_ends_with: String
+  imgURL_not_ends_with: String
+  location_every: LocationWhereInput
+  location_some: LocationWhereInput
+  location_none: LocationWhereInput
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [SchoolHolidayClubsWhereInput!]
+  OR: [SchoolHolidayClubsWhereInput!]
+  NOT: [SchoolHolidayClubsWhereInput!]
+}
+
+input SchoolHolidayClubsWhereUniqueInput {
+  id: ID
+  companyName: String
+  companyNumber: String
+  websiteURL: String
+  imgURL: String
+}
+
 type Subscription {
   childAccount(where: ChildAccountSubscriptionWhereInput): ChildAccountSubscriptionPayload
   childcareProvider(where: ChildcareProviderSubscriptionWhereInput): ChildcareProviderSubscriptionPayload
   employer(where: EmployerSubscriptionWhereInput): EmployerSubscriptionPayload
   loan(where: LoanSubscriptionWhereInput): LoanSubscriptionPayload
+  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
   payIn(where: PayInSubscriptionWhereInput): PayInSubscriptionPayload
   paymentRequest(where: PaymentRequestSubscriptionWhereInput): PaymentRequestSubscriptionPayload
+  schoolHolidayClubs(where: SchoolHolidayClubsSubscriptionWhereInput): SchoolHolidayClubsSubscriptionPayload
   suffix(where: SuffixSubscriptionWhereInput): SuffixSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   verificationToken(where: VerificationTokenSubscriptionWhereInput): VerificationTokenSubscriptionPayload

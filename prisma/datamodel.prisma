@@ -112,3 +112,22 @@ type ChildAccount {
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }
+
+type SchoolHolidayClubs {
+  id: ID! @id
+  companyName: String! @unique
+  companyNumber: String! @unique
+  websiteURL: String! @unique
+  imgURL: String! @unique
+  location: [Location!]! @relation(onDelete: SET_NULL)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Location {
+  id: ID! @id
+  location: String!
+  schoolHolidayClubs: [SchoolHolidayClubs]! @relation(onDelete: SET_NULL)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
