@@ -40,7 +40,9 @@ type User {
   gdprConsent: Boolean!
   loan: Loan @relation(link: INLINE, onDelete: CASCADE)
   mangoWalletId: String @unique
+  schoolHolidayClubs: [SchoolHolidayClubs]! @relation(onDelete: SET_NULL)
   mangoUserId: String @unique
+
   paymentRequests: [PaymentRequest!] @relation(onDelete: CASCADE)
   payIns: [PayIn!] @relation(onDelete: CASCADE)
   childAccounts: [ChildAccount!] @relation(onDelete: CASCADE)
@@ -120,6 +122,7 @@ type SchoolHolidayClubs {
   websiteURL: String! @unique
   imgURL: String! @unique
   location: [Location!]! @relation(onDelete: SET_NULL)
+  users: [User]! @relation(onDelete: SET_NULL)
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
 }

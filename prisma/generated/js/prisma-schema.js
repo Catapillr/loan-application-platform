@@ -2216,6 +2216,7 @@ type SchoolHolidayClubs {
   websiteURL: String!
   imgURL: String!
   location(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -2233,10 +2234,16 @@ input SchoolHolidayClubsCreateInput {
   websiteURL: String!
   imgURL: String!
   location: LocationCreateManyWithoutSchoolHolidayClubsInput
+  users: UserCreateManyWithoutSchoolHolidayClubsInput
 }
 
 input SchoolHolidayClubsCreateManyWithoutLocationInput {
   create: [SchoolHolidayClubsCreateWithoutLocationInput!]
+  connect: [SchoolHolidayClubsWhereUniqueInput!]
+}
+
+input SchoolHolidayClubsCreateManyWithoutUsersInput {
+  create: [SchoolHolidayClubsCreateWithoutUsersInput!]
   connect: [SchoolHolidayClubsWhereUniqueInput!]
 }
 
@@ -2246,6 +2253,16 @@ input SchoolHolidayClubsCreateWithoutLocationInput {
   companyNumber: String!
   websiteURL: String!
   imgURL: String!
+  users: UserCreateManyWithoutSchoolHolidayClubsInput
+}
+
+input SchoolHolidayClubsCreateWithoutUsersInput {
+  id: ID
+  companyName: String!
+  companyNumber: String!
+  websiteURL: String!
+  imgURL: String!
+  location: LocationCreateManyWithoutSchoolHolidayClubsInput
 }
 
 type SchoolHolidayClubsEdge {
@@ -2396,6 +2413,7 @@ input SchoolHolidayClubsUpdateInput {
   websiteURL: String
   imgURL: String
   location: LocationUpdateManyWithoutSchoolHolidayClubsInput
+  users: UserUpdateManyWithoutSchoolHolidayClubsInput
 }
 
 input SchoolHolidayClubsUpdateManyDataInput {
@@ -2424,6 +2442,18 @@ input SchoolHolidayClubsUpdateManyWithoutLocationInput {
   updateMany: [SchoolHolidayClubsUpdateManyWithWhereNestedInput!]
 }
 
+input SchoolHolidayClubsUpdateManyWithoutUsersInput {
+  create: [SchoolHolidayClubsCreateWithoutUsersInput!]
+  delete: [SchoolHolidayClubsWhereUniqueInput!]
+  connect: [SchoolHolidayClubsWhereUniqueInput!]
+  set: [SchoolHolidayClubsWhereUniqueInput!]
+  disconnect: [SchoolHolidayClubsWhereUniqueInput!]
+  update: [SchoolHolidayClubsUpdateWithWhereUniqueWithoutUsersInput!]
+  upsert: [SchoolHolidayClubsUpsertWithWhereUniqueWithoutUsersInput!]
+  deleteMany: [SchoolHolidayClubsScalarWhereInput!]
+  updateMany: [SchoolHolidayClubsUpdateManyWithWhereNestedInput!]
+}
+
 input SchoolHolidayClubsUpdateManyWithWhereNestedInput {
   where: SchoolHolidayClubsScalarWhereInput!
   data: SchoolHolidayClubsUpdateManyDataInput!
@@ -2434,6 +2464,15 @@ input SchoolHolidayClubsUpdateWithoutLocationDataInput {
   companyNumber: String
   websiteURL: String
   imgURL: String
+  users: UserUpdateManyWithoutSchoolHolidayClubsInput
+}
+
+input SchoolHolidayClubsUpdateWithoutUsersDataInput {
+  companyName: String
+  companyNumber: String
+  websiteURL: String
+  imgURL: String
+  location: LocationUpdateManyWithoutSchoolHolidayClubsInput
 }
 
 input SchoolHolidayClubsUpdateWithWhereUniqueWithoutLocationInput {
@@ -2441,10 +2480,21 @@ input SchoolHolidayClubsUpdateWithWhereUniqueWithoutLocationInput {
   data: SchoolHolidayClubsUpdateWithoutLocationDataInput!
 }
 
+input SchoolHolidayClubsUpdateWithWhereUniqueWithoutUsersInput {
+  where: SchoolHolidayClubsWhereUniqueInput!
+  data: SchoolHolidayClubsUpdateWithoutUsersDataInput!
+}
+
 input SchoolHolidayClubsUpsertWithWhereUniqueWithoutLocationInput {
   where: SchoolHolidayClubsWhereUniqueInput!
   update: SchoolHolidayClubsUpdateWithoutLocationDataInput!
   create: SchoolHolidayClubsCreateWithoutLocationInput!
+}
+
+input SchoolHolidayClubsUpsertWithWhereUniqueWithoutUsersInput {
+  where: SchoolHolidayClubsWhereUniqueInput!
+  update: SchoolHolidayClubsUpdateWithoutUsersDataInput!
+  create: SchoolHolidayClubsCreateWithoutUsersInput!
 }
 
 input SchoolHolidayClubsWhereInput {
@@ -2521,6 +2571,9 @@ input SchoolHolidayClubsWhereInput {
   location_every: LocationWhereInput
   location_some: LocationWhereInput
   location_none: LocationWhereInput
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]
@@ -2763,6 +2816,7 @@ type User {
   gdprConsent: Boolean!
   loan: Loan
   mangoWalletId: String
+  schoolHolidayClubs(where: SchoolHolidayClubsWhereInput, orderBy: SchoolHolidayClubsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SchoolHolidayClubs!]
   mangoUserId: String
   paymentRequests(where: PaymentRequestWhereInput, orderBy: PaymentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PaymentRequest!]
   payIns(where: PayInWhereInput, orderBy: PayInOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PayIn!]
@@ -2794,6 +2848,7 @@ input UserCreateInput {
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsCreateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
   payIns: PayInCreateManyWithoutUserInput
@@ -2802,6 +2857,11 @@ input UserCreateInput {
 
 input UserCreateManyWithoutEmployerInput {
   create: [UserCreateWithoutEmployerInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutSchoolHolidayClubsInput {
+  create: [UserCreateWithoutSchoolHolidayClubsInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -2842,6 +2902,7 @@ input UserCreateWithoutChildAccountsInput {
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsCreateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
   payIns: PayInCreateManyWithoutUserInput
@@ -2863,6 +2924,7 @@ input UserCreateWithoutEmployerInput {
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsCreateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
   payIns: PayInCreateManyWithoutUserInput
@@ -2885,6 +2947,7 @@ input UserCreateWithoutLoanInput {
   verificationToken: VerificationTokenCreateOneInput
   gdprConsent: Boolean!
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsCreateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
   payIns: PayInCreateManyWithoutUserInput
@@ -2908,6 +2971,7 @@ input UserCreateWithoutPayInsInput {
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsCreateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestCreateManyWithoutUserInput
   childAccounts: ChildAccountCreateManyWithoutParentInput
@@ -2930,7 +2994,31 @@ input UserCreateWithoutPaymentRequestsInput {
   gdprConsent: Boolean!
   loan: LoanCreateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsCreateManyWithoutUsersInput
   mangoUserId: String
+  payIns: PayInCreateManyWithoutUserInput
+  childAccounts: ChildAccountCreateManyWithoutParentInput
+}
+
+input UserCreateWithoutSchoolHolidayClubsInput {
+  id: ID
+  employer: EmployerCreateOneWithoutUserInput!
+  firstName: String!
+  lastName: String!
+  email: String!
+  isVerified: Boolean
+  phoneNumber: String!
+  dob: DateTime!
+  nationality: String!
+  employmentStartDate: DateTime!
+  annualSalary: Int!
+  employeeId: String
+  verificationToken: VerificationTokenCreateOneInput
+  gdprConsent: Boolean!
+  loan: LoanCreateOneWithoutUserInput
+  mangoWalletId: String
+  mangoUserId: String
+  paymentRequests: PaymentRequestCreateManyWithoutUserInput
   payIns: PayInCreateManyWithoutUserInput
   childAccounts: ChildAccountCreateManyWithoutParentInput
 }
@@ -3204,6 +3292,7 @@ input UserUpdateInput {
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsUpdateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
   payIns: PayInUpdateManyWithoutUserInput
@@ -3250,6 +3339,18 @@ input UserUpdateManyWithoutEmployerInput {
   disconnect: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutEmployerInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutEmployerInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithoutSchoolHolidayClubsInput {
+  create: [UserCreateWithoutSchoolHolidayClubsInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutSchoolHolidayClubsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutSchoolHolidayClubsInput!]
   deleteMany: [UserScalarWhereInput!]
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
@@ -3303,6 +3404,7 @@ input UserUpdateWithoutChildAccountsDataInput {
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsUpdateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
   payIns: PayInUpdateManyWithoutUserInput
@@ -3323,6 +3425,7 @@ input UserUpdateWithoutEmployerDataInput {
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsUpdateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
   payIns: PayInUpdateManyWithoutUserInput
@@ -3344,6 +3447,7 @@ input UserUpdateWithoutLoanDataInput {
   verificationToken: VerificationTokenUpdateOneInput
   gdprConsent: Boolean
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsUpdateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
   payIns: PayInUpdateManyWithoutUserInput
@@ -3366,6 +3470,7 @@ input UserUpdateWithoutPayInsDataInput {
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsUpdateManyWithoutUsersInput
   mangoUserId: String
   paymentRequests: PaymentRequestUpdateManyWithoutUserInput
   childAccounts: ChildAccountUpdateManyWithoutParentInput
@@ -3387,7 +3492,30 @@ input UserUpdateWithoutPaymentRequestsDataInput {
   gdprConsent: Boolean
   loan: LoanUpdateOneWithoutUserInput
   mangoWalletId: String
+  schoolHolidayClubs: SchoolHolidayClubsUpdateManyWithoutUsersInput
   mangoUserId: String
+  payIns: PayInUpdateManyWithoutUserInput
+  childAccounts: ChildAccountUpdateManyWithoutParentInput
+}
+
+input UserUpdateWithoutSchoolHolidayClubsDataInput {
+  employer: EmployerUpdateOneRequiredWithoutUserInput
+  firstName: String
+  lastName: String
+  email: String
+  isVerified: Boolean
+  phoneNumber: String
+  dob: DateTime
+  nationality: String
+  employmentStartDate: DateTime
+  annualSalary: Int
+  employeeId: String
+  verificationToken: VerificationTokenUpdateOneInput
+  gdprConsent: Boolean
+  loan: LoanUpdateOneWithoutUserInput
+  mangoWalletId: String
+  mangoUserId: String
+  paymentRequests: PaymentRequestUpdateManyWithoutUserInput
   payIns: PayInUpdateManyWithoutUserInput
   childAccounts: ChildAccountUpdateManyWithoutParentInput
 }
@@ -3395,6 +3523,11 @@ input UserUpdateWithoutPaymentRequestsDataInput {
 input UserUpdateWithWhereUniqueWithoutEmployerInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutEmployerDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutSchoolHolidayClubsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutSchoolHolidayClubsDataInput!
 }
 
 input UserUpsertWithoutChildAccountsInput {
@@ -3421,6 +3554,12 @@ input UserUpsertWithWhereUniqueWithoutEmployerInput {
   where: UserWhereUniqueInput!
   update: UserUpdateWithoutEmployerDataInput!
   create: UserCreateWithoutEmployerInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutSchoolHolidayClubsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutSchoolHolidayClubsDataInput!
+  create: UserCreateWithoutSchoolHolidayClubsInput!
 }
 
 input UserWhereInput {
@@ -3567,6 +3706,9 @@ input UserWhereInput {
   mangoWalletId_not_starts_with: String
   mangoWalletId_ends_with: String
   mangoWalletId_not_ends_with: String
+  schoolHolidayClubs_every: SchoolHolidayClubsWhereInput
+  schoolHolidayClubs_some: SchoolHolidayClubsWhereInput
+  schoolHolidayClubs_none: SchoolHolidayClubsWhereInput
   mangoUserId: String
   mangoUserId_not: String
   mangoUserId_in: [String!]
