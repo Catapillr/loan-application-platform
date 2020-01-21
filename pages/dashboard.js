@@ -12,14 +12,21 @@ import currencyFormatter from 'currency-formatter'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Transaction from '../components/Transaction'
-import Payee from '../components/Payee'
+import PayeeContainer from '../components/Payee'
+import ClubContainer from '../components/Club'
 import penniesToPounds from '../utils/penniesToPounds'
 import ErrorBoundary from '../components/ErrorBoundary'
+import { PAY_CLUB } from '../utils/constants'
 
 const Transfer = 'TRANSFER'
 const PayIn = 'PAYIN'
 
-const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => {
+const Dash = ({
+  transactions = [],
+  userWalletBalance,
+  recentPayeesByMangoId = {},
+  clubsByUser = [],
+}) => {
   return (
     <Container>
       <Header />
@@ -27,25 +34,17 @@ const Dash = ({ transactions, userWalletBalance, recentPayeesByMangoId }) => {
         <Contents>
           <Main>
             <Title className="mb-12">My payments</Title>
-            <Subtitle className="mb-10">Recent payees</Subtitle>
 
-            <ErrorBoundary shadowed>
-              <PayeesContainer>
-                {R.values(recentPayeesByMangoId)
-                  .filter(
-                    ({ Id }) => Id !== process.env.TAX_FREE_ACCOUNT_USER_ID,
-                  )
-                  .map(payee => {
-                    return (
-                      <Payee
-                        name={payee.Name}
-                        key={payee.Id}
-                        href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
-                      />
-                    )
-                  })}
-              </PayeesContainer>
-            </ErrorBoundary>
+            <PayeeContainer
+              title="Recent payees"
+              payees={recentPayeesByMangoId}
+            />
+
+            <ClubContainer
+              title="Holiday clubs"
+              schoolHolidayClubs={clubsByUser}
+              buttonAction={PAY_CLUB}
+            />
           </Main>
           <Aside>
             <BalanceContainer>
@@ -127,6 +126,9 @@ Dash.getInitialProps = async ctx => {
       {
         data: { userWalletBalance },
       },
+      {
+        data: { clubsByUser },
+      },
     ] = await Promise.all([
       axios.get(
         `${process.env.HOST}/api/private/list-user-transactions?mangoId=${user.mangoUserId}`,
@@ -137,9 +139,18 @@ Dash.getInitialProps = async ctx => {
       axios.get(`${process.env.HOST}/api/private/get-user-wallet-balance`, {
         headers: { Cookie: serializedCookies },
       }),
+      axios.get(`${process.env.HOST}/api/private/get-clubs-by-user`, {
+        headers: { Cookie: serializedCookies },
+      }),
     ])
 
-    return { user, transactions, userWalletBalance, recentPayeesByMangoId }
+    return {
+      user,
+      transactions,
+      userWalletBalance,
+      recentPayeesByMangoId,
+      clubsByUser,
+    }
   } catch (err) {
     // eslint-disable-next-line
     console.error('Error in dashboard getInitProps: ', err)
@@ -185,15 +196,5 @@ const Title = styled.h1.attrs({
 const TransactionContainer = styled.section.attrs({
   className: 'px-9 py-10d5',
 })``
-
-const PayeesContainer = styled.section.attrs({
-  className: '',
-})`
-  display: grid;
-  grid-column-gap: ${cssTheme('spacing.5')};
-  grid-row-gap: ${cssTheme('spacing.5')};
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-`
 
 export default Dash

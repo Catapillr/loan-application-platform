@@ -42,7 +42,7 @@ const Header = () => {
           <HeaderLink pathname={pathname} href="/dashboard">
             My Payments
           </HeaderLink>
-          <div>
+          <div className="mr-5">
             <div
               className="flex flex-row cursor-pointer"
               onClick={togglePaymentDropdown}
@@ -76,6 +76,9 @@ const Header = () => {
               </PaymentDropdownContainer>
             </div>
           </div>
+          <HeaderLink pathname={pathname} href="/school-holiday-clubs">
+            School holiday clubs
+          </HeaderLink>
         </Links>
         <Avatar className="cursor-pointer" onClick={toggleLogoutDropdown} />
       </Nav>
