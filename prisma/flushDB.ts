@@ -33,6 +33,14 @@ const flushDB = async () => {
     id_not: 0,
   })
 
+  const deleteSchoolHolidayClubs = await prisma.deleteManySchoolHolidayClubses({
+    id_not: 0,
+  })
+
+  const deleteLocations = await prisma.deleteManyLocations({
+    id_not: 0,
+  })
+
   console.log(JSON.stringify(deleteChildcareProviders, undefined, 2)) //eslint-disable-line no-console
   console.log(JSON.stringify(deletePaymentRequests, undefined, 2)) //eslint-disable-line no-console
   console.log(JSON.stringify(deleteEmployers, undefined, 2)) //eslint-disable-line no-console
