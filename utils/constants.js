@@ -8,6 +8,14 @@ export const CHILDCAREPROVIDER = 'CHILDCAREPROVIDER'
 export const POUNDS = 'POUNDS'
 export const PENNIES = 'PENNIES'
 
+export const REQUEST_NOT_SENT = 'REQUEST_NOT_SENT'
+export const REQUEST_SENDING = 'REQUEST_SENDING'
+export const REQUEST_FAILED = 'REQUEST_FAILED'
+export const REQUEST_SUCCESSFUL = 'REQUEST_SUCCESSFUL'
+
+export const PAY_CLUB = 'PAY_CLUB'
+export const ADD_CLUB_TO_ACCOUNT = 'ADD_CLUB_TO_ACCOUNT'
+
 export const validSicCodes = [
   '85100',
   '85200',
