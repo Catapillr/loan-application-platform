@@ -9,7 +9,7 @@ import restrictAccess from '../../utils/restrictAccess'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import Payee from '../../components/Payee'
+import PayeeContainer from '../../components/Payee'
 import ErrorBoundary from '../../components/ErrorBoundary'
 
 const MakeAPayment = ({ recentPayeesByMangoId }) => {
@@ -25,22 +25,11 @@ const MakeAPayment = ({ recentPayeesByMangoId }) => {
               <SearchTitle>Find your service provider</SearchTitle>
               <Search />
             </SearchContainer>
-            <Subtitle className="mb-10">Recent payees</Subtitle>
-            <ErrorBoundary shadowed>
-              <PayeesContainer>
-                {R.values(recentPayeesByMangoId)
-                  .filter(
-                    ({ Id }) => Id !== process.env.TAX_FREE_ACCOUNT_USER_ID,
-                  )
-                  .map(payee => (
-                    <Payee
-                      name={payee.Name}
-                      key={payee.Id}
-                      href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
-                    />
-                  ))}
-              </PayeesContainer>
-            </ErrorBoundary>
+
+            <PayeeContainer
+              title="Recent payees"
+              payees={recentPayeesByMangoId}
+            />
           </Main>
           <Aside>
             <Tip>
@@ -176,23 +165,9 @@ const Tip = styled.aside.attrs({
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
 
-const Subtitle = styled.h2.attrs({
-  className: 'font-2xl font-bold',
-})``
-
 const Title = styled.h1.attrs({
   className: 'font-bold font-3xl',
 })``
-
-const PayeesContainer = styled.section.attrs({
-  className: '',
-})`
-  display: grid;
-  grid-column-gap: ${cssTheme('spacing.5')};
-  grid-row-gap: ${cssTheme('spacing.5')};
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-`
 
 const SearchContainer = styled.section.attrs({
   className: 'w-full block',

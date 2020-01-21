@@ -1,17 +1,46 @@
+import { useState } from 'react'
 import nextCookies from 'next-cookies'
 import styled from 'styled-components'
 import * as R from 'ramda'
 import axios from 'axios'
 
-// import { NURSERY, CLUB } from "../utils/constants"
-import restrictAccess from '../utils/restrictAccess'
+import { ADD_CLUB_TO_ACCOUNT } from '../utils/constants'
 
+import restrictAccess from '../utils/restrictAccess'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Payee from '../components/Payee'
+import ClubContainer from '../components/Club'
 import ErrorBoundary from '../components/ErrorBoundary'
 
-const SchoolHolidayClubs = ({ recentPayeesByMangoId }) => {
+const SchoolHolidayClubs = ({ clubsByLocation = {}, user }) => {
+  const [clubs, setClubs] = useState(clubsByLocation)
+
+  const updateClubs = companyNumber =>
+    R.pipe(
+      R.map(location =>
+        R.map(club =>
+          companyNumber === club.companyNumber
+            ? { ...club, addedByUser: [{ email: user.email }] }
+            : club,
+        )(location),
+      ),
+      setClubs,
+    )(clubs)
+
+  const ClubsByLocations = () =>
+    R.pipe(
+      R.mapObjIndexed((location, locationName) => (
+        <ClubContainer
+          key={`club-${locationName}`}
+          title={locationName}
+          updateClubs={updateClubs}
+          schoolHolidayClubs={location}
+          buttonAction={ADD_CLUB_TO_ACCOUNT}
+        />
+      )),
+      R.values,
+    )(clubs)
+
   return (
     <Container>
       <Header />
@@ -19,48 +48,32 @@ const SchoolHolidayClubs = ({ recentPayeesByMangoId }) => {
         <Contents>
           <Main>
             <Title className="mb-12">Select a school holiday provider</Title>
-
-            <Subtitle className="mb-10">Nationwide</Subtitle>
-            <ErrorBoundary shadowed>
-              <PayeesContainer>
-                {R.values(recentPayeesByMangoId)
-                  .filter(
-                    ({ Id }) => Id !== process.env.TAX_FREE_ACCOUNT_USER_ID,
-                  )
-                  .map(payee => (
-                    <Payee
-                      name={payee.Name}
-                      key={payee.Id}
-                      href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
-                    />
-                  ))}
-              </PayeesContainer>
-            </ErrorBoundary>
+            <ClubsByLocations />
           </Main>
           <Aside>
-            <Tip>
+            <Tip className="mb-6">
               <h2 className="font-bold mb-6">How does this work?</h2>
               <p className="mb-6">
-                Search for your childcare provider by entering their name or
-                company number into the search bar (left).
+                In this section you can view a number of school holiday
+                clubs/providers* and pick the best one that suits your needs.
               </p>
               <p className="mb-6">
-                Select the provider from the list. In case your provider doesnt
-                show up, add them by sending them an email letting know that you
-                would like to use their services through the catapillr scheme.
-              </p>
-              <p>
-                Can't find who you want to pay?{' '}
-                <a
-                  className="text-teal underline"
-                  href="https://catapillr.com/contact-us/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Send us an email now.
-                </a>
+                Then, simply add the provider to your account and you can pay
+                for the childcare you need.
               </p>
             </Tip>
+            <p className="w-8/12 mb-6">
+              Can’t find a local club? Send us an{' '}
+              <Link href={`mailto:${process.env.SUPPORT_EMAIL}`}>email</Link> or
+              visit the{' '}
+              <Link href="https://www.gov.uk/after-school-holiday-club">
+                Goverment website
+              </Link>
+            </p>
+            <p className="w-8/12 font-xs">
+              * <span className="text-red underline">Note:</span> Catapillr is
+              not responsible for the content on third-party websites.
+            </p>
           </Aside>
         </Contents>
       </ErrorBoundary>
@@ -87,20 +100,22 @@ SchoolHolidayClubs.getInitialProps = async ctx => {
     const user = req.user
 
     const {
-      data: { recentPayeesByMangoId },
-    } = await axios(
-      `${process.env.HOST}/api/private/list-user-transactions?mangoId=${user.mangoUserId}`,
-      {
-        headers: { Cookie: serializedCookies },
-      },
-    )
-    return { user, recentPayeesByMangoId }
+      data: { clubsByLocation },
+    } = await axios(`${process.env.HOST}/api/private/get-clubs-by-location`, {
+      headers: { Cookie: serializedCookies },
+    })
+
+    return { user, clubsByLocation }
   } catch (err) {
     // eslint-disable-next-line
-    console.error('Error in make-a-payment getInitProps: ', err)
+    console.error('Error in /school-holiday-clubs getInitProps: ', err)
     return {}
   }
 }
+
+const Aside = styled.aside.attrs({
+  className: 'w-5/12 flex flex-col items-center',
+})``
 
 const Container = styled.div.attrs({
   className: 'w-full bg-lightgray min-h-screen flex flex-col justify-between',
@@ -109,12 +124,13 @@ const Container = styled.div.attrs({
 const Contents = styled.section.attrs({
   className: 'flex flex-grow justify-between pl-43 pr-12 py-18 h-full',
 })``
-const Main = styled.section.attrs({
-  className: 'w-6/12',
+
+const Link = styled.a.attrs({
+  className: 'underline text-teal db mb-3d5',
 })``
 
-const Aside = styled.aside.attrs({
-  className: 'w-5/12 flex justify-center',
+const Main = styled.section.attrs({
+  className: 'w-6/12',
 })``
 
 const Tip = styled.aside.attrs({
@@ -124,22 +140,8 @@ const Tip = styled.aside.attrs({
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.03), 0 16px 24px 0 rgba(0, 0, 0, 0.1);
 `
 
-const Subtitle = styled.h2.attrs({
-  className: 'font-2xl font-bold',
-})``
-
 const Title = styled.h1.attrs({
   className: 'font-bold font-3xl',
 })``
-
-const PayeesContainer = styled.section.attrs({
-  className: '',
-})`
-  display: grid;
-  grid-column-gap: ${cssTheme('spacing.5')};
-  grid-row-gap: ${cssTheme('spacing.5')};
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-`
 
 export default SchoolHolidayClubs
