@@ -67,7 +67,7 @@ const SchoolHolidayClubs = ({ clubsByLocation = {}, user }) => {
               <Link href={`mailto:${process.env.SUPPORT_EMAIL}`}>email</Link> or
               visit the{' '}
               <Link href="https://www.gov.uk/after-school-holiday-club">
-                Goverment website
+                Government website
               </Link>
             </p>
             <p className="w-8/12 font-xs">
