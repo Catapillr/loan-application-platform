@@ -18,7 +18,7 @@ const validation = Yup.object().shape({
   employmentStartDate: Yup.object().required(),
   permanentRole: Yup.boolean().oneOf(
     [true],
-    'Sorry, you must be in a permanent role to apply!',
+    'Sorry, you must be a current employee to apply!',
   ),
 })
 
@@ -96,7 +96,7 @@ const Eligibility = ({
       title="To confirm your eligibility for the scheme, please answer the following questions."
       questions={[
         {
-          text: `The Childcare Cash Advance Scheme is currently only available for permanent employees. Please click the circle below to confirm you are a permanent employee of ${name}.`,
+          text: `The Childcare Cash Advance Scheme is currently only available for current employees. Please click the circle below to confirm you are a current employee of ${name}.`,
           name: 'permanentRole',
           className: '',
           type: 'checkbox',
