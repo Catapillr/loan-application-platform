@@ -5,10 +5,12 @@
 
 import { prisma } from './generated/ts'
 import flushDB from './flushDB'
+import seedClubs from './seedClubs'
 
 const seedDatabase = async () => {
   try {
     await flushDB()
+    await seedClubs()
 
     const yalla = await prisma.createEmployer({
       name: 'yalla',
