@@ -1,18 +1,21 @@
 import React from 'react'
+import * as R from 'ramda'
 import styled from 'styled-components'
 import { NURSERY, CHILDMINDER, CLUB } from '../utils/constants'
+
+import {
+  Tile,
+  Subtitle,
+  TileContainer,
+  TileGrid,
+  Icon,
+  LinkButton,
+} from './Tile'
+import ErrorBoundary from './ErrorBoundary'
 
 import nursery from '../static/icons/nursery.svg'
 import childminder from '../static/icons/childminder.svg'
 import club from '../static/icons/club.svg'
-
-const Payee = ({ name, childcareType, href }) => (
-  <_Payee>
-    <Icon src={childcareToIcon(childcareType)} />
-    <Name>{name}</Name>
-    <Button href={href}>Pay</Button>
-  </_Payee>
-)
 
 const childcareToIcon = childcareType => {
   switch (childcareType) {
@@ -27,26 +30,61 @@ const childcareToIcon = childcareType => {
   }
 }
 
-const Button = styled.a.attrs({
-  className:
-    'text-teal border border-teal rounded-full py-2 w-full text-center',
-})``
+const Payee = ({ name, childcareType, href }) => (
+  <Tile>
+    <PayeeIcon src={childcareToIcon(childcareType)} />
+    <Name>{name}</Name>
+    <LinkButton href={href}>Pay</LinkButton>
+  </Tile>
+)
 
-const _Payee = styled.div.attrs({
-  className:
-    'flex flex-col justify-between bg-white flex-wrap w-full px-4 pb-5 pt-9d5',
-})`
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
-`
+const PayeeContainer = ({ title, payees = {} }) => (
+  <TileContainer>
+    <Subtitle className="mb-10">{title}</Subtitle>
+    <ErrorBoundary shadowed>
+      <TileGrid>
+        {R.values(payees)
+          .filter(({ Id }) => Id !== process.env.TAX_FREE_ACCOUNT_USER_ID)
+          .map(payee => (
+            <Payee
+              name={payee.Name}
+              key={payee.Id}
+              href={`${process.env.HOST}/make-a-payment/${payee.CompanyNumber}`}
+            />
+          ))}
+      </TileGrid>
+    </ErrorBoundary>
+  </TileContainer>
+)
+
+const TFCPayeeContainer = ({ childAccounts = [] }) => {
+  if (R.isEmpty(childAccounts)) return null
+
+  return (
+    <TileContainer>
+      <Subtitle className="mb-10">Your accounts</Subtitle>
+      <ErrorBoundary shadowed>
+        <TileGrid>
+          {R.map(account => (
+            <Payee
+              name={account.name}
+              key={account.name}
+              href={`/tax-free-childcare/pay/${account.taxFreeChildReference}?name=${account.name}`}
+            />
+          ))(childAccounts)}
+        </TileGrid>
+      </ErrorBoundary>
+    </TileContainer>
+  )
+}
 
 const Name = styled.span.attrs({
   className: 'font-bold w-8/12 mb-2 w-full mb-4d5',
 })``
 
-const Icon = styled.div.attrs({
+const PayeeIcon = styled(Icon).attrs({
   className: 'w-10 h-10 mb-2',
-})`
-  background: ${({ src }) => `url(${src})`};
-`
+})``
 
-export default Payee
+export { TFCPayeeContainer }
+export default PayeeContainer

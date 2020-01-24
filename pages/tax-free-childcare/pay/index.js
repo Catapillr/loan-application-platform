@@ -8,7 +8,17 @@ import restrictAccess from '../../../utils/restrictAccess'
 import ErrorBoundary from '../../../components/ErrorBoundary'
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
-import Payee from '../../../components/Payee'
+import { TFCPayeeContainer } from '../../../components/Payee'
+import { TileContainer, TileGrid } from '../../../components/Tile'
+
+const AddNewTFC = () => (
+  <TileContainer>
+    <Subtitle className="mb-10">Add an account</Subtitle>
+    <TileGrid>
+      <AddNewTFCButton href="/tax-free-childcare/add">+</AddNewTFCButton>
+    </TileGrid>
+  </TileContainer>
+)
 
 const PayTFC = ({ childAccounts }) => (
   <Container>
@@ -18,27 +28,12 @@ const PayTFC = ({ childAccounts }) => (
         <Main>
           <Title className="mb-12">Make a payment</Title>
 
-          {!R.isEmpty(childAccounts) && (
-            <>
-              <Subtitle className="mb-10">Your accounts</Subtitle>
-              <PayeesContainer>
-                {childAccounts.map(account => (
-                  <Payee
-                    name={account.name}
-                    key={account.name}
-                    href={`/tax-free-childcare/pay/${account.taxFreeChildReference}?name=${account.name}`}
-                  />
-                ))}
-              </PayeesContainer>
-            </>
-          )}
+          <TFCPayeeContainer
+            title="Your accounts"
+            childAccounts={childAccounts}
+          />
 
-          <Subtitle className="mb-10">Add an account</Subtitle>
-          <PayeesContainer>
-            <Tile as="a" href="/tax-free-childcare/add">
-              +
-            </Tile>
-          </PayeesContainer>
+          <AddNewTFC />
         </Main>
         <Aside>
           <Tip>
@@ -96,29 +91,10 @@ PayTFC.getInitialProps = async ctx => {
     // eslint-disable-next-line
     console.error('Error in tax free childcare page: ', err)
   }
-  //
-  //
-  // try {
-  //   const user = req.user
-  //
-  //   const {
-  //     data: { recentPayeesByMangoId },
-  //   } = await axios(
-  //     `${process.env.HOST}/api/private/list-user-transactions?mangoId=${user.mangoUserId}`,
-  //     {
-  //       headers: { Cookie: serializedCookies },
-  //     }
-  //   )
-  //   return { user, recentPayeesByMangoId }
-  // } catch (err) {
-  //   // eslint-disable-next-line
-  //   console.error("Error in make-a-payment getInitProps: ", err)
-  //   return {}
-  // }
 }
 
-const Tile = styled.div.attrs({
-  className: 'bg-white w-full px-4 py-4 text-center text-gray',
+const AddNewTFCButton = styled.a.attrs({
+  className: 'bg-white w-full px-4 py-4 text-center text-gray border-0 block',
 })`
   line-height: normal;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 6px 1px rgba(0, 0, 0, 0.06);
@@ -156,15 +132,5 @@ const Subtitle = styled.h2.attrs({
 const Title = styled.h1.attrs({
   className: 'font-bold font-3xl',
 })``
-
-const PayeesContainer = styled.section.attrs({
-  className: 'mb-10',
-})`
-  display: grid;
-  grid-column-gap: ${cssTheme('spacing.5')};
-  grid-row-gap: ${cssTheme('spacing.5')};
-  grid-auto-rows: auto;
-  grid-template-columns: 1fr 1fr 1fr;
-`
 
 export default PayTFC
