@@ -11,7 +11,9 @@ export default async (
     // @ts-ignore
     const user = req.user
 
-    const clubsArray = await prisma.locations().$fragment(gql`
+    const clubsArray = await prisma.locations({
+      orderBy: 'location_ASC',
+    }).$fragment(gql`
       fragment ClubsByLocation on Location {
         name: location
         schoolHolidayClubs {
@@ -25,13 +27,14 @@ export default async (
         }
       }
     `)
-    const clubsByLocation = R.reduce(
-      (acc, { name, schoolHolidayClubs }) => {
-        return { [name]: schoolHolidayClubs, ...acc }
-      },
-      {},
-      clubsArray,
-    )
+
+    const clubsByLocation = R.pipe(
+      R.partition(R.propEq('name', 'Nationwide')),
+      arrs => R.concat(...arrs),
+      R.reduce((acc, { name, schoolHolidayClubs }) => {
+        return { ...acc, [name]: schoolHolidayClubs }
+      }, {}),
+    )(clubsArray)
 
     res.status(200)
     return res.json({ clubsByLocation })
