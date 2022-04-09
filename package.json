@@ -68,7 +68,7 @@
     "libphonenumber-js": "^1.7.29",
     "mailgun.js": "^2.0.1",
     "mangopay2-nodejs-sdk": "^1.10.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "next": "9.1.5",
     "next-compose-plugins": "^2.2.0",
     "next-cookies": "^2.0.3",
